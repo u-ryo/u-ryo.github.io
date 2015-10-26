@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[Octopress theme for Grain]]></title><link href="/atom.xml" rel="self"/><link href="/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/</id><author><name><![CDATA[SysGears]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="/blog/2014/01/10/post-sample-with-code/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/atom.xml" rel="self"/><link href="/"/><updated>2015-10-26T18:12:53+09:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Created my blog by Grain]]></title><link href="/blog/2015/10/26/created-my-blog-by-grain/"/><updated>2015-10-26T18:12:53+09:00</updated><id>/blog/2015/10/26/created-my-blog-by-grain/</id><content type="html"><![CDATA[<h2>Blog、はじめました</h2>
+<p>非常に遅まきながら、blogを作ってみました。</p>
+<p>きしださんの<a href="http://d.hatena.ne.jp/nowokay/20140225">2014-02-25(火) コミュニティに入るか入らないかでエンジニアとしての幸福度がかわる</a>を見まして、
+なるほどそうだなぁと思い、
+そのためには発信していかなきゃ、
+ということで、
+始めました。</p>
+<p>blog環境は世に数多あれど、
+editorで書きたい、
+dataを手元に置いておきたい、
+ということから、
+Qiitaやはてぶ等ではなく、
+Github Pagesを用いました。
+Github Pagesというのがあってblogに使える、
+というのも今回初めて知りました。
+この場合の世の趨勢は「Github Pages + Jekyll」、
+ただ数が多くなると重くなるということで、
+最近は「Github Pages + Hugo」に乗り換える人が多いようですが、
+Java屋さんとしては、
+Gradleで行けるGrainというのがあるというのを知り、
+それを使ってみました。
+わかってしまえば、結構簡単に入ります。</p>
+<ol>
+<li><p>まず、https://github.com で自分のGithub Pages repository(必ず「ユーザーID.github.io」という名前)を作成します。
+中身は空で構いません。</p>
+</li>
+<li><p>それから、GrainのOctopress用テーマを持ってきます。
+これがGrainを含んでおり、また現状唯一のblog用のテーマです。
+<a href="https://github.com/sysgears/grain-theme-octopress/releases">https://github.com/sysgears/grain-theme-octopress/releases</a>
+で適宜最新版を確認してみて下さい。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ wget -O - https://github.com/sysgears/grain-theme-octopress/archive/v0.4.5.tar.gz|tar xvfz -
+</span></code></pre></td></tr></table></div></figure></p>
+</li>
+<li><p>この状態で、プレビュー出来ます。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ cd grain-theme-octopress-0.4.5
+</span><span class='line'>$ ./gradlew
+</span></code></pre></td></tr></table></div></figure>
+とすると、
+<a href="http://localhost:4000/">http://localhost:4000/</a>
+でプレビューできます。
+(本当は「./grainw 」でプレビューなんですがうまく行きませんでした)</p>
+</li>
+<li><p>新しい記事を作成するには、以下のようにします。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ ./grainw create-post &#39;Any blog post title&#39;
+</span></code></pre></td></tr></table></div></figure>
+すると、
+「./content/blog/yyyy-mm-dd-上で指定したタイトル.markdown」
+というfileが出来、それを編集します。</p>
+</li>
+<li><p>Github Pagesにデプロイするには、
+SiteConfig.groovy という設定ファイルの中に、
+github のURLを書きます。
+私の場合は、↓こうでした。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">gh_pages_url</span> <span class="o">=</span> <span class="s1">&#39;git@github.com:u-ryo/u-ryo.github.io.git&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+sshでgithubにアップロード出来るように、
+<a href="https://github.com/settings/ssh">https://github.com/settings/ssh</a>
+で手元のマシンのssh public keyを登録しておきます。</p>
+</li>
+<li><p>そうしておいてから、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">$</span> <span class="o">./</span><span class="n">grainw</span> <span class="n">gendeploy</span>
+</span></code></pre></td></tr></table></div></figure>
+とすると、私(ユーザーID:u-ryo)の場合は、
+<a href="http://u-ryo.github.io/">http://u-ryo.github.io/</a>
+でblogが見られる、という塩梅です。</p>
+</li>
+<li><p>タイトル等このblogの設定は、
+SiteConfig.groovy の中身を適宜変更すれば良いです。</p>
+</li>
+</ol>
+<p>...というようなことを、これから少しずつ発信していきたいと思います。</p>
+<h3>はまった点</h3>
+<ul>
+<li>grain-theme-octopress をgit cloneするとうまく行かず(./grainw generateで止まりました)、tar.gzファイルを落として展開するとうまく行った(./grainw generateが通った)</li>
+<li>記事ヘッダの「author:」で、文字列はシングルクォートないしダブルクオーテーションで囲む必要がある(groovyで処理するので、「文字列」にしておかないと後でエラーになります)</li>
+<li>emacsのバックアップファイル(拡張子の最後に「~」が付くもの)もblogファイルと見做されてしまうため、消す必要がある(また、書いている途中だと「.#〜」というロックファイルが出来るが、これがあるとプレビューが立ち上がらない)</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="/blog/2014/01/10/post-sample-with-code/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
 <h2>Example with line numbers:</h2>
 <h4>Code:</h4>
 <p>&#096;&#096;&#096;groovy HelloWorld.groovy<br>
@@ -16,7 +99,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <figure class='code'><figcaption><span>HelloWorld.groovy</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='groovy'><span class='line'><span class="n">println</span> <span class="s2">&quot;Hello, world!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="/blog/2014/01/10/gist-tag/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="/blog/2014/01/10/gist-tag/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -31,7 +114,7 @@ println "Hello, world!"<br>
 <div id="gistdc3bf4796acd6a1439bc">
   <script src="https://gist.github.com/dc3bf4796acd6a1439bc.js"></script>
 </div></p>
-]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="/blog/2014/01/10/jsfiddle-tag/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="/blog/2014/01/10/jsfiddle-tag/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='jsp'><span class='line'><span class="k">&lt;%=</span> <span class="n">jsfiddle</span> <span class="nl">shorttag:</span> <span class="err">&#39;</span><span class="mi">8</span><span class="n">wcwq</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">width:</span> <span class="err">&#39;</span><span class="mi">90</span><span class="o">%</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">skin:</span> <span class="err">&#39;</span><span class="n">light</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">tabs:</span> <span class="err">&#39;</span><span class="n">html</span><span class="o">,</span><span class="n">css</span><span class="o">,</span><span class="n">js</span><span class="o">,</span><span class="n">result</span><span class="err">&#39;</span> <span class="k">%&gt;</span>
@@ -42,7 +125,7 @@ println "Hello, world!"<br>
 <iframe style="width: 90%; height: 300px" frameborder="0" seamless="seamless"
         src="http://jsfiddle.net/8wcwq/embedded/html,css,js,result/light/"></iframe>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="/blog/2014/01/09/image-tag/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="/blog/2014/01/09/image-tag/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Note, that theme <code>img</code> tag can handle all the attributes of standard HTML 'img' tag, such as align, border, etc.</p>
 <h2>Link to the internal image:</h2>
 <h4>Code:</h4>
@@ -60,7 +143,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <p><img src='http://cdn1.sysgears.com/images/grain/logo-cacd6d0f221a8f8cab3c46db5b0e730a.png' height='100' width='200' >
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="/blog/2014/01/09/html5-video-tag/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="/blog/2014/01/09/html5-video-tag/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -93,7 +176,7 @@ println "Hello, world!"<br>
 </video>
 
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="/blog/2014/01/08/raw-tag/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="/blog/2014/01/08/raw-tag/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Raw tag is used here to prevent groovy code parsing.</p>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -101,7 +184,7 @@ println "Hello, world!"<br>
 </span></code></pre></td></tr></table></div></figure>
 <h4>Result:</h4>
 <p>${ 2 + 2 } = 4</p>
-]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="/blog/2014/01/08/pullquote-tag/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="/blog/2014/01/08/pullquote-tag/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
 <h2>Right-aligned Quote</h2>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -160,7 +243,7 @@ esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat n
 qui officia deserunt mollit anim id est laborum.
     </span>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="/blog/2014/01/08/blockqoute-tag/"/><updated>2015-08-27T21:36:55+09:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="/blog/2014/01/08/blockqoute-tag/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
