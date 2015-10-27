@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/authentication/atom.xml" rel="self"/><link href="/"/><updated>2015-10-26T17:04:12+09:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[AuthType None]]></title><link href="/blog/2015/10/27/authtype-none/"/><updated>2015-10-27T15:24:32+09:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
+apacheにおけるBasic認証/Form認証等を
+子ディレクトリにおいては無効にしたい場合、
+.htaccessに、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">Satisfy</span> <span class="k">Any</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>と書けば良い、という説が諸所にあったのですが、
+ちゃんとキャンセルするには、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> <span class="k">None</span>
+</span><span class='line'><span class="nb">Require</span> <span class="k">all</span> granted
+</span></code></pre></td></tr></table></div></figure>
+<p>とすべき、みたいです。
+「AuthType None」だけだと、
+「No authentication done but request not allowed
+without authentication for /~u-ryo/test/test/.
+Authentication not configured?」と言われて500
+Internal Server Errorになってしまいます。</p>
+<p>親ディレクトリではIP制限とBasic認証を同時にかけて、
+子ディレクトリではIP制限だけ、
+且つBasic認証のポップアップは出ないように
+(IP制限で弾かれれば即403)、
+という要件だったので、</p>
+<h3>親</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> Basic
+</span><span class='line'><span class="nb">AuthName</span> test
+</span><span class='line'><span class="nb">AuthUserFile</span> password.txt
+</span><span class='line'><span class="nb">require</span> valid-user
+</span><span class='line'><span class="nb">Allow</span> from <span class="m">127.0.0.1</span>
+</span><span class='line'><span class="nb">Satisfy</span> <span class="k">Any</span>
+</span></code></pre></td></tr></table></div></figure>
+<h3>子</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> <span class="k">None</span>
+</span><span class='line'><span class="nb">Require</span> <span class="k">all</span> granted
+</span><span class='line'><span class="nb">Order</span> deny,allow
+</span><span class='line'><span class="nb">Allow</span> from <span class="m">127.0.0.1</span>
+</span><span class='line'><span class="nb">Deny</span> from <span class="k">all</span>
+</span><span class='line'><span class="nb">Satisfy</span> <span class="k">All</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>といった感じで解決しました。</p>
+]]></content></entry></feed>
