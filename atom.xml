@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T09:19:12+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[AuthType None]]></title><link href="/blog/2015/10/27/authtype-none/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/atom.xml" rel="self"/><link href="/"/><updated>2015-10-28T01:20:19+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[importing CSV to Zaim]]></title><link href="/blog/2015/10/28/importing-csv-to-zaim/"/><updated>2015-10-28T01:11:46+00:00</updated><id>/blog/2015/10/28/importing-csv-to-zaim/</id><content type="html"><![CDATA[<p>Zaimですが、よく見ますとCSVインポート機能はとうに付いてるんですね。
+ただ、試してみますと、
+セゾンのクレジットカード明細CSVって、
+お店と品目が一緒くたに書いてあって、
+インポートさせる時の欄指定がうまく出来ません。
+思い余って、クレジットカードも連携させてみると、
+綺麗に情報取れているという...
+やはり利便性には敵いません。</p>
+]]></content></entry><entry><title type="html"><![CDATA[ssh access to Koding]]></title><link href="/blog/2015/10/28/ssh-access-to-koding/"/><updated>2015-10-28T01:20:19+00:00</updated><id>/blog/2015/10/28/ssh-access-to-koding/</id><content type="html"><![CDATA[<p>Kodingなんですが、sshで繋げてログインすることが出来るんですね。
+びっくりポンです。</p>
+<ol>
+<li>~/.ssh/authorized_keys に手元のマシンのpublic keyを記述</li>
+<li>Koding上のマシン名を左側のVM Settingsで確認(毎日変わる模様)</li>
+<li>手元からssh(公開鍵認証のみ)</li>
+</ol>
+<p>tmuxも使えるので超便利です。
+ただ、デフォルトのコントロールキーがC-bになっているので、
+最初は戸惑います。
+慣れ親しんだC-aに変えるには、
+~/.tmux.conf
+に</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>set-option -g prefix C-a
+</span></code></pre></td></tr></table></div></figure>
+<p>ちゃんと公式ドキュメントに書いてありました。<br  />
+<a href="http://learn.koding.com/guides/using-tmux-on-koding/">Using Tmux on Koding</a><br  />
+(一旦tmuxを全て終了させないと反映されません)</p>
+]]></content></entry><entry><title type="html"><![CDATA[AuthType None]]></title><link href="/blog/2015/10/27/authtype-none/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
 apacheにおけるBasic認証/Form認証等を
 子ディレクトリにおいては無効にしたい場合、
 .htaccessに、</p>
