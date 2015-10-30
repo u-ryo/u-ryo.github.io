@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/tomcat/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Too many open files]]></title><link href="/blog/2015/10/30/too-many-open-files/"/><updated>2015-10-30T05:15:22+00:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
+<code>Too many open files</code>と言われていました。</p>
+<ul>
+<li>現状の確認 <code>$ ulimit -a</code></li>
+<li>プロセス毎なので、<code>$ cat /proc/プロセス番号/limits</code></li>
+<li>増やすには、/etc/init.d/tomcat7 で<code>ulimit -n 8192</code>等と追記してrestart</li>
+<li><code>$ cat /proc/プロセス番号/limits</code>で確認</li>
+</ul>
+]]></content></entry></feed>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/linux/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="/blog/2015/10/30/parameters-for-freerdp/"/><updated>2015-10-30T05:15:27+00:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
+「壁紙を変えたい」と言われました。
+デフォルト「wallpaperはon」と書いてありますけれども、
+明示的に「+wallpaper」としないと、効かないようです。</p>
+<p>また、「画面が時々ちらつく」と言われました。
+どうやら、頻繁にreconnectが生じているための様子。
+パケットキャプチャすると、
+2秒おきにTCP Keepaliveを出していて、その後、
+クライアント側からTCP RST ACKを出しているようです。
+なぜ?
+ともあれ、「+heartbeat」を指定すると、
+頻繁なreconnectはおさまりました。
+「-heartbeat」でも効果あったんですが、なぜ?</p>
+]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="/blog/2015/10/30/too-many-open-files/"/><updated>2015-10-30T05:15:22+00:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
+<code>Too many open files</code>と言われていました。</p>
+<ul>
+<li>現状の確認 <code>$ ulimit -a</code></li>
+<li>プロセス毎なので、<code>$ cat /proc/プロセス番号/limits</code></li>
+<li>増やすには、/etc/init.d/tomcat7 で<code>ulimit -n 8192</code>等と追記してrestart</li>
+<li><code>$ cat /proc/プロセス番号/limits</code>で確認</li>
+</ul>
+]]></content></entry></feed>
