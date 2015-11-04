@@ -101,13 +101,15 @@
   </header>
 
 
-<div class="entry-content"><p>GnuPGによる暗号化は、調べりゃいくらでも載ってますので、都度調べた方がいい感じです。
-1. <code>gpg --gen-key</code>でキーを作成(これが結構面倒・時間かかる)
-2. <code>gpg --export mail@address -o outputfile</code> で公開鍵を出力して他人に渡す
-3. <code>gpg --import outputfile</code> で他人の公開鍵を入力
-2. <code>gpg --list-public-key</code>で受領者IDを確認
-3. <code>gpg -e -a -r ID... plain_file</code> で暗号化(-e:encrypt, -a:ascii, -r:receiver)
-3. <code>gpg --passphrase ... --batch encrypted_file</code> で復号</p>
+<div class="entry-content"><p>GnuPGによる暗号化は、調べりゃいくらでも載ってますので、都度調べた方がいい感じです。</p>
+<ol>
+<li><code>gpg --gen-key</code>でキーを作成(これが結構面倒・時間かかる)</li>
+<li><code>gpg --export mail@address -o outputfile</code> で公開鍵を出力して他人に渡す</li>
+<li><code>gpg --import outputfile</code> で他人の公開鍵を入力</li>
+<li><code>gpg --list-public-key</code>で受領者IDを確認</li>
+<li><code>gpg -e -a -r ID... plain_file</code> で暗号化(-e:encrypt, -a:ascii, -r:receiver)</li>
+<li><code>gpg --passphrase ... --batch encrypted_file</code> で復号</li>
+</ol>
 </div>
 
 </article>
@@ -124,7 +126,7 @@
 
 
 
-     <time datetime="2015-11-04T02:48:01+00:00" class="updated">
+     <time datetime="2015-11-04T02:50:44+00:00" class="updated">
        Updated
        <span class="month">Nov</span>
        <span class="day">04</span>,
