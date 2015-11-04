@@ -1,22 +1,273 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/linux/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="/blog/2015/10/30/parameters-for-freerdp/"/><updated>2015-10-30T05:15:27+00:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
-「壁紙を変えたい」と言われました。
-デフォルト「wallpaperはon」と書いてありますけれども、
-明示的に「+wallpaper」としないと、効かないようです。</p>
-<p>また、「画面が時々ちらつく」と言われました。
-どうやら、頻繁にreconnectが生じているための様子。
-パケットキャプチャすると、
-2秒おきにTCP Keepaliveを出していて、その後、
-クライアント側からTCP RST ACKを出しているようです。
-なぜ?
-ともあれ、「+heartbeat」を指定すると、
-頻繁なreconnectはおさまりました。
-「-heartbeat」でも効果あったんですが、なぜ?</p>
-]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="/blog/2015/10/30/too-many-open-files/"/><updated>2015-10-30T05:15:22+00:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
-<code>Too many open files</code>と言われていました。</p>
-<ul>
-<li>現状の確認 <code>$ ulimit -a</code></li>
-<li>プロセス毎なので、<code>$ cat /proc/プロセス番号/limits</code></li>
-<li>増やすには、/etc/init.d/tomcat7 で<code>ulimit -n 8192</code>等と追記してrestart</li>
-<li><code>$ cat /proc/プロセス番号/limits</code>で確認</li>
-</ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/linux/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Hybrid MBR/GPT for dual booting MBR/UEFI]]></title><link href="/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/"/><updated>2015-11-04T02:36:17+00:00</updated><id>/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/</id><content type="html"><![CDATA[<p>BIOSブートとUEFIブートの両対応を求められました。</p>
+<p>UEFIブートなので、GPT(GUID Partition Table)は必須です。
+が、GPTだと旧来のMBRではないので、BIOSブートがこけます。
+そこで、Hybridなるものがありますと。
+これは、<code>gdisk</code>でしか作れません。
+<code>r</code>で「recovery and transformation options (experts only)」に入って、
+<code>h</code>(make hybrid MBR)で作ります。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo gdisk /dev/sdb
+</span><span class='line'>
+</span><span class='line'>GPT fdisk (gdisk) version 0.8.8
+</span><span class='line'>
+</span><span class='line'>Partition table scan:
+</span><span class='line'>   MBR: protective
+</span><span class='line'>   BSD: not present
+</span><span class='line'>   APM: not present
+</span><span class='line'>   GPT: present
+</span><span class='line'>
+</span><span class='line'>Found valid GPT with protective MBR; using GPT.
+</span><span class='line'>
+</span><span class='line'>Command (? for help): p
+</span><span class='line'>Disk /dev/sdb: 7831552 sectors, 3.7 GiB
+</span><span class='line'>Logical sector size: 512 bytes
+</span><span class='line'>Disk identifier (GUID): 3BF2DA63-FB2F-4616-ACE6-694968477678
+</span><span class='line'>Partition table holds up to 128 entries
+</span><span class='line'>First usable sector is 34, last usable sector is 7831518
+</span><span class='line'>Partitions will be aligned on 2048-sector boundaries
+</span><span class='line'>Total free space is 4029 sectors (2.0 MiB)
+</span><span class='line'>
+</span><span class='line'>Number  Start (sector)    End (sector)  Size       Code  Name
+</span><span class='line'>    1            2048         5734399   2.7 GiB     0700
+</span><span class='line'>    2         5734400         7829503   1023.0 MiB  EF00
+</span><span class='line'>
+</span><span class='line'>Command (? for help): r
+</span><span class='line'>
+</span><span class='line'>Recovery/transformation command (? for help): p
+</span><span class='line'>Disk /dev/sdb: 7831552 sectors, 3.7 GiB
+</span><span class='line'>Logical sector size: 512 bytes
+</span><span class='line'>    1            2048         5734399   2.7 GiB     0700
+</span><span class='line'>    2         5734400         7829503   1023.0 MiB  EF00
+</span><span class='line'>
+</span><span class='line'>Recovery/transformation command (? for help): o
+</span><span class='line'>
+</span><span class='line'>Disk size is 7831552 sectors (3.7 GiB)
+</span><span class='line'>MBR disk identifier: 0x00000000
+</span><span class='line'>MBR partitions:
+</span><span class='line'>
+</span><span class='line'>Number  Boot  Start Sector   End Sector   Status      Code
+</span><span class='line'>    1                     1      7831551   primary     0xEE
+</span><span class='line'>
+</span><span class='line'>Recovery/transformation command (? for help): h
+</span><span class='line'>
+</span><span class='line'>WARNING! Hybrid MBRs are flaky and dangerous! If you decide not to use one,
+</span><span class='line'>just hit the Enter key at the below prompt and your MBR partition table will
+</span><span class='line'>be untouched.
+</span><span class='line'>
+</span><span class='line'>Type from one to three GPT partition numbers, separated by spaces, to be
+</span><span class='line'>Place EFI GPT (0xEE) partition first in MBR (good for GRUB)? (Y/N): n
+</span><span class='line'>
+</span><span class='line'>Creating entry for GPT partition #1 (MBR partition #1)
+</span><span class='line'>Enter an MBR hex code (default 07):
+</span><span class='line'>Set the bootable flag? (Y/N): n
+</span><span class='line'>
+</span><span class='line'>Creating entry for GPT partition #2 (MBR partition #2)
+</span><span class='line'>Enter an MBR hex code (default EF):
+</span><span class='line'>Set the bootable flag? (Y/N): y
+</span><span class='line'>
+</span><span class='line'>Unused partition space(s) found. Use one to protect more partitions? (Y/N): y
+</span><span class='line'>Note: Default is 0xEE, but this may confuse Mac OS X.
+</span><span class='line'>Enter an MBR hex code (default EE):
+</span><span class='line'>
+</span><span class='line'>Recovery/transformation command (? for help): w
+</span><span class='line'>
+</span><span class='line'>Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+</span><span class='line'>PARTITIONS!!
+</span><span class='line'>
+</span><span class='line'>Do you want to proceed? (Y/N): y
+</span><span class='line'>OK; writing new GUID partition table (GPT) to /dev/sdb.
+</span><span class='line'>
+</span><span class='line'>Caution: More than one 0xEE MBR partition found. This can cause problems
+</span><span class='line'>in some OSes.
+</span><span class='line'>The operation has completed successfully.
+</span><span class='line'>
+</span><span class='line'>$ sudo gdisk /dev/sdb
+</span><span class='line'>GPT fdisk (gdisk) version 0.8.8
+</span><span class='line'>
+</span><span class='line'>Partition table scan:
+</span><span class='line'>   MBR: hybrid
+</span><span class='line'>   BSD: not present
+</span><span class='line'>   APM: not present
+</span><span class='line'>   GPT: present
+</span><span class='line'>
+</span><span class='line'>Found valid GPT with hybrid MBR; using GPT.
+</span><span class='line'>
+</span><span class='line'>Command (? for help): q
+</span></code></pre></td></tr></table></div></figure>
+<p>その上で、grub-installします。
+MBR用には、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo mount /dev/sdb2 /mnt
+</span><span class='line'>sudo grub-install --force --no-floppy --boot-directory=/mnt/boot /dev/sdb
+</span><span class='line'>sudo vi /mnt/boot/grub/grub.cfg
+</span><span class='line'>
+</span><span class='line'>set timeout=3
+</span><span class='line'>set default=0
+</span><span class='line'>
+</span><span class='line'>menuentry &quot;Run Ubuntu Live ISO&quot; {
+</span><span class='line'>       set gfxpayload=keep
+</span><span class='line'>       loopback loop (hd0,gpt2)/airscope2.iso
+</span><span class='line'>       linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=/airscope2.iso splash --- debian-installer/language=ja keyboard-configuration/layoutcode?=jp keyboard-configuration/modelcode?=jp109
+</span><span class='line'>       initrd (loop)/casper/initrd.lz
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>UEFI用には、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo mount /dev/sdb2 /mnt
+</span><span class='line'>sudo mkdir -p /mnt/EFI/BOOT/
+</span><span class='line'>grub-mkimage -d /usr/lib/grub/x86_64-efi -o /mnt/EFI/BOOT/BOOTx64.EFI -O x86_64-efi -p &quot;&quot; part_gpt part_msdos ntfs ntfscomp hfsplus fat ext2 normal chain boot configfile linux multiboot efi_gop
+</span><span class='line'>sudo cp -rp /usr/lib/grub/x86_64-efi /mnt/EFI/BOOT/
+</span><span class='line'>sudo vi /mnt/EFI/BOOT/grub.cfg
+</span><span class='line'>
+</span><span class='line'>configfile (hd0,GPT2)/boot/grub/grub.cfg
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[Secure Boot]]></title><link href="/blog/2015/11/04/secure-boot/"/><updated>2015-11-04T02:18:08+00:00</updated><id>/blog/2015/11/04/secure-boot/</id><content type="html"><![CDATA[<p>Linux (ubuntu)でSecure Bootを求められました。
+ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
+パッケージがあるので、何か出来そうなんですけど、
+じゃ具体的にどうやるの?
+というのは意外と書いてないので、苦労してます。</p>
+<p>取り敢えず、grub-installで「--secure-boot」というオプションがあるので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo grub-install --force --no-floppy --efi-directory=/mnt/ --target=x86_64-efi --uefi-secure-boot /dev/sdb
+</span></code></pre></td></tr></table></div></figure>
+<p>とすると、USBメモリには、/mnt/EFI/ubuntu/ の下にsignedなgrubx64.efiやshimx64.efiが入るんですが、
+/EFI/ubuntu/... ではブート時に読み込まないので、
+/EFI/BOOT/ にリネームし、
+また、/EFI/BOOT/grubx64.efi(又はshimx64.efi) を/EFI/BOOT/BOOTX64.efi にリネームし、
+/boot/grub/grub.cfg を、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>set timeout=3
+</span><span class='line'>set default=0
+</span><span class='line'>
+</span><span class='line'>menuentry &quot;Run Ubuntu Live ISO&quot; {
+</span><span class='line'>       set gfxpayload=keep
+</span><span class='line'>       loopback loop (hd0,gpt1)/airscope3.iso
+</span><span class='line'>       linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=/airscope3.iso splash --- debian-installer/language=ja keyboard-configuration/layoutcode?=jp keyboard-configuration/modelcode?=jp109
+</span><span class='line'>       initrd (loop)/casper/initrd.lz
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>とすると、grubまでは立ち上がりました。
+更にブートするには、loopbackモジュールが必要になり、
+それはunsignedなので、そこで引っ掛かりますが、
+仕組み上、signed grubでモジュールは使えない(使えてしまうとillegalなモジュールが入り込めてしまう)ので、
+1. loopbackモジュールを使わない
+1. loopbackモジュールを含めたgrubを自力で署名する
+前者はUSBメモリをHDとして直接インストールすれば良さそうですが、
+8GB以上の容量が必要になります。
+現状手元にそんな容量のUSBメモリがありません。
+後者は、かなり面倒そうです。Micro$osftに署名してもらうにはお金かかりそうですし、
+自分で署名してそのキーをMOK?を使って云々という手法は、
+まだ読み込んでません...</p>
 ]]></content></entry></feed>
