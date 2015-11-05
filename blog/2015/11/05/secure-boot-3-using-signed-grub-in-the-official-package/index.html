@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>AuthType None - u-ryo's blog</title>
+  <title>Secure Boot 3 (using signed grub in the official package) - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="/blog/2015/10/27/authtype-none/">
+  <link rel="canonical" href="/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -80,16 +80,16 @@
 
   <header>
     
-      <h1 class="entry-title">AuthType None</h1>
+      <h1 class="entry-title">Secure Boot 3 (using Signed Grub in the Official Package)</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2015-10-27T15:11:00+00:00" pubdate data-updated=true>
-      <span class="month">Oct</span>
-      <span class="day">27</span>,
+    <time datetime="2015-11-05T06:27:00+00:00" pubdate data-updated=true>
+      <span class="month">Nov</span>
+      <span class="day">05</span>,
       <span class="year">2015</span>
     </time>
   
@@ -101,60 +101,19 @@
   </header>
 
 
-<div class="entry-content"><p>さっき同僚に聞かれて調べました。
-apacheにおけるBasic認証/Form認証等を
-子ディレクトリにおいては無効にしたい場合、
-.htaccessに、</p>
+<div class="entry-content"><h3>ubuntu公式パッケージのsigned grubを使う方法</h3>
+<p>USBメモリに直接ubuntuをインストールするために、
+8GBのUSBメモリを用意しました。
+それさえあれば、至極簡単です。</p>
+<ol>
+<li>VirtualBox等で、USBメモリにubuntuを入れる(そのままだと2GBスワップになるので、適宜調整。インストール後は4GB程の使用量なので、最初から5GB程でもよいかも。VMをEFIにしておくのを忘れないように。あと先頭にvfat32のEFI用パーティションを)</li>
+<li>リブートした後、<code>/etc/efi/ubuntu/</code>を<code>/etc/efi/BOOT</code>にリネーム</li>
+<li><code>linux-signed-image-generic</code>も<code>grub2-efi-amd86-signed</code>も入っているので、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">Satisfy</span> <span class="k">Any</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>と書けば良い、という説が諸所にあったのですが、
-ちゃんとキャンセルするには、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> <span class="k">None</span>
-</span><span class='line'><span class="nb">Require</span> <span class="k">all</span> granted
-</span></code></pre></td></tr></table></div></figure>
-<p>とすべき、みたいです。
-「AuthType None」だけだと、
-「No authentication done but request not allowed
-without authentication for /~u-ryo/test/test/.
-Authentication not configured?」と言われて500
-Internal Server Errorになってしまいます。</p>
-<p>親ディレクトリではIP制限とBasic認証を同時にかけて、
-子ディレクトリではIP制限だけ、
-且つBasic認証のポップアップは出ないように
-(IP制限で弾かれれば即403)、
-という要件だったので、</p>
-<h3>親</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> Basic
-</span><span class='line'><span class="nb">AuthName</span> test
-</span><span class='line'><span class="nb">AuthUserFile</span> password.txt
-</span><span class='line'><span class="nb">require</span> valid-user
-</span><span class='line'><span class="nb">Allow</span> from <span class="m">127.0.0.1</span>
-</span><span class='line'><span class="nb">Satisfy</span> <span class="k">Any</span>
-</span></code></pre></td></tr></table></div></figure>
-<h3>子</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> <span class="k">None</span>
-</span><span class='line'><span class="nb">Require</span> <span class="k">all</span> granted
-</span><span class='line'><span class="nb">Order</span> deny,allow
-</span><span class='line'><span class="nb">Allow</span> from <span class="m">127.0.0.1</span>
-</span><span class='line'><span class="nb">Deny</span> from <span class="k">all</span>
-</span><span class='line'><span class="nb">Satisfy</span> <span class="k">All</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>といった感じで解決しました。</p>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cp -rpi /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed /etc/efi/BOOT/BOOTx64.EFI
+</span></code></pre></td></tr></table></div></figure></li>
+<li>これでSecure BootなPC挿してリブート</li>
+</ol>
 </div>
 
 </article>
@@ -171,10 +130,10 @@ Internal Server Errorになってしまいます。</p>
 
 
 
-     <time datetime="2015-10-27T08:26:47+00:00" class="updated">
+     <time datetime="2015-11-05T06:40:00+00:00" class="updated">
        Updated
-       <span class="month">Oct</span>
-       <span class="day">27</span>,
+       <span class="month">Nov</span>
+       <span class="day">05</span>,
        <span class="year">2015</span>
      </time>
 
@@ -182,11 +141,11 @@ Internal Server Errorになってしまいます。</p>
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/web/">web</a>
+     <a class="category" href="/categories/linux/">linux</a>
   
-     <a class="category" href="/categories/apache/">apache</a>
+     <a class="category" href="/categories/secure-boot/">secure boot</a>
   
-     <a class="category" href="/categories/authentication/">authentication</a>
+     <a class="category" href="/categories/grub/">grub</a>
   
 </div>
 
@@ -195,7 +154,7 @@ Internal Server Errorになってしまいます。</p>
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/10/27/authtype-none/" data-via="" data-counturl="/blog/2015/10/27/authtype-none/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/" data-via="" data-counturl="/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -208,10 +167,8 @@ Internal Server Errorになってしまいます。</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/10/28/ssh-access-to-koding/" title="Previous Post: ssh access to Koding">&laquo; Ssh Access to Koding</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/10/27/koding/" title="Next Post: Koding">Koding &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/" title="Next Post: Secure Boot 2 (using self-signed cert)">Secure Boot 2 (using Self-signed Cert) &raquo;</a>
       
     </p>
   </footer>
