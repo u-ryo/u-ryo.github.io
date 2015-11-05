@@ -113,12 +113,14 @@ efibootmgrは使えません。</p>
 <li><code>efitools</code>をapt-get installしておきます</li>
 <li>自己署名証明書(pem形式とder形式)を作成します</li>
 <li>必要なモジュールを含めた<code>grub</code>を作ります
-``<code>
 (ここまでモジュール入れないとうまく行きませんでした。
-</code>iso9660<code>と</code>cpio`くらいでいいような気はしますが下限は試してません)</li>
-<li>出来たBOOTx64に自己署名証明書で署名します
+<code>iso9660</code>と<code>cpio</code>くらいでいいような気はしますが下限は試してません)
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ grub-mkimage -d /usr/lib/grub/x86_64-efi -o BOOTx64.EFI -O x86_64-efi -p &quot;&quot; part_gpt part_msdos ntfs ntfscomp hfsplus fat ext2 normal chain boot configfile linux multiboot efi_gop loopback linuxefi affs afs bfs btrfs cbfs cpio cpio_be exfat hfs iso9660 jf
+</span></code></pre></td></tr></table></div></figure></li>
+<li>出来たBOOTx64に自己署名証明書で署名します
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sbsign --key /etc/secureboot/key-material/test-key.rsa --cert /etc/secureboot/key-material/test-cert.pem BOOTx64.EFI
 </span></code></pre></td></tr></table></div></figure></li>
 <li>上記で出来る<code>BOOTx64.EFI.signed</code>を、USBメモリの<code>/EFI/BOOT/BOOTx64.EFI</code>としてコピーします</li>
 <li>自己署名証明書(der形式)をUSBメモにコピーします</li>
@@ -150,7 +152,7 @@ efibootmgrは使えません。</p>
 
 
 
-     <time datetime="2015-11-05T02:32:43+00:00" class="updated">
+     <time datetime="2015-11-05T02:36:08+00:00" class="updated">
        Updated
        <span class="month">Nov</span>
        <span class="day">05</span>,
