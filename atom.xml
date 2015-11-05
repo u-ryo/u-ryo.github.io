@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/atom.xml" rel="self"/><link href="/"/><updated>2015-11-05T02:36:08+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Secure Boot 2 (using self-signed cert)]]></title><link href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/"/><updated>2015-11-05T02:36:08+00:00</updated><id>/blog/2015/11/05/secure-boot-2-using-self-signed-cert/</id><content type="html"><![CDATA[<h3>訂正</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/atom.xml" rel="self"/><link href="/"/><updated>2015-11-05T06:37:38+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Secure Boot 2 (using signed grub in the official package)]]></title><link href="/blog/2015/11/05/secure-boot-2-using-signed-grub-in-the-official-package/"/><updated>2015-11-05T06:37:38+00:00</updated><id>/blog/2015/11/05/secure-boot-2-using-signed-grub-in-the-official-package/</id><content type="html"><![CDATA[<h3>ubuntu公式パッケージのsigned grubを使う方法</h3>
+<p>USBメモリに直接ubuntuをインストールするために、
+8GBのUSBメモリを用意しました。
+それさえあれば、至極簡単です。</p>
+<ol>
+<li>VirtualBox等で、USBメモリにubuntuを入れる(そのままだと2GBスワップになるので、適宜調整。インストール後は4GB程の使用量なので、最初から5GB程でもよいかも。VMをEFIにしておくのを忘れないように。あと先頭にvfat32のEFI用パーティションを)</li>
+<li>リブートした後、<code>/etc/efi/ubuntu/</code>を<code>/etc/efi/BOOT</code>にリネーム</li>
+<li><code>linux-signed-image-generic</code>も<code>grub2-efi-amd86-signed</code>も入っているので、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cp -rpi /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed /etc/efi/BOOT/BOOTx64.EFI
+</span></code></pre></td></tr></table></div></figure></li>
+<li>これでSecure BootなPC挿してリブート</li>
+</ol>
+]]></content></entry><entry><title type="html"><![CDATA[Secure Boot 2 (using self-signed cert)]]></title><link href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/"/><updated>2015-11-05T02:36:08+00:00</updated><id>/blog/2015/11/05/secure-boot-2-using-self-signed-cert/</id><content type="html"><![CDATA[<h3>訂正</h3>
 <p>/EFI/ubuntu/... ではブート時に読み込まない、
 と前回下記ましたが、efibootmgrで変更出来そうです。
 が、今回はUSBメモリからのブートが要件なので、
@@ -652,63 +665,4 @@ println "Hello, world!"<br>
 </span></code></pre></td></tr></table></div></figure>
 <h4>Result:</h4>
 <p>${ 2 + 2 } = 4</p>
-]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="/blog/2014/01/08/pullquote-tag/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
-<h2>Right-aligned Quote</h2>
-<h4>Code:</h4>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='jsp'><span class='line'><span class="k">&lt;%=</span> <span class="n">pullquote</span> <span class="nl">content:</span>
-</span><span class='line'><span class="sc">&#39;&#39;&#39;</span><span class="n">Lorem</span> <span class="n">ipsum</span> <span class="n">dolor</span> <span class="n">sit</span> <span class="n">amet</span><span class="o">,</span> <span class="n">consectetur</span> <span class="n">adipisicing</span> <span class="n">elit</span><span class="o">,</span> <span class="n">sed</span> <span class="k">do</span> <span class="n">eiusmod</span> <span class="n">tempor</span>
-</span><span class='line'><span class="n">incididunt</span> <span class="n">ut</span> <span class="n">labore</span> <span class="n">et</span> <span class="n">dolore</span> <span class="n">magna</span> <span class="n">aliqua</span><span class="o">.</span> <span class="o">{/</span><span class="n">Ut</span> <span class="n">enim</span> <span class="n">ad</span> <span class="n">minim</span> <span class="n">veniam</span><span class="o">/}.</span> <span class="n">Quis</span> <span class="n">nostrud</span> <span class="n">exercitation</span> <span class="n">ullamco</span>
-</span><span class='line'><span class="n">laboris</span> <span class="n">nisi</span> <span class="n">ut</span> <span class="n">aliquip</span> <span class="n">ex</span> <span class="n">ea</span> <span class="n">commodo</span> <span class="n">consequat</span><span class="o">.</span> <span class="n">Duis</span> <span class="n">aute</span> <span class="n">irure</span> <span class="n">dolor</span> <span class="n">in</span> <span class="n">reprehenderit</span> <span class="n">in</span> <span class="n">voluptate</span> <span class="n">velit</span>
-</span><span class='line'><span class="n">esse</span> <span class="n">cillum</span> <span class="n">dolore</span> <span class="n">eu</span> <span class="n">fugiat</span> <span class="n">nulla</span> <span class="n">pariatur</span><span class="o">.</span> <span class="n">Excepteur</span> <span class="n">sint</span> <span class="n">occaecat</span> <span class="n">cupidatat</span> <span class="n">non</span> <span class="n">proident</span><span class="o">,</span> <span class="n">sunt</span> <span class="n">in</span> <span class="n">culpa</span>
-</span><span class='line'><span class="n">qui</span> <span class="n">officia</span> <span class="n">deserunt</span> <span class="n">mollit</span> <span class="n">anim</span> <span class="n">id</span> <span class="n">est</span> <span class="n">laborum</span><span class="o">.</span><span class="sc">&#39;&#39;&#39;</span>
-</span><span class='line'><span class="k">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<h4>Result:</h4>
-<p>
-
-
-    <span class="pullquote-right" data-pullquote="Ut enim ad minim veniam">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Quis nostrud exercitation ullamco
-laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-qui officia deserunt mollit anim id est laborum.
-    </span>
-</p>
-<h2>Left-aligned Quote</h2>
-<h4>Code:</h4>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='jsp'><span class='line'><span class="k">&lt;%=</span> <span class="n">pullquote</span> <span class="nl">align:</span> <span class="err">&#39;</span><span class="n">left</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">content:</span>
-</span><span class='line'><span class="sc">&#39;&#39;&#39;</span><span class="n">Lorem</span> <span class="n">ipsum</span> <span class="n">dolor</span> <span class="n">sit</span> <span class="n">amet</span><span class="o">,</span> <span class="n">consectetur</span> <span class="n">adipisicing</span> <span class="n">elit</span><span class="o">,</span> <span class="n">sed</span> <span class="k">do</span> <span class="n">eiusmod</span> <span class="n">tempor</span>
-</span><span class='line'><span class="n">incididunt</span> <span class="n">ut</span> <span class="n">labore</span> <span class="n">et</span> <span class="n">dolore</span> <span class="n">magna</span> <span class="n">aliqua</span><span class="o">.</span> <span class="o">{/</span><span class="n">Ut</span> <span class="n">enim</span> <span class="n">ad</span> <span class="n">minim</span> <span class="n">veniam</span><span class="o">/}.</span> <span class="n">Quis</span> <span class="n">nostrud</span> <span class="n">exercitation</span> <span class="n">ullamco</span>
-</span><span class='line'><span class="n">laboris</span> <span class="n">nisi</span> <span class="n">ut</span> <span class="n">aliquip</span> <span class="n">ex</span> <span class="n">ea</span> <span class="n">commodo</span> <span class="n">consequat</span><span class="o">.</span> <span class="n">Duis</span> <span class="n">aute</span> <span class="n">irure</span> <span class="n">dolor</span> <span class="n">in</span> <span class="n">reprehenderit</span> <span class="n">in</span> <span class="n">voluptate</span> <span class="n">velit</span>
-</span><span class='line'><span class="n">esse</span> <span class="n">cillum</span> <span class="n">dolore</span> <span class="n">eu</span> <span class="n">fugiat</span> <span class="n">nulla</span> <span class="n">pariatur</span><span class="o">.</span> <span class="n">Excepteur</span> <span class="n">sint</span> <span class="n">occaecat</span> <span class="n">cupidatat</span> <span class="n">non</span> <span class="n">proident</span><span class="o">,</span> <span class="n">sunt</span> <span class="n">in</span> <span class="n">culpa</span>
-</span><span class='line'><span class="n">qui</span> <span class="n">officia</span> <span class="n">deserunt</span> <span class="n">mollit</span> <span class="n">anim</span> <span class="n">id</span> <span class="n">est</span> <span class="n">laborum</span><span class="o">.</span><span class="sc">&#39;&#39;&#39;</span>
-</span><span class='line'><span class="k">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<h4>Result:</h4>
-<p>
-
-
-    <span class="pullquote-left" data-pullquote="Ut enim ad minim veniam">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Quis nostrud exercitation ullamco
-laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-qui officia deserunt mollit anim id est laborum.
-    </span>
-</p>
 ]]></content></entry></feed>
