@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/self-signed-cert/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Secure Boot 2 (using self-signed cert)]]></title><link href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/"/><updated>2015-11-05T02:32:43+00:00</updated><id>/blog/2015/11/05/secure-boot-2-using-self-signed-cert/</id><content type="html"><![CDATA[<h3>訂正</h3>
+<p>/EFI/ubuntu/... ではブート時に読み込まない、
+と前回下記ましたが、efibootmgrで変更出来そうです。
+が、今回はUSBメモリからのブートが要件なので、
+efibootmgrは使えません。</p>
+<h3>手法2</h3>
+<p>「loopbackモジュールを含めたgrubを自力で署名する」
+手法が漸くわかりました</p>
+<ol>
+<li><code>efitools</code>をapt-get installしておきます</li>
+<li>自己署名証明書(pem形式とder形式)を作成します</li>
+<li>必要なモジュールを含めた<code>grub</code>を作ります
+``<code>
+(ここまでモジュール入れないとうまく行きませんでした。
+</code>iso9660<code>と</code>cpio`くらいでいいような気はしますが下限は試してません)</li>
+<li>出来たBOOTx64に自己署名証明書で署名します
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ grub-mkimage -d /usr/lib/grub/x86_64-efi -o BOOTx64.EFI -O x86_64-efi -p &quot;&quot; part_gpt part_msdos ntfs ntfscomp hfsplus fat ext2 normal chain boot configfile linux multiboot efi_gop loopback linuxefi affs afs bfs btrfs cbfs cpio cpio_be exfat hfs iso9660 jf
+</span></code></pre></td></tr></table></div></figure></li>
+<li>上記で出来る<code>BOOTx64.EFI.signed</code>を、USBメモリの<code>/EFI/BOOT/BOOTx64.EFI</code>としてコピーします</li>
+<li>自己署名証明書(der形式)をUSBメモにコピーします</li>
+<li>PCでUSBブートし、BIOSメニューから、自己署名証明書を読み込ませます</li>
+</ol>
+<p>これでUSBメモリ内のisoファイルから立ち上がるようになりました。</p>
+<p>ただ、BIOSメニューに自己署名証明書を読み込ませるUIのない場合、
+実機が今はないので試せないこともあり、どうするのかはよくわかりません。</p>
+<p>cf.</p>
+<ul>
+<li><a href="http://qiita.com/kunichiko/items/12cbccaadcbf41c72735">技術者見習いの独り言 SecureBootとLinux</a></li>
+<li><a href="https://wiki.ubuntu.com/SecurityTeam/SecureBoot">SecureBoot</a></li>
+<li><a href="http://www.rodsbooks.com/refind/secureboot.html">The rEFInd Boot Manager: Managing Secure Boot</a></li>
+<li><a href="https://www.suse.com/ja-jp/documentation/sles11/book_sle_admin/data/sec_uefi_secboot.html">SUSE document セキュアブート</a></li>
+</ul>
+]]></content></entry></feed>

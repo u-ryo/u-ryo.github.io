@@ -137,10 +137,12 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 <p>とすると、grubまでは立ち上がりました。
 更にブートするには、loopbackモジュールが必要になり、
 それはunsignedなので、そこで引っ掛かりますが、
-仕組み上、signed grubでモジュールは使えない(使えてしまうとillegalなモジュールが入り込めてしまう)ので、
-1. loopbackモジュールを使わない
-1. loopbackモジュールを含めたgrubを自力で署名する
-前者はUSBメモリをHDとして直接インストールすれば良さそうですが、
+仕組み上、signed grubでモジュールは使えない(使えてしまうとillegalなモジュールが入り込めてしまう)ので、</p>
+<ol>
+<li>loopbackモジュールを使わない</li>
+<li>loopbackモジュールを含めたgrubを自力で署名する</li>
+</ol>
+<p>前者はUSBメモリをHDとして直接インストールすれば良さそうですが、
 8GB以上の容量が必要になります。
 現状手元にそんな容量のUSBメモリがありません。
 後者は、かなり面倒そうです。Micro$osftに署名してもらうにはお金かかりそうですし、
@@ -162,10 +164,10 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 
 
 
-     <time datetime="2015-11-04T02:18:08+00:00" class="updated">
+     <time datetime="2015-11-05T01:57:06+00:00" class="updated">
        Updated
        <span class="month">Nov</span>
-       <span class="day">04</span>,
+       <span class="day">05</span>,
        <span class="year">2015</span>
      </time>
 
@@ -215,6 +217,10 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/">Secure Boot 2 (using Self-signed Cert)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/11/04/encryption-by-gnupg/">Encryption by GnuPG</a>
       </li>
     
@@ -228,10 +234,6 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
     
       <li class="post">
         <a href="/blog/2015/10/30/parameters-for-freerdp/">Parameters for FreeRDP</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/30/too-many-open-files/">Too Many Open Files</a>
       </li>
     
   </ul>

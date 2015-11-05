@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>jsFiddle tag - u-ryo's blog</title>
+  <title>Secure Boot 2 (using self-signed cert) - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="/blog/2014/01/10/jsfiddle-tag/">
+  <link rel="canonical" href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -80,17 +80,17 @@
 
   <header>
     
-      <h1 class="entry-title">JsFiddle Tag</h1>
+      <h1 class="entry-title">Secure Boot 2 (using Self-signed Cert)</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2014-01-10T13:00:00+00:00" pubdate data-updated=true>
-      <span class="month">Jan</span>
-      <span class="day">10</span>,
-      <span class="year">2014</span>
+    <time datetime="2015-11-05T01:52:00+00:00" pubdate data-updated=true>
+      <span class="month">Nov</span>
+      <span class="day">05</span>,
+      <span class="year">2015</span>
     </time>
   
 
@@ -101,17 +101,39 @@
   </header>
 
 
-<div class="entry-content"><!--more-->
-<h4>Code:</h4>
+<div class="entry-content"><h3>訂正</h3>
+<p>/EFI/ubuntu/... ではブート時に読み込まない、
+と前回下記ましたが、efibootmgrで変更出来そうです。
+が、今回はUSBメモリからのブートが要件なので、
+efibootmgrは使えません。</p>
+<h3>手法2</h3>
+<p>「loopbackモジュールを含めたgrubを自力で署名する」
+手法が漸くわかりました</p>
+<ol>
+<li><code>efitools</code>をapt-get installしておきます</li>
+<li>自己署名証明書(pem形式とder形式)を作成します</li>
+<li>必要なモジュールを含めた<code>grub</code>を作ります
+``<code>
+(ここまでモジュール入れないとうまく行きませんでした。
+</code>iso9660<code>と</code>cpio`くらいでいいような気はしますが下限は試してません)</li>
+<li>出来たBOOTx64に自己署名証明書で署名します
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='jsp'><span class='line'><span class="k">&lt;%=</span> <span class="n">jsfiddle</span> <span class="nl">shorttag:</span> <span class="err">&#39;</span><span class="mi">8</span><span class="n">wcwq</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">width:</span> <span class="err">&#39;</span><span class="mi">90</span><span class="o">%</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">skin:</span> <span class="err">&#39;</span><span class="n">light</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">tabs:</span> <span class="err">&#39;</span><span class="n">html</span><span class="o">,</span><span class="n">css</span><span class="o">,</span><span class="n">js</span><span class="o">,</span><span class="n">result</span><span class="err">&#39;</span> <span class="k">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<h4>Result:</h4>
-<p>
-
-<iframe style="width: 90%; height: 300px" frameborder="0" seamless="seamless"
-        src="http://jsfiddle.net/8wcwq/embedded/html,css,js,result/light/"></iframe>
-</p>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ grub-mkimage -d /usr/lib/grub/x86_64-efi -o BOOTx64.EFI -O x86_64-efi -p &quot;&quot; part_gpt part_msdos ntfs ntfscomp hfsplus fat ext2 normal chain boot configfile linux multiboot efi_gop loopback linuxefi affs afs bfs btrfs cbfs cpio cpio_be exfat hfs iso9660 jf
+</span></code></pre></td></tr></table></div></figure></li>
+<li>上記で出来る<code>BOOTx64.EFI.signed</code>を、USBメモリの<code>/EFI/BOOT/BOOTx64.EFI</code>としてコピーします</li>
+<li>自己署名証明書(der形式)をUSBメモにコピーします</li>
+<li>PCでUSBブートし、BIOSメニューから、自己署名証明書を読み込ませます</li>
+</ol>
+<p>これでUSBメモリ内のisoファイルから立ち上がるようになりました。</p>
+<p>ただ、BIOSメニューに自己署名証明書を読み込ませるUIのない場合、
+実機が今はないので試せないこともあり、どうするのかはよくわかりません。</p>
+<p>cf.</p>
+<ul>
+<li><a href="http://qiita.com/kunichiko/items/12cbccaadcbf41c72735">技術者見習いの独り言 SecureBootとLinux</a></li>
+<li><a href="https://wiki.ubuntu.com/SecurityTeam/SecureBoot">SecureBoot</a></li>
+<li><a href="http://www.rodsbooks.com/refind/secureboot.html">The rEFInd Boot Manager: Managing Secure Boot</a></li>
+<li><a href="https://www.suse.com/ja-jp/documentation/sles11/book_sle_admin/data/sec_uefi_secboot.html">SUSE document セキュアブート</a></li>
+</ul>
 </div>
 
 </article>
@@ -120,7 +142,7 @@
     <p class="meta">
       
 
-  <span class="byline author vcard">Posted by <a href="/authors/sysgears/"><span class="fn">SysGears</span></a></span>
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
 
 
       
@@ -128,10 +150,10 @@
 
 
 
-     <time datetime="2015-10-27T08:26:47+00:00" class="updated">
+     <time datetime="2015-11-05T02:32:43+00:00" class="updated">
        Updated
-       <span class="month">Oct</span>
-       <span class="day">27</span>,
+       <span class="month">Nov</span>
+       <span class="day">05</span>,
        <span class="year">2015</span>
      </time>
 
@@ -139,9 +161,11 @@
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/grain/">grain</a>
+     <a class="category" href="/categories/linux/">linux</a>
   
-     <a class="category" href="/categories/groovy/">groovy</a>
+     <a class="category" href="/categories/secure-boot/">secure boot</a>
+  
+     <a class="category" href="/categories/self-signed-cert/">self-signed cert</a>
   
 </div>
 
@@ -150,7 +174,7 @@
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2014/01/10/jsfiddle-tag/" data-via="" data-counturl="/blog/2014/01/10/jsfiddle-tag/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/" data-via="" data-counturl="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -163,10 +187,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/01/10/gist-tag/" title="Previous Post: Gist tag">&laquo; Gist Tag</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/01/09/image-tag/" title="Next Post: Image tag">Image Tag &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/11/04/encryption-by-gnupg/" title="Next Post: encryption by GnuPG">Encryption by GnuPG &raquo;</a>
       
     </p>
   </footer>
