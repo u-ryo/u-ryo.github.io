@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/dns/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[freenom (free DNS Registrar)]]></title><link href="/blog/2015/11/06/freenom-free-dns-registrar/"/><updated>2015-11-06T01:08:44+00:00</updated><id>/blog/2015/11/06/freenom-free-dns-registrar/</id><content type="html"><![CDATA[<p>バイト先のProxyで、ある日突然自宅サーバが「ダイナミックDNSですといって蹴られるようになってしまいました。
+IP直打ちでも、「数字IP指定です」みたいなことを言われて繋げてくれません。
+お名前.COMにでもお金払うしかないのか、
+と観念しかけたんですが、
+探してみると、フリーであるんですね、無料ドメインも色々と。
+突然無くなったりFacebookにリンク張れないものがあったり制限はあるようですが、
+気軽に使えるので有難いです。
+gmailアカウントだからなのか、何故か登録できませんでしたが、
+他のアカウントでサインアップして、
+所期の目的を達しました(バイト先Proxyから自宅サーバへアクセス出来ました)。</p>
+<p><a href="http://www.freenom.com/ja/index.html">freenom</a>使ったんですが、
+APIもあったり、殆どDDNSみたいです。
+バイト先Proxyも、dyndns.orgは通すので、MyDNS狙い撃ち?!
+ieServerドメインで試してみればよかったかもしれません。</p>
+]]></content></entry></feed>

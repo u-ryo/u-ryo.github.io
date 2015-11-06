@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>ssh access to Koding - u-ryo's blog</title>
+  <title>freenom (free DNS Registrar) - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="/blog/2015/10/28/ssh-access-to-koding/">
+  <link rel="canonical" href="/blog/2015/11/06/freenom-free-dns-registrar/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -80,16 +80,16 @@
 
   <header>
     
-      <h1 class="entry-title">Ssh Access to Koding</h1>
+      <h1 class="entry-title">Freenom (free DNS Registrar)</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2015-10-28T00:59:00+00:00" pubdate data-updated=true>
-      <span class="month">Oct</span>
-      <span class="day">28</span>,
+    <time datetime="2015-11-06T00:40:00+00:00" pubdate data-updated=true>
+      <span class="month">Nov</span>
+      <span class="day">06</span>,
       <span class="year">2015</span>
     </time>
   
@@ -101,25 +101,20 @@
   </header>
 
 
-<div class="entry-content"><p>Kodingなんですが、sshで繋げてログインすることが出来るんですね。
-びっくりポンです。</p>
-<ol>
-<li>~/.ssh/authorized_keys に手元のマシンのpublic keyを記述</li>
-<li>Koding上のマシン名を左側のVM Settingsで確認(毎日変わる模様)</li>
-<li>手元からssh(公開鍵認証のみ)</li>
-</ol>
-<p>tmuxも使えるので超便利です。
-ただ、デフォルトのコントロールキーがC-bになっているので、
-最初は戸惑います。
-慣れ親しんだC-aに変えるには、
-~/.tmux.conf
-に</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>set-option -g prefix C-a
-</span></code></pre></td></tr></table></div></figure>
-<p>ちゃんと公式ドキュメントに書いてありました。<br  />
-<a href="http://learn.koding.com/guides/using-tmux-on-koding/">Using Tmux on Koding</a><br  />
-(一旦tmuxを全て終了させないと反映されません)</p>
+<div class="entry-content"><p>バイト先のProxyで、ある日突然自宅サーバが「ダイナミックDNSですといって蹴られるようになってしまいました。
+IP直打ちでも、「数字IP指定です」みたいなことを言われて繋げてくれません。
+お名前.COMにでもお金払うしかないのか、
+と観念しかけたんですが、
+探してみると、フリーであるんですね、無料ドメインも色々と。
+突然無くなったりFacebookにリンク張れないものがあったり制限はあるようですが、
+気軽に使えるので有難いです。
+gmailアカウントだからなのか、何故か登録できませんでしたが、
+他のアカウントでサインアップして、
+所期の目的を達しました(バイト先Proxyから自宅サーバへアクセス出来ました)。</p>
+<p><a href="http://www.freenom.com/ja/index.html">freenom</a>使ったんですが、
+APIもあったり、殆どDDNSみたいです。
+バイト先Proxyも、dyndns.orgは通すので、MyDNS狙い撃ち?!
+ieServerドメインで試してみればよかったかもしれません。</p>
 </div>
 
 </article>
@@ -136,10 +131,10 @@
 
 
 
-     <time datetime="2015-10-28T01:20:19+00:00" class="updated">
+     <time datetime="2015-11-06T01:08:44+00:00" class="updated">
        Updated
-       <span class="month">Oct</span>
-       <span class="day">28</span>,
+       <span class="month">Nov</span>
+       <span class="day">06</span>,
        <span class="year">2015</span>
      </time>
 
@@ -147,9 +142,7 @@
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/koding/">koding</a>
-  
-     <a class="category" href="/categories/ssh/">ssh</a>
+     <a class="category" href="/categories/dns/">dns</a>
   
 </div>
 
@@ -158,7 +151,7 @@
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/10/28/ssh-access-to-koding/" data-via="" data-counturl="/blog/2015/10/28/ssh-access-to-koding/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/06/freenom-free-dns-registrar/" data-via="" data-counturl="/blog/2015/11/06/freenom-free-dns-registrar/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -171,10 +164,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/10/28/importing-csv-to-zaim/" title="Previous Post: importing CSV to Zaim">&laquo; Importing CSV to Zaim</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/10/27/authtype-none/" title="Next Post: AuthType None">AuthType None &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/" title="Next Post: Secure Boot 3 (using signed grub in the official package)">Secure Boot 3 (using Signed Grub in the Official Package) &raquo;</a>
       
     </p>
   </footer>
