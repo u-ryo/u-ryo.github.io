@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Secure Boot - u-ryo's blog</title>
+  <title>Freetel Samurai Miyabi and the leather cover for it - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="/blog/2015/11/04/secure-boot/">
+  <link rel="canonical" href="/blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -80,16 +80,16 @@
 
   <header>
     
-      <h1 class="entry-title">Secure Boot</h1>
+      <h1 class="entry-title">Freetel Samurai Miyabi and the Leather Cover for It</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2015-11-04T02:00:00+00:00" pubdate data-updated=true>
+    <time datetime="2015-11-09T01:04:00+00:00" pubdate data-updated=true>
       <span class="month">Nov</span>
-      <span class="day">04</span>,
+      <span class="day">09</span>,
       <span class="year">2015</span>
     </time>
   
@@ -101,53 +101,43 @@
   </header>
 
 
-<div class="entry-content"><p>Linux (ubuntu)でSecure Bootを求められました。
-ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
-パッケージがあるので、何か出来そうなんですけど、
-じゃ具体的にどうやるの?
-というのは意外と書いてないので、苦労してます。</p>
-<p>取り敢えず、grub-installで「--secure-boot」というオプションがあるので、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo grub-install --force --no-floppy --efi-directory=/mnt/ --target=x86_64-efi --uefi-secure-boot /dev/sdb
-</span></code></pre></td></tr></table></div></figure>
-<p>とすると、USBメモリには、/mnt/EFI/ubuntu/ の下にsignedなgrubx64.efiやshimx64.efiが入るんですが、
-/EFI/ubuntu/... ではブート時に読み込まないので、
-/EFI/BOOT/ にリネームし、
-また、/EFI/BOOT/grubx64.efi(又はshimx64.efi) を/EFI/BOOT/BOOTX64.efi にリネームし、
-/boot/grub/grub.cfg を、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>set timeout=3
-</span><span class='line'>set default=0
-</span><span class='line'>
-</span><span class='line'>menuentry &quot;Run Ubuntu Live ISO&quot; {
-</span><span class='line'>       set gfxpayload=keep
-</span><span class='line'>       loopback loop (hd0,gpt1)/airscope3.iso
-</span><span class='line'>       linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=/airscope3.iso splash --- debian-installer/language=ja keyboard-configuration/layoutcode?=jp keyboard-configuration/modelcode?=jp109
-</span><span class='line'>       initrd (loop)/casper/initrd.lz
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>とすると、grubまでは立ち上がりました。
-更にブートするには、loopbackモジュールが必要になり、
-それはunsignedなので、そこで引っ掛かりますが、
-仕組み上、signed grubでモジュールは使えない(使えてしまうとillegalなモジュールが入り込めてしまう)ので、</p>
-<ol>
-<li>loopbackモジュールを使わない</li>
-<li>loopbackモジュールを含めたgrubを自力で署名する</li>
-</ol>
-<p>前者はUSBメモリをHDとして直接インストールすれば良さそうですが、
-8GB以上の容量が必要になります。
-現状手元にそんな容量のUSBメモリがありません。
-後者は、かなり面倒そうです。Micro$osftに署名してもらうにはお金かかりそうですし、
-自分で署名してそのキーをMOK?を使って云々という手法は、
-まだ読み込んでません...</p>
+<div class="entry-content"><p>実は、つい先月初めて自分のスマホを買いました。
+<a href="https://www.freetel.jp/lp/samurai/">Freetel Samurai 雅</a>です。
+直販ではなく、<a href="http://kakaku.com">kakaku.com</a>から19800円(税込)で買いました。
+巷間の話から、モノが来るのは大分先? と覚悟していたんですけど、
+割とすぐに来てくれました。
+裏蓋が貧相、というレビューもありましたけど、
+この値段でこのスペックなら、問題ないです。
+かなりいいと思いますこれ。</p>
+<p>ただ、裏蓋がツルツルなので、
+胸ポケット入れてちょっと屈んだだけですぐ落ちちゃうんですね。
+Nexus5と違って。
+なので、ケース必須、と思って、注文しました。
+出たばっかりの機種なので、
+専用ケースは<a href="http://www.amazon.co.jp/freetel-SAMURAI-MIYABI-%E3%83%AC%E3%82%B6%E3%83%BC%E3%82%B1%E3%83%BC%E3%82%B9-%E6%A8%AA%E9%96%8B%E3%81%8D%E6%89%8B%E5%B8%B3%E3%82%BF%E3%82%A4%E3%83%97/dp/B016GHZTXI/ref=pd_sim_23_2?ie=UTF8&amp;dpID=41T8vh5dZKL&amp;dpSrc=sims&amp;preST=_AC_UL160_SR160%2C160_&amp;refRID=1M742B5NZF7BFR3SJAG9">レザーケースカバー 横開き手帳タイプ 2970円</a>
+の一択でした。
+あ、今では<a href="http://store.shopping.yahoo.co.jp/shizukawill/ft-miyabibl.html?sc_e=slga_pla">Yahoo!ショッピングで1980円</a>であるんですね。
+半月前はそれ無かったので、レザーケースカバーを注文したんですけど、
+配送は11月下旬頃。
+のんびり待ってたら、
+「幾つか早く入荷できることになったので、
+レビュー書いてくれるのなら、
+イヤホンジャック・USBジャック3セット付けて、
+先に送りますよ」というので、
+Amazonレビュー書くことにしました。
+つい昨日猫ポスで届きました。</p>
+<p>レザーケースは、胸ポケットに入れるにはちょっと大きいかなぁ、
+と危惧していたのですが、意外に大丈夫、です。
+一番求めていた、「ちょっ屈んだくらいで胸ポケットから落っこちる」
+こともなくなりました。
+仮に落ちても、このケースならちょっとやそっとじゃ壊れそうにありません。
+専用ケースなので、本体もピッタリ入りますし。
+これで格安スマホっぽさもかなり低減されるかと。
+1980円のケースでも良さそうですが、
+ともあれ何か本体防護はあった方が良いと思います。
+そういう意味では、
+納得の行く買い物でした。
+ケースも本体も。</p>
 </div>
 
 </article>
@@ -164,10 +154,10 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 
 
 
-     <time datetime="2015-11-05T01:57:06+00:00" class="updated">
+     <time datetime="2015-11-09T05:47:45+00:00" class="updated">
        Updated
        <span class="month">Nov</span>
-       <span class="day">05</span>,
+       <span class="day">09</span>,
        <span class="year">2015</span>
      </time>
 
@@ -175,9 +165,9 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/linux/">linux</a>
+     <a class="category" href="/categories/smart-phone/">smart phone</a>
   
-     <a class="category" href="/categories/secure-boot/">secure boot</a>
+     <a class="category" href="/categories/samurai-miyabi/">samurai miyabi</a>
   
 </div>
 
@@ -186,7 +176,7 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/04/secure-boot/" data-via="" data-counturl="/blog/2015/11/04/secure-boot/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/" data-via="" data-counturl="/blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -199,10 +189,8 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/" title="Previous Post: Hybrid MBR/GPT for dual booting MBR/UEFI">&laquo; Hybrid MBR/GPT for Dual Booting MBR/UEFI</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/10/30/parameters-for-freerdp/" title="Next Post: Parameters for FreeRDP">Parameters for FreeRDP &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/11/06/freenom-free-dns-registrar/" title="Next Post: freenom (free DNS Registrar)">Freenom (free DNS Registrar) &raquo;</a>
       
     </p>
   </footer>
