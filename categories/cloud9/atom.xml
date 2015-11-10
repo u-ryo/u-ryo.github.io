@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/cloud9/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Developing and Building Cordova App]]></title><link href="/blog/2015/11/10/developing-and-building-cordova-app/"/><updated>2015-11-10T07:53:55+00:00</updated><id>/blog/2015/11/10/developing-and-building-cordova-app/</id><content type="html"><![CDATA[<p>all cloud環境で、hybrid applicationsを開発する方法がわかりました。</p>
+<ol>
+<li><a href="http://c9.io">Cloud9</a>で作る</li>
+<li><a href="https://github.com">GitHub</a>に置く</li>
+<li><a href="https://build.phonegap.com">PhoneGap Builder</a>でbuild</li>
+</ol>
+<h3>Cloud9</h3>
+<p>templateは何を選んでもnode.jsが付いてくるみたいです。
+<a href="http://daniel.favand.net/2014/11/21/developing-ionic-cordova-apps-in-the-cloud-with-cloud9/">Developing Ionic (Cordova) apps in the cloud with Cloud9</a>
+に従って、以下project nameを「firstproject」とします。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ npm -g install cordova ionic
+</span><span class='line'>$ ionic start firstproject
+</span><span class='line'>$ cd firstproject
+</span></code></pre></td></tr></table></div></figure>
+<p>これで準備が出来ます。
+<a href="https://docs.c9.io/docs/ionic">official document</a>にもありますが、
+<code>ionic start firstproject sidemenu</code>とすれば、
+tabではなくsidemenu型のprototypeが用意されるようです。</p>
+<p>buildには、上述のように、PhoneGap Builderを使います。
+そのためには、一度GitHubにpushせねばなりません。</p>
+<p>まずGitHubに行って、repositoryを作ります。
+その上で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ git init
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit -m &quot;Initial commit&quot;
+</span><span class='line'>$ git remote add origin https://github.com/u-ryo/firstproject.git
+</span><span class='line'>$ git push -u origin master
+</span></code></pre></td></tr></table></div></figure>
+<p>そうしておいてから、
+<a href="https://build.phonegap.com">PhoneGap Builder</a>に行って、
+buildして、端末にはQR codeで読み込ませれば、
+install、実行が出来ます。</p>
+<p>はぁ〜、イマドキのアプリって、こういう風に作れちゃうんですねー。</p>
+]]></content></entry></feed>
