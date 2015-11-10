@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/atom.xml" rel="self"/><link href="/"/><updated>2015-11-10T08:05:57+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Developing and Building Cordova App]]></title><link href="/blog/2015/11/10/developing-and-building-cordova-app/"/><updated>2015-11-10T08:05:57+00:00</updated><id>/blog/2015/11/10/developing-and-building-cordova-app/</id><content type="html"><![CDATA[<p>all cloud環境で、hybrid applicationsを開発する方法がわかりました。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-10T08:05:57+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Developing and Building Cordova App]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/developing-and-building-cordova-app/"/><updated>2015-11-10T08:05:57+00:00</updated><id>/blog/2015/11/10/developing-and-building-cordova-app/</id><content type="html"><![CDATA[<p>all cloud環境で、hybrid applicationsを開発する方法がわかりました。</p>
 <ol>
 <li><a href="http://c9.io">Cloud9</a>で作る</li>
 <li><a href="https://github.com">GitHub</a>に置く</li>
@@ -41,7 +41,7 @@ tabではなくsidemenu型のprototypeが用意されるようです。</p>
 buildして、端末にはQR codeで読み込ませれば、
 install、実行が出来ます。</p>
 <p>はぁ〜、イマドキのアプリって、こういう風に作れちゃうんですねー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Controlling Unity on ubuntu through CLI]]></title><link href="/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/"/><updated>2015-11-10T07:55:07+00:00</updated><id>/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/</id><content type="html"><![CDATA[<h3>Clock on the menu bar</h3>
+]]></content></entry><entry><title type="html"><![CDATA[Controlling Unity on ubuntu through CLI]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/"/><updated>2015-11-10T07:55:07+00:00</updated><id>/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/</id><content type="html"><![CDATA[<h3>Clock on the menu bar</h3>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -85,7 +85,7 @@ install、実行が出来ます。</p>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount &quot;&#39;false&#39;&quot;
 </span><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount-open &quot;&#39;false&#39;&quot;
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Freetel Samurai Miyabi and the leather cover for it]]></title><link href="/blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/"/><updated>2015-11-09T05:47:45+00:00</updated><id>/blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/</id><content type="html"><![CDATA[<p>実は、つい先月初めて自分のスマホを買いました。
+]]></content></entry><entry><title type="html"><![CDATA[Freetel Samurai Miyabi and the leather cover for it]]></title><link href="http://u-ryo.github.io//blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/"/><updated>2015-11-09T05:47:45+00:00</updated><id>/blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/</id><content type="html"><![CDATA[<p>実は、つい先月初めて自分のスマホを買いました。
 <a href="https://www.freetel.jp/lp/samurai/">Freetel Samurai 雅</a>です。
 直販ではなく、<a href="http://kakaku.com">kakaku.com</a>から19800円(税込)で買いました。
 巷間の話から、モノが来るのは大分先? と覚悟していたんですけど、
@@ -122,7 +122,7 @@ Amazonレビュー書くことにしました。
 そういう意味では、
 納得の行く買い物でした。
 ケースも本体も。</p>
-]]></content></entry><entry><title type="html"><![CDATA[freenom (free DNS Registrar)]]></title><link href="/blog/2015/11/06/freenom-free-dns-registrar/"/><updated>2015-11-06T01:08:44+00:00</updated><id>/blog/2015/11/06/freenom-free-dns-registrar/</id><content type="html"><![CDATA[<p>バイト先のProxyで、ある日突然自宅サーバが「ダイナミックDNSですといって蹴られるようになってしまいました。
+]]></content></entry><entry><title type="html"><![CDATA[freenom (free DNS Registrar)]]></title><link href="http://u-ryo.github.io//blog/2015/11/06/freenom-free-dns-registrar/"/><updated>2015-11-06T01:08:44+00:00</updated><id>/blog/2015/11/06/freenom-free-dns-registrar/</id><content type="html"><![CDATA[<p>バイト先のProxyで、ある日突然自宅サーバが「ダイナミックDNSですといって蹴られるようになってしまいました。
 IP直打ちでも、「数字IP指定です」みたいなことを言われて繋げてくれません。
 お名前.COMにでもお金払うしかないのか、
 と観念しかけたんですが、
@@ -136,7 +136,7 @@ gmailアカウントだからなのか、何故か登録できませんでした
 APIもあったり、殆どDDNSみたいです。
 バイト先Proxyも、dyndns.orgは通すので、MyDNS狙い撃ち?!
 ieServerドメインで試してみればよかったかもしれません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Secure Boot 3 (using signed grub in the official package)]]></title><link href="/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/"/><updated>2015-11-06T00:36:50+00:00</updated><id>/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/</id><content type="html"><![CDATA[<h3>ubuntu公式パッケージのsigned grubを使う方法</h3>
+]]></content></entry><entry><title type="html"><![CDATA[Secure Boot 3 (using signed grub in the official package)]]></title><link href="http://u-ryo.github.io//blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/"/><updated>2015-11-06T00:36:50+00:00</updated><id>/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/</id><content type="html"><![CDATA[<h3>ubuntu公式パッケージのsigned grubを使う方法</h3>
 <p>USBメモリに直接ubuntuをインストールするために、
 8GBのUSBメモリを用意しました。
 それさえあれば、至極簡単です。</p>
@@ -149,7 +149,7 @@ ieServerドメインで試してみればよかったかもしれません。</p
 </span></code></pre></td></tr></table></div></figure></li>
 <li>これでSecure BootなPCに挿してリブート</li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Secure Boot 2 (using self-signed cert)]]></title><link href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/"/><updated>2015-11-05T02:36:08+00:00</updated><id>/blog/2015/11/05/secure-boot-2-using-self-signed-cert/</id><content type="html"><![CDATA[<h3>訂正</h3>
+]]></content></entry><entry><title type="html"><![CDATA[Secure Boot 2 (using self-signed cert)]]></title><link href="http://u-ryo.github.io//blog/2015/11/05/secure-boot-2-using-self-signed-cert/"/><updated>2015-11-05T02:36:08+00:00</updated><id>/blog/2015/11/05/secure-boot-2-using-self-signed-cert/</id><content type="html"><![CDATA[<h3>訂正</h3>
 <p>/EFI/ubuntu/... ではブート時に読み込まない、
 と前回下記ましたが、efibootmgrで変更出来そうです。
 が、今回はUSBメモリからのブートが要件なので、
@@ -184,7 +184,7 @@ efibootmgrは使えません。</p>
 <li><a href="http://www.rodsbooks.com/refind/secureboot.html">The rEFInd Boot Manager: Managing Secure Boot</a></li>
 <li><a href="https://www.suse.com/ja-jp/documentation/sles11/book_sle_admin/data/sec_uefi_secboot.html">SUSE document セキュアブート</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[encryption by GnuPG]]></title><link href="/blog/2015/11/04/encryption-by-gnupg/"/><updated>2015-11-04T02:50:44+00:00</updated><id>/blog/2015/11/04/encryption-by-gnupg/</id><content type="html"><![CDATA[<p>GnuPGによる暗号化は、調べりゃいくらでも載ってますので、都度調べた方がいい感じです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[encryption by GnuPG]]></title><link href="http://u-ryo.github.io//blog/2015/11/04/encryption-by-gnupg/"/><updated>2015-11-04T02:50:44+00:00</updated><id>/blog/2015/11/04/encryption-by-gnupg/</id><content type="html"><![CDATA[<p>GnuPGによる暗号化は、調べりゃいくらでも載ってますので、都度調べた方がいい感じです。</p>
 <ol>
 <li><code>gpg --gen-key</code>でキーを作成(これが結構面倒・時間かかる)</li>
 <li><code>gpg --export mail@address -o outputfile</code> で公開鍵を出力して他人に渡す</li>
@@ -193,7 +193,7 @@ efibootmgrは使えません。</p>
 <li><code>gpg -e -a -r ID... plain_file</code> で暗号化(-e:encrypt, -a:ascii, -r:receiver)</li>
 <li><code>gpg --passphrase ... --batch encrypted_file</code> で復号</li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Hybrid MBR/GPT for dual booting MBR/UEFI]]></title><link href="/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/"/><updated>2015-11-04T02:36:17+00:00</updated><id>/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/</id><content type="html"><![CDATA[<p>BIOSブートとUEFIブートの両対応を求められました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Hybrid MBR/GPT for dual booting MBR/UEFI]]></title><link href="http://u-ryo.github.io//blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/"/><updated>2015-11-04T02:36:17+00:00</updated><id>/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/</id><content type="html"><![CDATA[<p>BIOSブートとUEFIブートの両対応を求められました。</p>
 <p>UEFIブートなので、GPT(GUID Partition Table)は必須です。
 が、GPTだと旧来のMBRではないので、BIOSブートがこけます。
 そこで、Hybridなるものがありますと。
@@ -420,7 +420,7 @@ MBR用には、</p>
 </span><span class='line'>
 </span><span class='line'>configfile (hd0,GPT2)/boot/grub/grub.cfg
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Secure Boot]]></title><link href="/blog/2015/11/04/secure-boot/"/><updated>2015-11-05T01:57:06+00:00</updated><id>/blog/2015/11/04/secure-boot/</id><content type="html"><![CDATA[<p>Linux (ubuntu)でSecure Bootを求められました。
+]]></content></entry><entry><title type="html"><![CDATA[Secure Boot]]></title><link href="http://u-ryo.github.io//blog/2015/11/04/secure-boot/"/><updated>2015-11-05T01:57:06+00:00</updated><id>/blog/2015/11/04/secure-boot/</id><content type="html"><![CDATA[<p>Linux (ubuntu)でSecure Bootを求められました。
 ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 パッケージがあるので、何か出来そうなんですけど、
 じゃ具体的にどうやるの?
@@ -467,7 +467,7 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 後者は、かなり面倒そうです。Micro$osftに署名してもらうにはお金かかりそうですし、
 自分で署名してそのキーをMOK?を使って云々という手法は、
 まだ読み込んでません...</p>
-]]></content></entry><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="/blog/2015/10/30/parameters-for-freerdp/"/><updated>2015-10-30T05:15:27+00:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
+]]></content></entry><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2015-10-30T05:15:27+00:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
 「壁紙を変えたい」と言われました。
 デフォルト「wallpaperはon」と書いてありますけれども、
 明示的に「+wallpaper」としないと、効かないようです。</p>
@@ -480,7 +480,7 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 ともあれ、「+heartbeat」を指定すると、
 頻繁なreconnectはおさまりました。
 「-heartbeat」でも効果あったんですが、なぜ?</p>
-]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="/blog/2015/10/30/too-many-open-files/"/><updated>2015-10-30T05:15:22+00:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
+]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/too-many-open-files/"/><updated>2015-10-30T05:15:22+00:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
 <code>Too many open files</code>と言われていました。</p>
 <ul>
 <li>現状の確認 <code>$ ulimit -a</code></li>
@@ -488,13 +488,13 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 <li>増やすには、/etc/init.d/tomcat7 で<code>ulimit -n 8192</code>等と追記してrestart</li>
 <li><code>$ cat /proc/プロセス番号/limits</code>で確認</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Limitation of Koding]]></title><link href="/blog/2015/10/30/limitation-of-koding/"/><updated>2015-10-30T05:14:27+00:00</updated><id>/blog/2015/10/30/limitation-of-koding/</id><content type="html"><![CDATA[<p>Kodingにも限界はあるんですね。
+]]></content></entry><entry><title type="html"><![CDATA[Limitation of Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/limitation-of-koding/"/><updated>2015-10-30T05:14:27+00:00</updated><id>/blog/2015/10/30/limitation-of-koding/</id><content type="html"><![CDATA[<p>Kodingにも限界はあるんですね。
 無料ではVMが常時起動ではない、
 というのはendurableなんですが、
 workplaceが一つしか作れないとは。
 cordovaでハイブリッドアプリ作ってみたかったんですけど、
 続きはCloud9で頑張ってみます。</p>
-]]></content></entry><entry><title type="html"><![CDATA[importing CSV to Zaim]]></title><link href="/blog/2015/10/28/importing-csv-to-zaim/"/><updated>2015-10-28T01:11:46+00:00</updated><id>/blog/2015/10/28/importing-csv-to-zaim/</id><content type="html"><![CDATA[<p>Zaimですが、よく見ますとCSVインポート機能はとうに付いてるんですね。
+]]></content></entry><entry><title type="html"><![CDATA[importing CSV to Zaim]]></title><link href="http://u-ryo.github.io//blog/2015/10/28/importing-csv-to-zaim/"/><updated>2015-10-28T01:11:46+00:00</updated><id>/blog/2015/10/28/importing-csv-to-zaim/</id><content type="html"><![CDATA[<p>Zaimですが、よく見ますとCSVインポート機能はとうに付いてるんですね。
 ただ、試してみますと、
 セゾンのクレジットカード明細CSVって、
 お店と品目が一緒くたに書いてあって、
@@ -502,7 +502,7 @@ cordovaでハイブリッドアプリ作ってみたかったんですけど、
 思い余って、クレジットカードも連携させてみると、
 綺麗に情報取れているという...
 やはり利便性には敵いません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[ssh access to Koding]]></title><link href="/blog/2015/10/28/ssh-access-to-koding/"/><updated>2015-10-28T01:20:19+00:00</updated><id>/blog/2015/10/28/ssh-access-to-koding/</id><content type="html"><![CDATA[<p>Kodingなんですが、sshで繋げてログインすることが出来るんですね。
+]]></content></entry><entry><title type="html"><![CDATA[ssh access to Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/28/ssh-access-to-koding/"/><updated>2015-10-28T01:20:19+00:00</updated><id>/blog/2015/10/28/ssh-access-to-koding/</id><content type="html"><![CDATA[<p>Kodingなんですが、sshで繋げてログインすることが出来るんですね。
 びっくりポンです。</p>
 <ol>
 <li>~/.ssh/authorized_keys に手元のマシンのpublic keyを記述</li>
@@ -521,7 +521,7 @@ cordovaでハイブリッドアプリ作ってみたかったんですけど、
 <p>ちゃんと公式ドキュメントに書いてありました。<br  />
 <a href="http://learn.koding.com/guides/using-tmux-on-koding/">Using Tmux on Koding</a><br  />
 (一旦tmuxを全て終了させないと反映されません)</p>
-]]></content></entry><entry><title type="html"><![CDATA[AuthType None]]></title><link href="/blog/2015/10/27/authtype-none/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
+]]></content></entry><entry><title type="html"><![CDATA[AuthType None]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/authtype-none/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
 apacheにおけるBasic認証/Form認証等を
 子ディレクトリにおいては無効にしたい場合、
 .htaccessに、</p>
@@ -575,7 +575,7 @@ Internal Server Errorになってしまいます。</p>
 </span><span class='line'><span class="nb">Satisfy</span> <span class="k">All</span>
 </span></code></pre></td></tr></table></div></figure>
 <p>といった感じで解決しました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Koding]]></title><link href="/blog/2015/10/27/koding/"/><updated>2015-10-27T09:19:12+00:00</updated><id>/blog/2015/10/27/koding/</id><content type="html"><![CDATA[<p>今はコード書くのもブラウザでやるんですね。
+]]></content></entry><entry><title type="html"><![CDATA[Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/koding/"/><updated>2015-10-27T09:19:12+00:00</updated><id>/blog/2015/10/27/koding/</id><content type="html"><![CDATA[<p>今はコード書くのもブラウザでやるんですね。
 <a href="https://koding.com/">Koding</a>で開発環境が、shellまで含めて、ブラウザで完結するなんて。
 <a href="https://c9.io/">Cloud9</a>も試してみましたが、
 無料で使える範囲では、Kodingの方が良かったですぼくにとっては。</p>
@@ -590,7 +590,7 @@ Internal Server Errorになってしまいます。</p>
 かなり置いてけぼりを食らっている感じです。</p>
 <p>尚、この投稿は、Koding上で開いたworkspaceにgit cloneして環境を作り、付属のエディタで書いて、
 grainwして生成しています。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Zaim]]></title><link href="/blog/2015/10/27/zaim/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/27/zaim/</id><content type="html"><![CDATA[<p>最近、家計簿アプリ「<a href="http://zaim.net/">Zaim</a>」がマイブームです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Zaim]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/zaim/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/27/zaim/</id><content type="html"><![CDATA[<p>最近、家計簿アプリ「<a href="http://zaim.net/">Zaim</a>」がマイブームです。</p>
 <p>銀行口座連携くらいでは驚かなかったんですけど、
 OCRによる「レシート読み取り」がここまで出来るとは、
 思っていませんでした。
@@ -615,7 +615,7 @@ Zaim側が生パスワード、保持してないと出来ない仕組ですか�
 おかげで、溜まりに溜まっていたレシートを、
 うん百枚単位で片付けられました。
 でも、こういうのってスマホを持ってないと気付かないものですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Created my blog by Grain]]></title><link href="/blog/2015/10/26/created-my-blog-by-grain/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/26/created-my-blog-by-grain/</id><content type="html"><![CDATA[<h2>Blog、はじめました</h2>
+]]></content></entry><entry><title type="html"><![CDATA[Created my blog by Grain]]></title><link href="http://u-ryo.github.io//blog/2015/10/26/created-my-blog-by-grain/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2015/10/26/created-my-blog-by-grain/</id><content type="html"><![CDATA[<h2>Blog、はじめました</h2>
 <p>非常に遅まきながら、blogを作ってみました。</p>
 <p>きしださんの<a href="http://d.hatena.ne.jp/nowokay/20140225">2014-02-25(火) コミュニティに入るか入らないかでエンジニアとしての幸福度がかわる</a>を見まして、
 なるほどそうだなぁと思い、
@@ -700,7 +700,7 @@ SiteConfig.groovy の中身を適宜変更すれば良いです。</p>
 <li>記事ヘッダの「author:」で、文字列はシングルクォートないしダブルクオーテーションで囲む必要がある(groovyで処理するので、「文字列」にしておかないと後でエラーになります)</li>
 <li>emacsのバックアップファイル(拡張子の最後に「~」が付くもの)もblogファイルと見做されてしまうため、消す必要がある(また、書いている途中だと「.#〜」というロックファイルが出来るが、これがあるとプレビューが立ち上がらない)</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="/blog/2014/01/10/post-sample-with-code/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
 <h2>Example with line numbers:</h2>
 <h4>Code:</h4>
 <p>&#096;&#096;&#096;groovy HelloWorld.groovy<br>
@@ -718,7 +718,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <figure class='code'><figcaption><span>HelloWorld.groovy</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='groovy'><span class='line'><span class="n">println</span> <span class="s2">&quot;Hello, world!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="/blog/2014/01/10/gist-tag/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/gist-tag/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
