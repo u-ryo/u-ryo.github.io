@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/blog/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-10-27T08:26:47+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Disqus on this blog]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/"/><updated>2015-11-10T12:57:15+00:00</updated><id>/blog/2015/11/10/disqus-on-this-blog/</id><content type="html"><![CDATA[<p>当初、このblogにはコメント欄がありませんでした。
+<a href="http://disqus.com">Disqus</a>を使える、
+ということが他の人のblogを見てわかって、
+うちでもSiteConfig.groovyをよく見たら、
+<code>disqus</code>って項目、
+あるんですね。<code>short_name</code>を入れるんですが、
+Disqusに登録したのはちょっと前の事だったので、
+<code>short_name</code>って何の事なのか最初よくわかりませんでした。
+改めてDisqusに入って、Settings見て、漸く思い出しました。
+自分で入れたんですね最初に。</p>
+<p>しかし、<code>short_name</code>を設定しても、
+"We were unable to load Disqus."と言われて出てきませんでした。
+DisqusのSettingsでちゃんとURLやtrusted domain指定してるのに...
+随分悩みました。
+結局、SiteConfig.groovyで、
+environments → prod → url を指定してなかったのが、原因でした。
+Disqusは、「どのURLからのaccessか」をparameterから見てますから、
+ここがSetup → Basic → Site Identity → Website URL と一致してないと
+ならないんですね。</p>
+]]></content></entry></feed>
