@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Limitation of Koding - u-ryo's blog</title>
+  <title>Controlling Unity on ubuntu through CLI - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="/blog/2015/10/30/limitation-of-koding/">
+  <link rel="canonical" href="/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -80,16 +80,16 @@
 
   <header>
     
-      <h1 class="entry-title">Limitation of Koding</h1>
+      <h1 class="entry-title">Controlling Unity on Ubuntu Through CLI</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2015-10-30T04:59:00+00:00" pubdate data-updated=true>
-      <span class="month">Oct</span>
-      <span class="day">30</span>,
+    <time datetime="2015-11-10T00:29:00+00:00" pubdate data-updated=true>
+      <span class="month">Nov</span>
+      <span class="day">10</span>,
       <span class="year">2015</span>
     </time>
   
@@ -101,12 +101,50 @@
   </header>
 
 
-<div class="entry-content"><p>Kodingにも限界はあるんですね。
-無料ではVMが常時起動ではない、
-というのはendurableなんですが、
-workplaceが一つしか作れないとは。
-cordovaでハイブリッドアプリ作ってみたかったんですけど、
-続きはCloud9で頑張ってみます。</p>
+<div class="entry-content"><h3>Clock on the menu bar</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-date &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-day &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-seconds &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-year &quot;true&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>battery on the menu bar</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/indicator/power/show-time &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/power/show-percentage &quot;true&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>En on the menu bar</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/input-sources/current &quot;uint32 1&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>Wallpaper</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/background/picture-uri &quot;&#39;file:///usr/share/backgrounds/wallpaper_univcoop.jpg&#39;&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>The way to suppress other icons on the launcher</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/unity/launcher/favorites &quot;[&#39;application://firefox.desktop&#39;]&quot;
+</span><span class='line'>$ dconf read /com/canonical/unity/launcher/favorites
+</span></code></pre></td></tr></table></div></figure>
+<h3>forbidden hud</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/compiz/integrated/show-hud &quot;[&#39;disabled&#39;]&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>To suppress remote content search</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/unity/lenses/remote-content-search &quot;&#39;none&#39;&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>Supress auto-mount</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount &quot;&#39;false&#39;&quot;
+</span><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount-open &quot;&#39;false&#39;&quot;
+</span></code></pre></td></tr></table></div></figure>
 </div>
 
 </article>
@@ -123,10 +161,10 @@ cordovaでハイブリッドアプリ作ってみたかったんですけど、
 
 
 
-     <time datetime="2015-10-30T05:14:27+00:00" class="updated">
+     <time datetime="2015-11-10T00:46:04+00:00" class="updated">
        Updated
-       <span class="month">Oct</span>
-       <span class="day">30</span>,
+       <span class="month">Nov</span>
+       <span class="day">10</span>,
        <span class="year">2015</span>
      </time>
 
@@ -134,7 +172,11 @@ cordovaでハイブリッドアプリ作ってみたかったんですけど、
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/koding/">koding</a>
+     <a class="category" href="/categories/unity/">unity</a>
+  
+     <a class="category" href="/categories/ubuntu/">ubuntu</a>
+  
+     <a class="category" href="/categories/linux/">linux</a>
   
 </div>
 
@@ -143,7 +185,7 @@ cordovaでハイブリッドアプリ作ってみたかったんですけど、
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/10/30/limitation-of-koding/" data-via="" data-counturl="/blog/2015/10/30/limitation-of-koding/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/" data-via="" data-counturl="/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -156,10 +198,8 @@ cordovaでハイブリッドアプリ作ってみたかったんですけど、
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/10/30/too-many-open-files/" title="Previous Post: Too many open files">&laquo; Too Many Open Files</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/10/28/importing-csv-to-zaim/" title="Next Post: importing CSV to Zaim">Importing CSV to Zaim &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/11/09/freetel-samurai-miyabi-and-the-leather-cover-for-it/" title="Next Post: Freetel Samurai Miyabi and the leather cover for it">Freetel Samurai Miyabi and the Leather Cover for It &raquo;</a>
       
     </p>
   </footer>

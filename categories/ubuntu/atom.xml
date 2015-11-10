@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="/categories/ubuntu/atom.xml" rel="self"/><link href="/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Controlling Unity on ubuntu through CLI]]></title><link href="/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/"/><updated>2015-11-10T00:46:04+00:00</updated><id>/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/</id><content type="html"><![CDATA[<h3>Clock on the menu bar</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-date &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-day &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-seconds &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-year &quot;true&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>battery on the menu bar</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/indicator/power/show-time &quot;true&quot;
+</span><span class='line'>$ dconf write /com/canonical/indicator/power/show-percentage &quot;true&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>En on the menu bar</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/input-sources/current &quot;uint32 1&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>Wallpaper</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/background/picture-uri &quot;&#39;file:///usr/share/backgrounds/wallpaper_univcoop.jpg&#39;&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>The way to suppress other icons on the launcher</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/unity/launcher/favorites &quot;[&#39;application://firefox.desktop&#39;]&quot;
+</span><span class='line'>$ dconf read /com/canonical/unity/launcher/favorites
+</span></code></pre></td></tr></table></div></figure>
+<h3>forbidden hud</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/compiz/integrated/show-hud &quot;[&#39;disabled&#39;]&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>To suppress remote content search</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/unity/lenses/remote-content-search &quot;&#39;none&#39;&quot;
+</span></code></pre></td></tr></table></div></figure>
+<h3>Supress auto-mount</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount &quot;&#39;false&#39;&quot;
+</span><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount-open &quot;&#39;false&#39;&quot;
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry></feed>
