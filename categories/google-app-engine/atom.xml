@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/google-app-engine/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-10-27T08:26:47+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Codenvy for GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/11/codenvy-for-gae/"/><updated>2015-11-11T06:49:34+00:00</updated><id>/blog/2015/11/11/codenvy-for-gae/</id><content type="html"><![CDATA[<p><a href="http://codenvy.com">Codenvy</a>はGAEに直接deploy出来るからいい、
+って読んだんですけど(<a href="http://libro.tuyano.com/index3?id=912006">もうEclipseはいらない? codenvy IDEによるクラウド開発 (1/6)</a>)、
+じゃぁっていうんで使ってみたら、
+うーん、command lineが使えないので、
+JARなprojectとかうまく動かせない(buildしても成果物をどうやって取り出すのか、
+どうやってoptionつけて実行して試せるのか)感じでした。
+あと、月20時?しかtest起動、buildが出来ないみたいですね。</p>
+<p><a href="http://c9.io">Cloud9</a>ではGAE連携できないのかな、
+と調べてみると、GAEってgitでもdeploy出来るって?!
+へーと思ってGAEを見てみると、今は出来ないみたいですね...
+Google Cloud Consoleからソースの閲覧っていメニュー、
+無くなってます。
+まぁ、普通にcommand叩けば良いのかな? という感じです。</p>
+<p><a href="https://koding.com/">Koding</a>も、
+無料だと1プロジェクトしか作れませんが、
+どうせGitHubに置いておくので、
+とっかえひっかえすればいいのかなぁ。
+でも流石に面倒そうですよねぇ。</p>
+]]></content></entry></feed>

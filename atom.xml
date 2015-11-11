@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-10T12:57:15+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Disqus on this blog]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/"/><updated>2015-11-10T12:57:15+00:00</updated><id>/blog/2015/11/10/disqus-on-this-blog/</id><content type="html"><![CDATA[<p>当初、このblogにはコメント欄がありませんでした。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-11T06:49:34+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Codenvy for GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/11/codenvy-for-gae/"/><updated>2015-11-11T06:49:34+00:00</updated><id>/blog/2015/11/11/codenvy-for-gae/</id><content type="html"><![CDATA[<p><a href="http://codenvy.com">Codenvy</a>はGAEに直接deploy出来るからいい、
+って読んだんですけど(<a href="http://libro.tuyano.com/index3?id=912006">もうEclipseはいらない? codenvy IDEによるクラウド開発 (1/6)</a>)、
+じゃぁっていうんで使ってみたら、
+うーん、command lineが使えないので、
+JARなprojectとかうまく動かせない(buildしても成果物をどうやって取り出すのか、
+どうやってoptionつけて実行して試せるのか)感じでした。
+あと、月20時?しかtest起動、buildが出来ないみたいですね。</p>
+<p><a href="http://c9.io">Cloud9</a>ではGAE連携できないのかな、
+と調べてみると、GAEってgitでもdeploy出来るって?!
+へーと思ってGAEを見てみると、今は出来ないみたいですね...
+Google Cloud Consoleからソースの閲覧っていメニュー、
+無くなってます。
+まぁ、普通にcommand叩けば良いのかな? という感じです。</p>
+<p><a href="https://koding.com/">Koding</a>も、
+無料だと1プロジェクトしか作れませんが、
+どうせGitHubに置いておくので、
+とっかえひっかえすればいいのかなぁ。
+でも流石に面倒そうですよねぇ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Disqus on this blog]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/"/><updated>2015-11-10T12:57:15+00:00</updated><id>/blog/2015/11/10/disqus-on-this-blog/</id><content type="html"><![CDATA[<p>当初、このblogにはコメント欄がありませんでした。
 <a href="http://disqus.com">Disqus</a>を使える、
 ということが他の人のblogを見てわかって、
 うちでもSiteConfig.groovyをよく見たら、
@@ -719,22 +737,4 @@ SiteConfig.groovy の中身を適宜変更すれば良いです。</p>
 <li>記事ヘッダの「author:」で、文字列はシングルクォートないしダブルクオーテーションで囲む必要がある(groovyで処理するので、「文字列」にしておかないと後でエラーになります)</li>
 <li>emacsのバックアップファイル(拡張子の最後に「~」が付くもの)もblogファイルと見做されてしまうため、消す必要がある(また、書いている途中だと「.#〜」というロックファイルが出来るが、これがあるとプレビューが立ち上がらない)</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2015-10-27T08:26:47+00:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
-<h2>Example with line numbers:</h2>
-<h4>Code:</h4>
-<p>&#096;&#096;&#096;groovy HelloWorld.groovy<br>
-println "Hello, world!"<br>
-&#096;&#096;&#096;</p>
-<h4>Result:</h4>
-<figure class='code'><figcaption><span>HelloWorld.groovy</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">println</span> <span class="s2">&quot;Hello, world!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-<h2>Example without line numbers:</h2>
-<h4>Code:</h4>
-<p>&#096;&#096;&#096;groovy<strong>:nl</strong> HelloWorld.groovy<br>
-println "Hello, world!"<br>
-&#096;&#096;&#096;</p>
-<h4>Result:</h4>
-<figure class='code'><figcaption><span>HelloWorld.groovy</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='groovy'><span class='line'><span class="n">println</span> <span class="s2">&quot;Hello, world!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>

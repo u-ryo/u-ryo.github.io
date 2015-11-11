@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Secure Boot 3 (using signed grub in the official package) - u-ryo's blog</title>
+  <title>Codenvy for GAE - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="http://u-ryo.github.io//blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/">
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2015/11/11/codenvy-for-gae/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -80,16 +80,16 @@
 
   <header>
     
-      <h1 class="entry-title">Secure Boot 3 (using Signed Grub in the Official Package)</h1>
+      <h1 class="entry-title">Codenvy for GAE</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2015-11-05T06:27:00+00:00" pubdate data-updated=true>
+    <time datetime="2015-11-11T05:09:00+00:00" pubdate data-updated=true>
       <span class="month">Nov</span>
-      <span class="day">05</span>,
+      <span class="day">11</span>,
       <span class="year">2015</span>
     </time>
   
@@ -103,19 +103,24 @@
   </header>
 
 
-<div class="entry-content"><h3>ubuntu公式パッケージのsigned grubを使う方法</h3>
-<p>USBメモリに直接ubuntuをインストールするために、
-8GBのUSBメモリを用意しました。
-それさえあれば、至極簡単です。</p>
-<ol>
-<li>VirtualBox等で、USBメモリにubuntuを入れる(そのままだと2GBスワップになるので、適宜調整。インストール後は4GB程の使用量なので、最初から5GB程でもよいかも。VMをEFIにしておくのを忘れないように。あと先頭にvfat32のEFI用パーティションを)</li>
-<li>リブートした後、<code>/etc/efi/ubuntu/</code>を<code>/etc/efi/BOOT</code>にリネーム</li>
-<li><code>linux-signed-image-generic</code>も<code>grub2-efi-amd86-signed</code>も入っているので、
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cp -rpi /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed /etc/efi/BOOT/BOOTx64.EFI
-</span></code></pre></td></tr></table></div></figure></li>
-<li>これでSecure BootなPCに挿してリブート</li>
-</ol>
+<div class="entry-content"><p><a href="http://codenvy.com">Codenvy</a>はGAEに直接deploy出来るからいい、
+って読んだんですけど(<a href="http://libro.tuyano.com/index3?id=912006">もうEclipseはいらない? codenvy IDEによるクラウド開発 (1/6)</a>)、
+じゃぁっていうんで使ってみたら、
+うーん、command lineが使えないので、
+JARなprojectとかうまく動かせない(buildしても成果物をどうやって取り出すのか、
+どうやってoptionつけて実行して試せるのか)感じでした。
+あと、月20時?しかtest起動、buildが出来ないみたいですね。</p>
+<p><a href="http://c9.io">Cloud9</a>ではGAE連携できないのかな、
+と調べてみると、GAEってgitでもdeploy出来るって?!
+へーと思ってGAEを見てみると、今は出来ないみたいですね...
+Google Cloud Consoleからソースの閲覧っていメニュー、
+無くなってます。
+まぁ、普通にcommand叩けば良いのかな? という感じです。</p>
+<p><a href="https://koding.com/">Koding</a>も、
+無料だと1プロジェクトしか作れませんが、
+どうせGitHubに置いておくので、
+とっかえひっかえすればいいのかなぁ。
+でも流石に面倒そうですよねぇ。</p>
 </div>
 
 </article>
@@ -132,10 +137,10 @@
 
 
 
-     <time datetime="2015-11-06T00:36:50+00:00" class="updated">
+     <time datetime="2015-11-11T06:49:34+00:00" class="updated">
        Updated
        <span class="month">Nov</span>
-       <span class="day">06</span>,
+       <span class="day">11</span>,
        <span class="year">2015</span>
      </time>
 
@@ -143,11 +148,11 @@
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/linux/">linux</a>
+     <a class="category" href="/categories/cloud-ide/">cloud ide</a>
   
-     <a class="category" href="/categories/secure-boot/">secure boot</a>
+     <a class="category" href="/categories/gae/">gae</a>
   
-     <a class="category" href="/categories/grub/">grub</a>
+     <a class="category" href="/categories/google-app-engine/">google app engine</a>
   
 </div>
 
@@ -156,7 +161,7 @@
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/" data-via="" data-counturl="/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/11/codenvy-for-gae/" data-via="" data-counturl="/blog/2015/11/11/codenvy-for-gae/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -169,10 +174,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/11/06/freenom-free-dns-registrar/" title="Previous Post: freenom (free DNS Registrar)">&laquo; Freenom (free DNS Registrar)</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/" title="Next Post: Secure Boot 2 (using self-signed cert)">Secure Boot 2 (using Self-signed Cert) &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/11/10/disqus-on-this-blog/" title="Next Post: Disqus on this blog">Disqus on This Blog &raquo;</a>
       
     </p>
   </footer>
@@ -277,8 +280,8 @@
   
     // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
     // var disqus_developer = 1;
-    var disqus_identifier = "http://u-ryo.github.io//blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/";
-    var disqus_url = "http://u-ryo.github.io//blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/";
+    var disqus_identifier = "http://u-ryo.github.io//blog/2015/11/11/codenvy-for-gae/";
+    var disqus_url = "http://u-ryo.github.io//blog/2015/11/11/codenvy-for-gae/";
     var disqus_script = 'embed.js';
   
   (function () {
