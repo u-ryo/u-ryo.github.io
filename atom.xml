@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T13:19:24+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2015-11-12T13:19:24+00:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T13:35:04+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2015-11-12T13:35:04+00:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
 markdown-modeが欲しいと思ったので、
 <code>list-package</code>したら、
 なかったんですね選択肢に。
@@ -14,13 +14,34 @@ markdown-modeが欲しいと思ったので、
 </span></code></pre></td></tr></table></div></figure>
 <p>が必要でした。</p>
 <p>cf.<a href="http://qiita.com/catatsuy/items/5f1cd86e2522fd3384a0">init-loader.el と package.el を導入して快適 Emacs ライフ</a></p>
-<p>あ、あと、emacsで書いてpreviewだけ別にしたいな、
+<h3>Preview</h3>
+<p>あと、emacsで書いてpreviewだけ別にしたいな、
 と思ったぼくには、
 Chromeの<a href="https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl">Markdown Preview Plus</a>
 extentionが便利でした。
 install後、
 Manage extentionsで「Allow access to file URLs」にチェックを入れないとならない、
 というのがハマりポイントでした。</p>
+<h3>PDFへの変換</h3>
+<p><a href="https://gist.github.com/bouzuya/5989695">Pandoc で Markdown から PDF へ変換</a>にある通り、
+apt-getで入るpandocを使えば楽かなぁと。
+header.texが必要というのがtrickyですね。
+これもLuaLaTeXで変換出来ました。</p>
+<p>header.tex</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>\usepackage{luatexja}
+</span><span class='line'>\setmainfont{TakaoPMincho}
+</span><span class='line'>\setsansfont{TakaoPGothic}
+</span><span class='line'>\setmonofont{TakaoGothic}
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ pandoc --latex-engine=lualatex -o /tmp/test.pdf -H ~/header.tex /tmp/test.md
+</span></code></pre></td></tr></table></div></figure>
+<h3>Table</h3>
+<p><a href="http://www.tablesgenerator.com/markdown_tables">Table Generator</a>というのがあります。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[LuaLaTeX]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/lualatex/"/><updated>2015-11-12T12:36:56+00:00</updated><id>/blog/2015/11/12/lualatex/</id><content type="html"><![CDATA[<p>表題の通り、LaTeXをよく使っています。
 pLaTeXが長かったので、
 LuaLaTeXについてのメモ書きです。

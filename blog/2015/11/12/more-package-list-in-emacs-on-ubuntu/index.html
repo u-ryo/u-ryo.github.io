@@ -119,13 +119,34 @@ markdown-modeが欲しいと思ったので、
 </span></code></pre></td></tr></table></div></figure>
 <p>が必要でした。</p>
 <p>cf.<a href="http://qiita.com/catatsuy/items/5f1cd86e2522fd3384a0">init-loader.el と package.el を導入して快適 Emacs ライフ</a></p>
-<p>あ、あと、emacsで書いてpreviewだけ別にしたいな、
+<h3>Preview</h3>
+<p>あと、emacsで書いてpreviewだけ別にしたいな、
 と思ったぼくには、
 Chromeの<a href="https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl">Markdown Preview Plus</a>
 extentionが便利でした。
 install後、
 Manage extentionsで「Allow access to file URLs」にチェックを入れないとならない、
 というのがハマりポイントでした。</p>
+<h3>PDFへの変換</h3>
+<p><a href="https://gist.github.com/bouzuya/5989695">Pandoc で Markdown から PDF へ変換</a>にある通り、
+apt-getで入るpandocを使えば楽かなぁと。
+header.texが必要というのがtrickyですね。
+これもLuaLaTeXで変換出来ました。</p>
+<p>header.tex</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>\usepackage{luatexja}
+</span><span class='line'>\setmainfont{TakaoPMincho}
+</span><span class='line'>\setsansfont{TakaoPGothic}
+</span><span class='line'>\setmonofont{TakaoGothic}
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ pandoc --latex-engine=lualatex -o /tmp/test.pdf -H ~/header.tex /tmp/test.md
+</span></code></pre></td></tr></table></div></figure>
+<h3>Table</h3>
+<p><a href="http://www.tablesgenerator.com/markdown_tables">Table Generator</a>というのがあります。</p>
 </div>
 
 </article>
@@ -142,7 +163,7 @@ Manage extentionsで「Allow access to file URLs」にチェックを入れな�
 
 
 
-     <time datetime="2015-11-12T13:19:24+00:00" class="updated">
+     <time datetime="2015-11-12T13:35:04+00:00" class="updated">
        Updated
        <span class="month">Nov</span>
        <span class="day">12</span>,
