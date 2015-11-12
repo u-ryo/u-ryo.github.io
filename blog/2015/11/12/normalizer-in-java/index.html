@@ -119,16 +119,18 @@
 </ul>
 <p>Canonical Equivalent(正準等価性)が「か+゛」=「が」
 Compatibility Equivalent(互換等価性)が「ｶ」=「カ」
-なので、
-「Canonical Decomposition」(正準分解)を「「が」→「か+゛」にすること」
-「Canonical Composition」(正準合成)を「「か+゛」→「が」にすること」
-「Compatibility Composition」(互換合成)を「「ｶ」を「カ」とすること」
-と読めばいいのでは?
-だから例えば、「NFKC」は、
+なので、</p>
+<ul>
+<li>「Canonical Decomposition」(正準分解)を「「が」→「か+゛」にすること」</li>
+<li>「Canonical Composition」(正準合成)を「「か+゛」→「が」にすること」</li>
+<li>「Compatibility Composition」(互換合成)を「「ｶ」を「カ」とすること」</li>
+</ul>
+<p>と読めばいいのでは?</p>
+<p>だから例えば、「NFKC」は、
 「「ｶ」を「カ」としてから「か+゛」→「が」にすること」</p>
 <p>気を付けたいのは、「Compatibility Composition」というのはない! ということですね。
 だからよく読むと、各所にある日本語の解説は怪しいかも、です。</p>
-<p><a href="http://tech.albert2005.co.jp/blog/2014/11/21/mco-normalize/">文字コード地獄秘話 第3話：後戻りの効かないUnicode正規化</a>が良く解説されています。</p>
+<p><a href="http://tech.albert2005.co.jp/blog/2014/11/21/mco-normalize/">文字コード地獄秘話 第3話：後戻りの効かないUnicode正規化</a>の解説が良さげです。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -145,9 +147,9 @@ Compatibility Equivalent(互換等価性)が「ｶ」=「カ」
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="kn">import</span> <span class="nn">java.text.*</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="kn">import</span> <span class="nn">java.text.*</span>
 </span><span class='line'><span class="o">===&gt;</span> <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.*</span>
-</span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;ç¥ã¨ï¨ãã²Â¼ã&quot;</span>
+</span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">str</span> <span class="o">=</span> <span class="s">&quot;ç¥ã¨ï¨ãã²Â¼ã&quot;</span>
 </span><span class='line'><span class="o">===&gt;</span> <span class="err">ç¥ã¨ï¨ãã²Â¼ã</span>
 </span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">Normalizer</span><span class="o">.</span><span class="na">normalize</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="n">Normalizer</span><span class="o">.</span><span class="na">Form</span><span class="o">.</span><span class="na">NFD</span><span class="o">))</span>
 </span><span class='line'><span class="err">ç¥ã¨ç¥ãã²Â¼ã</span>
@@ -178,7 +180,7 @@ Compatibility Equivalent(互換等価性)が「ｶ」=「カ」
 
 
 
-     <time datetime="2015-11-12T02:42:31+00:00" class="updated">
+     <time datetime="2015-11-12T03:03:09+00:00" class="updated">
        Updated
        <span class="month">Nov</span>
        <span class="day">12</span>,
