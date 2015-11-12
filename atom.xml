@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T13:14:10+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2015-11-12T13:14:10+00:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T13:19:24+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2015-11-12T13:19:24+00:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
 markdown-modeが欲しいと思ったので、
 <code>list-package</code>したら、
 なかったんですね選択肢に。
@@ -13,7 +13,14 @@ markdown-modeが欲しいと思ったので、
 </span><span class='line'>(package-initialize)
 </span></code></pre></td></tr></table></div></figure>
 <p>が必要でした。</p>
-<p>cf.<a href="">init-loader.el と package.el を導入して快適 Emacs ライフ</a></p>
+<p>cf.<a href="http://qiita.com/catatsuy/items/5f1cd86e2522fd3384a0">init-loader.el と package.el を導入して快適 Emacs ライフ</a></p>
+<p>あ、あと、emacsで書いてpreviewだけ別にしたいな、
+と思ったぼくには、
+Chromeの<a href="https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl">Markdown Preview Plus</a>
+extentionが便利でした。
+install後、
+Manage extentionsで「Allow access to file URLs」にチェックを入れないとならない、
+というのがハマりポイントでした。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[LuaLaTeX]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/lualatex/"/><updated>2015-11-12T12:36:56+00:00</updated><id>/blog/2015/11/12/lualatex/</id><content type="html"><![CDATA[<p>表題の通り、LaTeXをよく使っています。
 pLaTeXが長かったので、
 LuaLaTeXについてのメモ書きです。
