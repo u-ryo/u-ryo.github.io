@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T12:36:56+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[LuaLaTeX]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/lualatex/"/><updated>2015-11-12T12:36:56+00:00</updated><id>/blog/2015/11/12/lualatex/</id><content type="html"><![CDATA[<p>表題の通り、LaTeXをよく使っています。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T13:14:10+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2015-11-12T13:14:10+00:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
+markdown-modeが欲しいと思ったので、
+<code>list-package</code>したら、
+なかったんですね選択肢に。
+調べると、<code>.emacs</code>に、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>(require &#39;package)
+</span><span class='line'>(add-to-list &#39;package-archives &#39;(&quot;melpa&quot; . &quot;http://melpa.milkbox.net/packages/&quot;))
+</span><span class='line'>(add-to-list &#39;package-archives &#39;(&quot;marmalade&quot; . &quot;http://marmalade-repo.org/packages/&quot;))
+</span><span class='line'>(package-initialize)
+</span></code></pre></td></tr></table></div></figure>
+<p>が必要でした。</p>
+<p>cf.<a href="">init-loader.el と package.el を導入して快適 Emacs ライフ</a></p>
+]]></content></entry><entry><title type="html"><![CDATA[LuaLaTeX]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/lualatex/"/><updated>2015-11-12T12:36:56+00:00</updated><id>/blog/2015/11/12/lualatex/</id><content type="html"><![CDATA[<p>表題の通り、LaTeXをよく使っています。
 pLaTeXが長かったので、
 LuaLaTeXについてのメモ書きです。
 例によって、ちょっと調べればいくらでも出てますけど。</p>
@@ -688,19 +704,4 @@ Internal Server Errorになってしまいます。</p>
 </span><span class='line'><span class="nb">Satisfy</span> <span class="k">All</span>
 </span></code></pre></td></tr></table></div></figure>
 <p>といった感じで解決しました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/koding/"/><updated>2015-11-12T00:45:57+00:00</updated><id>/blog/2015/10/27/koding/</id><content type="html"><![CDATA[<p>今はコード書くのもブラウザでやるんですね。
-<a href="https://koding.com/">Koding</a>で開発環境が、shellまで含めて、ブラウザで完結するなんて。
-<a href="https://c9.io/">Cloud9</a>も試してみましたが、
-無料で使える範囲では、Kodingの方が良かったですぼくにとっては。</p>
-<ul>
-<li>メモリが1GB(Cloud9では512MB)</li>
-<li>ディスク容量も若干多い(Cloud9は1GB)</li>
-<li>Grainを動かしてみたんですが、どちらでもOutOfMemoryErrorになったものの、Kodingではswapon出来た(Cloud9ではnot permittedと言われる)</li>
-</ul>
-<p>なるほど、これでChromebookでもバリバリ開発が出来るわけですか。
-今や、ブラウザ上で画像編集や動画編集まで出来るとは。
-(<a href="http://yukan-news.ameba.jp/20141113-17/">Chromebook購入後に、究極のPCへ変貌させるWebサービスたちが完璧過ぎ！</a>)
-かなり置いてけぼりを食らっている感じです。</p>
-<p>尚、この投稿は、Koding上で開いたworkspaceにgit cloneして環境を作り、付属のエディタで書いて、
-grainwして生成しています。</p>
 ]]></content></entry></feed>
