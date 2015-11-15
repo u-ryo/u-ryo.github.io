@@ -1,4 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T13:52:50+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2015-11-12T13:52:50+00:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-15T06:36:11+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[set my postfix able to send over OP25B(Outbound Port 25 Blocking) using Mailgun]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/"/><updated>2015-11-15T06:36:11+00:00</updated><id>/blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/</id><content type="html"><![CDATA[<p>OP25Bが始まってから、ってもう大分前のことですが、
+自前でmailを送るのは諦めて、
+GMailを経由して送ってました。
+でも、GMailを経由すると、
+Fromが強制的に自分のaccountになっちゃうんですよね。
+だから、例えば自前serverで定義したMLも、
+上手く機能しなくなっちゃいました。
+もうそういうのは自前でやる時代じゃないのかな、
+と諦観してたんですけど、
+<a href="http://mailgun.com">Mailgun</a>を使えばspfとかcleanにして外に出してくれるんですね。
+今頃になって知ったので、試してみました。</p>
+<p>cf.
+* <a href="http://mjhd.hatenablog.com/entry/defeat-ob25p-with-mailgun">Mailgunを使ってOB25P対策(postfix)</a>
+* <a href="https://community.rackspace.com/products/f/28/t/63">Postfix SMTP relay setup for Sendgrid/Mailgun</a>
+* <a href="https://documentation.mailgun.com/quickstart-receiving.html#how-to-start-receiving-inbound-email">How to start receiving inbound email</a></p>
+<h3>自分でちょっとハマったところ</h3>
+<ol>
+<li>postfixのmain.cfで、<code>relayhost = [smtp.mailgun.net]:587</code>
+と[]で囲う必要があった事(でも囲わなくても行けるみたいですよ
+<code>/etc/postfix/password</code>の方でも囲わなければ)</li>
+<li>MyDNSにおいて、spfを指定する場合には、Hostに<code>_spf</code>と入れなければならないこと
+(MyDNSのlocal ruleでした)</li>
+<li>DKIM(domainkey)の指定がなかなか反映されなかったようであること
+(その他の項目は全て反映されてたし、
+<code>$ host -t txt ...</code>で引くと見えてたので、大丈夫だろうと思ってたんですが、
+そうでもなかったようです。
+小一時間待ったら、認識されました。
+ここが通らないとVerifiedにならず、使えないので、途方に暮れかけました)</li>
+<li>受信の設定はroutesなるものを設定しないとならないこと
+(MXを直接自前serverに向ければいいんですが、
+mailgunで受信するにはどうしたらいいんだろう?
+と思っていると、そういうこと[=routesを設定する必要がある]だったんですね)
+自分は、GMailにforwardするようにしました。
+そうすればGMail見てるだけで済みますので。</li>
+</ol>
+<p>久し振りに自前serverのmail logを見たら、
+中国からのbrute force attackがずっと続いていたことがわかりました。
+嫌なので、mail serverは落として、
+GMailへのforwardingにすることにしました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2015-11-12T13:52:50+00:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
 markdown-modeが欲しいと思ったので、
 <code>list-package</code>したら、
 なかったんですね選択肢に。
@@ -693,58 +732,4 @@ cordovaでハイブリッドアプリ作ってみたかったんですけど、
 <p>ちゃんと公式ドキュメントに書いてありました。<br  />
 <a href="http://learn.koding.com/guides/using-tmux-on-koding/">Using Tmux on Koding</a><br  />
 (一旦tmuxを全て終了させないと反映されません)</p>
-]]></content></entry><entry><title type="html"><![CDATA[AuthType None]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/authtype-none/"/><updated>2015-11-12T00:45:57+00:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
-apacheにおけるBasic認証/Form認証等を
-子ディレクトリにおいては無効にしたい場合、
-.htaccessに、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">Satisfy</span> <span class="k">Any</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>と書けば良い、という説が諸所にあったのですが、
-ちゃんとキャンセルするには、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> <span class="k">None</span>
-</span><span class='line'><span class="nb">Require</span> <span class="k">all</span> granted
-</span></code></pre></td></tr></table></div></figure>
-<p>とすべき、みたいです。
-「AuthType None」だけだと、
-「No authentication done but request not allowed
-without authentication for /~u-ryo/test/test/.
-Authentication not configured?」と言われて500
-Internal Server Errorになってしまいます。</p>
-<p>親ディレクトリではIP制限とBasic認証を同時にかけて、
-子ディレクトリではIP制限だけ、
-且つBasic認証のポップアップは出ないように
-(IP制限で弾かれれば即403)、
-という要件だったので、</p>
-<h3>親</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> Basic
-</span><span class='line'><span class="nb">AuthName</span> test
-</span><span class='line'><span class="nb">AuthUserFile</span> password.txt
-</span><span class='line'><span class="nb">require</span> valid-user
-</span><span class='line'><span class="nb">Allow</span> from <span class="m">127.0.0.1</span>
-</span><span class='line'><span class="nb">Satisfy</span> <span class="k">Any</span>
-</span></code></pre></td></tr></table></div></figure>
-<h3>子</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">AuthType</span> <span class="k">None</span>
-</span><span class='line'><span class="nb">Require</span> <span class="k">all</span> granted
-</span><span class='line'><span class="nb">Order</span> deny,allow
-</span><span class='line'><span class="nb">Allow</span> from <span class="m">127.0.0.1</span>
-</span><span class='line'><span class="nb">Deny</span> from <span class="k">all</span>
-</span><span class='line'><span class="nb">Satisfy</span> <span class="k">All</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>といった感じで解決しました。</p>
 ]]></content></entry></feed>

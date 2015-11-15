@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/postfix/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T00:45:57+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[set my postfix able to send over OP25B(Outbound Port 25 Blocking) using Mailgun]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/"/><updated>2015-11-15T06:36:11+00:00</updated><id>/blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/</id><content type="html"><![CDATA[<p>OP25Bが始まってから、ってもう大分前のことですが、
+自前でmailを送るのは諦めて、
+GMailを経由して送ってました。
+でも、GMailを経由すると、
+Fromが強制的に自分のaccountになっちゃうんですよね。
+だから、例えば自前serverで定義したMLも、
+上手く機能しなくなっちゃいました。
+もうそういうのは自前でやる時代じゃないのかな、
+と諦観してたんですけど、
+<a href="http://mailgun.com">Mailgun</a>を使えばspfとかcleanにして外に出してくれるんですね。
+今頃になって知ったので、試してみました。</p>
+<p>cf.
+* <a href="http://mjhd.hatenablog.com/entry/defeat-ob25p-with-mailgun">Mailgunを使ってOB25P対策(postfix)</a>
+* <a href="https://community.rackspace.com/products/f/28/t/63">Postfix SMTP relay setup for Sendgrid/Mailgun</a>
+* <a href="https://documentation.mailgun.com/quickstart-receiving.html#how-to-start-receiving-inbound-email">How to start receiving inbound email</a></p>
+<h3>自分でちょっとハマったところ</h3>
+<ol>
+<li>postfixのmain.cfで、<code>relayhost = [smtp.mailgun.net]:587</code>
+と[]で囲う必要があった事(でも囲わなくても行けるみたいですよ
+<code>/etc/postfix/password</code>の方でも囲わなければ)</li>
+<li>MyDNSにおいて、spfを指定する場合には、Hostに<code>_spf</code>と入れなければならないこと
+(MyDNSのlocal ruleでした)</li>
+<li>DKIM(domainkey)の指定がなかなか反映されなかったようであること
+(その他の項目は全て反映されてたし、
+<code>$ host -t txt ...</code>で引くと見えてたので、大丈夫だろうと思ってたんですが、
+そうでもなかったようです。
+小一時間待ったら、認識されました。
+ここが通らないとVerifiedにならず、使えないので、途方に暮れかけました)</li>
+<li>受信の設定はroutesなるものを設定しないとならないこと
+(MXを直接自前serverに向ければいいんですが、
+mailgunで受信するにはどうしたらいいんだろう?
+と思っていると、そういうこと[=routesを設定する必要がある]だったんですね)
+自分は、GMailにforwardするようにしました。
+そうすればGMail見てるだけで済みますので。</li>
+</ol>
+<p>久し振りに自前serverのmail logを見たら、
+中国からのbrute force attackがずっと続いていたことがわかりました。
+嫌なので、mail serverは落として、
+GMailへのforwardingにすることにしました。</p>
+]]></content></entry></feed>
