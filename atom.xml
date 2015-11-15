@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-15T06:36:11+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[set my postfix able to send over OP25B(Outbound Port 25 Blocking) using Mailgun]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/"/><updated>2015-11-15T06:36:11+00:00</updated><id>/blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/</id><content type="html"><![CDATA[<p>OP25Bが始まってから、ってもう大分前のことですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-15T06:38:34+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[set my postfix able to send over OP25B(Outbound Port 25 Blocking) using Mailgun]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/"/><updated>2015-11-15T06:38:34+00:00</updated><id>/blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/</id><content type="html"><![CDATA[<p>OP25Bが始まってから、ってもう大分前のことですが、
 自前でmailを送るのは諦めて、
 GMailを経由して送ってました。
 でも、GMailを経由すると、
@@ -9,10 +9,12 @@ Fromが強制的に自分のaccountになっちゃうんですよね。
 と諦観してたんですけど、
 <a href="http://mailgun.com">Mailgun</a>を使えばspfとかcleanにして外に出してくれるんですね。
 今頃になって知ったので、試してみました。</p>
-<p>cf.
-* <a href="http://mjhd.hatenablog.com/entry/defeat-ob25p-with-mailgun">Mailgunを使ってOB25P対策(postfix)</a>
-* <a href="https://community.rackspace.com/products/f/28/t/63">Postfix SMTP relay setup for Sendgrid/Mailgun</a>
-* <a href="https://documentation.mailgun.com/quickstart-receiving.html#how-to-start-receiving-inbound-email">How to start receiving inbound email</a></p>
+<h3>cf.</h3>
+<ul>
+<li><a href="http://mjhd.hatenablog.com/entry/defeat-ob25p-with-mailgun">Mailgunを使ってOB25P対策(postfix)</a></li>
+<li><a href="https://community.rackspace.com/products/f/28/t/63">Postfix SMTP relay setup for Sendgrid/Mailgun</a></li>
+<li><a href="https://documentation.mailgun.com/quickstart-receiving.html#how-to-start-receiving-inbound-email">How to start receiving inbound email</a></li>
+</ul>
 <h3>自分でちょっとハマったところ</h3>
 <ol>
 <li>postfixのmain.cfで、<code>relayhost = [smtp.mailgun.net]:587</code>
