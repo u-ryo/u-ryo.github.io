@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-17T14:10:47+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Deploying to GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/17/deploying-to-gae/"/><updated>2015-11-17T14:10:47+00:00</updated><id>/blog/2015/11/17/deploying-to-gae/</id><content type="html"><![CDATA[<p>いやぁ、こんなに大変だとは。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-12-17T15:39:49+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Beethoven Comic]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/beethoven-comic/"/><updated>2015-12-17T15:39:49+00:00</updated><id>/blog/2015/12/17/beethoven-comic/</id><content type="html"><![CDATA[<p>昨日のDoodleがBeethovenのmini gameだったので、
+ついそのまま検索していたら、
+<a href="http://naxos.jp/special/no_unmei">ベートーヴェン4コマ劇場「運命と呼ばないで」</a>
+というのを見付けました。
+これ面白い! デス。
+部屋汚い、(時々間違える?など)演奏が雑、でも情熱的、
+ってのだめじゃーん。
+でも天才ってそうなんでしょうね。
+オヤジギャグとかいいなー。貧乏は嫌ですが。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Deploying to GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/17/deploying-to-gae/"/><updated>2015-11-17T14:10:47+00:00</updated><id>/blog/2015/11/17/deploying-to-gae/</id><content type="html"><![CDATA[<p>いやぁ、こんなに大変だとは。
 web applicationをGAEにdeployするのって。
 既に何度も過去にはやっているんですが、
 久し振りにやると、なかなか上手く行かないです。</p>
@@ -739,10 +748,4 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 <li>増やすには、/etc/init.d/tomcat7 で<code>ulimit -n 8192</code>等と追記してrestart</li>
 <li><code>$ cat /proc/プロセス番号/limits</code>で確認</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Limitation of Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/limitation-of-koding/"/><updated>2015-11-12T00:45:57+00:00</updated><id>/blog/2015/10/30/limitation-of-koding/</id><content type="html"><![CDATA[<p>Kodingにも限界はあるんですね。
-無料ではVMが常時起動ではない、
-というのはendurableなんですが、
-workplaceが一つしか作れないとは。
-cordovaでハイブリッドアプリ作ってみたかったんですけど、
-続きはCloud9で頑張ってみます。</p>
 ]]></content></entry></feed>
