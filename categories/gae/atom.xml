@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/gae/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T00:45:57+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Deploying to GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/17/deploying-to-gae/"/><updated>2015-11-17T14:10:47+00:00</updated><id>/blog/2015/11/17/deploying-to-gae/</id><content type="html"><![CDATA[<p>いやぁ、こんなに大変だとは。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/gae/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Deploying to GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/17/deploying-to-gae/"/><updated>2015-11-17T23:10:47+09:00</updated><id>/blog/2015/11/17/deploying-to-gae/</id><content type="html"><![CDATA[<p>いやぁ、こんなに大変だとは。
 web applicationをGAEにdeployするのって。
 既に何度も過去にはやっているんですが、
 久し振りにやると、なかなか上手く行かないです。</p>
@@ -22,7 +22,7 @@ buildかけると読んではくれてるんですが、
 Java8未対応ですし無料分では。</p>
 <p>結局、<code>~/.appcfg_oauth2_tokens_java</code>を消したら上手くOAuth再取得してくれました。
 やれやれ、です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Codenvy for GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/11/codenvy-for-gae/"/><updated>2015-11-12T00:45:57+00:00</updated><id>/blog/2015/11/11/codenvy-for-gae/</id><content type="html"><![CDATA[<p><a href="http://codenvy.com">Codenvy</a>はGAEに直接deploy出来るからいい、
+]]></content></entry><entry><title type="html"><![CDATA[Codenvy for GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/11/codenvy-for-gae/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/11/11/codenvy-for-gae/</id><content type="html"><![CDATA[<p><a href="http://codenvy.com">Codenvy</a>はGAEに直接deploy出来るからいい、
 って読んだんですけど(<a href="http://libro.tuyano.com/index3?id=912006">もうEclipseはいらない? codenvy IDEによるクラウド開発 (1/6)</a>)、
 じゃぁっていうんで使ってみたら、
 うーん、command lineが使えないので、

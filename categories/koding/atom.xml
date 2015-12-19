@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/koding/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T00:45:57+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Limitation of Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/limitation-of-koding/"/><updated>2015-11-12T00:45:57+00:00</updated><id>/blog/2015/10/30/limitation-of-koding/</id><content type="html"><![CDATA[<p>Kodingにも限界はあるんですね。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/koding/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Limitation of Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/limitation-of-koding/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/10/30/limitation-of-koding/</id><content type="html"><![CDATA[<p>Kodingにも限界はあるんですね。
 無料ではVMが常時起動ではない、
 というのはendurableなんですが、
 workplaceが一つしか作れないとは。
 cordovaでハイブリッドアプリ作ってみたかったんですけど、
 続きはCloud9で頑張ってみます。</p>
-]]></content></entry><entry><title type="html"><![CDATA[ssh access to Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/28/ssh-access-to-koding/"/><updated>2015-11-12T00:45:57+00:00</updated><id>/blog/2015/10/28/ssh-access-to-koding/</id><content type="html"><![CDATA[<p>Kodingなんですが、sshで繋げてログインすることが出来るんですね。
+]]></content></entry><entry><title type="html"><![CDATA[ssh access to Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/28/ssh-access-to-koding/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/10/28/ssh-access-to-koding/</id><content type="html"><![CDATA[<p>Kodingなんですが、sshで繋げてログインすることが出来るんですね。
 びっくりポンです。</p>
 <ol>
 <li>~/.ssh/authorized_keys に手元のマシンのpublic keyを記述</li>
