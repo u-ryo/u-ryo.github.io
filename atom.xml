@@ -1,4 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-12-19T23:43:07+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2015-12-19T23:43:07+09:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-01-06T00:16:37+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[rename files]]></title><link href="http://u-ryo.github.io//blog/2016/01/05/rename-files/"/><updated>2016-01-06T00:16:37+09:00</updated><id>/blog/2016/01/05/rename-files/</id><content type="html"><![CDATA[<h2>ファイル名一括置換</h2>
+<h3>「rename」を使えばよいとのことだったので、</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ rename &#39;IMG_&#39; &#39;img_0&#39; ~/photo/20151227/*.JPG
+</span></code></pre></td></tr></table></div></figure>
+<p>しかし、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Bareword &quot;IMG_&quot; not allowed while &quot;strict subs&quot; in use at (eval 1) line 1.                                                                                      âÂ·Â·Â·Â·Â·Â·Â·Â·Â·
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われて動かなかったので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>find /home/u-ryo/photo/20151227/ -name &quot;IMG_*.JPG&quot;|sed &#39;p;s|IMG_\([0-9][0-9][0-9][0-9]\).JPG|img_0\1.jpg|g&#39;|xargs -n2 mv
+</span></code></pre></td></tr></table></div></figure>
+<p>とすれば動いた。</p>
+]]></content></entry><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2015-12-19T23:46:53+09:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
 某A空輸の次期予約サイトのMonkey Testをやらされているんですが、
 screen shotとかuploadするのに、何故か20kbという制限があります。
 そんなの、Gimpとかフリーソフト使えば簡単なんですが、
@@ -36,6 +50,7 @@ rubyはrmagicを使えるらしいということで、やりました。</p>
 <ol>
 <li><a href="https://gist.github.com/konitter/5370904">Heroku導入メモ</a></li>
 <li><a href="git://github.com/heroku/ruby-sample.git">ruby sample</a></li>
+<li>あと<code>$ build</code>?</li>
 </ol>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -841,17 +856,4 @@ ubuntuには、Linux-signed-imageとかgrub-efi-amd64-signedとかっていう
 後者は、かなり面倒そうです。Micro$osftに署名してもらうにはお金かかりそうですし、
 自分で署名してそのキーをMOK?を使って云々という手法は、
 まだ読み込んでません...</p>
-]]></content></entry><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
-「壁紙を変えたい」と言われました。
-デフォルト「wallpaperはon」と書いてありますけれども、
-明示的に「+wallpaper」としないと、効かないようです。</p>
-<p>また、「画面が時々ちらつく」と言われました。
-どうやら、頻繁にreconnectが生じているための様子。
-パケットキャプチャすると、
-2秒おきにTCP Keepaliveを出していて、その後、
-クライアント側からTCP RST ACKを出しているようです。
-なぜ?
-ともあれ、「+heartbeat」を指定すると、
-頻繁なreconnectはおさまりました。
-「-heartbeat」でも効果あったんですが、なぜ?</p>
 ]]></content></entry></feed>
