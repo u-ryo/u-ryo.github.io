@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/sed/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[rename files]]></title><link href="http://u-ryo.github.io//blog/2016/01/05/rename-files/"/><updated>2016-01-06T00:16:37+09:00</updated><id>/blog/2016/01/05/rename-files/</id><content type="html"><![CDATA[<h2>ファイル名一括置換</h2>
-<h3>「rename」を使えばよいとのことだったので、</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/sed/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[rename files]]></title><link href="http://u-ryo.github.io//blog/2016/01/05/rename-files/"/><updated>2016-01-06T00:19:54+09:00</updated><id>/blog/2016/01/05/rename-files/</id><content type="html"><![CDATA[<h3>ファイル名一括置換</h3>
+<p>「rename」を使えばよいとのことだったので、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ rename &#39;IMG_&#39; &#39;img_0&#39; ~/photo/20151227/*.JPG
 </span></code></pre></td></tr></table></div></figure>
 <p>しかし、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Bareword &quot;IMG_&quot; not allowed while &quot;strict subs&quot; in use at (eval 1) line 1.                                                                                      âÂ·Â·Â·Â·Â·Â·Â·Â·Â·
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Bareword &quot;IMG_&quot; not allowed while &quot;strict subs&quot; in use at (eval 1) line 1.
 </span></code></pre></td></tr></table></div></figure>
 <p>と言われて動かなかったので、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
