@@ -1,4 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/heroku/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2015-12-19T23:46:53+09:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/heroku/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-02-19T09:30:28+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
+<p>Cloud9上で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ cat Gemfile
+</span><span class='line'>source &#39;https://rubygems.org&#39;
+</span><span class='line'>gem &#39;sinatra&#39;
+</span><span class='line'>
+</span><span class='line'>$ cat Procfile
+</span><span class='line'>web: exec ruby app.rb -p $PORT
+</span><span class='line'>
+</span><span class='line'>$ cat app.rb
+</span><span class='line'>require &#39;sinatra&#39;
+</span><span class='line'>
+</span><span class='line'>get &#39;/&#39; do
+</span><span class='line'>  &#39;Hello World!&#39;
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+<p>最低この3ファイル、なんですが、
+gitにcommitしてherokuにdeployするのは
+あと自動生成される <code>Gemfile.lock</code> も必要になります。
+<code>Gemfile.lock</code> は、一旦rubyを動かさないと出来ないのかな?
+<code>ruby app.rb</code> で試せます。</p>
+<p>herokuへは、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ heroku create my-application
+</span><span class='line'>$ git init
+</span><span class='line'>$ git add Gemfile Gemfile.lock Procfile app.rb
+</span><span class='line'>$ git commit -a
+</span><span class='line'>$ git push heroku master
+</span></code></pre></td></tr></table></div></figure>
+<p>で上手く行く筈、なんですが、
+git remoteを設定しないとダメかも。
+その辺は適宜。</p>
+]]></content></entry><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2015-12-19T23:46:53+09:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
 某A空輸の次期予約サイトのMonkey Testをやらされているんですが、
 screen shotとかuploadするのに、何故か20kbという制限があります。
 そんなの、Gimpとかフリーソフト使えば簡単なんですが、

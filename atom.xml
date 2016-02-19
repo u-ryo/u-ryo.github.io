@@ -1,4 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-01-06T00:26:05+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[scp on emacs dired]]></title><link href="http://u-ryo.github.io//blog/2016/01/06/scp-on-emacs-dired/"/><updated>2016-01-06T00:26:05+09:00</updated><id>/blog/2016/01/06/scp-on-emacs-dired/</id><content type="html"><![CDATA[<h3>emacs上でのscp with tramp</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-02-19T09:30:28+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-02-19T09:30:28+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
+<p>Cloud9上で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ cat Gemfile
+</span><span class='line'>source &#39;https://rubygems.org&#39;
+</span><span class='line'>gem &#39;sinatra&#39;
+</span><span class='line'>
+</span><span class='line'>$ cat Procfile
+</span><span class='line'>web: exec ruby app.rb -p $PORT
+</span><span class='line'>
+</span><span class='line'>$ cat app.rb
+</span><span class='line'>require &#39;sinatra&#39;
+</span><span class='line'>
+</span><span class='line'>get &#39;/&#39; do
+</span><span class='line'>  &#39;Hello World!&#39;
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+<p>最低この3ファイル、なんですが、
+gitにcommitしてherokuにdeployするのは
+あと自動生成される <code>Gemfile.lock</code> も必要になります。
+<code>Gemfile.lock</code> は、一旦rubyを動かさないと出来ないのかな?
+<code>ruby app.rb</code> で試せます。</p>
+<p>herokuへは、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ heroku create my-application
+</span><span class='line'>$ git init
+</span><span class='line'>$ git add Gemfile Gemfile.lock Procfile app.rb
+</span><span class='line'>$ git commit -a
+</span><span class='line'>$ git push heroku master
+</span></code></pre></td></tr></table></div></figure>
+<p>で上手く行く筈、なんですが、
+git remoteを設定しないとダメかも。
+その辺は適宜。</p>
+]]></content></entry><entry><title type="html"><![CDATA[how to build my web application product]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/how-to-build-my-web-application-product/"/><updated>2016-02-19T09:15:26+09:00</updated><id>/blog/2016/02/19/how-to-build-my-web-application-product/</id><content type="html"><![CDATA[<h2>Private memo</h2>
+<p>To build hondaPortal,
+<code>cd</code> to hondaPortalView,
+<code>bower install</code> and <code>npm install</code> first to set up javascript libraries.
+And return to the parent directory and try <code>gradlew</code>.
+If the build process encounters an error on imagemin in hondaPortalView,
+I found a workaround at <a href="https://github.com/gruntjs/grunt-contrib-imagemin/issues/330">Fatal error: Cannot read property 'contents' of undefined #330</a>.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>cd node_modules/grunt-contrib-imagemin
+</span><span class='line'>npm install imagemin@4.0.0
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[Java Decompiler]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/java-decompiler/"/><updated>2016-02-19T09:01:17+09:00</updated><id>/blog/2016/02/19/java-decompiler/</id><content type="html"><![CDATA[<p>Javaのdecompilerといえばjadが昔から有名ですが、jadってとうに開発止まってるんですね。
+知りませんでした。1.5くらいから解析不能というのでは、
+もうちょっと使えませんか。
+今は<a href="http://jd.benow.ca/">JD-GUI</a>が簡便そうですが、
+これとてJava8のlambda expressionや、そもそもLocal Method Classes(method内inner class?)に非対応とな。
+Java8の昨今ではう～ん、です。
+と思ったら、<a href="http://www.benf.org/other/cfr/">CFR</a>というのが使えるそうです。
+実際試して、使えました。
+<a href="http://www.javadecompilers.com/">online decompiler</a>もあるので、色々気軽に試せます。
+良かった、今でもjava decompileは気軽に出来るわけですね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[scp on emacs dired]]></title><link href="http://u-ryo.github.io//blog/2016/01/06/scp-on-emacs-dired/"/><updated>2016-01-06T00:26:05+09:00</updated><id>/blog/2016/01/06/scp-on-emacs-dired/</id><content type="html"><![CDATA[<h3>emacs上でのscp with tramp</h3>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>/scp:mickey:/mnt/u-ryo/photo/20151227/
 </span></code></pre></td></tr></table></div></figure>
@@ -543,275 +614,4 @@ ieServerドメインで試してみればよかったかもしれません。</p
 </span></code></pre></td></tr></table></div></figure></li>
 <li>これでSecure BootなPCに挿してリブート</li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Secure Boot 2 (using self-signed cert)]]></title><link href="http://u-ryo.github.io//blog/2015/11/05/secure-boot-2-using-self-signed-cert/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/11/05/secure-boot-2-using-self-signed-cert/</id><content type="html"><![CDATA[<h3>訂正</h3>
-<p>/EFI/ubuntu/... ではブート時に読み込まない、
-と前回下記ましたが、efibootmgrで変更出来そうです。
-が、今回はUSBメモリからのブートが要件なので、
-efibootmgrは使えません。</p>
-<h3>手法2</h3>
-<p>「loopbackモジュールを含めたgrubを自力で署名する」
-手法が漸くわかりました</p>
-<ol>
-<li><code>efitools</code>をapt-get installしておきます</li>
-<li>自己署名証明書(pem形式とder形式)を作成します</li>
-<li>必要なモジュールを含めた<code>grub</code>を作ります
-(ここまでモジュール入れないとうまく行きませんでした。
-<code>iso9660</code>と<code>cpio</code>くらいでいいような気はしますが下限は試してません)
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ grub-mkimage -d /usr/lib/grub/x86_64-efi -o BOOTx64.EFI -O x86_64-efi -p &quot;&quot; part_gpt part_msdos ntfs ntfscomp hfsplus fat ext2 normal chain boot configfile linux multiboot efi_gop loopback linuxefi affs afs bfs btrfs cbfs cpio cpio_be exfat hfs iso9660 jf
-</span></code></pre></td></tr></table></div></figure></li>
-<li>出来たBOOTx64に自己署名証明書で署名します
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sbsign --key /etc/secureboot/key-material/test-key.rsa --cert /etc/secureboot/key-material/test-cert.pem BOOTx64.EFI
-</span></code></pre></td></tr></table></div></figure></li>
-<li>上記で出来る<code>BOOTx64.EFI.signed</code>を、USBメモリの<code>/EFI/BOOT/BOOTx64.EFI</code>としてコピーします</li>
-<li>自己署名証明書(der形式)をUSBメモにコピーします</li>
-<li>PCでUSBブートし、BIOSメニューから、自己署名証明書を読み込ませます</li>
-</ol>
-<p>これでUSBメモリ内のisoファイルから立ち上がるようになりました。</p>
-<p>ただ、BIOSメニューに自己署名証明書を読み込ませるUIのない場合、
-実機が今はないので試せないこともあり、どうするのかはよくわかりません。</p>
-<p>cf.</p>
-<ul>
-<li><a href="http://qiita.com/kunichiko/items/12cbccaadcbf41c72735">技術者見習いの独り言 SecureBootとLinux</a></li>
-<li><a href="https://wiki.ubuntu.com/SecurityTeam/SecureBoot">SecureBoot</a></li>
-<li><a href="http://www.rodsbooks.com/refind/secureboot.html">The rEFInd Boot Manager: Managing Secure Boot</a></li>
-<li><a href="https://www.suse.com/ja-jp/documentation/sles11/book_sle_admin/data/sec_uefi_secboot.html">SUSE document セキュアブート</a></li>
-</ul>
-]]></content></entry><entry><title type="html"><![CDATA[encryption by GnuPG]]></title><link href="http://u-ryo.github.io//blog/2015/11/04/encryption-by-gnupg/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/11/04/encryption-by-gnupg/</id><content type="html"><![CDATA[<p>GnuPGによる暗号化は、調べりゃいくらでも載ってますので、都度調べた方がいい感じです。</p>
-<ol>
-<li><code>gpg --gen-key</code>でキーを作成(これが結構面倒・時間かかる)</li>
-<li><code>gpg --export mail@address -o outputfile</code> で公開鍵を出力して他人に渡す</li>
-<li><code>gpg --import outputfile</code> で他人の公開鍵を入力</li>
-<li><code>gpg --list-public-key</code>で受領者IDを確認</li>
-<li><code>gpg -e -a -r ID... plain_file</code> で暗号化(-e:encrypt, -a:ascii, -r:receiver)</li>
-<li><code>gpg --passphrase ... --batch encrypted_file</code> で復号</li>
-</ol>
-]]></content></entry><entry><title type="html"><![CDATA[Hybrid MBR/GPT for dual booting MBR/UEFI]]></title><link href="http://u-ryo.github.io//blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/</id><content type="html"><![CDATA[<p>BIOSブートとUEFIブートの両対応を求められました。</p>
-<p>UEFIブートなので、GPT(GUID Partition Table)は必須です。
-が、GPTだと旧来のMBRではないので、BIOSブートがこけます。
-そこで、Hybridなるものがありますと。
-これは、<code>gdisk</code>でしか作れません。
-<code>r</code>で「recovery and transformation options (experts only)」に入って、
-<code>h</code>(make hybrid MBR)で作ります。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo gdisk /dev/sdb
-</span><span class='line'>
-</span><span class='line'>GPT fdisk (gdisk) version 0.8.8
-</span><span class='line'>
-</span><span class='line'>Partition table scan:
-</span><span class='line'>   MBR: protective
-</span><span class='line'>   BSD: not present
-</span><span class='line'>   APM: not present
-</span><span class='line'>   GPT: present
-</span><span class='line'>
-</span><span class='line'>Found valid GPT with protective MBR; using GPT.
-</span><span class='line'>
-</span><span class='line'>Command (? for help): p
-</span><span class='line'>Disk /dev/sdb: 7831552 sectors, 3.7 GiB
-</span><span class='line'>Logical sector size: 512 bytes
-</span><span class='line'>Disk identifier (GUID): 3BF2DA63-FB2F-4616-ACE6-694968477678
-</span><span class='line'>Partition table holds up to 128 entries
-</span><span class='line'>First usable sector is 34, last usable sector is 7831518
-</span><span class='line'>Partitions will be aligned on 2048-sector boundaries
-</span><span class='line'>Total free space is 4029 sectors (2.0 MiB)
-</span><span class='line'>
-</span><span class='line'>Number  Start (sector)    End (sector)  Size       Code  Name
-</span><span class='line'>    1            2048         5734399   2.7 GiB     0700
-</span><span class='line'>    2         5734400         7829503   1023.0 MiB  EF00
-</span><span class='line'>
-</span><span class='line'>Command (? for help): r
-</span><span class='line'>
-</span><span class='line'>Recovery/transformation command (? for help): p
-</span><span class='line'>Disk /dev/sdb: 7831552 sectors, 3.7 GiB
-</span><span class='line'>Logical sector size: 512 bytes
-</span><span class='line'>    1            2048         5734399   2.7 GiB     0700
-</span><span class='line'>    2         5734400         7829503   1023.0 MiB  EF00
-</span><span class='line'>
-</span><span class='line'>Recovery/transformation command (? for help): o
-</span><span class='line'>
-</span><span class='line'>Disk size is 7831552 sectors (3.7 GiB)
-</span><span class='line'>MBR disk identifier: 0x00000000
-</span><span class='line'>MBR partitions:
-</span><span class='line'>
-</span><span class='line'>Number  Boot  Start Sector   End Sector   Status      Code
-</span><span class='line'>    1                     1      7831551   primary     0xEE
-</span><span class='line'>
-</span><span class='line'>Recovery/transformation command (? for help): h
-</span><span class='line'>
-</span><span class='line'>WARNING! Hybrid MBRs are flaky and dangerous! If you decide not to use one,
-</span><span class='line'>just hit the Enter key at the below prompt and your MBR partition table will
-</span><span class='line'>be untouched.
-</span><span class='line'>
-</span><span class='line'>Type from one to three GPT partition numbers, separated by spaces, to be
-</span><span class='line'>Place EFI GPT (0xEE) partition first in MBR (good for GRUB)? (Y/N): n
-</span><span class='line'>
-</span><span class='line'>Creating entry for GPT partition #1 (MBR partition #1)
-</span><span class='line'>Enter an MBR hex code (default 07):
-</span><span class='line'>Set the bootable flag? (Y/N): n
-</span><span class='line'>
-</span><span class='line'>Creating entry for GPT partition #2 (MBR partition #2)
-</span><span class='line'>Enter an MBR hex code (default EF):
-</span><span class='line'>Set the bootable flag? (Y/N): y
-</span><span class='line'>
-</span><span class='line'>Unused partition space(s) found. Use one to protect more partitions? (Y/N): y
-</span><span class='line'>Note: Default is 0xEE, but this may confuse Mac OS X.
-</span><span class='line'>Enter an MBR hex code (default EE):
-</span><span class='line'>
-</span><span class='line'>Recovery/transformation command (? for help): w
-</span><span class='line'>
-</span><span class='line'>Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
-</span><span class='line'>PARTITIONS!!
-</span><span class='line'>
-</span><span class='line'>Do you want to proceed? (Y/N): y
-</span><span class='line'>OK; writing new GUID partition table (GPT) to /dev/sdb.
-</span><span class='line'>
-</span><span class='line'>Caution: More than one 0xEE MBR partition found. This can cause problems
-</span><span class='line'>in some OSes.
-</span><span class='line'>The operation has completed successfully.
-</span><span class='line'>
-</span><span class='line'>$ sudo gdisk /dev/sdb
-</span><span class='line'>GPT fdisk (gdisk) version 0.8.8
-</span><span class='line'>
-</span><span class='line'>Partition table scan:
-</span><span class='line'>   MBR: hybrid
-</span><span class='line'>   BSD: not present
-</span><span class='line'>   APM: not present
-</span><span class='line'>   GPT: present
-</span><span class='line'>
-</span><span class='line'>Found valid GPT with hybrid MBR; using GPT.
-</span><span class='line'>
-</span><span class='line'>Command (? for help): q
-</span></code></pre></td></tr></table></div></figure>
-<p>その上で、grub-installします。
-MBR用には、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo mount /dev/sdb2 /mnt
-</span><span class='line'>sudo grub-install --force --no-floppy --boot-directory=/mnt/boot /dev/sdb
-</span><span class='line'>sudo vi /mnt/boot/grub/grub.cfg
-</span><span class='line'>
-</span><span class='line'>set timeout=3
-</span><span class='line'>set default=0
-</span><span class='line'>
-</span><span class='line'>menuentry &quot;Run Ubuntu Live ISO&quot; {
-</span><span class='line'>       set gfxpayload=keep
-</span><span class='line'>       loopback loop (hd0,gpt2)/airscope2.iso
-</span><span class='line'>       linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=/airscope2.iso splash --- debian-installer/language=ja keyboard-configuration/layoutcode?=jp keyboard-configuration/modelcode?=jp109
-</span><span class='line'>       initrd (loop)/casper/initrd.lz
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>UEFI用には、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo mount /dev/sdb2 /mnt
-</span><span class='line'>sudo mkdir -p /mnt/EFI/BOOT/
-</span><span class='line'>grub-mkimage -d /usr/lib/grub/x86_64-efi -o /mnt/EFI/BOOT/BOOTx64.EFI -O x86_64-efi -p &quot;&quot; part_gpt part_msdos ntfs ntfscomp hfsplus fat ext2 normal chain boot configfile linux multiboot efi_gop
-</span><span class='line'>sudo cp -rp /usr/lib/grub/x86_64-efi /mnt/EFI/BOOT/
-</span><span class='line'>sudo vi /mnt/EFI/BOOT/grub.cfg
-</span><span class='line'>
-</span><span class='line'>configfile (hd0,GPT2)/boot/grub/grub.cfg
-</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>
