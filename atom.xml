@@ -1,4 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-02-19T09:30:28+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-02-19T09:30:28+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-02-19T16:06:42+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Using tesseract-ocr on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/using-tesseract-ocr-on-heroku/"/><updated>2016-02-19T16:06:42+09:00</updated><id>/blog/2016/02/19/using-tesseract-ocr-on-heroku/</id><content type="html"><![CDATA[<p>heroku上でnon defaultなsoftwareを使いたい場合には、
+buildpacksというのを指定します。</p>
+<p>今回、tesseract-ocrを使いたいと思ったのですが、
+その場合には、
+<a href="https://github.com/matteotiziano/heroku-buildpack-tesseract">heroku-buildpack-tesseract</a>
+を使えば良いとのこと。
+そのREADMEにあるように、
+<code>.buildpacks</code> に2行書いて、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>https://github.com/heroku/heroku-buildpack-ruby
+</span><span class='line'>https://github.com/matteotiziano/heroku-buildpack-tesseract
+</span></code></pre></td></tr></table></div></figure>
+<p>(LANGはruby)</p>
+<p>それで <code>heroku buildpacks:set https://github.com/ddollar/heroku-buildpack-multi</code> と
+やっても、「<code>bin/release</code> がyamlを返さない」といって <code>git push heroku master</code> が
+こけます。
+どうしたものか途方に暮れ、
+色々調査・試行錯誤した挙句、</p>
+<ol>
+<li><a href="https://github.com/matteotiziano/heroku-buildpack-tesseract">heroku-buildpack-tesseract</a>をfork</li>
+<li><code>bin/release</code> と <code>bin/detect</code> を直す</li>
+<li>自前の方を <code>.buildpacks</code> で指定する</li>
+</ol>
+<p>で何とか行けました。
+直し方は、最近のthird party製のbuildpackを参考にしました。</p>
+<p>https://github.com/ivanzotov/heroku-buildpack-imagemagick/blob/master/bin/release</p>
+<p>ホントは、rubyなので <a href="https://github.com/meh/ruby-tesseract-ocr">ruby-tesseract-ocr</a>
+使うべきなんでしょうが、こっちはlibleptonica-dev and libtesseract-devが必要なので、
+heroku-buildpack-tesseract だけじゃ足りないでしょう多分。
+だからrubyからcommand line叩くようにしました。
+それでもうまく行ったので、良しとしましょう。</p>
+]]></content></entry><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-02-19T13:28:10+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
 <p>Cloud9上で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -38,10 +70,12 @@ gitにcommitしてherokuにdeployするのは
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ heroku create my-application
 </span><span class='line'>$ git init
 </span><span class='line'>$ git add Gemfile Gemfile.lock Procfile app.rb
 </span><span class='line'>$ git commit -a
+</span><span class='line'>$ bundle install
 </span><span class='line'>$ git push heroku master
 </span></code></pre></td></tr></table></div></figure>
 <p>で上手く行く筈、なんですが、
@@ -601,17 +635,4 @@ gmailアカウントだからなのか、何故か登録できませんでした
 APIもあったり、殆どDDNSみたいです。
 バイト先Proxyも、dyndns.orgは通すので、MyDNS狙い撃ち?!
 ieServerドメインで試してみればよかったかもしれません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Secure Boot 3 (using signed grub in the official package)]]></title><link href="http://u-ryo.github.io//blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/11/05/secure-boot-3-using-signed-grub-in-the-official-package/</id><content type="html"><![CDATA[<h3>ubuntu公式パッケージのsigned grubを使う方法</h3>
-<p>USBメモリに直接ubuntuをインストールするために、
-8GBのUSBメモリを用意しました。
-それさえあれば、至極簡単です。</p>
-<ol>
-<li>VirtualBox等で、USBメモリにubuntuを入れる(そのままだと2GBスワップになるので、適宜調整。インストール後は4GB程の使用量なので、最初から5GB程でもよいかも。VMをEFIにしておくのを忘れないように。あと先頭にvfat32のEFI用パーティションを)</li>
-<li>リブートした後、<code>/etc/efi/ubuntu/</code>を<code>/etc/efi/BOOT</code>にリネーム</li>
-<li><code>linux-signed-image-generic</code>も<code>grub2-efi-amd86-signed</code>も入っているので、
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cp -rpi /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed /etc/efi/BOOT/BOOTx64.EFI
-</span></code></pre></td></tr></table></div></figure></li>
-<li>これでSecure BootなPCに挿してリブート</li>
-</ol>
 ]]></content></entry></feed>

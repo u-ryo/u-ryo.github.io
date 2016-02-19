@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ruby/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-02-19T09:30:28+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ruby/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-02-19T13:28:10+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
 <p>Cloud9上で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -38,10 +38,12 @@ gitにcommitしてherokuにdeployするのは
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ heroku create my-application
 </span><span class='line'>$ git init
 </span><span class='line'>$ git add Gemfile Gemfile.lock Procfile app.rb
 </span><span class='line'>$ git commit -a
+</span><span class='line'>$ bundle install
 </span><span class='line'>$ git push heroku master
 </span></code></pre></td></tr></table></div></figure>
 <p>で上手く行く筈、なんですが、

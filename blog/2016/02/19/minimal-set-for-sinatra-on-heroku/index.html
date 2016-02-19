@@ -155,10 +155,12 @@ gitにcommitしてherokuにdeployするのは
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ heroku create my-application
 </span><span class='line'>$ git init
 </span><span class='line'>$ git add Gemfile Gemfile.lock Procfile app.rb
 </span><span class='line'>$ git commit -a
+</span><span class='line'>$ bundle install
 </span><span class='line'>$ git push heroku master
 </span></code></pre></td></tr></table></div></figure>
 <p>で上手く行く筈、なんですが、
@@ -180,7 +182,7 @@ git remoteを設定しないとダメかも。
 
 
 
-     <time datetime="2016-02-19T09:30:28+09:00" class="updated">
+     <time datetime="2016-02-19T13:28:10+09:00" class="updated">
        Updated
        <span class="month">Feb</span>
        <span class="day">19</span>,
@@ -219,6 +221,8 @@ git remoteを設定しないとダメかも。
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2016/02/19/using-tesseract-ocr-on-heroku/" title="Previous Post: Using tesseract-ocr on heroku">&laquo; Using Tesseract-ocr on Heroku</a>
+      
       
         <a class="basic-alignment right" href="/blog/2016/02/19/how-to-build-my-web-application-product/" title="Next Post: how to build my web application product">How to Build My Web Application Product &raquo;</a>
       
@@ -241,6 +245,10 @@ git remoteを設定しないとダメかも。
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/19/using-tesseract-ocr-on-heroku/">Using Tesseract-ocr on Heroku</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/">Minimal Set for Sinatra on Heroku</a>
       </li>
     
@@ -254,10 +262,6 @@ git remoteを設定しないとダメかも。
     
       <li class="post">
         <a href="/blog/2016/01/06/scp-on-emacs-dired/">Scp on Emacs Dired</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/05/rename-files/">Rename Files</a>
       </li>
     
   </ul>

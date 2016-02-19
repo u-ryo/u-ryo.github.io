@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/buildpacks/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Using tesseract-ocr on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/using-tesseract-ocr-on-heroku/"/><updated>2016-02-19T16:06:42+09:00</updated><id>/blog/2016/02/19/using-tesseract-ocr-on-heroku/</id><content type="html"><![CDATA[<p>heroku上でnon defaultなsoftwareを使いたい場合には、
+buildpacksというのを指定します。</p>
+<p>今回、tesseract-ocrを使いたいと思ったのですが、
+その場合には、
+<a href="https://github.com/matteotiziano/heroku-buildpack-tesseract">heroku-buildpack-tesseract</a>
+を使えば良いとのこと。
+そのREADMEにあるように、
+<code>.buildpacks</code> に2行書いて、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>https://github.com/heroku/heroku-buildpack-ruby
+</span><span class='line'>https://github.com/matteotiziano/heroku-buildpack-tesseract
+</span></code></pre></td></tr></table></div></figure>
+<p>(LANGはruby)</p>
+<p>それで <code>heroku buildpacks:set https://github.com/ddollar/heroku-buildpack-multi</code> と
+やっても、「<code>bin/release</code> がyamlを返さない」といって <code>git push heroku master</code> が
+こけます。
+どうしたものか途方に暮れ、
+色々調査・試行錯誤した挙句、</p>
+<ol>
+<li><a href="https://github.com/matteotiziano/heroku-buildpack-tesseract">heroku-buildpack-tesseract</a>をfork</li>
+<li><code>bin/release</code> と <code>bin/detect</code> を直す</li>
+<li>自前の方を <code>.buildpacks</code> で指定する</li>
+</ol>
+<p>で何とか行けました。
+直し方は、最近のthird party製のbuildpackを参考にしました。</p>
+<p>https://github.com/ivanzotov/heroku-buildpack-imagemagick/blob/master/bin/release</p>
+<p>ホントは、rubyなので <a href="https://github.com/meh/ruby-tesseract-ocr">ruby-tesseract-ocr</a>
+使うべきなんでしょうが、こっちはlibleptonica-dev and libtesseract-devが必要なので、
+heroku-buildpack-tesseract だけじゃ足りないでしょう多分。
+だからrubyからcommand line叩くようにしました。
+それでもうまく行ったので、良しとしましょう。</p>
+]]></content></entry></feed>
