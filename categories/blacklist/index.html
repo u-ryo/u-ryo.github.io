@@ -1,0 +1,44 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Blacklist - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/blacklist/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various writings for introducing myself...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="q" value="site:http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Blacklist</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Blacklist category via RSS" href="/categories/blacklist/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2016/02/20/security-check/">Security Check</a></h1> <p class="meta"> <time datetime="2016-02-20T20:12:00+09:00" pubdate data-updated=true> <span class="month">Feb</span> <span class="day">20</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/02/20/security-check/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、 標的型攻撃による情報流出が怖くなりました。 JIPDECとか、表面化してないだけで絶対やられてるんじゃないのかな、 とか思うんですが、それをみるために、 gatewayで宛先IPとportをcheckしたらいいんじゃないのかな、 と思いました。 まず自分のマシンでやってみようと思いました。 隗より始めよ、ですね。 iptablesでOUTPUTのACKなtcpのdportとIPをLOGすれば、 と思ったんですけど、 それだったらsnortの方がいいですか。 でもsnortでoutboundな通信のlogってどうやるんでしょう。 また、それでIPあげつらったとしても、 それをどう検証するのか。 blacklistでもないかなぁ、と思ったら、 カペルスキーとかセキュリティ専門会社は独自blacklist持ってるんですね。</p> <p>...と、この辺まで書いてたら、 Kodingに「週間使用量をexceedしている」とかいわれて止められちゃいました。 書こうとしてた時に勢いを止められるのはつらいです。 書いた文章もURLも消えちゃいましたし、何書こうとしてたか忘れちゃいました。</p> <p>blacklist、IP addressで検索していたら、 whatismyipaddressの<a href="http://whatismyipaddress.com/blacklist-check">Blacklist Check</a>、 でもこれは、接続元IPがspammerのblacklistに載っているか、 一括して調べるもの。どこかに載ってたら、 過去にspamを送っていたことがある、 何らかのmalwareに感染してた可能性がある、 ということです。</p> <p><a href="https://www.reddit.com/r/Malware/comments/3u8719/check_your_very_own_ip_for_any_botnet_infections/">check your very own IP for any botnet infections</a> というのがあって、これも同じようなserviceなんでしょうか。</p> <p>C&amp;C serverとのcommunicationは、 DNSのTXT recordでやるそうですね。 そんなのってdetect出来るんでしょうかね。出来そうですね。 何かtoolないのかな。</p> <p><a href="https://www.facebook.com/sec.testing.study.session">脆弱性診断研究会</a>には、 よさ気な情報が載ってます。 ↑に載ってましたが、 <a href="http://vaddy.net/ja/">VAddy</a>というJenkinsに組み込んでCIで脆弱性診断をしてくれる serviceがあるそうです。free planだとSQL injection、XSSしか見てくれないそうですが、 freeで何度も使えるならいいですね。</p> <h2>脆弱性検査tools</h2> <ul> <li>OWASP ZAP</li> <li>Vega(Java, included in Kali Linux)</li> </ul> <p>Bug hunterとして生計を立てている<a href="http://masatokinugawa.l0.cm/">Kinugawa masatoさんのページ</a>が とても勉強になります。<a href="http://blog.tokumaru.org/">徳丸先生の日記</a>は言わずもがな。 <a href="https://takagi-hiromitsu.jp/diary/">ヒロミチュ先生のところ</a>は、 最近技術的な話題少ないんですかね。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2016/02/20/security-check/">Security Check</a> </li> <li class="post"> <a href="/blog/2016/02/19/using-tesseract-ocr-on-heroku/">Using Tesseract-ocr on Heroku</a> </li> <li class="post"> <a href="/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/">Minimal Set for Sinatra on Heroku</a> </li> <li class="post"> <a href="/blog/2016/02/19/how-to-build-my-web-application-product/">How to Build My Web Application Product</a> </li> <li class="post"> <a href="/blog/2016/02/19/java-decompiler/">Java Decompiler</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2016 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>

@@ -1,4 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-02-19T16:06:42+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Using tesseract-ocr on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/using-tesseract-ocr-on-heroku/"/><updated>2016-02-19T16:06:42+09:00</updated><id>/blog/2016/02/19/using-tesseract-ocr-on-heroku/</id><content type="html"><![CDATA[<p>heroku上でnon defaultなsoftwareを使いたい場合には、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-02-23T02:21:38+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[security check]]></title><link href="http://u-ryo.github.io//blog/2016/02/20/security-check/"/><updated>2016-02-23T02:21:38+09:00</updated><id>/blog/2016/02/20/security-check/</id><content type="html"><![CDATA[<p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、
+標的型攻撃による情報流出が怖くなりました。
+JIPDECとか、表面化してないだけで絶対やられてるんじゃないのかな、
+とか思うんですが、それをみるために、
+gatewayで宛先IPとportをcheckしたらいいんじゃないのかな、
+と思いました。
+まず自分のマシンでやってみようと思いました。
+隗より始めよ、ですね。
+iptablesでOUTPUTのACKなtcpのdportとIPをLOGすれば、
+と思ったんですけど、
+それだったらsnortの方がいいですか。
+でもsnortでoutboundな通信のlogってどうやるんでしょう。
+また、それでIPあげつらったとしても、
+それをどう検証するのか。
+blacklistでもないかなぁ、と思ったら、
+カペルスキーとかセキュリティ専門会社は独自blacklist持ってるんですね。</p>
+<p>...と、この辺まで書いてたら、
+Kodingに「週間使用量をexceedしている」とかいわれて止められちゃいました。
+書こうとしてた時に勢いを止められるのはつらいです。
+書いた文章もURLも消えちゃいましたし、何書こうとしてたか忘れちゃいました。</p>
+<p>blacklist、IP addressで検索していたら、
+whatismyipaddressの<a href="http://whatismyipaddress.com/blacklist-check">Blacklist Check</a>、
+でもこれは、接続元IPがspammerのblacklistに載っているか、
+一括して調べるもの。どこかに載ってたら、
+過去にspamを送っていたことがある、
+何らかのmalwareに感染してた可能性がある、
+ということです。</p>
+<p><a href="https://www.reddit.com/r/Malware/comments/3u8719/check_your_very_own_ip_for_any_botnet_infections/">check your very own IP for any botnet infections</a>
+というのがあって、これも同じようなserviceなんでしょうか。</p>
+<p>C&amp;C serverとのcommunicationは、
+DNSのTXT recordでやるそうですね。
+そんなのってdetect出来るんでしょうかね。出来そうですね。
+何かtoolないのかな。</p>
+<p><a href="https://www.facebook.com/sec.testing.study.session">脆弱性診断研究会</a>には、
+よさ気な情報が載ってます。
+↑に載ってましたが、
+<a href="http://vaddy.net/ja/">VAddy</a>というJenkinsに組み込んでCIで脆弱性診断をしてくれる
+serviceがあるそうです。free planだとSQL injection、XSSしか見てくれないそうですが、
+freeで何度も使えるならいいですね。</p>
+<h2>脆弱性検査tools</h2>
+<ul>
+<li>OWASP ZAP</li>
+<li>Vega(Java, included in Kali Linux)</li>
+</ul>
+<p>Bug hunterとして生計を立てている<a href="http://masatokinugawa.l0.cm/">Kinugawa masatoさんのページ</a>が
+とても勉強になります。<a href="http://blog.tokumaru.org/">徳丸先生の日記</a>は言わずもがな。
+<a href="https://takagi-hiromitsu.jp/diary/">ヒロミチュ先生のところ</a>は、
+最近技術的な話題少ないんですかね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Using tesseract-ocr on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/using-tesseract-ocr-on-heroku/"/><updated>2016-02-19T16:06:42+09:00</updated><id>/blog/2016/02/19/using-tesseract-ocr-on-heroku/</id><content type="html"><![CDATA[<p>heroku上でnon defaultなsoftwareを使いたい場合には、
 buildpacksというのを指定します。</p>
 <p>今回、tesseract-ocrを使いたいと思ったのですが、
 その場合には、
@@ -621,18 +669,4 @@ Amazonレビュー書くことにしました。
 そういう意味では、
 納得の行く買い物でした。
 ケースも本体も。</p>
-]]></content></entry><entry><title type="html"><![CDATA[freenom (free DNS Registrar)]]></title><link href="http://u-ryo.github.io//blog/2015/11/06/freenom-free-dns-registrar/"/><updated>2015-11-12T09:45:57+09:00</updated><id>/blog/2015/11/06/freenom-free-dns-registrar/</id><content type="html"><![CDATA[<p>バイト先のProxyで、ある日突然自宅サーバが「ダイナミックDNSですといって蹴られるようになってしまいました。
-IP直打ちでも、「数字IP指定です」みたいなことを言われて繋げてくれません。
-お名前.COMにでもお金払うしかないのか、
-と観念しかけたんですが、
-探してみると、フリーであるんですね、無料ドメインも色々と。
-突然無くなったりFacebookにリンク張れないものがあったり制限はあるようですが、
-気軽に使えるので有難いです。
-gmailアカウントだからなのか、何故か登録できませんでしたが、
-他のアカウントでサインアップして、
-所期の目的を達しました(バイト先Proxyから自宅サーバへアクセス出来ました)。</p>
-<p><a href="http://www.freenom.com/ja/index.html">freenom</a>使ったんですが、
-APIもあったり、殆どDDNSみたいです。
-バイト先Proxyも、dyndns.orgは通すので、MyDNS狙い撃ち?!
-ieServerドメインで試してみればよかったかもしれません。</p>
 ]]></content></entry></feed>
