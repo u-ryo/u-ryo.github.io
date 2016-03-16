@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/nitrous-io/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[koding has changed]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/koding-has-changed/"/><updated>2016-03-16T01:27:13+00:00</updated><id>/blog/2016/03/16/koding-has-changed/</id><content type="html"><![CDATA[<p><a href="https://koding.com">Koding</a>が、何かいきなりTeam codingとかいって、renewalしてました。
+新しくなるのはいいんですけど、
+<a href="https://github.com">github</a>のaccountで入れなくなったり、
+AWSが必須だかlocalのLinuxにkdとかいうのをinstallするのが必須だか、
+free and Web上で完結しなくなっているようだったり、
+というのはやめて欲しいです。
+今更ながら、<a href="https://nitrous.io">nitrous.io</a>に乗り換えます。
+<a href="https://c9.io">Cloud9</a>だとGrainw compile出来ないので。</p>
+]]></content></entry></feed>
