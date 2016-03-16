@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/selenium/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T05:10:44+00:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
+要はSeleniumのwrapperなんですが、
+Page Modelとか駆使すると、
+GUI testもspockのSpec本体には具体的なtag名出さずにlogicalに書けますね。
+frameなpageでは、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;frameset&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;frame</span> <span class="na">id=</span><span class="s">&quot;head&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/frame&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;frame</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/frame&gt;</span>
+</span><span class='line'><span class="nt">&lt;/frameset&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>とあったら、Page Objectに</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>static content = {
+</span><span class='line'>  header(page: HeaderPage) { $(&#39;#head&#39;) }
+</span><span class='line'>  main(page: MainPage) { $(&#39;#main&#39;) }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>と書いて、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>withFrame(main) {
+</span><span class='line'>  ...
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>と使えます。</p>
+<p>しかし、
+そもそもイマドキframeなんか使う方がおかしいんですけどね。
+html5ではaccessibilityの観点から廃止されてるのに。</p>
+<p>最近よくある、mouse overしてmenuをdrop downさせるものについては、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>interact {
+</span><span class='line'>  moveToElement(...)
+</span><span class='line'>  click(...)
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p><code>&lt;select&gt;</code>やradio buttonsといったform関係要素については、
+以下のようにmoduleを使って簡単に操れます。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import geb.module.RadioButtons
+</span><span class='line'>import geb.module.Select
+</span><span class='line'>import geb.module.Textarea
+</span><span class='line'>$(&#39;select#...&#39;).module(Select).selected = &#39;some value&#39;
+</span><span class='line'>$(&#39;select#...&#39;).module(Select).selectedText == &#39;label text&#39;
+</span><span class='line'>$(&#39;select#...&#39;).module(RadioButtons) = &#39;some value&#39;
+</span><span class='line'>$(&#39;select#...&#39;).module(RadioButtons).checked == &#39;some value&#39;
+</span><span class='line'>$(&#39;select#...&#39;).module(Textarea).text = &#39;A sentence with\na new line.&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p><code>withFrame</code>でのassertionは、末尾に<code>|| true</code>が必要でした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>withFrame(main) {
+</span><span class='line'>  leaveRequest.approver.selectedText == &#39;è¥¿ãé¨é·&#39;
+</span><span class='line'>  leaveRequest.approvalDate.text == new Date().format(&#39;yyyy/MM/dd&#39;)
+</span><span class='line'>} || true
+</span></code></pre></td></tr></table></div></figure>
+<p>frame内の変化があるので、Page Module内要素は<code>required: false</code>つけまくりでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>static content = {
+</span><span class='line'>  requestType(wait: true, required: false) { $(&#39;input#rdo12&#39;).module(RadioButtons) }
+</span><span class='line'>  requester(required: false) { $(&#39;span#select2-chosen-1&#39;) }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>あと適宜<code>waitFor {...}</code>が必要ですね。</p>
+<p>browser alertの処理は厄介でした。
+<code>driver.switchTo().alert().accept()</code>かと思ったら、<code>withAlert(wait: true){...}</code>でいいんですか。
+普通の(javascriptによる)popup dialogに対しても。
+「browser alertが出たら」ってどう書くんでしょう。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>withAlert(wait: true) {
+</span><span class='line'>  ...
+</span><span class='line'>} == &#39;modal dialog message&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>まぁ、<a href="http://www.gebish.org/manual/current/">manual</a>を読めってことですね。</p>
+<p>これはgroovyのことですが、日付のformatが簡単です。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>leaveRequest.approvalDate.text == new Date().format(&#39;yyyy/MM/dd&#39;)
+</span></code></pre></td></tr></table></div></figure>
+<p>http accessはHttpURLClientを用い、またcookieの取得も簡単です。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Grab(&#39;org.codehaus.groovy.modules.http-builder:http-builder&#39;)
+</span><span class='line'>import groovyx.net.http.HttpURLClient
+</span><span class='line'>def jsessionId = driver.manage().getCookieNamed(&quot;JSESSIONID&quot;).value
+</span><span class='line'>def http = new HttpURLClient(url: &#39;https://my-ocr.herokuapp.com/&#39;)
+</span><span class='line'>tryLogin(userId, password, http.request(path: jsessionId).data)
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry></feed>
