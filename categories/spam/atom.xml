@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spam/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2015-11-12T09:45:57+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[security check]]></title><link href="http://u-ryo.github.io//blog/2016/02/20/security-check/"/><updated>2016-02-23T02:21:38+09:00</updated><id>/blog/2016/02/20/security-check/</id><content type="html"><![CDATA[<p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spam/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Security Check]]></title><link href="http://u-ryo.github.io//blog/2016/02/20/security-check/"/><updated>2016-03-16T02:01:16+00:00</updated><id>/blog/2016/02/20/security-check/</id><content type="html"><![CDATA[<p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、
 標的型攻撃による情報流出が怖くなりました。
-JIPDECとか、表面化してないだけで絶対やられてるんじゃないのかな、
+<a href="http://www.jipdec.or.jp">JIPDEC</a>とか、表面化してないだけで絶対やられてるんじゃないのかな、
 とか思うんですが、それをみるために、
 gatewayで宛先IPとportをcheckしたらいいんじゃないのかな、
 と思いました。
@@ -31,7 +31,7 @@ whatismyipaddressの<a href="http://whatismyipaddress.com/blacklist-check">Black
 DNSのTXT recordでやるそうですね。
 そんなのってdetect出来るんでしょうかね。出来そうですね。
 何かtoolないのかな。</p>
-<p><a href="https://www.facebook.com/sec.testing.study.session">脆弱性診断研究会</a>には、
+<p><a href="&quot;https://www.facebook.com/sec.testing.study.session">脆弱性診断研究会</a>には、
 よさ気な情報が載ってます。
 ↑に載ってましたが、
 <a href="http://vaddy.net/ja/">VAddy</a>というJenkinsに組み込んでCIで脆弱性診断をしてくれる
