@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T17:02:54+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Simple Web UI Testing by Sikuli]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/simple-web-ui-testing-by-sikuli/"/><updated>2016-03-17T17:02:54+09:00</updated><id>/blog/2016/03/17/simple-web-ui-testing-by-sikuli/</id><content type="html"><![CDATA[<p><a href="http://www.sikuli.org/">Sikuli</a>を使うと、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T17:16:00+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Collecting the server crash logs by Errbit]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/collecting-the-server-crash-logs-by-errbit/"/><updated>2016-03-17T17:16:00+09:00</updated><id>/blog/2016/03/17/collecting-the-server-crash-logs-by-errbit/</id><content type="html"><![CDATA[<p><a href="http://qiita.com/tjnet/items/0a9fbb54afd6e0882040">無料エラー収集システムErrbitで、ログファイルをgrepする生活とサヨナラ</a></p>
+<p>アプリでクラッシュがあったら通知する<a href="https://try.crashlytics.com/">Crashlytics</a>
+<a href="http://blog.mb.cloud.nifty.com/?p=919">アプリ改善の道筋を示すクラッシュレポートサービスを使いこなそう</a>
+のserver版がある、ってことですね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Simple Web UI Testing by Sikuli]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/simple-web-ui-testing-by-sikuli/"/><updated>2016-03-17T17:02:54+09:00</updated><id>/blog/2016/03/17/simple-web-ui-testing-by-sikuli/</id><content type="html"><![CDATA[<p><a href="http://www.sikuli.org/">Sikuli</a>を使うと、
 簡単にWeb UIをtest出来ます。
 あ、Web UIに限りませんか。Desktop上のアプリ全て、というべきでしょう。
 何と言っても、「このボタンをclick」とかっていう指定が、
@@ -609,19 +613,4 @@ orgtbl-modeは、よくわからないので使ってません。</p>
 <p>wri.pe凄いですね。
 GitHub accountで入れますし、
 スッと使えるinterfaceを感じます。</p>
-]]></content></entry><entry><title type="html"><![CDATA[LuaLaTeX]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/lualatex/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/11/12/lualatex/</id><content type="html"><![CDATA[<p>表題の通り、LaTeXをよく使っています。
-pLaTeXが長かったので、
-LuaLaTeXについてのメモ書きです。
-例によって、ちょっと調べればいくらでも出てますけど。</p>
-<ol>
-<li>preambleは<code>\documentclass{ltjsarticle}</code></li>
-<li>usepackageは<code>luatexja</code> (<code>\usepackage{luatexja}</code>)</li>
-<li><code>\usepackage[dvipdfmx]{graphics}</code></li>
-<li>pngを貼りこむ時には、普通に<code>\includegraphics{XXX.png}</code>で良いが、
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ extractbb XXX.png
-</span></code></pre></td></tr></table></div></figure></li>
-<li><code>zw</code>は<code>\zw</code>に</li>
-</ol>
-<p>reportもMarkdownで書いてみようかな...</p>
 ]]></content></entry></feed>
