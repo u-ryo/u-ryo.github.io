@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T02:52:17+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T02:52:17+00:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p><code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T07:47:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Simple Web UI Testing by Sikuli]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/simple-web-ui-testing-by-sikuli/"/><updated>2016-03-17T07:47:51+00:00</updated><id>/blog/2016/03/17/simple-web-ui-testing-by-sikuli/</id><content type="html"><![CDATA[<p><a href="http://www.sikuli.org/">Sikuli</a>を使うと、
+簡単にWeb UIをtest出来ます。
+あ、Web UIに限りませんか。Desktop上のアプリ全て、というべきでしょう。
+何と言っても、「このボタンをclick」とかっていう指定が、
+当該ボタンの画像で示せる、
+その画像を取るのもbrowser上で範囲指定すればいいだけ、
+というのがなかなかshockingでした。</p>
+<p>Sikuli自体は<a href="https://code.google.com/archive/p/sikuli-api/">Java API</a>があるので、OS free、script化も可能っぽいです。
+<a href="http://www.sikulix.com/">SikuliX</a>でGUIでお手軽テスト自動化、のみならず。
+ただ、「ここを選んでclickして」とかっていう手順はすんなり書けるんですが、
+Captchaを乗り越えるために裏でlogic組みたかったんですけど、
+それがどうもSikuliXではうまく出来ない感じがしたので、諦めました。
+あぁ、上記のSikuli-apiを使ってJava Test classとして書けば良かったんですね。
+出来ないことはないですか。ぼくが見落としただけです。
+「ここ」って示す画像を沢山用意しないとならなさそう、です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T07:30:04+00:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+method前段に書いた動作例documentをtestとして動かせるそうな。
+同じようなのがJavaにも無いかなと探してみると、
+<code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
 <a href="http://kyon-mm.bitbucket.org/blog/html/2013/05/29/use_javadocassertiontestsuite.html">うさぎ組 プロダクトコードのJavaDocにテストコードを書く方法</a>より。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -54,7 +72,9 @@
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
 <p>と書けば、gradleでもtestしてくれるそう。
-こんなのがあったなんて。</p>
+こんなのがあったなんてびっくりポンです。
+<a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
+Javascriptで記述するというのでGroovyの方がいいですよね。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[Assessing Outbound Traffic to Uncover Advanced Persistent Threat]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/"/><updated>2016-03-17T02:08:17+00:00</updated><id>/blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/</id><content type="html"><![CDATA[<p>きょうび、APT(標的型攻撃)は、外向き通信から解析する必要があるでしょうと。
 後で読むために。
 <a href="https://www.sans.edu/student-files/projects/JWP-Binde-McRee-OConnor.pdf">Assessing Outbound Traffic to Uncover Advanced Persistent Threat</a></p>
@@ -602,65 +622,4 @@ LuaLaTeXについてのメモ書きです。
 <li><code>zw</code>は<code>\zw</code>に</li>
 </ol>
 <p>reportもMarkdownで書いてみようかな...</p>
-]]></content></entry><entry><title type="html"><![CDATA[Normalizer in Java]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/normalizer-in-java/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/11/12/normalizer-in-java/</id><content type="html"><![CDATA[<p>同僚に、「JavaのNormalizer.NFCとかって何?」と聞かれたので、
-調べてみました。
-<a href="http://itpro.nikkeibp.co.jp/article/COLUMN/20071130/288467/">ITproの櫻庭さんの解説</a>が
-わかりやすいかも、と思ったんですが、</p>
-<blockquote><p>互換合成 Normalize Function Compativle Composite (NFKC)</p>
-</blockquote>
-<p>とかって、スペルミスもあるし、そもそも<a href="http://www.unicode.org/reports/tr15/">原典</a>と違うじゃん、
-ということに気付いて。</p>
-<ul>
-<li>Normalization Form D (NFD)    Canonical Decomposition</li>
-<li>Normalization Form C (NFC)    Canonical Decomposition,followed by Canonical Composition</li>
-<li>Normalization Form KD (NFKD)  Compatibility Decomposition</li>
-<li>Normalization Form KC (NFKC)  Compatibility Decomposition,followed by Canonical Composition</li>
-</ul>
-<p>Canonical Equivalent(正準等価性)が「か+゛」=「が」
-Compatibility Equivalent(互換等価性)が「ｶ」=「カ」
-なので、</p>
-<ul>
-<li>「Canonical Decomposition」(正準分解)を「「が」→「か+゛」にすること」</li>
-<li>「Canonical Composition」(正準合成)を「「か+゛」→「が」にすること」</li>
-<li>「Compatibility Composition」(互換合成)を「「ｶ」を「カ」とすること」</li>
-</ul>
-<p>と読めばいいのでは?</p>
-<p>だから例えば、「NFKC」は、
-「「ｶ」を「カ」としてから「か+゛」→「が」にすること」</p>
-<p>気を付けたいのは、「Compatibility Composition」というのはない! ということですね。
-だからよく読むと、各所にある日本語の解説は怪しいかも、です。</p>
-<p><a href="http://tech.albert2005.co.jp/blog/2014/11/21/mco-normalize/">文字コード地獄秘話 第3話：後戻りの効かないUnicode正規化</a>の解説が良さげです。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="kn">import</span> <span class="nn">java.text.*</span>
-</span><span class='line'><span class="o">===&gt;</span> <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.*</span>
-</span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">str</span> <span class="o">=</span> <span class="s">&quot;ç¥ã¨ï¨ãã²Â¼ã&quot;</span>
-</span><span class='line'><span class="o">===&gt;</span> <span class="err">ç¥ã¨ï¨ãã²Â¼ã</span>
-</span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">Normalizer</span><span class="o">.</span><span class="na">normalize</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="n">Normalizer</span><span class="o">.</span><span class="na">Form</span><span class="o">.</span><span class="na">NFD</span><span class="o">))</span>
-</span><span class='line'><span class="err">ç¥ã¨ç¥ãã²Â¼ã</span>
-</span><span class='line'><span class="o">===&gt;</span> <span class="kc">null</span>
-</span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">Normalizer</span><span class="o">.</span><span class="na">normalize</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="n">Normalizer</span><span class="o">.</span><span class="na">Form</span><span class="o">.</span><span class="na">NFC</span><span class="o">))</span>
-</span><span class='line'><span class="err">ç¥ã¨ç¥ãã²Â¼ã</span>
-</span><span class='line'><span class="o">===&gt;</span> <span class="kc">null</span>
-</span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">Normalizer</span><span class="o">.</span><span class="na">normalize</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="n">Normalizer</span><span class="o">.</span><span class="na">Form</span><span class="o">.</span><span class="na">NFKD</span><span class="o">))</span>
-</span><span class='line'><span class="err">ç¥ã¨ç¥ã¢ãã¼ã</span><span class="o">(</span><span class="err">æ</span><span class="o">)</span><span class="mi">1</span><span class="err">â</span><span class="mi">4</span><span class="err">ã</span>
-</span><span class='line'><span class="o">===&gt;</span> <span class="kc">null</span>
-</span><span class='line'><span class="nl">groovy:</span><span class="mi">000</span><span class="o">&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">Normalizer</span><span class="o">.</span><span class="na">normalize</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="n">Normalizer</span><span class="o">.</span><span class="na">Form</span><span class="o">.</span><span class="na">NFKC</span><span class="o">))</span>
-</span><span class='line'><span class="err">ç¥ã¨ç¥ã¢ãã¼ã</span><span class="o">(</span><span class="err">æ</span><span class="o">)</span><span class="mi">1</span><span class="err">â</span><span class="mi">4</span><span class="err">ã</span>
-</span><span class='line'><span class="o">===&gt;</span> <span class="kc">null</span>
-</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>

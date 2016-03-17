@@ -115,7 +115,10 @@
   </header>
 
 
-<div class="entry-content"><p><code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
+<div class="entry-content"><p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+method前段に書いた動作例documentをtestとして動かせるそうな。
+同じようなのがJavaにも無いかなと探してみると、
+<code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
 <a href="http://kyon-mm.bitbucket.org/blog/html/2013/05/29/use_javadocassertiontestsuite.html">うさぎ組 プロダクトコードのJavaDocにテストコードを書く方法</a>より。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -171,7 +174,9 @@
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
 <p>と書けば、gradleでもtestしてくれるそう。
-こんなのがあったなんて。</p>
+こんなのがあったなんてびっくりポンです。
+<a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
+Javascriptで記述するというのでGroovyの方がいいですよね。</p>
 </div>
 
 </article>
@@ -188,7 +193,7 @@
 
 
 
-     <time datetime="2016-03-17T02:52:17+00:00" class="updated">
+     <time datetime="2016-03-17T07:30:04+00:00" class="updated">
        Updated
        <span class="month">Mar</span>
        <span class="day">17</span>,
@@ -227,6 +232,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2016/03/17/simple-web-ui-testing-by-sikuli/" title="Previous Post: Simple Web UI Testing by Sikuli">&laquo; Simple Web UI Testing by Sikuli</a>
+      
       
         <a class="basic-alignment right" href="/blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/" title="Next Post: Assessing Outbound Traffic to Uncover Advanced Persistent Threat">Assessing Outbound Traffic to Uncover Advanced Persistent Threat &raquo;</a>
       
@@ -249,6 +256,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/17/simple-web-ui-testing-by-sikuli/">Simple Web UI Testing by Sikuli</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/17/testing-code-in-javadoc-using-groovy/">Testing Code in Javadoc Using Groovy</a>
       </li>
     
@@ -262,10 +273,6 @@
     
       <li class="post">
         <a href="/blog/2016/03/17/gatling-instead-of-jmeter/">Gatling Instead of JMeter</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/03/16/geb-is-great/">Geb Is Great</a>
       </li>
     
   </ul>

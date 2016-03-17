@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/test/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T02:52:17+00:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p><code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/test/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Simple Web UI Testing by Sikuli]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/simple-web-ui-testing-by-sikuli/"/><updated>2016-03-17T07:47:51+00:00</updated><id>/blog/2016/03/17/simple-web-ui-testing-by-sikuli/</id><content type="html"><![CDATA[<p><a href="http://www.sikuli.org/">Sikuli</a>を使うと、
+簡単にWeb UIをtest出来ます。
+あ、Web UIに限りませんか。Desktop上のアプリ全て、というべきでしょう。
+何と言っても、「このボタンをclick」とかっていう指定が、
+当該ボタンの画像で示せる、
+その画像を取るのもbrowser上で範囲指定すればいいだけ、
+というのがなかなかshockingでした。</p>
+<p>Sikuli自体は<a href="https://code.google.com/archive/p/sikuli-api/">Java API</a>があるので、OS free、script化も可能っぽいです。
+<a href="http://www.sikulix.com/">SikuliX</a>でGUIでお手軽テスト自動化、のみならず。
+ただ、「ここを選んでclickして」とかっていう手順はすんなり書けるんですが、
+Captchaを乗り越えるために裏でlogic組みたかったんですけど、
+それがどうもSikuliXではうまく出来ない感じがしたので、諦めました。
+あぁ、上記のSikuli-apiを使ってJava Test classとして書けば良かったんですね。
+出来ないことはないですか。ぼくが見落としただけです。
+「ここ」って示す画像を沢山用意しないとならなさそう、です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T07:30:04+00:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+method前段に書いた動作例documentをtestとして動かせるそうな。
+同じようなのがJavaにも無いかなと探してみると、
+<code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
 <a href="http://kyon-mm.bitbucket.org/blog/html/2013/05/29/use_javadocassertiontestsuite.html">うさぎ組 プロダクトコードのJavaDocにテストコードを書く方法</a>より。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -54,7 +72,9 @@
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
 <p>と書けば、gradleでもtestしてくれるそう。
-こんなのがあったなんて。</p>
+こんなのがあったなんてびっくりポンです。
+<a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
+Javascriptで記述するというのでGroovyの方がいいですよね。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[Gatling instead of JMeter]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/"/><updated>2016-03-17T00:35:52+00:00</updated><id>/blog/2016/03/17/gatling-instead-of-jmeter/</id><content type="html"><![CDATA[<p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。
 結果のvisualizationがとても魅力的。
 Scala baseなれどfluentに書けるので敷居も低そう。</p>
