@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T05:10:44+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T05:10:44+00:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T00:35:52+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Gatling instead of JMeter]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/"/><updated>2016-03-17T00:35:52+00:00</updated><id>/blog/2016/03/17/gatling-instead-of-jmeter/</id><content type="html"><![CDATA[<p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。
+結果のvisualizationがとても魅力的。
+Scala baseなれどfluentに書けるので敷居も低そう。</p>
+]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T05:27:03+00:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
 要はSeleniumのwrapperなんですが、
 Page Modelとか駆使すると、
 GUI testもspockのSpec本体には具体的なtag名出さずにlogicalに書けますね。
@@ -95,7 +98,7 @@ html5ではaccessibilityの観点から廃止されてるのに。</p>
 </span><span class='line'>  ...
 </span><span class='line'>} == &#39;modal dialog message&#39;
 </span></code></pre></td></tr></table></div></figure>
-<p>まぁ、<a href="http://www.gebish.org/manual/current/">manual</a>を読めってことですね。</p>
+<p>まぁ、<a href="http://www.gebish.org/manual/current/">geb manual</a>を読めってことですね。</p>
 <p>これはgroovyのことですが、日付のformatが簡単です。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>leaveRequest.approvalDate.text == new Date().format(&#39;yyyy/MM/dd&#39;)
@@ -678,48 +681,4 @@ tabではなくsidemenu型のprototypeが用意されるようです。</p>
 buildして、端末にはQR codeで読み込ませれば、
 install、実行が出来ます。</p>
 <p>はぁ〜、イマドキのアプリって、こういう風に作れちゃうんですねー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Controlling Unity on ubuntu through CLI]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/</id><content type="html"><![CDATA[<h3>Clock on the menu bar</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-date &quot;true&quot;
-</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-day &quot;true&quot;
-</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-seconds &quot;true&quot;
-</span><span class='line'>$ dconf write /com/canonical/indicator/datetime/show-year &quot;true&quot;
-</span></code></pre></td></tr></table></div></figure>
-<h3>battery on the menu bar</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/indicator/power/show-time &quot;true&quot;
-</span><span class='line'>$ dconf write /com/canonical/indicator/power/show-percentage &quot;true&quot;
-</span></code></pre></td></tr></table></div></figure>
-<h3>"En" on the menu bar(default language selection)</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/input-sources/current &quot;uint32 1&quot;
-</span></code></pre></td></tr></table></div></figure>
-<h3>Wallpaper</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/background/picture-uri &quot;&#39;file:///usr/share/backgrounds/wallpaper_univcoop.jpg&#39;&quot;
-</span></code></pre></td></tr></table></div></figure>
-<h3>The way to suppress other icons on the launcher</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/unity/launcher/favorites &quot;[&#39;application://firefox.desktop&#39;]&quot;
-</span><span class='line'>$ dconf read /com/canonical/unity/launcher/favorites
-</span></code></pre></td></tr></table></div></figure>
-<h3>forbidden hud</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/compiz/integrated/show-hud &quot;[&#39;disabled&#39;]&quot;
-</span></code></pre></td></tr></table></div></figure>
-<h3>To suppress remote content search</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /com/canonical/unity/lenses/remote-content-search &quot;&#39;none&#39;&quot;
-</span></code></pre></td></tr></table></div></figure>
-<h3>Supress auto-mount</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount &quot;&#39;false&#39;&quot;
-</span><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount-open &quot;&#39;false&#39;&quot;
-</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>

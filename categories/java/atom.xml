@@ -1,11 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/java/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Java Decompiler]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/java-decompiler/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2016/02/19/java-decompiler/</id><content type="html"><![CDATA[<p>Javaのdecompilerといえばjadが昔から有名ですが、jadってとうに開発止まってるんですね。
-知りませんでした。1.5くらいから解析不能というのでは、
-もうちょっと使えませんか。
-今は<a href="http://jd.benow.ca/">JD-GUI</a>が簡便そうですが、
-これとてJava8のlambda expressionや、そもそもLocal Method Classes(method内inner class?)に非対応とな。
-Java8の昨今ではう～ん、です。
-と思ったら、<a href="http://www.benf.org/other/cfr/">CFR</a>というのが使えるそうです。
-実際試して、使えました。
-<a href="http://www.javadecompilers.com/">online decompiler</a>もあるので、色々気軽に試せます。
-良かった、今でもjava decompileは気軽に出来るわけですね。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/java/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Gatling instead of JMeter]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/"/><updated>2016-03-17T00:35:52+00:00</updated><id>/blog/2016/03/17/gatling-instead-of-jmeter/</id><content type="html"><![CDATA[<p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。
+結果のvisualizationがとても魅力的。
+Scala baseなれどfluentに書けるので敷居も低そう。</p>
 ]]></content></entry></feed>
