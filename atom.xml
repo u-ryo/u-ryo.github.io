@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T00:35:52+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Gatling instead of JMeter]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/"/><updated>2016-03-17T00:35:52+00:00</updated><id>/blog/2016/03/17/gatling-instead-of-jmeter/</id><content type="html"><![CDATA[<p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T01:04:45+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2016-03-17T01:04:45+00:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
+Objectの中身を見るのって<code>.dump()</code>より<code>.inspect()</code>なんですね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Gatling instead of JMeter]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/"/><updated>2016-03-17T00:35:52+00:00</updated><id>/blog/2016/03/17/gatling-instead-of-jmeter/</id><content type="html"><![CDATA[<p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。
 結果のvisualizationがとても魅力的。
 Scala baseなれどfluentに書けるので敷居も低そう。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T05:27:03+00:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
@@ -638,47 +640,4 @@ environments → prod → url を指定してなかったのが、原因でし�
 Disqusは、「どのURLからのaccessか」をparameterから見てますから、
 ここがSetup → Basic → Site Identity → Website URL と一致してないと
 ならないんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Developing and Building Cordova App]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/developing-and-building-cordova-app/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/11/10/developing-and-building-cordova-app/</id><content type="html"><![CDATA[<p>all cloud環境で、hybrid applicationsを開発する方法がわかりました。</p>
-<ol>
-<li><a href="http://c9.io">Cloud9</a>で作る</li>
-<li><a href="https://github.com">GitHub</a>に置く</li>
-<li><a href="https://build.phonegap.com">PhoneGap Builder</a>でbuild</li>
-</ol>
-<h3>Cloud9</h3>
-<p>templateは何を選んでもnode.jsが付いてくるみたいです。
-<a href="http://daniel.favand.net/2014/11/21/developing-ionic-cordova-apps-in-the-cloud-with-cloud9/">Developing Ionic (Cordova) apps in the cloud with Cloud9</a>
-に従って、以下project nameを「firstproject」とします。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ npm -g install cordova ionic
-</span><span class='line'>$ ionic start firstproject
-</span><span class='line'>$ cd firstproject
-</span></code></pre></td></tr></table></div></figure>
-<p>これで準備が出来ます。
-<a href="https://docs.c9.io/docs/ionic">official document</a>にもありますが、
-<code>$ ionic start firstproject sidemenu</code>とすれば、
-tabではなくsidemenu型のprototypeが用意されるようです。</p>
-<h3>GitHub</h3>
-<p>buildには、上述のように、PhoneGap Builderを使います。
-そのためには、一度GitHubにpushせねばなりません。</p>
-<p>まずGitHubに行って、repositoryを作ります。
-その上で、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ git init
-</span><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m &quot;Initial commit&quot;
-</span><span class='line'>$ git remote add origin https://github.com/u-ryo/firstproject.git
-</span><span class='line'>$ git push -u origin master
-</span></code></pre></td></tr></table></div></figure>
-<h3>PhoneGap Builder</h3>
-<p>そうしておいてから、
-<a href="https://build.phonegap.com">PhoneGap Builder</a>(passwordは英小文字大文字8文字以上)に行って、
-buildして、端末にはQR codeで読み込ませれば、
-install、実行が出来ます。</p>
-<p>はぁ〜、イマドキのアプリって、こういう風に作れちゃうんですねー。</p>
 ]]></content></entry></feed>
