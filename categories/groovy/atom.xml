@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2016-03-17T01:04:45+00:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T02:52:17+00:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p><code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
+<a href="http://kyon-mm.bitbucket.org/blog/html/2013/05/29/use_javadocassertiontestsuite.html">うさぎ組 プロダクトコードのJavaDocにテストコードを書く方法</a>より。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>class Sample {
+</span><span class='line'>
+</span><span class='line'>    /**
+</span><span class='line'>     * add prefix &#39;sample&#39;.
+</span><span class='line'>     * <span class="nt">&lt;pre</span> <span class="na">class=</span><span class="s">&quot;groovyTestCase&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>     *    def sample = new org.kyon_mm.Sample()
+</span><span class='line'>     *    assert &#39;sample foo&#39; == sample.prefixSample(&quot;foo&quot;)
+</span><span class='line'>     * <span class="nt">&lt;/pre&gt;</span>
+</span><span class='line'>     */
+</span><span class='line'>    String prefixSample(aaa){
+</span><span class='line'>        return &quot;sample $aaa&quot;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>と書いて、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import junit.framework.Test
+</span><span class='line'>import junit.framework.TestCase
+</span><span class='line'>import junit.framework.TestSuite
+</span><span class='line'>
+</span><span class='line'>class ReferenceTests extends TestCase {
+</span><span class='line'>    static Test suite()  {
+</span><span class='line'>        def suite = new TestSuite()
+</span><span class='line'>        suite.addTest( JavadocAssertionTestSuite.suite( &#39;src/main&#39; ) )
+</span><span class='line'>        suite
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>と書けば、gradleでもtestしてくれるそう。
+こんなのがあったなんて。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2016-03-17T01:04:45+00:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
 Objectの中身を見るのって<code>.dump()</code>より<code>.inspect()</code>なんですね。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T05:27:03+00:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
 要はSeleniumのwrapperなんですが、
