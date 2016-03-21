@@ -1,8 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-17T17:16:00+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Collecting the server crash logs by Errbit]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/collecting-the-server-crash-logs-by-errbit/"/><updated>2016-03-17T17:16:00+09:00</updated><id>/blog/2016/03/17/collecting-the-server-crash-logs-by-errbit/</id><content type="html"><![CDATA[<p><a href="http://qiita.com/tjnet/items/0a9fbb54afd6e0882040">無料エラー収集システムErrbitで、ログファイルをgrepする生活とサヨナラ</a></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-21T18:32:55+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Awakening Wave LAN of NetworkManager on the Laptop]]></title><link href="http://u-ryo.github.io//blog/2016/03/22/awakening-wave-lan-of-networkmanager-on-the-laptop/"/><updated>2016-03-21T18:32:55+00:00</updated><id>/blog/2016/03/22/awakening-wave-lan-of-networkmanager-on-the-laptop/</id><content type="html"><![CDATA[HPのノートPCで、suspendから覚めても無線LANが復活しないことがよくあったので
+困ってたんですが、NetworkManagerをcommand lineからいじれると知って。
+
+null
+$ nmcli -p nm status
+null
+
+とやると現在の状態を表示し、
+やってみるとWLANのstatusがsleepだったので、
+
+null
+sudo nmcli -p nm sleep false
+null
+
+とすると、繋げに行くようになりました。めでたしめでたし。]]></content></entry><entry><title type="html"><![CDATA[Collecting the server crash logs by Errbit]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/collecting-the-server-crash-logs-by-errbit/"/><updated>2016-03-17T08:16:00+00:00</updated><id>/blog/2016/03/17/collecting-the-server-crash-logs-by-errbit/</id><content type="html"><![CDATA[<p><a href="http://qiita.com/tjnet/items/0a9fbb54afd6e0882040">無料エラー収集システムErrbitで、ログファイルをgrepする生活とサヨナラ</a></p>
 <p>アプリでクラッシュがあったら通知する<a href="https://try.crashlytics.com/">Crashlytics</a>
 <a href="http://blog.mb.cloud.nifty.com/?p=919">アプリ改善の道筋を示すクラッシュレポートサービスを使いこなそう</a>
 のserver版がある、ってことですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Simple Web UI Testing by Sikuli]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/simple-web-ui-testing-by-sikuli/"/><updated>2016-03-17T17:02:54+09:00</updated><id>/blog/2016/03/17/simple-web-ui-testing-by-sikuli/</id><content type="html"><![CDATA[<p><a href="http://www.sikuli.org/">Sikuli</a>を使うと、
+]]></content></entry><entry><title type="html"><![CDATA[Simple Web UI Testing by Sikuli]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/simple-web-ui-testing-by-sikuli/"/><updated>2016-03-17T08:02:54+00:00</updated><id>/blog/2016/03/17/simple-web-ui-testing-by-sikuli/</id><content type="html"><![CDATA[<p><a href="http://www.sikuli.org/">Sikuli</a>を使うと、
 簡単にWeb UIをtest出来ます。
 あ、Web UIに限りませんか。Desktop上のアプリ全て、というべきでしょう。
 何と言っても、「このボタンをclick」とかっていう指定が、
@@ -19,7 +33,7 @@ Captchaを乗り越えるために裏でlogic組みたかったんですけど�
 「ここ」って示す画像を沢山用意しないとならなさそう、です。</p>
 <p>じぇじぇ、GebとSikuli、<a href="https://fbflex.wordpress.com/2012/10/27/geb-and-sikuli/">一緒に使えそう</a>ですね。
 もうGebで書いちゃいましたよトホホ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T16:30:04+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T07:30:04+00:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
 method前段に書いた動作例documentをtestとして動かせるそうな。
 同じようなのがJavaにも無いかなと探してみると、
 <code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
@@ -81,15 +95,15 @@ method前段に書いた動作例documentをtestとして動かせるそうな�
 こんなのがあったなんてびっくりポンです。
 <a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
 Javascriptで記述するというのでGroovyの方がいいですよね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Assessing Outbound Traffic to Uncover Advanced Persistent Threat]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/"/><updated>2016-03-17T11:08:17+09:00</updated><id>/blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/</id><content type="html"><![CDATA[<p>きょうび、APT(標的型攻撃)は、外向き通信から解析する必要があるでしょうと。
+]]></content></entry><entry><title type="html"><![CDATA[Assessing Outbound Traffic to Uncover Advanced Persistent Threat]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/"/><updated>2016-03-17T02:08:17+00:00</updated><id>/blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/</id><content type="html"><![CDATA[<p>きょうび、APT(標的型攻撃)は、外向き通信から解析する必要があるでしょうと。
 後で読むために。
 <a href="https://www.sans.edu/student-files/projects/JWP-Binde-McRee-OConnor.pdf">Assessing Outbound Traffic to Uncover Advanced Persistent Threat</a></p>
-]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2016-03-17T10:04:45+09:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
+]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2016-03-17T01:04:45+00:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
 Objectの中身を見るのって<code>.dump()</code>より<code>.inspect()</code>なんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Gatling instead of JMeter]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/"/><updated>2016-03-17T09:35:52+09:00</updated><id>/blog/2016/03/17/gatling-instead-of-jmeter/</id><content type="html"><![CDATA[<p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。
+]]></content></entry><entry><title type="html"><![CDATA[Gatling instead of JMeter]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/"/><updated>2016-03-17T00:35:52+00:00</updated><id>/blog/2016/03/17/gatling-instead-of-jmeter/</id><content type="html"><![CDATA[<p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。
 結果のvisualizationがとても魅力的。
 Scala baseなれどfluentに書けるので敷居も低そう。</p>
-]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T14:27:03+09:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
+]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T05:27:03+00:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
 要はSeleniumのwrapperなんですが、
 Page Modelとか駆使すると、
 GUI testもspockのSpec本体には具体的なtag名出さずにlogicalに書けますね。
@@ -203,7 +217,7 @@ html5ではaccessibilityの観点から廃止されてるのに。</p>
 </span><span class='line'>def http = new HttpURLClient(url: &#39;https://my-ocr.herokuapp.com/&#39;)
 </span><span class='line'>tryLogin(userId, password, http.request(path: jsessionId).data)
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[koding has changed]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/koding-has-changed/"/><updated>2016-03-16T10:27:13+09:00</updated><id>/blog/2016/03/16/koding-has-changed/</id><content type="html"><![CDATA[<p><a href="https://koding.com">Koding</a>が、何かいきなりTeam codingとかいって、renewalしてました。
+]]></content></entry><entry><title type="html"><![CDATA[koding has changed]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/koding-has-changed/"/><updated>2016-03-16T01:27:13+00:00</updated><id>/blog/2016/03/16/koding-has-changed/</id><content type="html"><![CDATA[<p><a href="https://koding.com">Koding</a>が、何かいきなりTeam codingとかいって、renewalしてました。
 新しくなるのはいいんですけど、
 <a href="https://github.com">github</a>のaccountで入れなくなったり、
 AWSが必須だかlocalのLinuxにkdとかいうのをinstallするのが必須だか、
@@ -211,7 +225,7 @@ free and Web上で完結しなくなっているようだったり、
 というのはやめて欲しいです。
 今更ながら、<a href="https://nitrous.io">nitrous.io</a>に乗り換えます。
 <a href="https://c9.io">Cloud9</a>だとGrainw compile出来ないので。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Security Check]]></title><link href="http://u-ryo.github.io//blog/2016/02/20/security-check/"/><updated>2016-03-16T11:01:16+09:00</updated><id>/blog/2016/02/20/security-check/</id><content type="html"><![CDATA[<p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、
+]]></content></entry><entry><title type="html"><![CDATA[Security Check]]></title><link href="http://u-ryo.github.io//blog/2016/02/20/security-check/"/><updated>2016-03-16T02:01:16+00:00</updated><id>/blog/2016/02/20/security-check/</id><content type="html"><![CDATA[<p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、
 標的型攻撃による情報流出が怖くなりました。
 <a href="http://www.jipdec.or.jp">JIPDEC</a>とか、表面化してないだけで絶対やられてるんじゃないのかな、
 とか思うんですが、それをみるために、
@@ -259,7 +273,7 @@ freeで何度も使えるならいいですね。</p>
 とても勉強になります。<a href="http://blog.tokumaru.org/">徳丸先生の日記</a>は言わずもがな。
 <a href="https://takagi-hiromitsu.jp/diary/">ヒロミチュ先生のところ</a>は、
 最近技術的な話題少ないんですかね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
 <p>Cloud9上で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -310,7 +324,7 @@ gitにcommitしてherokuにdeployするのは
 <p>で上手く行く筈、なんですが、
 git remoteを設定しないとダメかも。
 その辺は適宜。</p>
-]]></content></entry><entry><title type="html"><![CDATA[how to build my web application product]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/how-to-build-my-web-application-product/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/02/19/how-to-build-my-web-application-product/</id><content type="html"><![CDATA[<h2>Private memo</h2>
+]]></content></entry><entry><title type="html"><![CDATA[how to build my web application product]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/how-to-build-my-web-application-product/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2016/02/19/how-to-build-my-web-application-product/</id><content type="html"><![CDATA[<h2>Private memo</h2>
 <p>To build hondaPortal,
 <code>cd</code> to hondaPortalView,
 <code>bower install</code> and <code>npm install</code> first to set up javascript libraries.
@@ -322,7 +336,7 @@ I found a workaround at <a href="https://github.com/gruntjs/grunt-contrib-imagem
 </pre></td><td class='code'><pre><code class='html'><span class='line'>cd node_modules/grunt-contrib-imagemin
 </span><span class='line'>npm install imagemin@4.0.0
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Java Decompiler]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/java-decompiler/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/02/19/java-decompiler/</id><content type="html"><![CDATA[<p>Javaのdecompilerといえばjadが昔から有名ですが、jadってとうに開発止まってるんですね。
+]]></content></entry><entry><title type="html"><![CDATA[Java Decompiler]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/java-decompiler/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2016/02/19/java-decompiler/</id><content type="html"><![CDATA[<p>Javaのdecompilerといえばjadが昔から有名ですが、jadってとうに開発止まってるんですね。
 知りませんでした。1.5くらいから解析不能というのでは、
 もうちょっと使えませんか。
 今は<a href="http://jd.benow.ca/">JD-GUI</a>が簡便そうですが、
@@ -332,12 +346,12 @@ Java8の昨今ではう～ん、です。
 実際試して、使えました。
 <a href="http://www.javadecompilers.com/">online decompiler</a>もあるので、色々気軽に試せます。
 良かった、今でもjava decompileは気軽に出来るわけですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[scp on emacs dired]]></title><link href="http://u-ryo.github.io//blog/2016/01/06/scp-on-emacs-dired/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/01/06/scp-on-emacs-dired/</id><content type="html"><![CDATA[<h3>emacs上でのscp with tramp</h3>
+]]></content></entry><entry><title type="html"><![CDATA[scp on emacs dired]]></title><link href="http://u-ryo.github.io//blog/2016/01/06/scp-on-emacs-dired/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2016/01/06/scp-on-emacs-dired/</id><content type="html"><![CDATA[<h3>emacs上でのscp with tramp</h3>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>/scp:mickey:/mnt/u-ryo/photo/20151227/
 </span></code></pre></td></tr></table></div></figure>
 <p>というように、<code>scp</code>とした方が良いらしい。</p>
-]]></content></entry><entry><title type="html"><![CDATA[rename files]]></title><link href="http://u-ryo.github.io//blog/2016/01/05/rename-files/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/01/05/rename-files/</id><content type="html"><![CDATA[<h3>ファイル名一括置換</h3>
+]]></content></entry><entry><title type="html"><![CDATA[rename files]]></title><link href="http://u-ryo.github.io//blog/2016/01/05/rename-files/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2016/01/05/rename-files/</id><content type="html"><![CDATA[<h3>ファイル名一括置換</h3>
 <p>「rename」を使えばよいとのことだったので、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ rename &#39;IMG_&#39; &#39;img_0&#39; ~/photo/20151227/*.JPG
@@ -351,7 +365,7 @@ Java8の昨今ではう～ん、です。
 </pre></td><td class='code'><pre><code class='html'><span class='line'>find /home/u-ryo/photo/20151227/ -name &quot;IMG_*.JPG&quot;|sed &#39;p;s|IMG_\([0-9][0-9][0-9][0-9]\).JPG|img_0\1.jpg|g&#39;|xargs -n2 mv
 </span></code></pre></td></tr></table></div></figure>
 <p>とすれば動いた。</p>
-]]></content></entry><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
+]]></content></entry><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
 某A空輸の次期予約サイトのMonkey Testをやらされているんですが、
 screen shotとかuploadするのに、何故か20kbという制限があります。
 そんなの、Gimpとかフリーソフト使えば簡単なんですが、
@@ -466,7 +480,7 @@ rubyはrmagicを使えるらしいということで、やりました。</p>
 </span></code></pre></td></tr></table></div></figure>
 <p>あぁ、erbってのも初めて使いました。
 ここへpostするためのplain htmlが書いてあります。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Beethoven Comic]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/beethoven-comic/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/12/17/beethoven-comic/</id><content type="html"><![CDATA[<p>昨日のDoodleがBeethovenのmini gameだったので、
+]]></content></entry><entry><title type="html"><![CDATA[Beethoven Comic]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/beethoven-comic/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/12/17/beethoven-comic/</id><content type="html"><![CDATA[<p>昨日のDoodleがBeethovenのmini gameだったので、
 ついそのまま検索していたら、
 <a href="http://naxos.jp/special/no_unmei">ベートーヴェン4コマ劇場「運命と呼ばないで」</a>
 というのを見付けました。
@@ -475,7 +489,7 @@ rubyはrmagicを使えるらしいということで、やりました。</p>
 ってのだめじゃーん。
 でも天才ってそうなんでしょうね。
 オヤジギャグとかいいなー。貧乏は嫌ですが。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Deploying to GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/17/deploying-to-gae/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/11/17/deploying-to-gae/</id><content type="html"><![CDATA[<p>いやぁ、こんなに大変だとは。
+]]></content></entry><entry><title type="html"><![CDATA[Deploying to GAE]]></title><link href="http://u-ryo.github.io//blog/2015/11/17/deploying-to-gae/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/11/17/deploying-to-gae/</id><content type="html"><![CDATA[<p>いやぁ、こんなに大変だとは。
 web applicationをGAEにdeployするのって。
 既に何度も過去にはやっているんですが、
 久し振りにやると、なかなか上手く行かないです。</p>
@@ -499,7 +513,7 @@ buildかけると読んではくれてるんですが、
 Java8未対応ですし無料分では。</p>
 <p>結局、<code>~/.appcfg_oauth2_tokens_java</code>を消したら上手くOAuth再取得してくれました。
 やれやれ、です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Angular2 Tutorial]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/angular2-tutorial/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/11/15/angular2-tutorial/</id><content type="html"><![CDATA[<p>Angular2の<a href="https://angular.io/docs/ts/latest/quickstart.html">Tutorial</a>が凄いです。
+]]></content></entry><entry><title type="html"><![CDATA[Angular2 Tutorial]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/angular2-tutorial/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/11/15/angular2-tutorial/</id><content type="html"><![CDATA[<p>Angular2の<a href="https://angular.io/docs/ts/latest/quickstart.html">Tutorial</a>が凄いです。
 すぐ使えて面白いです。
 英語も平易ですし。
 そこから<a href="https://angular.io/docs/ts/latest/guide/">Developer Guides</a>へも、
@@ -513,7 +527,7 @@ netで探せばAngular2の解説が幾つか日本語でも出て来ますが、
 もう来年からAngular2になることが分かっているので、
 今更<code>$scope</code>とかやりたくないですよ。
 まだまだα版なので、これからも大きく変わりそうですけど...</p>
-]]></content></entry><entry><title type="html"><![CDATA[set my postfix able to send over OP25B(Outbound Port 25 Blocking) using Mailgun]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/</id><content type="html"><![CDATA[<p>OP25Bが始まってから、ってもう大分前のことですが、
+]]></content></entry><entry><title type="html"><![CDATA[set my postfix able to send over OP25B(Outbound Port 25 Blocking) using Mailgun]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/11/15/set-my-postfix-able-to-send-over-op25b-outbound-port-25-blocking-using-mailgun/</id><content type="html"><![CDATA[<p>OP25Bが始まってから、ってもう大分前のことですが、
 自前でmailを送るのは諦めて、
 GMailを経由して送ってました。
 でも、GMailを経由すると、
@@ -554,63 +568,4 @@ mailgunで受信するにはどうしたらいいんだろう?
 中国からのbrute force attackがずっと続いていたことがわかりました。
 嫌なので、mail serverは落として、
 GMailへのforwardingにすることにしました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
-markdown-modeが欲しいと思ったので、
-<code>list-package</code>したら、
-なかったんですね選択肢に。
-調べると、<code>.emacs</code>に、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>(require &#39;package)
-</span><span class='line'>(add-to-list &#39;package-archives &#39;(&quot;melpa&quot; . &quot;http://melpa.milkbox.net/packages/&quot;))
-</span><span class='line'>(add-to-list &#39;package-archives &#39;(&quot;marmalade&quot; . &quot;http://marmalade-repo.org/packages/&quot;))
-</span><span class='line'>(package-initialize)
-</span></code></pre></td></tr></table></div></figure>
-<p>が必要でした。</p>
-<p>cf.<a href="http://qiita.com/catatsuy/items/5f1cd86e2522fd3384a0">init-loader.el と package.el を導入して快適 Emacs ライフ</a></p>
-<h3>Preview</h3>
-<p>あと、emacsで書いてpreviewだけ別にしたいな、
-と思ったぼくには、
-Chromeの<a href="https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl">Markdown Preview Plus</a>
-extentionが便利でした。
-install後、
-Manage extentionsで「Allow access to file URLs」にチェックを入れないとならない、
-というのがハマりポイントでした。</p>
-<h3>PDFへの変換</h3>
-<p><a href="https://gist.github.com/bouzuya/5989695">Pandoc で Markdown から PDF へ変換</a>にある通り、
-apt-getで入るpandocを使えば楽かなぁと。
-header.texが必要というのがtrickyですね。
-これもLuaLaTeXで変換出来ました。</p>
-<p>header.tex</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>\usepackage{luatexja}
-</span><span class='line'>\setmainfont{TakaoPMincho}
-</span><span class='line'>\setsansfont{TakaoPGothic}
-</span><span class='line'>\setmonofont{TakaoGothic}
-</span></code></pre></td></tr></table></div></figure>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ pandoc --latex-engine=lualatex -o /tmp/test.pdf -H ~/header.tex /tmp/test.md
-</span></code></pre></td></tr></table></div></figure>
-<h3>Table</h3>
-<p><a href="http://www.tablesgenerator.com/markdown_tables">Table Generator</a>というのがあります。
-orgtbl-modeは、よくわからないので使ってません。</p>
-<h3>online editor</h3>
-<p>ってうか、既にbrowser上でedit/preview出来るもの、あるじゃないですか。
-もう古い記事ですが、
-<a href="http://yoshimov.com/list/markdown-online-editor-list/#wripe">Webブラウザで使えるMarkdownエディタの比較</a>を見ますと、
-今はもっとあるんでしょうね...
-2015年の記事もありますね。<a href="http://shgam.hatenadiary.jp/entry/2015/01/11/032651">ブラウザ上で使えるMarkdownエディタ</a></p>
-<ul>
-<li><a href="https://wri.pe/">wri.pe</a></li>
-<li><a href="http://dillinger.io/">Online Markdown Editor - Dillinger, the Last Markdown Editor ever.</a></li>
-<li><a href="http://www.ctrlshift.net/project/markdowneditor/">Online Markdown Editor</a></li>
-</ul>
-<p>wri.pe凄いですね。
-GitHub accountで入れますし、
-スッと使えるinterfaceを感じます。</p>
 ]]></content></entry></feed>

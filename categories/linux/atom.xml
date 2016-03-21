@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/linux/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/linux/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
 「壁紙を変えたい」と言われました。
 デフォルト「wallpaperはon」と書いてありますけれども、
 明示的に「+wallpaper」としないと、効かないようです。</p>
@@ -11,7 +11,7 @@
 ともあれ、「+heartbeat」を指定すると、
 頻繁なreconnectはおさまりました。
 「-heartbeat」でも効果あったんですが、なぜ?</p>
-]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/too-many-open-files/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
+]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/too-many-open-files/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
 <code>Too many open files</code>と言われていました。</p>
 <ul>
 <li>現状の確認 <code>$ ulimit -a</code></li>

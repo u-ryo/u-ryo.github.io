@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T16:30:04+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T01:13:51+00:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T07:30:04+00:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
 method前段に書いた動作例documentをtestとして動かせるそうな。
 同じようなのがJavaにも無いかなと探してみると、
 <code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
@@ -60,9 +60,9 @@ method前段に書いた動作例documentをtestとして動かせるそうな�
 こんなのがあったなんてびっくりポンです。
 <a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
 Javascriptで記述するというのでGroovyの方がいいですよね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2016-03-17T10:04:45+09:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
+]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2016-03-17T01:04:45+00:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
 Objectの中身を見るのって<code>.dump()</code>より<code>.inspect()</code>なんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T14:27:03+09:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
+]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2016-03-16T05:27:03+00:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
 要はSeleniumのwrapperなんですが、
 Page Modelとか駆使すると、
 GUI testもspockのSpec本体には具体的なtag名出さずにlogicalに書けますね。
@@ -176,7 +176,7 @@ html5ではaccessibilityの観点から廃止されてるのに。</p>
 </span><span class='line'>def http = new HttpURLClient(url: &#39;https://my-ocr.herokuapp.com/&#39;)
 </span><span class='line'>tryLogin(userId, password, http.request(path: jsessionId).data)
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
 <h2>Example with line numbers:</h2>
 <h4>Code:</h4>
 <p>&#096;&#096;&#096;groovy HelloWorld.groovy<br>
@@ -194,7 +194,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <figure class='code'><figcaption><span>HelloWorld.groovy</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='groovy'><span class='line'><span class="n">println</span> <span class="s2">&quot;Hello, world!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/gist-tag/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/gist-tag/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -209,7 +209,7 @@ println "Hello, world!"<br>
 <div id="gistdc3bf4796acd6a1439bc">
   <script src="https://gist.github.com/dc3bf4796acd6a1439bc.js"></script>
 </div></p>
-]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/jsfiddle-tag/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/jsfiddle-tag/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='jsp'><span class='line'><span class="k">&lt;%=</span> <span class="n">jsfiddle</span> <span class="nl">shorttag:</span> <span class="err">&#39;</span><span class="mi">8</span><span class="n">wcwq</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">width:</span> <span class="err">&#39;</span><span class="mi">90</span><span class="o">%</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">skin:</span> <span class="err">&#39;</span><span class="n">light</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">tabs:</span> <span class="err">&#39;</span><span class="n">html</span><span class="o">,</span><span class="n">css</span><span class="o">,</span><span class="n">js</span><span class="o">,</span><span class="n">result</span><span class="err">&#39;</span> <span class="k">%&gt;</span>
@@ -220,7 +220,7 @@ println "Hello, world!"<br>
 <iframe style="width: 90%; height: 300px" frameborder="0" seamless="seamless"
         src="http://jsfiddle.net/8wcwq/embedded/html,css,js,result/light/"></iframe>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/image-tag/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/image-tag/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Note, that theme <code>img</code> tag can handle all the attributes of standard HTML 'img' tag, such as align, border, etc.</p>
 <h2>Link to the internal image:</h2>
 <h4>Code:</h4>
@@ -238,7 +238,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <p><img src='http://cdn1.sysgears.com/images/grain/logo-cacd6d0f221a8f8cab3c46db5b0e730a.png' height='100' width='200' >
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/html5-video-tag/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/html5-video-tag/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -271,7 +271,7 @@ println "Hello, world!"<br>
 </video>
 
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/raw-tag/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/raw-tag/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Raw tag is used here to prevent groovy code parsing.</p>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -279,7 +279,7 @@ println "Hello, world!"<br>
 </span></code></pre></td></tr></table></div></figure>
 <h4>Result:</h4>
 <p>${ 2 + 2 } = 4</p>
-]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/pullquote-tag/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/pullquote-tag/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
 <h2>Right-aligned Quote</h2>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -338,7 +338,7 @@ esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat n
 qui officia deserunt mollit anim id est laborum.
     </span>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/blockqoute-tag/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/blockqoute-tag/"/><updated>2016-03-16T01:13:51+00:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
