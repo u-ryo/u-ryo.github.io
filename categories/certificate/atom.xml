@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/certificate/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Expired Root Cert]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/expired-root-cert/"/><updated>2016-06-06T14:29:54+09:00</updated><id>/blog/2016/06/06/expired-root-cert/</id><content type="html"><![CDATA[<p>Fortigateの認証proxy(且つSSLも検閲できるよう間に独自Certをかます)を有効にしたら、
+突然見られなくなったサイトが。
+<a href="https://duns-number-jp.dnb.com/search/jpn/login.asp">DUNS Number検索</a>っていうところなんですけど、
+なんでだろー、って調べてったら、とんでもないことが判明。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ openssl s_client -connect duns-number-jp.dnb.com:443 -showcerts|awk -v b=0 &#39;{if($2~/CERTIFICATE/){b++};if(b==5){print}}END{print &quot;-----END CERTIFICATE-----&quot;}&#39;|openssl x509 -enddate -noout
+</span><span class='line'>depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert High Assurance EV Root CA
+</span><span class='line'>verify error:num=20:unable to get local issuer certificate
+</span><span class='line'>verify return:0
+</span><span class='line'>DONE
+</span><span class='line'>notAfter=Sep 30 18:19:47 2015 GMT
+</span></code></pre></td></tr></table></div></figure>
+<p><img src="/images/duns-number-jp-1.png" alt="SSL Report by SSL Labs" /></p>
+<p><img src="/images/duns-number-jp-2.png" alt="SSL Report by SSL Labs" /></p>
+<p><a href="https://www.ssllabs.com/ssltest/analyze.html?d=duns-number-jp.dnb.com">SSL Report by SSL Labs</a></p>
+<p>そんな、わざわざ期限切れのRoot CAなんて配んなくっていいのに...</p>
+<p>ただ、そういえば、自分もSSL Cert更新時、
+中に含めていた中間証明書をそのまま使い回してverifierにかけたら、
+中間証明書が古いって言われて慌てて差し替えたことあります。
+自分で作ったcertは期限気にしますが、
+間に含めたcertsまではあんまり気にしないんですよね確かに。</p>
+<p>気持ちは、わかります。</p>
+]]></content></entry></feed>

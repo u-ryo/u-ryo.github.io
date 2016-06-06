@@ -1,0 +1,56 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Fortigate - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/fortigate/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various writings for introducing myself...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="q" value="site:http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Fortigate</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Fortigate category via RSS" href="/categories/fortigate/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2016/06/06/expired-root-cert/">Expired Root Cert</a></h1> <p class="meta"> <time datetime="2016-06-06T13:23:00+09:00" pubdate data-updated=true> <span class="month">Jun</span> <span class="day">06</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/06/06/expired-root-cert/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Fortigateの認証proxy(且つSSLも検閲できるよう間に独自Certをかます)を有効にしたら、 突然見られなくなったサイトが。 <a href="https://duns-number-jp.dnb.com/search/jpn/login.asp">DUNS Number検索</a>っていうところなんですけど、 なんでだろー、って調べてったら、とんでもないことが判明。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ openssl s_client -connect duns-number-jp.dnb.com:443 -showcerts|awk -v b=0 &#39;{if($2~/CERTIFICATE/){b++};if(b==5){print}}END{print &quot;-----END CERTIFICATE-----&quot;}&#39;|openssl x509 -enddate -noout
+</span><span class='line'>depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert High Assurance EV Root CA
+</span><span class='line'>verify error:num=20:unable to get local issuer certificate
+</span><span class='line'>verify return:0
+</span><span class='line'>DONE
+</span><span class='line'>notAfter=Sep 30 18:19:47 2015 GMT
+</span></code></pre></td></tr></table></div></figure> <p><img src="/images/duns-number-jp-1.png" alt="SSL Report by SSL Labs"/></p> <p><img src="/images/duns-number-jp-2.png" alt="SSL Report by SSL Labs"/></p> <p><a href="https://www.ssllabs.com/ssltest/analyze.html?d=duns-number-jp.dnb.com">SSL Report by SSL Labs</a></p> <p>そんな、わざわざ期限切れのRoot CAなんて配んなくっていいのに...</p> <p>ただ、そういえば、自分もSSL Cert更新時、 中に含めていた中間証明書をそのまま使い回してverifierにかけたら、 中間証明書が古いって言われて慌てて差し替えたことあります。 自分で作ったcertは期限気にしますが、 間に含めたcertsまではあんまり気にしないんですよね確かに。</p> <p>気持ちは、わかります。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2016/06/06/expired-root-cert/">Expired Root Cert</a> </li> <li class="post"> <a href="/blog/2016/06/06/ms-ai-rinna/">MS AI Rinna</a> </li> <li class="post"> <a href="/blog/2016/06/06/spock-reports/">Spock-Reports</a> </li> <li class="post"> <a href="/blog/2016/06/06/hot-entry-generator/">Hot Entry Generator</a> </li> <li class="post"> <a href="/blog/2016/05/13/content-type-for-returning-attachment-file/">Content-Type for Returning Attachment File</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2016 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>
