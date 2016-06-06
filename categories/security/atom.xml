@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/security/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Expired Root Cert]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/expired-root-cert/"/><updated>2016-06-06T14:29:54+09:00</updated><id>/blog/2016/06/06/expired-root-cert/</id><content type="html"><![CDATA[<p>Fortigateの認証proxy(且つSSLも検閲できるよう間に独自Certをかます)を有効にしたら、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/security/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Expired Root Cert]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/expired-root-cert/"/><updated>2016-06-06T14:38:30+09:00</updated><id>/blog/2016/06/06/expired-root-cert/</id><content type="html"><![CDATA[<p>Fortigateの認証proxy(且つSSLも検閲できるよう間に独自Certをかます)を有効にしたら、
 突然見られなくなったサイトが。
 <a href="https://duns-number-jp.dnb.com/search/jpn/login.asp">DUNS Number検索</a>っていうところなんですけど、
 なんでだろー、って調べてったら、とんでもないことが判明。</p>
@@ -15,8 +15,10 @@
 </span><span class='line'>DONE
 </span><span class='line'>notAfter=Sep 30 18:19:47 2015 GMT
 </span></code></pre></td></tr></table></div></figure>
-<p><img src="/images/duns-number-jp-1.png" alt="SSL Report by SSL Labs" /></p>
-<p><img src="/images/duns-number-jp-2.png" alt="SSL Report by SSL Labs" /></p>
+<p><img src='/images/duns-number-jp-1-9011c8136c7a90f6623db0b6dda2e91d.png' alt='SSL Report by SSL Labs' >
+</p>
+<p><img src='/images/duns-number-jp-2-4363952532e15a3cda68ff4aaff1e87a.png' alt='SSL Report by SSL Labs' >
+</p>
 <p><a href="https://www.ssllabs.com/ssltest/analyze.html?d=duns-number-jp.dnb.com">SSL Report by SSL Labs</a></p>
 <p>そんな、わざわざ期限切れのRoot CAなんて配んなくっていいのに...</p>
 <p>ただ、そういえば、自分もSSL Cert更新時、
