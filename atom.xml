@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-06-25T17:09:24+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Magic Square]]></title><link href="http://u-ryo.github.io//blog/2016/06/25/magic-square/"/><updated>2016-06-25T17:09:24+09:00</updated><id>/blog/2016/06/25/magic-square/</id><content type="html"><![CDATA[<h3>3次魔方陣</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-06-29T23:25:09+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[My First IPO]]></title><link href="http://u-ryo.github.io//blog/2016/06/29/my-first-ipo/"/><updated>2016-06-29T23:25:09+09:00</updated><id>/blog/2016/06/29/my-first-ipo/</id><content type="html"><![CDATA[<p>最近IPOに申し込んでいて、初めてIPO当選したんですが(コメダ)、今日上場だったんですね。
+成り行き売かけといたら、1,960円で買ったんですが初値は1,867円、93円の損でした。
+なんともはや。
+時期が悪すぎます。イギリスがEU離脱を決めるなんて。トホホ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Magic Square]]></title><link href="http://u-ryo.github.io//blog/2016/06/25/magic-square/"/><updated>2016-06-25T17:10:45+09:00</updated><id>/blog/2016/06/25/magic-square/</id><content type="html"><![CDATA[<h3>3次魔方陣</h3>
 <ol>
 <li>爪のついたZ字順に1〜9を配置</li>
 <li>2と8を入れ替える</li>
@@ -445,14 +449,4 @@ I found a workaround at <a href="https://github.com/gruntjs/grunt-contrib-imagem
 </pre></td><td class='code'><pre><code class='html'><span class='line'>cd node_modules/grunt-contrib-imagemin
 </span><span class='line'>npm install imagemin@4.0.0
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Java Decompiler]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/java-decompiler/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/02/19/java-decompiler/</id><content type="html"><![CDATA[<p>Javaのdecompilerといえばjadが昔から有名ですが、jadってとうに開発止まってるんですね。
-知りませんでした。1.5くらいから解析不能というのでは、
-もうちょっと使えませんか。
-今は<a href="http://jd.benow.ca/">JD-GUI</a>が簡便そうですが、
-これとてJava8のlambda expressionや、そもそもLocal Method Classes(method内inner class?)に非対応とな。
-Java8の昨今ではう～ん、です。
-と思ったら、<a href="http://www.benf.org/other/cfr/">CFR</a>というのが使えるそうです。
-実際試して、使えました。
-<a href="http://www.javadecompilers.com/">online decompiler</a>もあるので、色々気軽に試せます。
-良かった、今でもjava decompileは気軽に出来るわけですね。</p>
 ]]></content></entry></feed>
