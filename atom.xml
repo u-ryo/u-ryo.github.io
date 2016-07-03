@@ -1,4 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-06-29T23:25:09+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[My First IPO]]></title><link href="http://u-ryo.github.io//blog/2016/06/29/my-first-ipo/"/><updated>2016-06-29T23:25:09+09:00</updated><id>/blog/2016/06/29/my-first-ipo/</id><content type="html"><![CDATA[<p>最近IPOに申し込んでいて、初めてIPO当選したんですが(コメダ)、今日上場だったんですね。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-07-04T03:15:25+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Lum-chan(Uruse Yatsura)]]></title><link href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-uruse-yatsura/"/><updated>2016-07-04T03:15:25+09:00</updated><id>/blog/2016/07/04/lum-chan-uruse-yatsura/</id><content type="html"><![CDATA[<p>古巣のJIPDECに派遣されて、
+桂史郎くんから「またラム食べに行きましょう」
+って言われて、
+「ラムちゃん、行くんですね。
+大丈夫だっちゃ、とか言うべきでしょうか」
+って返したら、高嶋さんしか反応してくれなくて。
+でも、それで調べてたら、
+うる星やつら、
+<a href="http://freeanimedougadesu.blog70.fc2.com/blog-entry-2809.html">全部見られる</a>んですね。
+ルパン三世もそうでしたけど。
+何か、今頃になって見ちゃいました。
+リアルタイムだと、中学から高校の頃。
+その頃って確かにこういうの、見てなかったです全然。
+改めて見てみましたが、子供向けのドタバタですねー。
+確かにこれならいつまでも続けられそうですね。
+でも、なんて言うか、何か見ちゃうですね。
+どうせ今見るなら、昔見といた方が良かったのかな。
+これ、ラブコメでもあるから、今のぼくにはちょっとキュンときちゃいますね。</p>
+<p>というわけで、
+command line 1行で見られるようになったので、
+忘れないうちにメモ。</p>
+<h3>yourupload</h3>
+<p>youruploadのURL:
+<code>http://yourupload.com/watch/3OHj93</code>
+の最後の5文字を使って、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>export R=3OHj93;mpv --referrer=http://www.yourupload.com/jwplayer/jwplayer.flash.swf `wget -q -O - http://www.yourupload.com/embed/$R|grep og:video|sed &#39;s/.*content=&quot;\(.*\)\/video.mp4.*/\1\/video.mp4/g&#39;`
+</span></code></pre></td></tr></table></div></figure>
+<h3>mp4</h3>
+<p>mp4のURL:
+<code>http://mp4upload.com/embed-bbzw7vbui2r4-650x370.html</code>
+を利用します。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>export U=http://mp4upload.com/embed-bbzw7vbui2r4-650x370.html;mpv --referrer=http://www.mp4upload.com/player/J6/jwplayer.flash.swf `wget -q -O - $U|grep &#39;&quot;file&quot;: &quot;http:&#39;|awk -F\&quot; &#39;{print $4}&#39;`
+</span></code></pre></td></tr></table></div></figure>
+<p>どちらも、何故か一回で行かない時があります。
+二度三度、retryすると、cacheにたまってうまく行くようになりました。
+何ででしょう?</p>
+]]></content></entry><entry><title type="html"><![CDATA[My First IPO]]></title><link href="http://u-ryo.github.io//blog/2016/06/29/my-first-ipo/"/><updated>2016-06-29T23:25:09+09:00</updated><id>/blog/2016/06/29/my-first-ipo/</id><content type="html"><![CDATA[<p>最近IPOに申し込んでいて、初めてIPO当選したんですが(コメダ)、今日上場だったんですね。
 成り行き売かけといたら、1,960円で買ったんですが初値は1,867円、93円の損でした。
 なんともはや。
 時期が悪すぎます。イギリスがEU離脱を決めるなんて。トホホ。</p>
@@ -437,16 +475,4 @@ gitにcommitしてherokuにdeployするのは
 <p>で上手く行く筈、なんですが、
 git remoteを設定しないとダメかも。
 その辺は適宜。</p>
-]]></content></entry><entry><title type="html"><![CDATA[how to build my web application product]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/how-to-build-my-web-application-product/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/02/19/how-to-build-my-web-application-product/</id><content type="html"><![CDATA[<h2>Private memo</h2>
-<p>To build hondaPortal,
-<code>cd</code> to hondaPortalView,
-<code>bower install</code> and <code>npm install</code> first to set up javascript libraries.
-And return to the parent directory and try <code>gradlew</code>.
-If the build process encounters an error on imagemin in hondaPortalView,
-I found a workaround at <a href="https://github.com/gruntjs/grunt-contrib-imagemin/issues/330">Fatal error: Cannot read property 'contents' of undefined #330</a>.</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>cd node_modules/grunt-contrib-imagemin
-</span><span class='line'>npm install imagemin@4.0.0
-</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>
