@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-07-04T03:15:25+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Lum-chan(Uruse Yatsura)]]></title><link href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-uruse-yatsura/"/><updated>2016-07-04T03:15:25+09:00</updated><id>/blog/2016/07/04/lum-chan-uruse-yatsura/</id><content type="html"><![CDATA[<p>古巣のJIPDECに派遣されて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-08-02T16:33:02+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T16:33:02+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
+漸く使えるようになりました。
+具体的にどうやって使ったらいいんだろう、
+と思ってたんですが、結構簡単に使えますねこれ。
+素晴らしい、です。
+おかげでbotnetのC&amp;C server等でも広く使われるようになったとかってことですが。</p>
+<p>ともあれ、
+日本語の要諦サイト<a href="https://letsencrypt.jp/">Let's Encrypt 総合ポータル</a>もあり、
+だいぶわかりやすくなってます。</p>
+<p>基本的には、</p>
+<ol>
+<li><code>certbot-auto</code>を<code>git</code>又は<code>wget https://dl.eff.org/certbot-auto</code>で取得</li>
+<li>認証原理は、</li>
+<li><code>certbot-auto</code>がLet's Encrypt側から指定された<code>http://.../.well-known/XXXXXX</code>にfileを作る</li>
+<li>Let's Encrypt側がそのfileを<code>GET</code>、認証</li>
+<li>なので<code>standalone</code>(<code>certbot-auto</code>が臨時のhttp serverを建て、Let's Encryptからのrequestを受ける)が基本</li>
+<li>その間本来のWWW serverを止めねばならないが、止めたくない時は「<code>--webroot</code>」で<code>DocumentRoot</code>を指定し、<code>certbot-auto</code>にfileを作らせる</li>
+<li>初回の(というか最後に成功した)command optionsを<code>/etc/letsencrypt/</code>以下に保存しておき、次回以降「<code>renew</code>」commandでは省略可</li>
+<li><code>renew</code>を付けて走らせても、証明書期限が30日を切っていないと発動しない(無理やり更新するには<code>--force-renew</code> optionが必要)</li>
+<li><code>--post-hook</code>も指定して、apacheのreloadを自動化(これは<code>renew</code>が走らないと発動しない。単純に<code>renew</code>の終了status codeだと0になるので「&amp;&amp;」で繋ぐだけでは判別不能だった)</li>
+<li>証明書取得がうまく行くと、<code>/etc/letsencrypt/live/someserver.co.jp/</code>以下に各種cert filesのsymbolic linkが作成されるので、<code>/etc/apache2/site-enabled/default-ssl</code>中で<code>SSLCertificateFile</code>等の示す先をここの<code>cert.pem</code>等にする(Apache2.4以上やnginxなら証明書＋中間CA証明書に<code>fullchain.pem</code>が使える)</li>
+</ol>
+<p>こちとら、apache2 serverを止めたくない状況だったので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cerbot-auto certonly --webroot /var/www/ -m support@company.co.jp -d someserver.co.jp --agree-tos
+</span></code></pre></td></tr></table></div></figure>
+<p>(<code>-d</code>: domain, <code>-m</code>: mail address)</p>
+<p>更新は、<code>cron.daily</code>に、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
+</span><span class='line'>cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>で良さそうです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Lum-chan(Uruse Yatsura)]]></title><link href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-uruse-yatsura/"/><updated>2016-07-04T03:15:25+09:00</updated><id>/blog/2016/07/04/lum-chan-uruse-yatsura/</id><content type="html"><![CDATA[<p>古巣のJIPDECに派遣されて、
 桂史郎くんから「またラム食べに行きましょう」
 って言われて、
 「ラムちゃん、行くんですね。
@@ -424,55 +458,4 @@ freeで何度も使えるならいいですね。</p>
 とても勉強になります。<a href="http://blog.tokumaru.org/">徳丸先生の日記</a>は言わずもがな。
 <a href="https://takagi-hiromitsu.jp/diary/">ヒロミチュ先生のところ</a>は、
 最近技術的な話題少ないんですかね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2016-03-16T10:13:51+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
-<p>Cloud9上で、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ cat Gemfile
-</span><span class='line'>source &#39;https://rubygems.org&#39;
-</span><span class='line'>gem &#39;sinatra&#39;
-</span><span class='line'>
-</span><span class='line'>$ cat Procfile
-</span><span class='line'>web: exec ruby app.rb -p $PORT
-</span><span class='line'>
-</span><span class='line'>$ cat app.rb
-</span><span class='line'>require &#39;sinatra&#39;
-</span><span class='line'>
-</span><span class='line'>get &#39;/&#39; do
-</span><span class='line'>  &#39;Hello World!&#39;
-</span><span class='line'>end
-</span></code></pre></td></tr></table></div></figure>
-<p>最低この3ファイル、なんですが、
-gitにcommitしてherokuにdeployするのは
-あと自動生成される <code>Gemfile.lock</code> も必要になります。
-<code>Gemfile.lock</code> は、一旦rubyを動かさないと出来ないのかな?
-<code>ruby app.rb</code> で試せます。</p>
-<p>herokuへは、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ heroku create my-application
-</span><span class='line'>$ git init
-</span><span class='line'>$ git add Gemfile Gemfile.lock Procfile app.rb
-</span><span class='line'>$ git commit -a
-</span><span class='line'>$ bundle install
-</span><span class='line'>$ git push heroku master
-</span></code></pre></td></tr></table></div></figure>
-<p>で上手く行く筈、なんですが、
-git remoteを設定しないとダメかも。
-その辺は適宜。</p>
 ]]></content></entry></feed>
