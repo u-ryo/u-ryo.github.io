@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/certificate/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T17:52:08+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/certificate/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T17:52:49+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
 漸く使えるようになりました。
 具体的にどうやって使ったらいいんだろう、
 と思ってたんですが、結構簡単に使えますねこれ。
@@ -35,7 +35,9 @@
 </span></code></pre></td></tr></table></div></figure>
 <p>で良さそうです。</p>
 <p><code>certbot-auto</code>は、実行するといきなり<code>apt-get update</code>してからpython2.7とか入れるのと幾つかのpackagesをupdateするので注意です。</p>
-<p>また、何かLet's Encryptにしてから<a href="https://www.ssllabs.com/ssltest/">SSL Server Test</a>をかけてみると、「Incorrect SNI alerts」というのが出るようになりました。これは、<code>/etc/apache2/site-enabled/default-ssl</code>の<code>&lt;VirtualHost _default_:443&gt;</code>に<code>ServerName XXXXXX</code>とすることで解決しました。cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-alertsを解決する/">SSLテストで”Incorrect SNI alerts”を解決する</a></p>
+<p>また、Let's Encryptにしてから<a href="https://www.ssllabs.com/ssltest/">SSL Server Test</a>をかけてみると、「Incorrect SNI alerts」というのが出るようになりました。
+これは、<code>/etc/apache2/site-enabled/default-ssl</code>の<code>&lt;VirtualHost _default_:443&gt;</code>に<code>ServerName XXXXXX</code>とすることで解決しました。
+cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-alertsを解決する/">SSLテストで”Incorrect SNI alerts”を解決する</a></p>
 ]]></content></entry><entry><title type="html"><![CDATA[Expired Root Cert]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/expired-root-cert/"/><updated>2016-06-06T14:38:30+09:00</updated><id>/blog/2016/06/06/expired-root-cert/</id><content type="html"><![CDATA[<p>Fortigateの認証proxy(且つSSLも検閲できるよう間に独自Certをかます)を有効にしたら、
 突然見られなくなったサイトが。
 <a href="https://duns-number-jp.dnb.com/search/jpn/login.asp">DUNS Number検索</a>っていうところなんですけど、
