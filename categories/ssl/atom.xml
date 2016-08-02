@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ssl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T16:36:11+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ssl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T17:25:44+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
 漸く使えるようになりました。
 具体的にどうやって使ったらいいんだろう、
 と思ってたんですが、結構簡単に使えますねこれ。
@@ -27,7 +27,7 @@
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cerbot-auto certonly --webroot /var/www/ -m support@company.co.jp -d someserver.co.jp --agree-tos
 </span></code></pre></td></tr></table></div></figure>
 <p>(<code>-d</code>: domain, <code>-m</code>: mail address)</p>
-<p>更新は、<code>cron.daily</code>に、</p>
+<p>更新は、<code>/etc/cron.daily/certbot</code>を作って、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh

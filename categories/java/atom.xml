@@ -1,4 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/java/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T16:30:04+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/java/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2016-08-02T17:31:54+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
+ぱっと思いつくのは、<code>SimpleDateFormat</code>で<code>setLenient(false)</code>にしてparseする、
+ですが、これだとException投げるんですよね。
+Exception catchをlogicに使うのは良くない、
+ということで、他を探してみると意外となかなかないんですねこれが。
+commons-langの<code>DateUtils.parseDateStrictly</code>もException返しますし。</p>
+<p>色々探してみると、Apacheのcommons-validatorというのがありました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Grab(&#39;commons-validator:commons-validator&#39;)
+</span><span class='line'>import org.apache.commons.validator.routines.CalendarValidator
+</span><span class='line'>
+</span><span class='line'>pattern = &quot;yyyy/MM/dd&quot;
+</span><span class='line'>validator = CalendarValidator.getInstance()
+</span><span class='line'>
+</span><span class='line'>assert validator.isValid(&quot;2016/02/29&quot;, pattern)
+</span><span class='line'>assert !validator.isValid(&quot;2016/02/30&quot;, pattern)
+</span><span class='line'>
+</span><span class='line'>assert validator.isValid(&quot;2016/08/31&quot;, pattern)
+</span><span class='line'>assert !validator.isValid(&quot;2016/08/32&quot;, pattern)
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T16:30:04+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
 method前段に書いた動作例documentをtestとして動かせるそうな。
 同じようなのがJavaにも無いかなと探してみると、
 <code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。

@@ -144,7 +144,7 @@
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cerbot-auto certonly --webroot /var/www/ -m support@company.co.jp -d someserver.co.jp --agree-tos
 </span></code></pre></td></tr></table></div></figure>
 <p>(<code>-d</code>: domain, <code>-m</code>: mail address)</p>
-<p>更新は、<code>cron.daily</code>に、</p>
+<p>更新は、<code>/etc/cron.daily/certbot</code>を作って、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
@@ -167,7 +167,7 @@
 
 
 
-     <time datetime="2016-08-02T16:36:11+09:00" class="updated">
+     <time datetime="2016-08-02T17:25:44+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
        <span class="day">02</span>,
@@ -204,6 +204,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2016/08/02/date-fromat-validation-by-java/" title="Previous Post: Date fromat validation by Java">&laquo; Date Fromat Validation by Java</a>
+      
       
         <a class="basic-alignment right" href="/blog/2016/07/04/lum-chan-uruse-yatsura/" title="Next Post: Lum-chan(Uruse Yatsura)">Lum-chan(Uruse Yatsura) &raquo;</a>
       
@@ -226,6 +228,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/08/02/date-fromat-validation-by-java/">Date Fromat Validation by Java</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/08/02/let-s-encrypt/">Let's Encrypt</a>
       </li>
     
@@ -239,10 +245,6 @@
     
       <li class="post">
         <a href="/blog/2016/06/25/magic-square/">Magic Square</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/06/06/english-conversation-by-ai-nanna/">English Conversation by AI Nanna</a>
       </li>
     
   </ul>
