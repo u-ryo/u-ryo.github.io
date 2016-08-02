@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/date/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2016-08-02T17:31:54+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/date/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2016-08-02T17:36:22+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
 ぱっと思いつくのは、<code>SimpleDateFormat</code>で<code>setLenient(false)</code>にしてparseする、
 ですが、これだとException投げるんですよね。
 Exception catchをlogicに使うのは良くない、
 ということで、他を探してみると意外となかなかないんですねこれが。
 commons-langの<code>DateUtils.parseDateStrictly</code>もException返しますし。</p>
-<p>色々探してみると、Apacheのcommons-validatorというのがありました。</p>
+<p>色々探してみると、Apacheの<a href="https://commons.apache.org/proper/commons-validator/">commons-validator</a>というのがありました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-08-02T17:31:54+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2016-08-02T17:31:54+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-08-02T17:52:08+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2016-08-02T17:36:22+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
 ぱっと思いつくのは、<code>SimpleDateFormat</code>で<code>setLenient(false)</code>にしてparseする、
 ですが、これだとException投げるんですよね。
 Exception catchをlogicに使うのは良くない、
 ということで、他を探してみると意外となかなかないんですねこれが。
 commons-langの<code>DateUtils.parseDateStrictly</code>もException返しますし。</p>
-<p>色々探してみると、Apacheのcommons-validatorというのがありました。</p>
+<p>色々探してみると、Apacheの<a href="https://commons.apache.org/proper/commons-validator/">commons-validator</a>というのがありました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -28,7 +28,7 @@ commons-langの<code>DateUtils.parseDateStrictly</code>もException返します�
 </span><span class='line'>assert validator.isValid(&quot;2016/08/31&quot;, pattern)
 </span><span class='line'>assert !validator.isValid(&quot;2016/08/32&quot;, pattern)
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T17:25:44+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
+]]></content></entry><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T17:52:08+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
 漸く使えるようになりました。
 具体的にどうやって使ったらいいんだろう、
 と思ってたんですが、結構簡単に使えますねこれ。
@@ -64,6 +64,8 @@ commons-langの<code>DateUtils.parseDateStrictly</code>もException返します�
 </span><span class='line'>cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;
 </span></code></pre></td></tr></table></div></figure>
 <p>で良さそうです。</p>
+<p><code>certbot-auto</code>は、実行するといきなり<code>apt-get update</code>してからpython2.7とか入れるのと幾つかのpackagesをupdateするので注意です。</p>
+<p>また、何かLet's Encryptにしてから<a href="https://www.ssllabs.com/ssltest/">SSL Server Test</a>をかけてみると、「Incorrect SNI alerts」というのが出るようになりました。これは、<code>/etc/apache2/site-enabled/default-ssl</code>の<code>&lt;VirtualHost _default_:443&gt;</code>に<code>ServerName XXXXXX</code>とすることで解決しました。cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-alertsを解決する/">SSLテストで”Incorrect SNI alerts”を解決する</a></p>
 ]]></content></entry><entry><title type="html"><![CDATA[Lum-chan(Uruse Yatsura)]]></title><link href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-uruse-yatsura/"/><updated>2016-07-04T03:15:25+09:00</updated><id>/blog/2016/07/04/lum-chan-uruse-yatsura/</id><content type="html"><![CDATA[<p>古巣のJIPDECに派遣されて、
 桂史郎くんから「またラム食べに行きましょう」
 って言われて、
