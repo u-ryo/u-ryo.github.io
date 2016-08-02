@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ssl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T16:33:02+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ssl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T16:36:11+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
 漸く使えるようになりました。
 具体的にどうやって使ったらいいんだろう、
 と思ってたんですが、結構簡単に使えますねこれ。
@@ -10,9 +10,11 @@
 <p>基本的には、</p>
 <ol>
 <li><code>certbot-auto</code>を<code>git</code>又は<code>wget https://dl.eff.org/certbot-auto</code>で取得</li>
-<li>認証原理は、</li>
+<li>認証原理は、<ol>
 <li><code>certbot-auto</code>がLet's Encrypt側から指定された<code>http://.../.well-known/XXXXXX</code>にfileを作る</li>
 <li>Let's Encrypt側がそのfileを<code>GET</code>、認証</li>
+</ol>
+</li>
 <li>なので<code>standalone</code>(<code>certbot-auto</code>が臨時のhttp serverを建て、Let's Encryptからのrequestを受ける)が基本</li>
 <li>その間本来のWWW serverを止めねばならないが、止めたくない時は「<code>--webroot</code>」で<code>DocumentRoot</code>を指定し、<code>certbot-auto</code>にfileを作らせる</li>
 <li>初回の(というか最後に成功した)command optionsを<code>/etc/letsencrypt/</code>以下に保存しておき、次回以降「<code>renew</code>」commandでは省略可</li>

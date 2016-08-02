@@ -127,9 +127,11 @@
 <p>基本的には、</p>
 <ol>
 <li><code>certbot-auto</code>を<code>git</code>又は<code>wget https://dl.eff.org/certbot-auto</code>で取得</li>
-<li>認証原理は、</li>
+<li>認証原理は、<ol>
 <li><code>certbot-auto</code>がLet's Encrypt側から指定された<code>http://.../.well-known/XXXXXX</code>にfileを作る</li>
 <li>Let's Encrypt側がそのfileを<code>GET</code>、認証</li>
+</ol>
+</li>
 <li>なので<code>standalone</code>(<code>certbot-auto</code>が臨時のhttp serverを建て、Let's Encryptからのrequestを受ける)が基本</li>
 <li>その間本来のWWW serverを止めねばならないが、止めたくない時は「<code>--webroot</code>」で<code>DocumentRoot</code>を指定し、<code>certbot-auto</code>にfileを作らせる</li>
 <li>初回の(というか最後に成功した)command optionsを<code>/etc/letsencrypt/</code>以下に保存しておき、次回以降「<code>renew</code>」commandでは省略可</li>
@@ -165,7 +167,7 @@
 
 
 
-     <time datetime="2016-08-02T16:33:02+09:00" class="updated">
+     <time datetime="2016-08-02T16:36:11+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
        <span class="day">02</span>,
