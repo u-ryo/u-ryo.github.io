@@ -119,7 +119,8 @@
 <code>Too many open files</code>と言われていました。</p>
 <ul>
 <li>現状の確認 <code>$ ulimit -a</code></li>
-<li>プロセス毎なので、<code>$ cat /proc/プロセス番号/limits</code></li>
+<li>プロセス毎なので、<code>$ cat /proc/プロセス番号/limits</code> or <code>$ cat /proc/\</code>pgrep -f tomcat7`/limits`</li>
+<li>現状幾つのfilesをopenしているか、は、<code>$ sudo ls -l /proc/\</code>pgrep -f tomcat7`/fd/|wc -l`</li>
 <li>増やすには、/etc/init.d/tomcat7 で<code>ulimit -n 8192</code>等と追記してrestart</li>
 <li><code>$ cat /proc/プロセス番号/limits</code>で確認</li>
 </ul>
@@ -139,10 +140,10 @@
 
 
 
-     <time datetime="2016-03-16T10:13:51+09:00" class="updated">
+     <time datetime="2016-08-03T15:19:01+09:00" class="updated">
        Updated
-       <span class="month">Mar</span>
-       <span class="day">16</span>,
+       <span class="month">Aug</span>
+       <span class="day">03</span>,
        <span class="year">2016</span>
      </time>
 
