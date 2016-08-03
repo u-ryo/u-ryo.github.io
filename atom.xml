@@ -1,4 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-08-03T15:48:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2016-08-02T17:36:22+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-08-03T17:36:33+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Trigger as 3 times service down in a row on Zabbix]]></title><link href="http://u-ryo.github.io//blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/"/><updated>2016-08-03T17:36:33+09:00</updated><id>/blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/</id><content type="html"><![CDATA[<p>Zabbixで「3回service downを観測したらalert、
+且つ1回service upを観測したら復帰」って、
+実は結構面倒なんですね。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>({TRIGGER.VALUE}=0<span class="err">&amp;</span>{hostå:http.max(#3)}=0)|({TRIGGER.VALUE}=1<span class="err">&amp;</span>{hostå:http.last(0)}=0)
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2016-08-02T17:36:22+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
 ぱっと思いつくのは、<code>SimpleDateFormat</code>で<code>setLenient(false)</code>にしてparseする、
 ですが、これだとException投げるんですよね。
 Exception catchをlogicに使うのは良くない、
@@ -438,12 +444,4 @@ html5ではaccessibilityの観点から廃止されてるのに。</p>
 </span><span class='line'>def http = new HttpURLClient(url: &#39;https://my-ocr.herokuapp.com/&#39;)
 </span><span class='line'>tryLogin(userId, password, http.request(path: jsessionId).data)
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[koding has changed]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/koding-has-changed/"/><updated>2016-03-16T10:27:13+09:00</updated><id>/blog/2016/03/16/koding-has-changed/</id><content type="html"><![CDATA[<p><a href="https://koding.com">Koding</a>が、何かいきなりTeam codingとかいって、renewalしてました。
-新しくなるのはいいんですけど、
-<a href="https://github.com">github</a>のaccountで入れなくなったり、
-AWSが必須だかlocalのLinuxにkdとかいうのをinstallするのが必須だか、
-free and Web上で完結しなくなっているようだったり、
-というのはやめて欲しいです。
-今更ながら、<a href="https://nitrous.io">nitrous.io</a>に乗り換えます。
-<a href="https://c9.io">Cloud9</a>だとGrainw compile出来ないので。</p>
 ]]></content></entry></feed>
