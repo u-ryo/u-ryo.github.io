@@ -115,13 +115,21 @@
   </header>
 
 
-<div class="entry-content"><p>Zabbixで「3回service downを観測したらalert、
+<div class="entry-content"><p>Zabbixで「3回連続してservice downを観測したらalert、
 且つ1回service upを観測したら復帰」とかって、
 実は結構面倒なんですね。</p>
 <p>cf.<a href="http://www.zabbix.jp/node/2573">トリガーの条件式における記述方法について</a></p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>({TRIGGER.VALUE}=0<span class="err">&amp;</span>{hostå:http.max(#3)}=0)|({TRIGGER.VALUE}=1<span class="err">&amp;</span>{hostå:http.last(0)}=0)
 </span></code></pre></td></tr></table></div></figure>
+<p>→何か騙された感じです。色々試すと、単に<code>max(#3)</code>だけで良さげですよ。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{hostå:http.max(#3)}=0
+</span><span class='line'>{hostå:http.max(#3)}=0|{hostå:https.max(#3)}=0
+</span></code></pre></td></tr></table></div></figure>
+<p>↑これだけで、「3回連続してservice downを観測したらalert、
+且つ1回service upを観測したら復帰」を実現出来ました。</p>
 </div>
 
 </article>
@@ -138,10 +146,10 @@
 
 
 
-     <time datetime="2016-08-03T17:38:28+09:00" class="updated">
+     <time datetime="2016-08-04T12:26:27+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
-       <span class="day">03</span>,
+       <span class="day">04</span>,
        <span class="year">2016</span>
      </time>
 
