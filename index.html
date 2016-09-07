@@ -12,7 +12,19 @@
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ ANDROID_HOME=/home/u-ryo/Android/Sdk PATH=$PATH:/home/u-ryo/Android/SDK/tools crosswalk-app check android
 </span><span class='line'>$ ANDROID_HOME=/home/u-ryo/Android/Sdk PATH=$PATH:/home/u-ryo/Android/SDK/tools crosswalk-pkg -p android client
-</span></code></pre></td></tr></table></div></figure> <p><code>android</code> commandはGUIを要求するので、Cloud9のconsoleでは動かせませんでした。</p> <p>動かしたかったtargetは、Android 4.0.4なので、Crosswalkダメですね。 実際、「CPU Mismatch」と言われて、x86のものでもarmのでも動きませんでした。 あうー。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/">Local IP With Hostname Without an Inner DNS (Wildcard DNS)</a></h1> <p class="meta"> <time datetime="2016-09-07T21:45:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">07</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure> <p><code>android</code> commandはGUIを要求するので、Cloud9のconsoleでは動かせませんでした。</p> <p><a href="https://www.sitepoint.com/android-video-calling-with-crosswalk-and-peerjs/">Android Video Calling with CrossWalk and PeerJS</a> 見てやってみたんですが、ionic2からは<code>ionic browser list</code>というのがなくなって、<code>ionic plugin add cordova-plugin-crosswalk-webview</code>になったことと、その後<code>ionic platform add android</code>すると、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Installing &quot;cordova-plugin-crosswalk-webview&quot; for android
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        After much discussion and analysis of the market, we have decided to discontinue support for Android 4.0 (ICS) in Crosswalk starting with version 20.
+</span><span class='line'>
+</span><span class='line'>        So the minSdkVersion of Cordova project is configured to 16 by default.
+</span></code></pre></td></tr></table></div></figure> <p>と言われてしまいました...</p> <p>動かしたかったtargetは、Android 4.0.4なので、Crosswalkダメですね。 実際、「CPU Mismatch」と言われて、x86のものでもarmのでも動きませんでした。 あうー。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/">Local IP With Hostname Without an Inner DNS (Wildcard DNS)</a></h1> <p class="meta"> <time datetime="2016-09-07T21:45:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">07</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.127.0.0.1.xip.io
 </span><span class='line'>some-project.127.0.0.1.xip.io has address 127.0.0.1
