@@ -125,7 +125,9 @@
 <p>→何か騙された感じです。色々試すと、単に<code>max(#3)</code>だけで良さげですよ。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+<span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>{hostå:http.max(#3)}=0
+</span><span class='line'>or
 </span><span class='line'>{hostå:http.max(#3)}=0|{hostå:https.max(#3)}=0
 </span></code></pre></td></tr></table></div></figure>
 <p>↑これだけで、「3回連続してservice downを観測したらalert、
@@ -146,7 +148,7 @@
 
 
 
-     <time datetime="2016-08-04T12:26:27+09:00" class="updated">
+     <time datetime="2016-08-04T12:29:10+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
        <span class="day">04</span>,
@@ -179,6 +181,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns/" title="Previous Post: local IP with hostname without an inner DNS">&laquo; Local IP With Hostname Without an Inner DNS</a>
+      
       
         <a class="basic-alignment right" href="/blog/2016/08/02/date-fromat-validation-by-java/" title="Next Post: Date fromat validation by Java">Date Fromat Validation by Java &raquo;</a>
       
@@ -201,6 +205,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns/">Local IP With Hostname Without an Inner DNS</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/">Trigger as 3 Times Service Down in a Row on Zabbix</a>
       </li>
     
@@ -214,10 +222,6 @@
     
       <li class="post">
         <a href="/blog/2016/07/04/lum-chan-uruse-yatsura/">Lum-chan(Uruse Yatsura)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/06/29/my-first-ipo/">My First IPO</a>
       </li>
     
   </ul>

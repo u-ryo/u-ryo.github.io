@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ip/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[local IP with hostname without an inner DNS]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns/"/><updated>2016-09-07T21:46:19+09:00</updated><id>/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns/</id><content type="html"><![CDATA[<p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p>
+<p><code>e.g. any-name.192.168.33.176.xip.io</code></p>
+<p><a href="http://qiita.com/tady/items/b7b46486fb3175dac0b1">ローカルDNSを立てずにホスト名をIPアドレスに解決する超絶簡単な方法</a></p>
+]]></content></entry></feed>
