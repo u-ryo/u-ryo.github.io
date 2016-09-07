@@ -1,6 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-09-07T21:46:19+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[local IP with hostname without an inner DNS]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns/"/><updated>2016-09-07T21:46:19+09:00</updated><id>/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns/</id><content type="html"><![CDATA[<p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p>
-<p><code>e.g. any-name.192.168.33.176.xip.io</code></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-09-07T21:54:08+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[local IP with hostname without an inner DNS (Wildcard DNS)]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/"/><updated>2016-09-07T21:54:08+09:00</updated><id>/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/</id><content type="html"><![CDATA[<p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.127.0.0.1.xip.io
+</span><span class='line'>some-project.127.0.0.1.xip.io has address 127.0.0.1
+</span></code></pre></td></tr></table></div></figure>
 <p><a href="http://qiita.com/tady/items/b7b46486fb3175dac0b1">ローカルDNSを立てずにホスト名をIPアドレスに解決する超絶簡単な方法</a></p>
+<p>nip.io でも全く同じことが出来るようです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.192.168.33.176.nip.io
+</span><span class='line'>some-project.192.168.33.176.nip.io has address 192.168.33.176
+</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry><entry><title type="html"><![CDATA[Trigger as 3 times service down in a row on Zabbix]]></title><link href="http://u-ryo.github.io//blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/"/><updated>2016-08-04T12:29:10+09:00</updated><id>/blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/</id><content type="html"><![CDATA[<p>Zabbixで「3回連続してservice downを観測したらalert、
 且つ1回service upを観測したら復帰」とかって、
 実は結構面倒なんですね。</p>

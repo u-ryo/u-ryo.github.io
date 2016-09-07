@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Disqus on this blog - u-ryo's blog</title>
+  <title>local IP with hostname without an inner DNS (Wildcard DNS) - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/">
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -92,17 +92,17 @@
 
   <header>
     
-      <h1 class="entry-title">Disqus on This Blog</h1>
+      <h1 class="entry-title">Local IP With Hostname Without an Inner DNS (Wildcard DNS)</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2015-11-10T12:44:00+09:00" pubdate data-updated=true>
-      <span class="month">Nov</span>
-      <span class="day">10</span>,
-      <span class="year">2015</span>
+    <time datetime="2016-09-07T21:45:00+09:00" pubdate data-updated=true>
+      <span class="month">Sep</span>
+      <span class="day">07</span>,
+      <span class="year">2016</span>
     </time>
   
 
@@ -115,25 +115,19 @@
   </header>
 
 
-<div class="entry-content"><p>当初、このblogにはコメント欄がありませんでした。
-<a href="http://disqus.com">Disqus</a>を使える、
-ということが他の人のblogを見てわかって、
-うちでもSiteConfig.groovyをよく見たら、
-<code>disqus</code>って項目、
-あるんですね。<code>short_name</code>を入れるんですが、
-Disqusに登録したのはちょっと前の事だったので、
-<code>short_name</code>って何の事なのか最初よくわかりませんでした。
-改めてDisqusに入って、Settings見て、漸く思い出しました。
-自分で入れたんですね最初に。</p>
-<p>しかし、<code>short_name</code>を設定しても、
-"We were unable to load Disqus."と言われて出てきませんでした。
-DisqusのSettingsでちゃんとURLやtrusted domain指定してるのに...
-随分悩みました。
-結局、SiteConfig.groovyで、
-environments → prod → url を指定してなかったのが、原因でした。
-Disqusは、「どのURLからのaccessか」をparameterから見てますから、
-ここがSetup → Basic → Site Identity → Website URL と一致してないと
-ならないんですね。</p>
+<div class="entry-content"><p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.127.0.0.1.xip.io
+</span><span class='line'>some-project.127.0.0.1.xip.io has address 127.0.0.1
+</span></code></pre></td></tr></table></div></figure>
+<p><a href="http://qiita.com/tady/items/b7b46486fb3175dac0b1">ローカルDNSを立てずにホスト名をIPアドレスに解決する超絶簡単な方法</a></p>
+<p>nip.io でも全く同じことが出来るようです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.192.168.33.176.nip.io
+</span><span class='line'>some-project.192.168.33.176.nip.io has address 192.168.33.176
+</span></code></pre></td></tr></table></div></figure>
 </div>
 
 </article>
@@ -150,10 +144,10 @@ Disqusは、「どのURLからのaccessか」をparameterから見てますか�
 
 
 
-     <time datetime="2016-03-16T10:13:51+09:00" class="updated">
+     <time datetime="2016-09-07T21:54:08+09:00" class="updated">
        Updated
-       <span class="month">Mar</span>
-       <span class="day">16</span>,
+       <span class="month">Sep</span>
+       <span class="day">07</span>,
        <span class="year">2016</span>
      </time>
 
@@ -161,9 +155,9 @@ Disqusは、「どのURLからのaccessか」をparameterから見てますか�
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/blog/">blog</a>
+     <a class="category" href="/categories/dns/">dns</a>
   
-     <a class="category" href="/categories/disqus/">disqus</a>
+     <a class="category" href="/categories/ip/">ip</a>
   
 </div>
 
@@ -172,7 +166,7 @@ Disqusは、「どのURLからのaccessか」をparameterから見てますか�
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/10/disqus-on-this-blog/" data-via="" data-counturl="/blog/2015/11/10/disqus-on-this-blog/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/" data-via="" data-counturl="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -185,10 +179,8 @@ Disqusは、「どのURLからのaccessか」をparameterから見てますか�
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/11/11/codenvy-for-gae/" title="Previous Post: Codenvy for GAE">&laquo; Codenvy for GAE</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/11/10/developing-and-building-cordova-app/" title="Next Post: Developing and Building Cordova App">Developing and Building Cordova App &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/" title="Next Post: Trigger as 3 times service down in a row on Zabbix">Trigger as 3 Times Service Down in a Row on Zabbix &raquo;</a>
       
     </p>
   </footer>
@@ -293,8 +285,8 @@ Disqusは、「どのURLからのaccessか」をparameterから見てますか�
   
     // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
     // var disqus_developer = 1;
-    var disqus_identifier = "http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/";
-    var disqus_url = "http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/";
+    var disqus_identifier = "http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/";
+    var disqus_url = "http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/";
     var disqus_script = 'embed.js';
   
   (function () {
