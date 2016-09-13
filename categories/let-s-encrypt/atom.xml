@@ -1,4 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/let-s-encrypt/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-08-02T17:52:49+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/let-s-encrypt/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt without certbot-auto]]></title><link href="http://u-ryo.github.io//blog/2016/09/13/let-s-encrypt-without-certbot-auto/"/><updated>2016-09-13T11:41:35+09:00</updated><id>/blog/2016/09/13/let-s-encrypt-without-certbot-auto/</id><content type="html"><![CDATA[<p>Let's Encrypt、素晴らしいんだけど、
+とあるserverで、使っているのがUbuntu 11.04(Natty)、
+package systemが何か壊れてて、
+依存関係がおかしくて解消できなくて、
+というcaseがありました。
+基本的にどこを調べても、
+Let's Encryptを使うには既存のpackaging systemをbaseにしたものばかりで、
+Stackoverflowなんかでも「backportsを使って既存のpackaging依存関係を
+修築してから」なんていう話しかなくて。
+なんかこう、<code>certobot-auto</code>を使わないで、
+っていう話って意外となくて途方に暮れていると、
+こんなのがありました。</p>
+<p><a href="https://github.com/Neilpang/acme.sh">An ACME Shell script: acme.sh</a></p>
+<p>要は、bashだけでLet's Encryptの証明書を使える、
+というもので、
+なーんだ最初から全部これでいーじゃん、
+という感じです。</p>
+<p><code>wget -O - https://get.acme.sh | sh</code>でも行けるというのですが、
+何かserver certが違うらしく、<code>--no-check-certificate</code>を付けてもうまく行かず。
+幸いgitはあってくれたので、cloneして<code>cd acme.sh</code> <code>./acme.sh --install</code>すると、
+home直下に.acme.shというdirectoryを掘り、
+その下にCSRやLet's Encryptからの証明書を自動で作ってくれる、
+更に実行userでcron登録してくれる、
+というものなので、実行だけならroot権限不要とはいえ、
+rootでやった方が良さげです。
+というわけで、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'># git clone https://github.com/Neilpang/acme.sh
+</span><span class='line'># cd acme.sh
+</span><span class='line'># ./acme.sh --install
+</span><span class='line'># ./acme.sh --issue -d dev.locationsupporter.info -w /var/lib/tomcat7/webapps/ROOT/
+</span><span class='line'># vi /etc/apache2/sites-enabled/default-ssl
+</span><span class='line'>=============================================
+</span><span class='line'>SSLCertificateFile /root/.acme.sh/dev.locationsupporter.info.cer
+</span><span class='line'>SSLCertificateKeyFile /root/.acme.sh/dev.locationsupporter.info.key
+</span><span class='line'>SSLCertificateChainFile /root/.acme.sh/fullchain.cer
+</span><span class='line'>=============================================
+</span><span class='line'># crontab -l
+</span></code></pre></td></tr></table></div></figure>
+<p>これで、pytho2.7もpackage updateも不要だし、
+更にお手軽にLet's Encryptを使えるというものでしょう。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2016-09-13T11:22:10+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
 漸く使えるようになりました。
 具体的にどうやって使ったらいいんだろう、
 と思ってたんですが、結構簡単に使えますねこれ。
@@ -24,18 +75,52 @@
 </ol>
 <p>こちとら、apache2 serverを止めたくない状況だったので、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cerbot-auto certonly --webroot /var/www/ -m support@company.co.jp -d someserver.co.jp --agree-tos
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cerbot-auto certonly --webroot -w /var/www/ -m support@company.co.jp -d someserver.co.jp --agree-tos
 </span></code></pre></td></tr></table></div></figure>
-<p>(<code>-d</code>: domain, <code>-m</code>: mail address)</p>
+<p>(<code>-w</code>: webroot-path, <code>-d</code>: domain, <code>-m</code>: mail address)</p>
 <p>更新は、<code>/etc/cron.daily/certbot</code>を作って、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
 </span><span class='line'>cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;
 </span></code></pre></td></tr></table></div></figure>
-<p>で良さそうです。</p>
+<p>で良さそうです。<code>sudo chmod a+x /etc/cron.daily/certbot</code>を忘れずに。</p>
 <p><code>certbot-auto</code>は、実行するといきなり<code>apt-get update</code>してからpython2.7とか入れるのと幾つかのpackagesをupdateするので注意です。</p>
 <p>また、Let's Encryptにしてから<a href="https://www.ssllabs.com/ssltest/">SSL Server Test</a>をかけてみると、「Incorrect SNI alerts」というのが出るようになりました。
 これは、<code>/etc/apache2/site-enabled/default-ssl</code>の<code>&lt;VirtualHost _default_:443&gt;</code>に<code>ServerName XXXXXX</code>とすることで解決しました。
 cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-alertsを解決する/">SSLテストで”Incorrect SNI alerts”を解決する</a></p>
+<h3>command log</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>wget https://dl.eff.org/certbot-auto
+</span><span class='line'>chmod a+x certbot-auto
+</span><span class='line'>sudo chown root:root certbot-auto
+</span><span class='line'>sudo mv -i certbot-auto /usr/local/bin/
+</span><span class='line'>sudo certbot-auto certonly --webroot -w /var/lib/tomcat7/webapps/ROOT/ -m ls-support@jmtech.co.jp -d cx4.locationsupporter.info --agree-tos
+</span><span class='line'>sudo vi /etc/apache2/sites-enabled/default-ssl
+</span><span class='line'>================================================
+</span><span class='line'>	SSLCertificateFile /etc/letsencrypt/live/cx4.locationsupporter.info/cert.pem
+</span><span class='line'>	SSLCertificateKeyFile /etc/letsencrypt/live/cx4.locationsupporter.info/privkey.pem
+</span><span class='line'>	SSLCertificateChainFile /etc/letsencrypt/live/cx4.locationsupporter.info/chain.pem
+</span><span class='line'>================================================
+</span><span class='line'>echo &#39;#!/bin/sh&#39; &gt; certbot
+</span><span class='line'>echo &quot;cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;&quot; &gt;&gt; certbot
+</span><span class='line'>chmod a+x certbot
+</span><span class='line'>sudo chown root:root certbot
+</span><span class='line'>sudo mv -i certbot /etc/cron.daily/
+</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>
