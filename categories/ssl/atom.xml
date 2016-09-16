@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ssl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt without certbot-auto]]></title><link href="http://u-ryo.github.io//blog/2016/09/13/let-s-encrypt-without-certbot-auto/"/><updated>2016-09-13T11:41:35+09:00</updated><id>/blog/2016/09/13/let-s-encrypt-without-certbot-auto/</id><content type="html"><![CDATA[<p>Let's Encrypt、素晴らしいんだけど、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ssl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Let's Encrypt without certbot-auto]]></title><link href="http://u-ryo.github.io//blog/2016/09/13/let-s-encrypt-without-certbot-auto/"/><updated>2016-09-13T11:42:52+09:00</updated><id>/blog/2016/09/13/let-s-encrypt-without-certbot-auto/</id><content type="html"><![CDATA[<p>Let's Encrypt、素晴らしいんだけど、
 とあるserverで、使っているのがUbuntu 11.04(Natty)、
 package systemが何か壊れてて、
 依存関係がおかしくて解消できなくて、
@@ -22,6 +22,7 @@ home直下に.acme.shというdirectoryを掘り、
 その下にCSRやLet's Encryptからの証明書を自動で作ってくれる、
 更に実行userでcron登録してくれる、
 というものなので、実行だけならroot権限不要とはいえ、
+証明書filesが一般user home directory以下というのもなんなので、
 rootでやった方が良さげです。
 というわけで、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

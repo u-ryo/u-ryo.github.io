@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>Kotlin KOTOHAJIME - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various writings for introducing myself...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="q" value="site:http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">Kotlin KOTOHAJIME</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2016-09-16T11:47:00+09:00" pubdate data-updated=true>
+      <span class="month">Sep</span>
+      <span class="day">16</span>,
+      <span class="year">2016</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Kotlin事始め</h2>
+<p>最初、title間違えました。
+タイプミスです。
+Ergodox EZ(キー配列をカスタマイズ出来るキーボード)が必要かもしれません...</p>
+<p>Android開発を、というかIoTに乗ってSmart Glass(Vuzix M100)の
+アプリ開発を任命付けれられています。
+それはそれでありがたいのですが、
+今更ながらAndroid開発を学んでいます。
+素のAndroid Javaを使う、というのはあまりにもイケてなさそうなので、
+いちいち<code>on何々</code>なんてやってられませんよ、ということで、
+Kotlinを使ってイマドキのReactive Programmingを、
+と思っています。
+Kotlinやってると、Groovyでもいいんじゃないの?
+と思ってしまうのですが、
+殊Androidについては、同梱libが大きくなってしまうなど、
+やはり後発の強みもあってKotlinのようです。
+ただ、Android開発者がJava loveだそうで、
+今後のJava8の取り込みようによっては、
+Javaだけでも行けるのでは? という気も少しします。
+しかしそれは普及率を考えるとまだまだ遠いので、
+今はやはりKotlinかと。</p>
+<p>しっかし、Android開発って結構めんどいんですね。
+IDEがないと開発できないって、
+古いtypeの人間としてはそこから苦痛なんですが...</p>
+<p>最初は、森洋之,基本からしっかり身につくAndroidアプリ開発入門 Android Studio 2.x対応 プロが本気で教えるアプリ作りの基本「技」 (ヤフー黒帯シリーズ),SBクリエイティブ,2016.7 を間違い直しながら写経することで
+Android開発を「Hello World」から卒業してから、
+長澤太郎,Kotlinスタートブック,リックテレコム,2016.7 を写経しています。
+そこでハマったことを。</p>
+<ol>
+<li>実行しても、エラーメッセージを吐かずにemulatorが一瞬立ち上がった後終了 → Run対象を<code>MainActivityTest</code>にしていたから</li>
+<li>Dagger2でinjectionするようにしたらprofileImageUrlを取れなくなった → <code>.dagger.ClientModule#provideRetrofit</code>で<code>.addConverterFactory(GsonConverterFactory.create(gson))</code>の<code>gson</code>を抜かしてしまっていた</li>
+<li>Dagger2でinjectionしたtestでCastがこけてうまく行かない → <code>build.gradle</code>で<code>testInstrumentationRunner 'sample.qiitaclient.MockTestRunner'</code>に変更しないとならないのと、<code>Run</code> → <code>Edit Configurations</code> → <code>Android Tests</code> → <code>MainActivityTest</code> で<code>Specific instrumentation runner (optional):</code> を <code>〜.qiitaclient.MockTestRunner</code> に変更しないとならない</li>
+</ol>
+<p>IDEに慣れてないので、fileばっかり見比べてました。downloadしたお手本sampleではDagger2 Testがうまく行くのに、何で自分のはうまく行かないんだろう、ってずっと悩んでました。IDEでのproject settingに問題があったとは。
+<a href="http://stackoverflow.com/questions/24002212/test-running-failed-unable-to-find-instrumentation-info-for-componentinfo">stackoverflowのTest running failed: Unable to find instrumentation info for: ComponentInfo{} — error trying to test in IntelliJ with Gradle</a>で見付けました。
+こんなところに設定があるなんて、知りませんよー。</p>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2016-09-16T12:05:30+09:00" class="updated">
+       Updated
+       <span class="month">Sep</span>
+       <span class="day">16</span>,
+       <span class="year">2016</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/kotlin/">kotlin</a>
+  
+     <a class="category" href="/categories/android/">android</a>
+  
+     <a class="category" href="/categories/android-studio/">android studio</a>
+  
+     <a class="category" href="/categories/java/">java</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2016/09/16/kotlin-kotohajime/" data-via="" data-counturl="/blog/2016/09/16/kotlin-kotohajime/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/09/13/let-s-encrypt-without-certbot-auto/" title="Next Post: Let's Encrypt without certbot-auto">Let's Encrypt Without Certbot-auto &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/09/16/kotlin-kotohajime/">Kotlin KOTOHAJIME</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/13/let-s-encrypt-without-certbot-auto/">Let's Encrypt Without Certbot-auto</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/07/crosswalk/">Crosswalk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/">Local IP With Hostname Without an Inner DNS (Wildcard DNS)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/">Trigger as 3 Times Service Down in a Row on Zabbix</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A Java programmer in Tokyo.</p>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/";
+    var disqus_url = "http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>
