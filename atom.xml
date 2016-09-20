@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-09-16T12:13:30+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2016-09-16T12:05:30+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-09-20T14:11:46+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Recent bookmarks]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-bookmarks/"/><updated>2016-09-20T14:11:46+09:00</updated><id>/blog/2016/09/20/recent-bookmarks/</id><content type="html"><![CDATA[<p>最近の、といってももう数ヵ月も前のものですが、
+bookmarkしかねてbrowserのtabを開きっぱなしなのを閉じる前に、
+メモしておきます。</p>
+<ul>
+<li><a href="http://antimatter15.com/ocrad.js/demo.html">Ocrad.js Optical Character Recognition in JS</a></li>
+<li><a href="https://cloudlatex.io/">Cloud LaTeX</a></li>
+<li><a href="https://deploygate.com/">DeployGate</a>(開発中のiOS/Androidアプリを簡単にテスターや開発チームメンバーと共有することでアプリのプロトタイピングを加速させることができる、アプリ開発＆テスト支援サービス)</li>
+<li><a href="https://github.com/mcfly-io/generator-mcfly">generator-mcfly</a>(A Yeoman generator for scaffolding an application using angular, browserify or webpack, ionic, angular-ui-bootstrap, angular-material...)<a href="https://github.com/mcfly-io/generator-mcfly/wiki/Quick-Start-First-application">Quick Start First application</a></li>
+<li><a href="http://qiita.com/tetsuya/items/a488b66a88369307a213">Yeomanを使ったAngularJSアプリをチームで共同開発して公開するまで</a></li>
+<li><a href="http://qiita.com/masato/items/b4fff7e885f78cd96edb">ES6で書くIsomorphicアプリ入門 - Part1: リソース</a></li>
+<li><a href="http://www.adobe.com/jp/devnet/phonegap/articles/phonegap_build_instructions.html">PhoneGap Buildの使い方</a>(「PhoneGap Build」とは、クラウド上でモバイルアプリをビルドできるサービスです)</li>
+<li><a href="https://angular.io/docs/ts/latest/">angular2 doc</a>(<a href="https://angular.io/docs/ts/latest/guide/template-syntax.html">ここ</a>まで読みました)</li>
+<li><a href="https://help.ubuntu.com/community/LiveCDCustomization">How to Customise the Ubuntu Desktop CD</a>(探せばすぐ見つかりますが... Ubuntu remasteringのbaseです)</li>
+<li><a href="http://wada811.blogspot.com/2014/10/avoid-exposing-signing-config-using-gradle-properties.html">AndroidStudio で APK の署名の設定を gradle.properties に記述する</a></li>
+<li><a href="https://blog.techstars.jp/android-tuto/">どれで入門する？Androidアプリ開発入門に最適なチュートリアルサイト比較＆まとめ 2016.1.5</a></li>
+<li><a href="http://mixi-inc.github.io/AndroidTraining/">mixi-inc/AndroidTraining</a>(いいんですが、やっぱり本読んでちゃんと勉強しないといけないかなと思いました)</li>
+<li><a href="http://androidguide.nomaki.jp/html/">Androidアプリ開発入門</a>(実例を作りながらなのでためになるのですが、これだけでは足りない感じ、でした。実践編からは実例なくなってつらいですし)</li>
+</ul>
+<h3>Vuzix M100</h3>
+<ul>
+<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Driver_File_GestureSensorSDK_20160317210116857.pdf">Gesture Sensor SDK Vuzix M100 Developer SDK</a></li>
+<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Installing-the-Vuzix-M100-SDK.pdf">Installing the Vuzix M100 SDK (1.4+)</a>(Eclipse対象で古いんですが.)</li>
+<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Driver_File_m100sdk_manual_jpn_20151226175838467.pdf">Vuzix M100 SDK インストールガイド</a></li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[UML Modeling]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/uml-modeling/"/><updated>2016-09-20T12:26:52+09:00</updated><id>/blog/2016/09/20/uml-modeling/</id><content type="html"><![CDATA[<p>垣内さんから「折角豆蔵にいるんだから、割引が効くからこういうの受けてみれば」って勧められたのがUMLモデリング講座。
+へー、こういうのあるんですね。
+<a href="http://labo.mamezou.com/special/sp_002/sp_002_008.html">誤解しがちなモデリングの技 第8回：モデルの意味的な誤り(II)</a>、
+<a href="http://www.mamezou.com/service/m_tensaku.html">モデリング添削講座のご案内</a>、
+<a href="http://www.mamezou.com/training/mode_tensaku.html">モデリング添削講座</a>、
+<a href="http://www.mamezou.com/training/mode_tensaku_sample.pdf">モデリング添削講座 L1,L2 サンプル</a></p>
+<p>Javaアプリのクラス設計が上手くなりそうです。
+って、全然受けてないんですけど...
+そもそも、勧められたのが最早1年前。
+あぁぁ。ダメですね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2016-09-16T12:05:30+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
 <p>最初、title間違えました。
 タイプミスです。
 Ergodox EZ(キー配列をカスタマイズ出来るキーボード)が必要かもしれません...</p>
@@ -251,7 +285,7 @@ cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-a
 </span><span class='line'>sudo chown root:root certbot
 </span><span class='line'>sudo mv -i certbot /etc/cron.daily/
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Lum-chan(Uruse Yatsura)]]></title><link href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-uruse-yatsura/"/><updated>2016-07-04T03:15:25+09:00</updated><id>/blog/2016/07/04/lum-chan-uruse-yatsura/</id><content type="html"><![CDATA[<p>古巣のJIPDECに派遣されて、
+]]></content></entry><entry><title type="html"><![CDATA[Lum-chan(Urusei Yatsura)]]></title><link href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-urusei-yatsura/"/><updated>2016-09-20T12:20:48+09:00</updated><id>/blog/2016/07/04/lum-chan-urusei-yatsura/</id><content type="html"><![CDATA[<p>古巣のJIPDECに派遣されて、
 桂史郎くんから「またラム食べに行きましょう」
 って言われて、
 「ラムちゃん、行くんですね。
@@ -420,83 +454,4 @@ null
 <p>アプリでクラッシュがあったら通知する<a href="https://try.crashlytics.com/">Crashlytics</a>
 <a href="http://blog.mb.cloud.nifty.com/?p=919">アプリ改善の道筋を示すクラッシュレポートサービスを使いこなそう</a>
 のserver版がある、ってことですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Simple Web UI Testing by Sikuli]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/simple-web-ui-testing-by-sikuli/"/><updated>2016-03-17T17:02:54+09:00</updated><id>/blog/2016/03/17/simple-web-ui-testing-by-sikuli/</id><content type="html"><![CDATA[<p><a href="http://www.sikuli.org/">Sikuli</a>を使うと、
-簡単にWeb UIをtest出来ます。
-あ、Web UIに限りませんか。Desktop上のアプリ全て、というべきでしょう。
-何と言っても、「このボタンをclick」とかっていう指定が、
-当該ボタンの画像で示せる、
-その画像を取るのもbrowser上で範囲指定すればいいだけ、
-というのがなかなかshockingでした。</p>
-<p>Sikuli自体は<a href="https://code.google.com/archive/p/sikuli-api/">Java API</a>があるので、OS free、script化も可能っぽいです。
-<a href="http://www.sikulix.com/">SikuliX</a>でGUIでお手軽テスト自動化、のみならず。
-ただ、「ここを選んでclickして」とかっていう手順はすんなり書けるんですが、
-Captchaを乗り越えるために裏でlogic組みたかったんですけど、
-それがどうもSikuliXではうまく出来ない感じがしたので、諦めました。
-あぁ、上記のSikuli-apiを使ってJava Test classとして書けば良かったんですね。
-出来ないことはないですか。ぼくが見落としただけです。
-「ここ」って示す画像を沢山用意しないとならなさそう、です。</p>
-<p>じぇじぇ、GebとSikuli、<a href="https://fbflex.wordpress.com/2012/10/27/geb-and-sikuli/">一緒に使えそう</a>ですね。
-もうGebで書いちゃいましたよトホホ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2016-03-17T16:30:04+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
-method前段に書いた動作例documentをtestとして動かせるそうな。
-同じようなのがJavaにも無いかなと探してみると、
-<code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
-<a href="http://kyon-mm.bitbucket.org/blog/html/2013/05/29/use_javadocassertiontestsuite.html">うさぎ組 プロダクトコードのJavaDocにテストコードを書く方法</a>より。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>class Sample {
-</span><span class='line'>
-</span><span class='line'>    /**
-</span><span class='line'>     * add prefix &#39;sample&#39;.
-</span><span class='line'>     * <span class="nt">&lt;pre</span> <span class="na">class=</span><span class="s">&quot;groovyTestCase&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>     *    def sample = new org.kyon_mm.Sample()
-</span><span class='line'>     *    assert &#39;sample foo&#39; == sample.prefixSample(&quot;foo&quot;)
-</span><span class='line'>     * <span class="nt">&lt;/pre&gt;</span>
-</span><span class='line'>     */
-</span><span class='line'>    String prefixSample(aaa){
-</span><span class='line'>        return &quot;sample $aaa&quot;
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>と書いて、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>import junit.framework.Test
-</span><span class='line'>import junit.framework.TestCase
-</span><span class='line'>import junit.framework.TestSuite
-</span><span class='line'>
-</span><span class='line'>class ReferenceTests extends TestCase {
-</span><span class='line'>    static Test suite()  {
-</span><span class='line'>        def suite = new TestSuite()
-</span><span class='line'>        suite.addTest( JavadocAssertionTestSuite.suite( &#39;src/main&#39; ) )
-</span><span class='line'>        suite
-</span><span class='line'>    }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>と書けば、gradleでもtestしてくれるそう。
-こんなのがあったなんてびっくりポンです。
-<a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
-Javascriptで記述するというのでGroovyの方がいいですよね。</p>
 ]]></content></entry></feed>
