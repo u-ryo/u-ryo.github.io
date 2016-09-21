@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/softether/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[SoftEther Client memo]]></title><link href="http://u-ryo.github.io//blog/2016/09/21/softether-client-memo/"/><updated>2016-09-21T13:26:56+09:00</updated><id>/blog/2016/09/21/softether-client-memo/</id><content type="html"><![CDATA[<p>SoftEtherのClientを起動する際の自分用のcommand log。
+自動化しちゃえばいいんでしょうが...</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo /usr/local/vpnclient/vpnclient start
+</span><span class='line'>$ /usr/local/vpnclient/vpncmd localhost /cmd accountconnect mickey
+</span><span class='line'>$ sudo ip addr add 192.168.120.10/24 dev vpn_nic0
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry></feed>

@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-09-20T15:28:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2016-09-20T15:28:17+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-09-21T13:26:56+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[SoftEther Client memo]]></title><link href="http://u-ryo.github.io//blog/2016/09/21/softether-client-memo/"/><updated>2016-09-21T13:26:56+09:00</updated><id>/blog/2016/09/21/softether-client-memo/</id><content type="html"><![CDATA[<p>SoftEtherのClientを起動する際の自分用のcommand log。
+自動化しちゃえばいいんでしょうが...</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo /usr/local/vpnclient/vpnclient start
+</span><span class='line'>$ /usr/local/vpnclient/vpncmd localhost /cmd accountconnect mickey
+</span><span class='line'>$ sudo ip addr add 192.168.120.10/24 dev vpn_nic0
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2016-09-20T15:28:17+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
 <p>最近のpackage管理は、便利になってるんですけど、用途によって色々と分かれてしまっているので、却って使いづらいというか。<code>apt-get install</code>でいいじゃん... ってのは、ダメなんですかねぇ。</p>
 <ul>
 <li><a href="http://sdkman.io/">SDKMAN!</a>(GVMの後継。Java系(Groovy,Ant,Kotlin,Maven,Scala,grails,JBoss Forge,...)のinstall、version管理に。installationは<code>curl -s api.sdkman.io|bash</code>)</li>
@@ -444,18 +453,4 @@ deep learning使ってるとか、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>print &quot;Content-Type: application/octet-stream\nContent-Disposition: attachment; filename=$line_number$day.oud\n\n&quot;;
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Awakening Wave LAN of NetworkManager on the Laptop]]></title><link href="http://u-ryo.github.io//blog/2016/03/22/awakening-wave-lan-of-networkmanager-on-the-laptop/"/><updated>2016-04-25T02:10:59+09:00</updated><id>/blog/2016/03/22/awakening-wave-lan-of-networkmanager-on-the-laptop/</id><content type="html"><![CDATA[HPのノートPCで、suspendから覚めても無線LANが復活しないことがよくあったので
-困ってたんですが、NetworkManagerをcommand lineからいじれると知って。
-
-null
-$ nmcli -p nm status
-null
-
-とやると現在の状態を表示し、
-やってみるとWLANのstatusがsleepだったので、
-
-null
-$ sudo nmcli -p nm sleep false
-null
-
-とすると、繋げに行くようになりました。めでたしめでたし。]]></content></entry></feed>
+]]></content></entry></feed>
