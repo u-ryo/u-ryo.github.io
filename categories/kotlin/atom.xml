@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/kotlin/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2016-09-16T12:05:30+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/kotlin/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-03-16T10:13:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2016-10-30T18:26:50+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
 <p>最初、title間違えました。
 タイプミスです。
 Ergodox EZ(キー配列をカスタマイズ出来るキーボード)が必要かもしれません...</p>
@@ -22,9 +22,9 @@ Javaだけでも行けるのでは? という気も少しします。
 <p>しっかし、Android開発って結構めんどいんですね。
 IDEがないと開発できないって、
 古いtypeの人間としてはそこから苦痛なんですが...</p>
-<p>最初は、森洋之,基本からしっかり身につくAndroidアプリ開発入門 Android Studio 2.x対応 プロが本気で教えるアプリ作りの基本「技」 (ヤフー黒帯シリーズ),SBクリエイティブ,2016.7 を間違い直しながら写経することで
+<p>最初は、<a href="http://www.sbcr.jp/products/4797384505.html">森洋之,基本からしっかり身につくAndroidアプリ開発入門 Android Studio 2.x対応 プロが本気で教えるアプリ作りの基本「技」 (ヤフー黒帯シリーズ),SBクリエイティブ,2016.7</a> を間違い直しながら写経することで
 Android開発を「Hello World」から卒業してから、
-長澤太郎,Kotlinスタートブック,リックテレコム,2016.7 を写経しています。
+<a href="http://taro.hatenablog.jp/entry/2016/06/16/203136">長澤太郎,Kotlinスタートブック,リックテレコム,2016.7</a> を写経しています。
 そこでハマったことを。</p>
 <ol>
 <li>実行しても、エラーメッセージを吐かずにemulatorが一瞬立ち上がった後終了 → Run対象を<code>MainActivityTest</code>にしていたから</li>
