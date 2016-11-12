@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-10-30T18:26:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[site search in this blog]]></title><link href="http://u-ryo.github.io//blog/2016/10/30/site-search-in-this-blog/"/><updated>2016-10-30T18:06:36+09:00</updated><id>/blog/2016/10/30/site-search-in-this-blog/</id><content type="html"><![CDATA[<p>この自分のblog、検索したいことがよくあるんですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2016-11-13T06:58:29+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[site search in this blog]]></title><link href="http://u-ryo.github.io//blog/2016/10/30/site-search-in-this-blog/"/><updated>2016-10-30T18:06:36+09:00</updated><id>/blog/2016/10/30/site-search-in-this-blog/</id><content type="html"><![CDATA[<p>この自分のblog、検索したいことがよくあるんですが、
 右上のsearch box、単なるgoogle searchなので、
 何でblog内検索がないのかなー、
 って思ってたんです。
@@ -21,13 +21,13 @@ google検索結果に「site:...」がついてくれるようになりました
 Lunr.js Pluginでも入れた方がいいのかなー。
 grainにoctopress用pluginが入るのか?!
 というのはありますが。</p>
-]]></content></entry><entry><title type="html"><![CDATA[SoftEther Client memo]]></title><link href="http://u-ryo.github.io//blog/2016/09/21/softether-client-memo/"/><updated>2016-09-21T13:26:56+09:00</updated><id>/blog/2016/09/21/softether-client-memo/</id><content type="html"><![CDATA[<p>SoftEtherのClientを起動する際の自分用のcommand log。
+]]></content></entry><entry><title type="html"><![CDATA[SoftEther Client memo]]></title><link href="http://u-ryo.github.io//blog/2016/09/21/softether-client-memo/"/><updated>2016-11-13T06:58:29+09:00</updated><id>/blog/2016/09/21/softether-client-memo/</id><content type="html"><![CDATA[<p>SoftEtherのClientを起動する際の自分用のcommand log。
 自動化しちゃえばいいんでしょうが...</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo /usr/local/vpnclient/vpnclient start
-</span><span class='line'>$ /usr/local/vpnclient/vpncmd localhost /cmd accountconnect mickey
+</span><span class='line'>$ /usr/local/vpnclient/vpncmd /client localhost /cmd accountconnect mickey
 </span><span class='line'>$ sudo ip addr add 192.168.120.10/24 dev vpn_nic0
 </span></code></pre></td></tr></table></div></figure>
 ]]></content></entry><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2016-09-20T15:28:17+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
