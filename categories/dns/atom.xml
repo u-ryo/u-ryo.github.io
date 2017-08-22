@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/dns/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:25:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[freenom (free DNS Registrar)]]></title><link href="http://u-ryo.github.io//blog/2015/11/06/freenom-free-dns-registrar/"/><updated>2017-08-22T10:25:51+09:00</updated><id>/blog/2015/11/06/freenom-free-dns-registrar/</id><content type="html"><![CDATA[<p>バイト先のProxyで、ある日突然自宅サーバが「ダイナミックDNSです」といって蹴られるようになってしまいました。
-IP直打ちでも、「数字IP指定です」みたいなことを言われて繋げてくれません。
-お名前.COMにでもお金払うしかないのか、
-と観念しかけたんですが、
-探してみると、フリーであるんですね、無料ドメインも色々と。
-突然無くなったりFacebookにリンク張れないものがあったり制限はあるようですが、
-気軽に使えるので有難いです。
-gmailアカウントだからなのか、何故か登録できませんでしたが、
-他のアカウントでサインアップして、
-所期の目的を達しました(バイト先Proxyから自宅サーバへアクセス出来ました)。</p>
-<p><a href="http://www.freenom.com/ja/index.html">freenom</a>使ったんですが、
-APIもあったり、殆どDDNSみたいです。
-バイト先Proxyも、dyndns.orgは通すので、MyDNS狙い撃ち?!
-ieServerドメインで試してみればよかったかもしれません。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/dns/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[local IP with hostname without an inner DNS (Wildcard DNS)]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/</id><content type="html"><![CDATA[<p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.127.0.0.1.xip.io
+</span><span class='line'>some-project.127.0.0.1.xip.io has address 127.0.0.1
+</span></code></pre></td></tr></table></div></figure>
+<p><a href="http://qiita.com/tady/items/b7b46486fb3175dac0b1">ローカルDNSを立てずにホスト名をIPアドレスに解決する超絶簡単な方法</a></p>
+<p>nip.io でも全く同じことが出来るようです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.192.168.33.176.nip.io
+</span><span class='line'>some-project.192.168.33.176.nip.io has address 192.168.33.176
+</span></code></pre></td></tr></table></div></figure>
+<p>更に更に、<a href="https://sslip.io/">sslip.io</a>では正式なserver certも用意出来ちゃう、なんていう素晴らしいとこだった、ようですが、今はもうダメポです。自分でやるしかなさそうです。とはいっても、wildcard certificationはLet's Encryptでは扱ってないので、やるならお金かかっちゃいますかね...</p>
 ]]></content></entry></feed>

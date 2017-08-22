@@ -1,18 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/koding/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:25:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-22T11:23:03+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
-以後blogを書くのをサボってしまっていたんですが、
-再開します。
-どこで再開したらいいか迷っていましたけれども、
-<a href="https://blog.htmlhifive.com/2016/06/20/web-ide-six-elections/">インストール不要で使えるWeb IDE×6選</a>を見て、
-<a href="https://codeanywhere.com/">Codeanywhere · Cross Platform Cloud IDE</a>にしました。
-Javaが入ってないので自分で入れなきゃならないことや、
-ssh command lineで^Rとか使えないのでちょっと不便ですが仕方ないです。
-ここでcompile出来るだけで御の字でしょう。</p>
-]]></content></entry><entry><title type="html"><![CDATA[koding has changed]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/koding-has-changed/"/><updated>2017-08-22T10:25:51+09:00</updated><id>/blog/2016/03/16/koding-has-changed/</id><content type="html"><![CDATA[<p><a href="https://koding.com">Koding</a>が、何かいきなりTeam codingとかいって、renewalしてました。
-新しくなるのはいいんですけど、
-<a href="https://github.com">github</a>のaccountで入れなくなったり、
-AWSが必須だかlocalのLinuxにkdとかいうのをinstallするのが必須だか、
-free and Web上で完結しなくなっているようだったり、
-というのはやめて欲しいです。
-今更ながら、<a href="https://nitrous.io">nitrous.io</a>に乗り換えます。
-<a href="https://c9.io">Cloud9</a>だとGrainw compile出来ないので。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/koding/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Limitation of Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/limitation-of-koding/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/30/limitation-of-koding/</id><content type="html"><![CDATA[<p>Kodingにも限界はあるんですね。
+無料ではVMが常時起動ではない、
+というのはendurableなんですが、
+workplaceが一つしか作れないとは。
+cordovaでハイブリッドアプリ作ってみたかったんですけど、
+続きはCloud9で頑張ってみます。</p>
+]]></content></entry><entry><title type="html"><![CDATA[ssh access to Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/28/ssh-access-to-koding/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/28/ssh-access-to-koding/</id><content type="html"><![CDATA[<p>Kodingなんですが、sshで繋げてログインすることが出来るんですね。
+びっくりポンです。</p>
+<ol>
+<li>~/.ssh/authorized_keys に手元のマシンのpublic keyを記述</li>
+<li>Koding上のマシン名を左側のVM Settingsで確認(毎日変わる模様)</li>
+<li>手元からssh(公開鍵認証のみ)</li>
+</ol>
+<p>tmuxも使えるので超便利です。
+ただ、デフォルトのコントロールキーがC-bになっているので、
+最初は戸惑います。
+慣れ親しんだC-aに変えるには、
+~/.tmux.conf
+に</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>set-option -g prefix C-a
+</span></code></pre></td></tr></table></div></figure>
+<p>ちゃんと公式ドキュメントに書いてありました。<br  />
+<a href="http://learn.koding.com/guides/using-tmux-on-koding/">Using Tmux on Koding</a><br  />
+(一旦tmuxを全て終了させないと反映されません)</p>
 ]]></content></entry></feed>

@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Secure Boot 2 (using signed grub in the official package) - u-ryo's blog</title>
+  <title>keep ssh connection - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="/blog/2015/11/05/secure-boot-2-using-signed-grub-in-the-official-package/">
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2017/08/22/keep-ssh-connection/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -32,6 +32,18 @@
     <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
   
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -51,13 +63,13 @@
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss ">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
 </ul>
 
   <form action="http://google.com/search" method="get">
     <fieldset role="search">
-      <input type="hidden" name="q" value="site:" />
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
       <input class="search" type="text" name="q" results="0" placeholder="Search"/>
     </fieldset>
   </form>
@@ -80,40 +92,34 @@
 
   <header>
     
-      <h1 class="entry-title">Secure Boot 2 (using Signed Grub in the Official Package)</h1>
+      <h1 class="entry-title">Keep Ssh Connection</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2015-11-05T06:27:00+00:00" pubdate data-updated=true>
-      <span class="month">Nov</span>
-      <span class="day">05</span>,
-      <span class="year">2015</span>
+    <time datetime="2017-08-22T11:55:00+09:00" pubdate data-updated=true>
+      <span class="month">Aug</span>
+      <span class="day">22</span>,
+      <span class="year">2017</span>
     </time>
   
 
 
+        
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>ubuntu公式パッケージのsigned grubを使う方法</h3>
-<p>USBメモリに直接ubuntuをインストールするために、
-8GBのUSBメモリを用意しました。
-それさえあれば、至極簡単です。</p>
-<ol>
-<li>VirtualBox等で、USBメモリにubuntuを入れる(そのままだと2GBスワップになるので、適宜調整。インストール後は4GB程の使用量なので、最初から5GB程でもよいかも。VMをEFIにしておくのを忘れないように。あと先頭にvfat32のEFI用パーティションを)</li>
-<li>リブートした後、<code>/etc/efi/ubuntu/</code>を<code>/etc/efi/BOOT</code>にリネーム</li>
-<li><code>linux-signed-image-generic</code>も<code>grub2-efi-amd86-signed</code>も入っているので、
+<div class="entry-content"><p>sshがよく切れるサイトが多いのですが、基本的には諦めてました。
+でも、こうすればよかったんですね。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cp -rpi /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed /etc/efi/BOOT/BOOTx64.EFI
-</span></code></pre></td></tr></table></div></figure></li>
-<li>これでSecure BootなPC挿してリブート</li>
-</ol>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ssh -L 8888:localhost:8080 -o &#39;TCPKeepAlive yes&#39; -o &#39;ServerAliveInterval 10&#39; r.umetsu@219.101.192.235
+</span></code></pre></td></tr></table></div></figure>
 </div>
 
 </article>
@@ -130,22 +136,18 @@
 
 
 
-     <time datetime="2015-11-05T06:37:38+00:00" class="updated">
+     <time datetime="2017-08-22T12:27:55+09:00" class="updated">
        Updated
-       <span class="month">Nov</span>
-       <span class="day">05</span>,
-       <span class="year">2015</span>
+       <span class="month">Aug</span>
+       <span class="day">22</span>,
+       <span class="year">2017</span>
      </time>
 
       
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/linux/">linux</a>
-  
-     <a class="category" href="/categories/secure-boot/">secure boot</a>
-  
-     <a class="category" href="/categories/grub/">grub</a>
+     <a class="category" href="/categories/ssh/">ssh</a>
   
 </div>
 
@@ -154,7 +156,7 @@
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2015/11/05/secure-boot-2-using-signed-grub-in-the-official-package/" data-via="" data-counturl="/blog/2015/11/05/secure-boot-2-using-signed-grub-in-the-official-package/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2017/08/22/keep-ssh-connection/" data-via="" data-counturl="/blog/2017/08/22/keep-ssh-connection/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -167,12 +169,20 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2017/08/22/codeanywhere/" title="Previous Post: codeanywhere">&laquo; Codeanywhere</a>
       
-        <a class="basic-alignment right" href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/" title="Next Post: Secure Boot 2 (using self-signed cert)">Secure Boot 2 (using Self-signed Cert) &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2017/08/22/non-buffered-grep/" title="Next Post: non buffered grep">Non Buffered Grep &raquo;</a>
       
     </p>
   </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -183,23 +193,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/05/secure-boot-2-using-signed-grub-in-the-official-package/">Secure Boot 2 (using Signed Grub in the Official Package)</a>
+        <a href="/blog/2017/08/22/codeanywhere/">Codeanywhere</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/05/secure-boot-2-using-self-signed-cert/">Secure Boot 2 (using Self-signed Cert)</a>
+        <a href="/blog/2017/08/22/keep-ssh-connection/">Keep Ssh Connection</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/04/encryption-by-gnupg/">Encryption by GnuPG</a>
+        <a href="/blog/2017/08/22/non-buffered-grep/">Non Buffered Grep</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/04/hybrid-mbr-gpt-for-dual-booting-mbr-uefi/">Hybrid MBR/GPT for Dual Booting MBR/UEFI</a>
+        <a href="/blog/2017/08/22/free-koding-has-finished/">Free Koding Has Finished</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/04/secure-boot/">Secure Boot</a>
+        <a href="/blog/2017/08/21/changing-koding-to-codeanywhere/">Changing Koding to Codeanywhere</a>
       </li>
     
   </ul>
@@ -255,12 +265,28 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - u-ryo -
+  Copyright &copy; 2017 - u-ryo -
   <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
 </p>
 
 </footer>
   <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2017/08/22/keep-ssh-connection/";
+    var disqus_url = "http://u-ryo.github.io//blog/2017/08/22/keep-ssh-connection/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
 
 
 
