@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T14:27:51+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/codeanywhere/"/><updated>2017-08-22T14:27:51+09:00</updated><id>/blog/2017/08/22/codeanywhere/</id><content type="html"><![CDATA[<h2>ちょっとした注意点</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T17:23:43+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-22T17:23:43+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
+<ul>
+<li><code>WEB-INF/glassfish-web.xml</code>の<code>context-root</code>の最後が<code>/</code>だと、
+ログイン後、トップページに(<code>http://...//</code>という形で)飛ばされる</li>
+<li>Glassfish管理GUIにおいて、<code>glassfish-web.xml</code>の<code>context-root</code>と違うcontext名でdeployした場合、
+CUIでrestart(=disable/enable)すると、
+<code>glassfish-web.xml</code>の<code>context-root</code>のcontext名になってしまい、
+当該web applicationにaccess出来ないように見えてしまう</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/codeanywhere/"/><updated>2017-08-22T14:27:51+09:00</updated><id>/blog/2017/08/22/codeanywhere/</id><content type="html"><![CDATA[<h2>ちょっとした注意点</h2>
 <ul>
 <li>Javaは入ってないので自分で入れる。<code>apt-cache</code>で見ると普通に<code>apt install</code>で入れられるのはJava7までっぽいが7で十分みたい。</li>
 <li>previewは、<code>./grainw</code>でcompile後、<code>http://...URL...:4000</code>で行けますね。→うーん、失敗する時の方が多いかも。</li>
@@ -399,52 +408,4 @@ command line 1行で見られるようになったので、
 成り行き売かけといたら、1,960円で買ったんですが初値は1,867円、93円の損でした。
 なんともはや。
 時期が悪すぎます。イギリスがEU離脱を決めるなんて。トホホ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Magic Square]]></title><link href="http://u-ryo.github.io//blog/2016/06/25/magic-square/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/25/magic-square/</id><content type="html"><![CDATA[<h3>3次魔方陣</h3>
-<ol>
-<li>爪のついたZ字順に1〜9を配置</li>
-<li>2と8を入れ替える</li>
-</ol>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>2 3 4
-</span><span class='line'>1 5 9
-</span><span class='line'>6 7 8
-</span><span class='line'>
-</span><span class='line'>8 3 4
-</span><span class='line'>1 5 9
-</span><span class='line'>6 7 2
-</span></code></pre></td></tr></table></div></figure>
-<h3>4次魔方陣</h3>
-<ol>
-<li>1〜16を左上から右へ4列記入</li>
-<li>縦、横の真ん中の2列の上下端を交差させて入れ替える</li>
-</ol>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'> 1  2  3  4
-</span><span class='line'> 5  6  7  8
-</span><span class='line'> 9 10 11 12
-</span><span class='line'>13 14 15 16
-</span><span class='line'>
-</span><span class='line'> 1 15 14  4
-</span><span class='line'>12  6  7  9
-</span><span class='line'> 8 10 11  5
-</span><span class='line'>13  2  3 16
-</span></code></pre></td></tr></table></div></figure>
-<h3>奇数次魔方陣</h3>
-<p>ヒンドゥーの連続形式</p>
-<p>こういうのがさらっと出てくる山口さんって、
-やっぱり凄いですね。</p>
 ]]></content></entry></feed>

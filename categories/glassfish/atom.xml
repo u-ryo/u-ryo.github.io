@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/glassfish/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-22T17:23:43+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
+<ul>
+<li><code>WEB-INF/glassfish-web.xml</code>の<code>context-root</code>の最後が<code>/</code>だと、
+ログイン後、トップページに(<code>http://...//</code>という形で)飛ばされる</li>
+<li>Glassfish管理GUIにおいて、<code>glassfish-web.xml</code>の<code>context-root</code>と違うcontext名でdeployした場合、
+CUIでrestart(=disable/enable)すると、
+<code>glassfish-web.xml</code>の<code>context-root</code>のcontext名になってしまい、
+当該web applicationにaccess出来ないように見えてしまう</li>
+</ul>
+]]></content></entry></feed>
