@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T17:23:43+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-22T17:23:43+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-23T10:12:53+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Easy AI APIs]]></title><link href="http://u-ryo.github.io//blog/2017/08/23/easy-ai-apis/"/><updated>2017-08-23T10:12:53+09:00</updated><id>/blog/2017/08/23/easy-ai-apis/</id><content type="html"><![CDATA[<p><a href="http://programming-study.com/trouble/ai5/">誰でも簡単に人工知能を使えるサービスがヤバすぎる！</a></p>
+<p>この辺の技術は、変化が激しいのでその時々で十分に調査する必要がありますね。
+それにしても、随分簡単に使えそうになっていますね。
+自分でやってみないと、何とも言えませんが...</p>
+]]></content></entry><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-22T17:23:43+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
 <ul>
 <li><code>WEB-INF/glassfish-web.xml</code>の<code>context-root</code>の最後が<code>/</code>だと、
 ログイン後、トップページに(<code>http://...//</code>という形で)飛ばされる</li>
@@ -30,7 +34,7 @@ CUIでrestart(=disable/enable)すると、
 </pre></td><td class='code'><pre><code class='html'><span class='line'>~/Android/Sdk/platform-tools/adb logcat -v time|grep --line-buffered -e send_code1 -e doOnNext -e &#39;D/After   ([ 1-9][0-9]*): [0-9]&#39;|tee remote_diagnosis.log
 </span></code></pre></td></tr></table></div></figure>
 <p>のように<code>--line-buffered</code>が必要でした。</p>
-]]></content></entry><entry><title type="html"><![CDATA[free Koding has finished]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/free-koding-has-finished/"/><updated>2017-08-22T11:33:30+09:00</updated><id>/blog/2017/08/22/free-koding-has-finished/</id><content type="html"><![CDATA[]]></content></entry><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-22T11:43:21+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
+]]></content></entry><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-22T11:43:21+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
 以後blogを書くのをサボってしまっていたんですが、
 再開します。
 どこで再開したらいいか迷っていましたけれども、
