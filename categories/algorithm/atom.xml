@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/algorithm/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Magic Square]]></title><link href="http://u-ryo.github.io//blog/2016/06/25/magic-square/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/25/magic-square/</id><content type="html"><![CDATA[<h3>3次魔方陣</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/algorithm/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Getting Prize S Level Programmer at Paiza]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/"/><updated>2017-09-17T17:26:07+09:00</updated><id>/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/</id><content type="html"><![CDATA[<p>先日、<a href="https://paiza.jp/challenges">Paizaのスキルチェック</a>で
+<a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">時間切れ0点</a>を取ってしまったので、
+癪だからランクS、本気で取りに行きました。
+<a href="https://paiza.jp/challenges/share/BpVEE0xUqzek-gFkhWaalVEwoIv7rpTSXnDL6cOC4eo?source=social">ひとりすごろく</a>は第一次制限時間の40分を超えてしまったので、
+全ケース通ったんですけど95点でSではなくA判定。
+やっぱり時間が大事なんですね。
+Javaで「早く」書くのは確かにキツイです。
+ので、次は50点の制限時間が2時間の<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo?source=social">ビリヤードの玉突き</a>に挑戦しました。
+こちらは、問題中にヒントを書いていてくれていることもあり、
+60分で解答を提出、ようやっとSランクをゲットできました。
+今までAランクでいっか、とか思ってて、S問題はゆっくりやって、
+再チャレンジでcodeをbrush upして100点を取ってたんですけど、
+それより時間が大事、なんですかね。
+いや、実務では分を争う程、そこまでsevereではないので...
+それに、paizaでいくら頑張っても、
+小さいとこばっかりであんまり行きたい先が無いので、虚しいんです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Challenging Paiza TSP]]></title><link href="http://u-ryo.github.io//blog/2017/09/13/challenging-paiza-tsp/"/><updated>2017-09-17T17:27:16+09:00</updated><id>/blog/2017/09/13/challenging-paiza-tsp/</id><content type="html"><![CDATA[<p>8/13はPaizaの日、ということで、巡回セールスマン問題を出題していました。
+<a href="https://paiza.jp/works/algorithm/primer/algorithm3">Paizaラーニングでも巡回セールスマン問題のさわり(貪欲法)を取り上げていて</a>、
+2-OptやSimulatedAnnealing(焼きなまし法)を<a href="https://github.com/eugenp/tutorials/blob/3abb98e9e8acc7efe3f9f8423fcf0f8934655be7/algorithms/src/main/java/com/baeldung/algorithms/ga/annealing/SimulatedAnnealing.java">学んで</a>、
+いざ書いてみたんですが、なかなかうまく行きません。
+テストデータは<a href="http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp/">有名ドコロ</a>があります。
+まずはatt48で2-Optでやってみたものの、
+交差線が多く、全然それっぽい経路が得られません。
+なんでーーー!?
+<a href="http://ist.ksc.kwansei.ac.jp/~tutimura/GraphApplication/">Javaによるまんまのコード</a>があったので、
+読み解いていったんですけど時間かかっちゃって、
+結局Paizaの締切9/12に間に合いませんでした...
+何たること。</p>
+<p>どうも、キモはswapにあるようで、
+点を交換すると総延長が短くなる場合、
+当然点を交換するんですが、
+当該点だけを交換するだけじゃなく、
+そこから真ん中へ向かってずっと点を交換していくんですね。
+そうかー。</p>
+<p>悔しいから、久し振りにPaizaのS問題やってみました。
+最も簡単そうな最小辞書順列にしてみました。
+けれど、問題の意味を理解するのと、JavaのStreamで書ききったために、
+制限の2時間、あっという間に過ぎてしまいました。<a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">0点確定</a>です。トホホ。
+しかも、提出したコードは、2つの場合だけ通らずに、80点。
+どうしてコケる時があるのか、思い当たるフシもなく、未だにわかっていません。
+テストデータ、見せて欲しいです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Magic Square]]></title><link href="http://u-ryo.github.io//blog/2016/06/25/magic-square/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/06/25/magic-square/</id><content type="html"><![CDATA[<h3>3次魔方陣</h3>
 <ol>
 <li>爪のついたZ字順に1〜9を配置</li>
 <li>2と8を入れ替える</li>

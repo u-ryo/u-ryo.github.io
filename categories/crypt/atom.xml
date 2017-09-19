@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/crypt/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Illegal keysize]]></title><link href="http://u-ryo.github.io//blog/2017/09/04/illegal-keysize/"/><updated>2017-09-04T02:32:48+09:00</updated><id>/blog/2017/09/04/illegal-keysize/</id><content type="html"><![CDATA[<p>Androidで<a href="https://github.com/NanoHttpd/nanohttpd">NanoHTTPD</a>を
+動かすprogramを開発しているんですが、
+WebRTCにするのに、TLSが必要じゃないですか。
+そのserver certを普通に作ると、<code>Illegal keysize</code>と言われて
+key load時に落ちるのでハマりました。
+<a href="https://github.com/NanoHttpd/nanohttpd#generating-an-self-signed-ssl-certificate">NanoHTTPDの解説</a>にあるように、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048 -ext SAN=DNS:localhost,IP:127.0.0.1  -validity 9999
+</span></code></pre></td></tr></table></div></figure>
+<p>と作ってもダメでした。
+色々調べると、AndroidにはBouncyCastle(BKS)でないとならないらしく、
+証明書は面倒なのでsnakeoilを流用して、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo openssl pkcs12 -export -in /etc/ssl/certs/ssl-cert-snakeoil.pem -inkey /etc/ssl/private/ssl-cert-snakeoil.key -out ~/AndroidStudioProjects/SharedEye/ssl-cert-snakeoil.p12 -name ssl-cert-snakeoil
+</span><span class='line'>$ /usr/lib/jvm/java-8-oracle/bin/keytool -importkeystore -deststorepass password -destkeypass password -destkeystore snakeoil.jks -srckeystore ssl-cert-snakeoil.p12 -srcstoretype PKCS12 -srcstorepass password -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath bcprov-jdk15-1.46.jar
+</span></code></pre></td></tr></table></div></figure>
+<p>とすると、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Problem importing entry for alias java.security.KeyStoreException: java.io.IOException: Error initialising store of key store: java.security.InvalidKeyException: Illegal key size.
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われてimport出来ませんでした(→jksが作れませんでした)。
+かなり悩んだのですが、結局<a href="http://qiita.com/mizuki_takahashi/items/cc26a7fd51aa04396e92">JavaでAES256を使用できるようにする</a>にあるように、
+JCE(Java Cryptography Extension)を落としてきて
+<code>local_policy.jar</code>を上書きしたら、
+jksも出来て、Android側でも何事もなくloadしてくれました。</p>
+]]></content></entry></feed>

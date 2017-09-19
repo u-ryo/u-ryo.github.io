@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ruby/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ruby/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[learning ruby and python3]]></title><link href="http://u-ryo.github.io//blog/2017/08/29/learning-ruby-and-python3/"/><updated>2017-08-30T07:06:14+09:00</updated><id>/blog/2017/08/29/learning-ruby-and-python3/</id><content type="html"><![CDATA[<p>paiza learningの<a href="https://paiza.jp/works/ruby/primerfemale">Ruby入門編</a>のコース、一部が期間限定無料だったので、やってみました。
+女の子の声、何かいいですね。
+内容は「入門編」だけにifやloopやarray等ホントに基本的なことで、ぼくには易しすぎですけど、演習問題で学習内容を確認出来るのがいい感じです。ただ、まだ有料部分もあり、そういう所は動画が見られないのは当然としても、演習問題も出来ないとは。
+物足りないので、<a href="https://paiza.jp/works/python3/primer">python3の入門編</a>もやっちゃいました。こちらは全編無料ですし。でも、やっぱりホント基本的なことですね。あと、rubyとpython、同時にやるもんじゃないです。<code>puts</code>とか<code>print</code>は勿論、<code>gets</code>と<code>input()</code>、<code>elsif</code>と<code>elif</code>等、色々ごっちゃになっちゃいます。rubyの方が後発のいいとこ取りなだけに、配列範囲外アクセスでもエラーにしない等洗練されてる印象。ただ、<code>puts</code>や<code>gets</code>は英語がヘン、というか独特な気が。日本人だから? 紹介されてたrubyのfor loop(<code>each do |x| ... end</code>)は、<code>do</code>と書かないで<code>each{|x|...}</code>と書けばJava8のStreamingと同じなんですね。<code>each</code>って<code>map</code>とかと同じ。なるほど、最初からそうなってるんだ、と納得です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[minimal set for sinatra on heroku]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/</id><content type="html"><![CDATA[<p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p>
 <p>Cloud9上で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -49,12 +53,12 @@ gitにcommitしてherokuにdeployするのは
 <p>で上手く行く筈、なんですが、
 git remoteを設定しないとダメかも。
 その辺は適宜。</p>
-]]></content></entry><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
+]]></content></entry><entry><title type="html"><![CDATA[ruby on heroku]]></title><link href="http://u-ryo.github.io//blog/2015/12/17/ruby-on-heroku/"/><updated>2017-08-30T22:54:30+09:00</updated><id>/blog/2015/12/17/ruby-on-heroku/</id><content type="html"><![CDATA[<p>11月から駒沢大学のCTCに派遣されて、
 某A空輸の次期予約サイトのMonkey Testをやらされているんですが、
 screen shotとかuploadするのに、何故か20kbという制限があります。
 そんなの、Gimpとかフリーソフト使えば簡単なんですが、
 入れさせてくれないんですよね。
-なので、screen shotと撮るにはALT + PrintScreen、
+なので、screen shotを撮るにはALT + PrintScreen、
 編集はMicro$oft謹製のペイント、
 pngでsave出来るようになっただけマシではありますが、
 64bit colorでしか保存できないので、

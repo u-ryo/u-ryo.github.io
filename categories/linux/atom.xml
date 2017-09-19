@@ -1,4 +1,126 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/linux/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/linux/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[hostapd after that...]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/hostapd-after-that/"/><updated>2017-09-06T22:22:29+09:00</updated><id>/blog/2017/09/06/hostapd-after-that/</id><content type="html"><![CDATA[<p>何か、不安定ですhostapd。
+昨夜は、何故か出勤後の9:58に勝手に謎のrebootしてたし、
+今日も帰宅後、NotePCがWiFiで繋がらないから試行錯誤すると、
+一旦USB WiFiドングル抜き差ししてhostapdをstop/startしたら、漸く。
+でも、1秒毎にreconnectしたりして、もう何だか。
+やっぱり、何かWiFi station買ってこないとダメなのかなー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[revive hostapd]]></title><link href="http://u-ryo.github.io//blog/2017/09/03/revive-hostapd/"/><updated>2017-09-04T02:35:32+09:00</updated><id>/blog/2017/09/03/revive-hostapd/</id><content type="html"><![CDATA[<p>家のオンプレミスサーバが最近五月蝿く、
+何か常に3.4GHz近くまでいっていて電気食ってるようなので、
+1年弱ぶりに止めてみました。
+すると、次、立ち上げた時、
+繋げていたPlanexの11/n/g/b Real Portable Wi-Fi Router
+<a href="www.planex.co.jp/product/router/mzk-rp150n/point.shtml">MZK-RP150N</a>
+が死にました。
+通電はしているようなのですが、
+Wi-Fiは繋がらず(ランプも消灯)、resetかけようとマニュアル探して、
+その通りにボタン10秒以上長押ししてもPowerランプがつかず。
+USB刺してすぐはPowerランプとWirelessランプが暫時点灯するので、
+ランプの故障ではない模様。
+また、ケーブルがInternet側でもLAN側でも、設定したIP、
+defaultのIP、どんなIPでも繋がらず(ping不通)。
+ノートPCと直接LANで繋いでpacket captureしても、
+packetは漏れてこず。
+どうしようもないので、家庭内LANから取り外しました。
+けどWi-Fiがないのは不便すぎます。
+そこで、余っていたUSB WiFiドングルをオンプレミスサーバに挿し、
+実に久し振りにhostapdにしてみました。
+21世紀初頭、hostapdで頑張っていたんですが、
+設定が面倒臭かったから、MZK-RP150N買ってきたのに、
+今はhostapd、凄い簡単になったんですね。
+かつてはhostapdが出来るchipから気にしなきゃいけなかったのに、
+今やその辺のドングル刺しても大丈夫なんですか。隔世の感。
+こういうのは時に応じて調べなきゃならないと思うので、
+ここで設定の覚書を書いといても無駄な気がしますけど、一応。</p>
+<ul>
+<li><code>apt install hostapd</code></li>
+<li><code>/etc/hostapd/hostapd.conf</code>を編集</li>
+<li>bridgeは必要(ウチの場合)→<code>/etc/network/interfaces</code>に<code>br0</code>の設定要</li>
+</ul>
+<h1>hostapd.conf</h1>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>interface=wlan0
+</span><span class='line'># automatically register wlan0 to br0
+</span><span class='line'>bridge=br0
+</span><span class='line'># Wireless LAN adapter driver(fixed value)
+</span><span class='line'>driver=nl80211
+</span><span class='line'># SSID name
+</span><span class='line'>ssid=...
+</span><span class='line'># 802.11g/a/...
+</span><span class='line'>hw_mode=g
+</span><span class='line'># Enable 802.11n
+</span><span class='line'>ieee80211n=1
+</span><span class='line'># channel=60 when 802.11a
+</span><span class='line'>channel=7
+</span><span class='line'>wpa=2 # WPA2
+</span><span class='line'># passphrase for WPA2
+</span><span class='line'>wpa_passphrase=...
+</span><span class='line'># stealth
+</span><span class='line'>ignore_broadcast_ssid=1
+</span><span class='line'># Mac Address ACL
+</span><span class='line'>macaddr_acl=1
+</span><span class='line'># file for Mac Address ACL (permission should be 600)
+</span><span class='line'>accept_mac_file=/etc/hostapd/hostapd.accept
+</span><span class='line'>wpa_key_mgmt=WPA-PSK
+</span><span class='line'>rsn_pairwise=CCMP
+</span></code></pre></td></tr></table></div></figure>
+<p>あと前やったのに書き方忘れてたのが、
+<code>/etc/network/interfaces</code>の<code>br0</code>設定。</p>
+<h1>interfaces</h1>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>iface br0 inet static
+</span><span class='line'>	bridge_ports eth1
+</span><span class='line'>	bridge_stp off
+</span><span class='line'>	bridge_maxwait 0
+</span><span class='line'>	address 192.168.X.X
+</span><span class='line'>	netmask 255.255.255.0
+</span></code></pre></td></tr></table></div></figure>
+<p>iptalesの設定も変更忘れないように。</p>
+<p>Planex MZK-RP150NではMac Address制限が出来なかったので、
+ちょっぴり安心に。</p>
+<p>ですが、<code>hostapd.accept</code>書き換えても
+<code>sudo service hostapd restart</code>しないと反映されず、
+restartすると<code>br0</code>消えるっぽいので、注意です。
+<code>hostapd stop</code>して<code>ifup br0</code>、
+<code>hostapd start</code>するのが正しい手順でしょうか。
+その間ノートPCからは接続切れるので、これも気を付けませんと。</p>
+<p>それと、
+<a href="http://qiita.com/KuwabataK/items/5903c7584657151d576a">コマンド一発でLinuxマシンを即席無線LANルーターにできる「create_ap」がすごい便利だった</a>は、
+別件で使ってみましたが、ホントにすぐにhostapからbridge、
+dhcpまで出来て感動モノでした。
+今読んで、<code>haveged</code>というのを初めて知りました。
+オンプレミスサーバにはentropyが足りなかったので入れてみて、
+確かにentropyは上がりましたが、
+Wireless LANがホントに早くなるのかどうか...
+(確かに遅い感じはしてました)。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
 「壁紙を変えたい」と言われました。
 デフォルト「wallpaperはon」と書いてありますけれども、
 明示的に「+wallpaper」としないと、効かないようです。</p>
@@ -11,7 +133,7 @@
 ともあれ、「+heartbeat」を指定すると、
 頻繁なreconnectはおさまりました。
 「-heartbeat」でも効果あったんですが、なぜ?</p>
-]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/too-many-open-files/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
+]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/too-many-open-files/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
 <code>Too many open files</code>と言われていました。</p>
 <ul>
 <li>現状の確認 <code>$ ulimit -a</code></li>

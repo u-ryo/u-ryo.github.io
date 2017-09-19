@@ -1,343 +1,209 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T09:48:30+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Gomix: JavaScript(Node.js) Editor and Server]]></title><link href="http://u-ryo.github.io//blog/2017/08/28/gomix-javascript-node-js-editor-and-server/"/><updated>2017-08-28T09:48:30+09:00</updated><id>/blog/2017/08/28/gomix-javascript-node-js-editor-and-server/</id><content type="html"><![CDATA[<p>paizaの記事<a href="http://paiza.hatenablog.com/entry/2017/03/13/JavaScript開発はこれ1つでOK！超お手軽にWebアプリを作れる">JavaScript開発はこれ1つでOK！超お手軽にWebアプリを作れる</a>で紹介されてたのですが、<a href="https://glitch.com/edit/">Gomix</a>、とてもいいですね。取り敢えず記事にあったcodeを写経してみました。これでREST serverタダで作れますかね??</p>
-]]></content></entry><entry><title type="html"><![CDATA[Easy AI APIs]]></title><link href="http://u-ryo.github.io//blog/2017/08/23/easy-ai-apis/"/><updated>2017-08-23T10:12:53+09:00</updated><id>/blog/2017/08/23/easy-ai-apis/</id><content type="html"><![CDATA[<p><a href="http://programming-study.com/trouble/ai5/">誰でも簡単に人工知能を使えるサービスがヤバすぎる！</a></p>
-<p>この辺の技術は、変化が激しいのでその時々で十分に調査する必要がありますね。
-それにしても、随分簡単に使えそうになっていますね。
-自分でやってみないと、何とも言えませんが...</p>
-]]></content></entry><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-22T17:23:43+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
-<ul>
-<li><code>WEB-INF/glassfish-web.xml</code>の<code>context-root</code>の最後が<code>/</code>だと、
-ログイン後、トップページに(<code>http://...//</code>という形で)飛ばされる</li>
-<li>Glassfish管理GUIにおいて、<code>glassfish-web.xml</code>の<code>context-root</code>と違うcontext名でdeployした場合、
-CUIでrestart(=disable/enable)すると、
-<code>glassfish-web.xml</code>の<code>context-root</code>のcontext名になってしまい、
-当該web applicationにaccess出来ないように見えてしまう</li>
-</ul>
-]]></content></entry><entry><title type="html"><![CDATA[codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/codeanywhere/"/><updated>2017-08-22T14:27:51+09:00</updated><id>/blog/2017/08/22/codeanywhere/</id><content type="html"><![CDATA[<h2>ちょっとした注意点</h2>
-<ul>
-<li>Javaは入ってないので自分で入れる。<code>apt-cache</code>で見ると普通に<code>apt install</code>で入れられるのはJava7までっぽいが7で十分みたい。</li>
-<li>previewは、<code>./grainw</code>でcompile後、<code>http://...URL...:4000</code>で行けますね。→うーん、失敗する時の方が多いかも。</li>
-<li><code>timezone</code>の変更をしておかないと。何故か<code>dpkg-reconfigure</code>が無いので、<code>sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime</code>で。</li>
-<li><code>./grainw create-post '...'</code>の後、directory treeで<code>blog</code>を右click後Refreshしないと新しいfileが出て来ない。</li>
-<li><code>screen</code>は<code>apt install</code>すればおk。</li>
-<li>ssh accessも、<code>id_rsa.pub</code>を<code>authorized_keys</code>に登録後、<code>ssh -p 21808 cabox@host9.codeanyhost.com</code>でおk。</li>
-<li><code>./grainw gendeploy</code>は、<code>~/.ssh/id_rsa.pub</code>をgithubに登録しておかないと失敗する。</li>
-</ul>
-]]></content></entry><entry><title type="html"><![CDATA[keep ssh connection]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/keep-ssh-connection/"/><updated>2017-08-22T12:27:55+09:00</updated><id>/blog/2017/08/22/keep-ssh-connection/</id><content type="html"><![CDATA[<p>sshがよく切れるサイトが多いのですが、基本的には諦めてました。
-でも、こうすればよかったんですね。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>ssh -L 8888:localhost:8080 -o &#39;TCPKeepAlive yes&#39; -o &#39;ServerAliveInterval 10&#39; r.umetsu@219.101.192.235
-</span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[non buffered grep]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/non-buffered-grep/"/><updated>2017-08-22T12:27:55+09:00</updated><id>/blog/2017/08/22/non-buffered-grep/</id><content type="html"><![CDATA[<p>grepをpipeで繋いでlogcatをscreeningした時、
-なかなかlogが出て来なかったので、
-もしやと思って調べたら、bufferingしてるようでした。
-それを避けて、出て来たらすぐgrepして出すようにするには、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>~/Android/Sdk/platform-tools/adb logcat -v time|grep --line-buffered -e send_code1 -e doOnNext -e &#39;D/After   ([ 1-9][0-9]*): [0-9]&#39;|tee remote_diagnosis.log
-</span></code></pre></td></tr></table></div></figure>
-<p>のように<code>--line-buffered</code>が必要でした。</p>
-]]></content></entry><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-22T11:43:21+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
-以後blogを書くのをサボってしまっていたんですが、
-再開します。
-どこで再開したらいいか迷っていましたけれども、
-<a href="https://blog.htmlhifive.com/2016/06/20/web-ide-six-elections/">インストール不要で使えるWeb IDE×6選</a>を見て、
-<a href="https://codeanywhere.com/">Codeanywhere · Cross Platform Cloud IDE</a>にしました。
-Javaが入ってないので自分で入れなきゃならないことや、
-ssh command lineで^Rとか使えないのでちょっと不便ですが仕方ないです。
-ここでcompile出来るだけで御の字でしょう。</p>
-]]></content></entry><entry><title type="html"><![CDATA[site search in this blog]]></title><link href="http://u-ryo.github.io//blog/2016/10/30/site-search-in-this-blog/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/10/30/site-search-in-this-blog/</id><content type="html"><![CDATA[<p>この自分のblog、検索したいことがよくあるんですが、
-右上のsearch box、単なるgoogle searchなので、
-何でblog内検索がないのかなー、
-って思ってたんです。
-いい加減不便なので、
-調べてみました。
-すると、theme/includes/navigation.html にて、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;q&quot;</span> <span class="na">value=</span><span class="s">&quot;site:${site.url}&quot;</span> <span class="nt">/&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>と書いてあるので、
-site限定searchをやろうとしていた意図は窺えました。
-これがうまく行っていないので、
-調べて下のようにしたところ、
-google検索結果に「site:...」がついてくれるようになりました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;sitesearch&quot;</span> <span class="na">value=</span><span class="s">&quot;${site.url}&quot;</span> <span class="nt">/&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>しかし、結果にRecent Postでの見出しも含まれてしまうなど、
-かなり広めに出て来ちゃうようなので、
-Lunr.js Pluginでも入れた方がいいのかなー。
-grainにoctopress用pluginが入るのか?!
-というのはありますが。</p>
-]]></content></entry><entry><title type="html"><![CDATA[SoftEther Client memo]]></title><link href="http://u-ryo.github.io//blog/2016/09/21/softether-client-memo/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/21/softether-client-memo/</id><content type="html"><![CDATA[<p>SoftEtherのClientを起動する際の自分用のcommand log。
-自動化しちゃえばいいんでしょうが...</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo /usr/local/vpnclient/vpnclient start
-</span><span class='line'>$ /usr/local/vpnclient/vpncmd /client localhost /cmd accountconnect mickey
-</span><span class='line'>$ sudo ip addr add 192.168.120.10/24 dev vpn_nic0
-</span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
-<p>最近のpackage管理は、便利になってるんですけど、用途によって色々と分かれてしまっているので、却って使いづらいというか。<code>apt-get install</code>でいいじゃん... ってのは、ダメなんですかねぇ。</p>
-<ul>
-<li><a href="http://sdkman.io/">SDKMAN!</a>(GVMの後継。Java系(Groovy,Ant,Kotlin,Maven,Scala,grails,JBoss Forge,...)のinstall、version管理に。installationは<code>curl -s api.sdkman.io|bash</code>)</li>
-<li><a href="https://github.com/tj/n">n – Interactively Manage Your Node.js Versions</a>(Nodeのinstall、version管理に。<code>sudo npm install -g n</code>でinstall、<code>sudo n latest</code>で最新のnode.jsが入る)</li>
-<li><a href="https://github.com/cask/cask">cask</a>(<a href="http://qiita.com/tadsan/items/6c658cc471be61cbc8f6">2015年Emacsパッケージ事情</a>)</li>
-<li><a href="https://github.com/dimitri/el-get">El-Get</a>(<a href="http://tarao.hatenablog.com/entry/20150221/1424518030">Caskはもう古い、これからはEl-Get - いまどきのEmacsパッケージ管理</a></li>
-</ul>
-]]></content></entry><entry><title type="html"><![CDATA[Recent bookmarks]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-bookmarks/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/recent-bookmarks/</id><content type="html"><![CDATA[<p>最近の、といってももう数ヵ月も前のものですが、
-bookmarkしかねてbrowserのtabを開きっぱなしなのを閉じる前に、
-メモしておきます。</p>
-<ul>
-<li><a href="http://antimatter15.com/ocrad.js/demo.html">Ocrad.js Optical Character Recognition in JS</a></li>
-<li><a href="https://cloudlatex.io/">Cloud LaTeX</a></li>
-<li><a href="https://deploygate.com/">DeployGate</a>(開発中のiOS/Androidアプリを簡単にテスターや開発チームメンバーと共有することでアプリのプロトタイピングを加速させることができる、アプリ開発＆テスト支援サービス)</li>
-<li><a href="https://github.com/mcfly-io/generator-mcfly">generator-mcfly</a>(A Yeoman generator for scaffolding an application using angular, browserify or webpack, ionic, angular-ui-bootstrap, angular-material...)<a href="https://github.com/mcfly-io/generator-mcfly/wiki/Quick-Start-First-application">Quick Start First application</a></li>
-<li><a href="http://qiita.com/tetsuya/items/a488b66a88369307a213">Yeomanを使ったAngularJSアプリをチームで共同開発して公開するまで</a></li>
-<li><a href="http://qiita.com/masato/items/b4fff7e885f78cd96edb">ES6で書くIsomorphicアプリ入門 - Part1: リソース</a></li>
-<li><a href="http://www.adobe.com/jp/devnet/phonegap/articles/phonegap_build_instructions.html">PhoneGap Buildの使い方</a>(「PhoneGap Build」とは、クラウド上でモバイルアプリをビルドできるサービスです)</li>
-<li><a href="https://angular.io/docs/ts/latest/">angular2 doc</a>(<a href="https://angular.io/docs/ts/latest/guide/template-syntax.html">ここ</a>まで読みました)</li>
-<li><a href="https://help.ubuntu.com/community/LiveCDCustomization">How to Customise the Ubuntu Desktop CD</a>(探せばすぐ見つかりますけども... Ubuntu remasteringのbaseです)</li>
-<li><a href="http://wada811.blogspot.com/2014/10/avoid-exposing-signing-config-using-gradle-properties.html">AndroidStudio で APK の署名の設定を gradle.properties に記述する</a></li>
-<li><a href="https://blog.techstars.jp/android-tuto/">どれで入門する？Androidアプリ開発入門に最適なチュートリアルサイト比較＆まとめ 2016.1.5</a></li>
-<li><a href="http://mixi-inc.github.io/AndroidTraining/">mixi-inc/AndroidTraining</a>(いいんですが、やっぱり本読んでちゃんと勉強しないといけないかなと思いました)</li>
-<li><a href="http://androidguide.nomaki.jp/html/">Androidアプリ開発入門</a>(実例を作りながらなのでためになるのですけれども、これだけでは足りない感じ、でした。実践編からは実例なくなってつらいですし)</li>
-</ul>
-<h3>Vuzix M100</h3>
-<ul>
-<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Driver_File_GestureSensorSDK_20160317210116857.pdf">Gesture Sensor SDK Vuzix M100 Developer SDK</a></li>
-<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Installing-the-Vuzix-M100-SDK.pdf">Installing the Vuzix M100 SDK (1.4+)</a>(Eclipse対象で古そうです)</li>
-<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Driver_File_m100sdk_manual_jpn_20151226175838467.pdf">Vuzix M100 SDK インストールガイド</a></li>
-</ul>
-]]></content></entry><entry><title type="html"><![CDATA[UML Modeling]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/uml-modeling/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/uml-modeling/</id><content type="html"><![CDATA[<p>垣内さんから「折角豆蔵にいるんだから、割引が効くからこういうの受けてみれば」って勧められたのがUMLモデリング講座。
-へー、こういうのあるんですね。
-<a href="http://labo.mamezou.com/special/sp_002/sp_002_008.html">誤解しがちなモデリングの技 第8回：モデルの意味的な誤り(II)</a>、
-<a href="http://www.mamezou.com/service/m_tensaku.html">モデリング添削講座のご案内</a>、
-<a href="http://www.mamezou.com/training/mode_tensaku.html">モデリング添削講座</a>、
-<a href="http://www.mamezou.com/training/mode_tensaku_sample.pdf">モデリング添削講座 L1,L2 サンプル</a></p>
-<p>Javaアプリのクラス設計が上手くなりそうです。
-って、全然受けてないんですけど...
-そもそも、勧められたのが最早1年前。
-あぁぁ。ダメですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
-<p>最初、title間違えました。
-タイプミスです。
-Ergodox EZ(キー配列をカスタマイズ出来るキーボード)が必要かもしれません...</p>
-<p>Android開発を、というかIoTに乗ってSmart Glass(Vuzix M100)の
-アプリ開発を任命付けれられています。
-それはそれでありがたいのですが、
-今更ながらAndroid開発を学んでいます。
-素のAndroid Javaを使う、というのはあまりにもイケてなさそうなので、
-いちいち<code>on何々</code>なんてやってられませんよ、ということで、
-Kotlinを使ってイマドキのReactive Programmingを、
-と思っています。
-Kotlinやってると、Groovyでもいいんじゃないの?
-と思ってしまうのですが、
-殊Androidについては、同梱libが大きくなってしまうなど、
-やはり後発の強みもあってKotlinのようです。
-ただ、Android開発者がJava loveだそうで、
-今後のJava8の取り込みようによっては、
-Javaだけでも行けるのでは? という気も少しします。
-しかしそれは普及率を考えるとまだまだ遠いので、
-今はやはりKotlinかと。</p>
-<p>しっかし、Android開発って結構めんどいんですね。
-IDEがないと開発できないって、
-古いtypeの人間としてはそこから苦痛なんですが...</p>
-<p>最初は、<a href="http://www.sbcr.jp/products/4797384505.html">森洋之,基本からしっかり身につくAndroidアプリ開発入門 Android Studio 2.x対応 プロが本気で教えるアプリ作りの基本「技」 (ヤフー黒帯シリーズ),SBクリエイティブ,2016.7</a> を間違い直しながら写経することで
-Android開発を「Hello World」から卒業してから、
-<a href="http://taro.hatenablog.jp/entry/2016/06/16/203136">長澤太郎,Kotlinスタートブック,リックテレコム,2016.7</a> を写経しています。
-そこでハマったことを。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-09-20T01:19:46+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Images in README.md on Github]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/"/><updated>2017-09-20T01:19:46+09:00</updated><id>/blog/2017/09/20/images-in-readme-md-on-github/</id><content type="html"><![CDATA[<p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p>
 <ol>
-<li>実行しても、エラーメッセージを吐かずにemulatorが一瞬立ち上がった後終了 → Run対象を<code>MainActivityTest</code>にしていたから</li>
-<li>Dagger2でinjectionするようにしたらprofileImageUrlを取れなくなった → <code>.dagger.ClientModule#provideRetrofit</code>で<code>.addConverterFactory(GsonConverterFactory.create(gson))</code>の<code>gson</code>を抜かしてしまっていた</li>
-<li>Dagger2でinjectionしたtestでCastがこけてうまく行かない → <code>build.gradle</code>で<code>testInstrumentationRunner 'sample.qiitaclient.MockTestRunner'</code>に変更しないとならないのと、<code>Run</code> → <code>Edit Configurations</code> → <code>Android Tests</code> → <code>MainActivityTest</code> で<code>Specific instrumentation runner (optional):</code> を <code>〜.qiitaclient.MockTestRunner</code> に変更しないとならない</li>
+<li>image用の別branchを切る(e.g. https://github.com/cakecatz/garage)</li>
+<li>Githubのissueを利用する(<a href="https://www.youtube.com/watch?v=hHbWF1Bvgf4">GitHub Readme Images Tutorial (screenshots in readmes)</a>)</li>
+<li>Githubのwikiを利用する(<a href="https://www.pupha.net/archives/1632/">GitHubに画像ファイルを保存してREADME.mdで表示する方法</a>)</li>
 </ol>
-<p>IDEに慣れてないので、fileばっかり見比べてました。downloadしたお手本sampleではDagger2 Testがうまく行くのに、何で自分のはうまく行かないんだろう、ってずっと悩んでました。IDEでのproject settingに問題があったとは。
-<a href="http://stackoverflow.com/questions/24002212/test-running-failed-unable-to-find-instrumentation-info-for-componentinfo">stackoverflowのTest running failed: Unable to find instrumentation info for: ComponentInfo{} — error trying to test in IntelliJ with Gradle</a>で見付けました。
-こんなところに設定があるなんて、知りませんよー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Let's Encrypt without certbot-auto]]></title><link href="http://u-ryo.github.io//blog/2016/09/13/let-s-encrypt-without-certbot-auto/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/13/let-s-encrypt-without-certbot-auto/</id><content type="html"><![CDATA[<p>Let's Encrypt、素晴らしいんだけど、
-とあるserverで、使っているのがUbuntu 11.04(Natty)、
-package systemが何か壊れてて、
-依存関係がおかしくて解消できなくて、
-というcaseがありました。
-基本的にどこを調べても、
-Let's Encryptを使うには既存のpackaging systemをbaseにしたものばかりで、
-Stackoverflowなんかでも「backportsを使って既存のpackaging依存関係を
-修築してから」なんていう話しかなくて。
-なんかこう、<code>certobot-auto</code>を使わないで、
-っていう話って意外となくて途方に暮れていると、
-こんなのがありました。</p>
-<p><a href="https://github.com/Neilpang/acme.sh">An ACME Shell script: acme.sh</a></p>
-<p>要は、bashだけでLet's Encryptの証明書を使える、
-というもので、
-なーんだ最初から全部これでいーじゃん、
-という感じです。</p>
-<p><code>wget -O - https://get.acme.sh | sh</code>でも行けるというのですが、
-何かserver certが違うらしく、<code>--no-check-certificate</code>を付けてもうまく行かず。
-幸いgitはあってくれたので、cloneして<code>cd acme.sh</code> <code>./acme.sh --install</code>すると、
-home直下に.acme.shというdirectoryを掘り、
-その下にCSRやLet's Encryptからの証明書を自動で作ってくれる、
-更に実行userでcron登録してくれる、
-というものなので、実行だけならroot権限不要とはいえ、
-証明書filesが一般user home directory以下というのもなんなので、
-rootでやった方が良さげです。
-というわけで、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'># git clone https://github.com/Neilpang/acme.sh
-</span><span class='line'># cd acme.sh
-</span><span class='line'># ./acme.sh --install
-</span><span class='line'># ./acme.sh --issue -d dev.locationsupporter.info -w /var/lib/tomcat7/webapps/ROOT/
-</span><span class='line'># vi /etc/apache2/sites-enabled/default-ssl
-</span><span class='line'>=============================================
-</span><span class='line'>SSLCertificateFile /root/.acme.sh/dev.locationsupporter.info.cer
-</span><span class='line'>SSLCertificateKeyFile /root/.acme.sh/dev.locationsupporter.info.key
-</span><span class='line'>SSLCertificateChainFile /root/.acme.sh/fullchain.cer
-</span><span class='line'>=============================================
-</span><span class='line'># crontab -l
-</span></code></pre></td></tr></table></div></figure>
-<p>これで、pytho2.7もpackage updateも不要だし、
-更にお手軽にLet's Encryptを使えるというものでしょう。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Crosswalk]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/crosswalk/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/07/crosswalk/</id><content type="html"><![CDATA[<p>Crosswalk という、WebViewを独自に持つことでAndroid間の動作性を統一するlibraryを使ってみました。最近のAPI levelに対応するだけなら、敢えてこんなの使わなくてもいいのかも。</p>
-<p>わけあって、Crosswalk sample applicationの一つをcompileしてみました。</p>
-<p>how to installは、<a href="https://crosswalk-project.org/documentation/android/system_setup.html">official page</a>のまま。</p>
-<p><code>ANDROID_HOME</code>は、Sdk directoryを指す模様。</p>
-<p>それから、<code>android</code> commandを裏で動かすので、そこへのPATHが必要でした。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ ANDROID_HOME=/home/u-ryo/Android/Sdk PATH=$PATH:/home/u-ryo/Android/SDK/tools crosswalk-app check android
-</span><span class='line'>$ ANDROID_HOME=/home/u-ryo/Android/Sdk PATH=$PATH:/home/u-ryo/Android/SDK/tools crosswalk-pkg -p android client
-</span></code></pre></td></tr></table></div></figure>
-<p><code>android</code> commandはGUIを要求するので、Cloud9のconsoleでは動かせませんでした。</p>
-<p><a href="https://www.sitepoint.com/android-video-calling-with-crosswalk-and-peerjs/">Android Video Calling with CrossWalk and PeerJS</a>
-見てやってみたんですが、ionic2からは<code>ionic browser list</code>というのがなくなって、<code>ionic plugin add cordova-plugin-crosswalk-webview</code>になったことと、その後<code>ionic platform add android</code>すると、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Installing &quot;cordova-plugin-crosswalk-webview&quot; for android
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>        After much discussion and analysis of the market, we have decided to discontinue support for Android 4.0 (ICS) in Crosswalk starting with version 20.
-</span><span class='line'>
-</span><span class='line'>        So the minSdkVersion of Cordova project is configured to 16 by default.
-</span></code></pre></td></tr></table></div></figure>
-<p>と言われてしまいました...</p>
-<p>動かしたかったtargetは、Android 4.0.4なので、Crosswalkダメですね。
-実際、「CPU Mismatch」と言われて、x86のものでもarmのでも動きませんでした。
-あうー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[local IP with hostname without an inner DNS (Wildcard DNS)]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/</id><content type="html"><![CDATA[<p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.127.0.0.1.xip.io
-</span><span class='line'>some-project.127.0.0.1.xip.io has address 127.0.0.1
-</span></code></pre></td></tr></table></div></figure>
-<p><a href="http://qiita.com/tady/items/b7b46486fb3175dac0b1">ローカルDNSを立てずにホスト名をIPアドレスに解決する超絶簡単な方法</a></p>
-<p>nip.io でも全く同じことが出来るようです。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.192.168.33.176.nip.io
-</span><span class='line'>some-project.192.168.33.176.nip.io has address 192.168.33.176
-</span></code></pre></td></tr></table></div></figure>
-<p>更に更に、<a href="https://sslip.io/">sslip.io</a>では正式なserver certも用意出来ちゃう、なんていう素晴らしいとこだった、ようですが、今はもうダメポです。自分でやるしかなさそうです。とはいっても、wildcard certificationはLet's Encryptでは扱ってないので、やるならお金かかっちゃいますかね...</p>
-]]></content></entry><entry><title type="html"><![CDATA[Trigger as 3 times service down in a row on Zabbix]]></title><link href="http://u-ryo.github.io//blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/</id><content type="html"><![CDATA[<p>Zabbixで「3回連続してservice downを観測したらalert、
-且つ1回service upを観測したら復帰」とかって、
-実は結構面倒なんですね。</p>
-<p>cf.<a href="http://www.zabbix.jp/node/2573">トリガーの条件式における記述方法について</a></p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>({TRIGGER.VALUE}=0<span class="err">&amp;</span>{hostå:http.max(#3)}=0)|({TRIGGER.VALUE}=1<span class="err">&amp;</span>{hostå:http.last(0)}=0)
-</span></code></pre></td></tr></table></div></figure>
-<p>→何か騙された感じです。色々試すと、単に<code>max(#3)</code>だけで良さげですよ。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>{hostå:http.max(#3)}=0
-</span><span class='line'>or
-</span><span class='line'>{hostå:http.max(#3)}=0|{hostå:https.max(#3)}=0
-</span></code></pre></td></tr></table></div></figure>
-<p>↑これだけで、「3回連続してservice downを観測したらalert、
-且つ1回service upを観測したら復帰」を実現出来ました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Date fromat validation by Java]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/08/02/date-fromat-validation-by-java/</id><content type="html"><![CDATA[<p>Javaで日付フォーマットの検証をしたいと言われました。
-ぱっと思いつくのは、<code>SimpleDateFormat</code>で<code>setLenient(false)</code>にしてparseする、
-ですが、これだとException投げるんですよね。
-Exception catchをlogicに使うのは良くない、
-ということで、他を探してみると意外となかなかないんですねこれが。
-commons-langの<code>DateUtils.parseDateStrictly</code>もException返しますし。</p>
-<p>色々探してみると、Apacheの<a href="https://commons.apache.org/proper/commons-validator/">commons-validator</a>というのがありました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>@Grab(&#39;commons-validator:commons-validator&#39;)
-</span><span class='line'>import org.apache.commons.validator.routines.CalendarValidator
-</span><span class='line'>
-</span><span class='line'>pattern = &quot;yyyy/MM/dd&quot;
-</span><span class='line'>validator = CalendarValidator.getInstance()
-</span><span class='line'>
-</span><span class='line'>assert validator.isValid(&quot;2016/02/29&quot;, pattern)
-</span><span class='line'>assert !validator.isValid(&quot;2016/02/30&quot;, pattern)
-</span><span class='line'>
-</span><span class='line'>assert validator.isValid(&quot;2016/08/31&quot;, pattern)
-</span><span class='line'>assert !validator.isValid(&quot;2016/08/32&quot;, pattern)
-</span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Let's Encrypt]]></title><link href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/08/02/let-s-encrypt/</id><content type="html"><![CDATA[<p><a href="https://letsencrypt.org/">Let's Encrypt</a>、
-漸く使えるようになりました。
-具体的にどうやって使ったらいいんだろう、
-と思ってたんですが、結構簡単に使えますねこれ。
-素晴らしい、です。
-おかげでbotnetのC&amp;C server等でも広く使われるようになったとかってことですが。</p>
-<p>ともあれ、
-日本語の要諦サイト<a href="https://letsencrypt.jp/">Let's Encrypt 総合ポータル</a>もあり、
-だいぶわかりやすくなってます。</p>
-<p>基本的には、</p>
+<p>issueに画像をDrag and Dropすると、https://user-images.githubusercontent.com/... に自動的にuploadしてURLが得られるなんて知りませんでした。でもこれ、いつまで持っててくれるんでしょう、というのと、消したい時に消せるのかな? というのがあって。やっぱり自分でcontrol持っておきたいでしょう。(<a href="https://qiita.com/kotet/items/a2203a400136ba50b41e">GitHubのissueを悪用して画像をホストする</a>)</p>
+<p>別branchを切ると、一旦画像以外全部消さないとならなくて、
+何となくそれがちょっと嫌だったので、結局wikiを利用しました。
+一度何でもいいのでWikiのpageを保存しないとならないみたいです。
+一度保存しちゃえば、上記ページに書いてあるように<code>git clone https://github.com/.../XXX.wiki</code>で取ってこられて、images作って置けちゃうんですね。へー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[gitignore]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/gitignore/"/><updated>2017-09-20T00:57:10+09:00</updated><id>/blog/2017/09/20/gitignore/</id><content type="html"><![CDATA[<p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
+]]></content></entry><entry><title type="html"><![CDATA[Personal Information Leak Incident]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/personal-information-leak-incident/"/><updated>2017-09-17T17:12:32+09:00</updated><id>/blog/2017/09/16/personal-information-leak-incident/</id><content type="html"><![CDATA[<p>先日派遣先で、5万数千件にのぼる個人情報漏洩を見付けてしまいました。</p>
+<p>その会社ではチンケなECサイトをやってるんですけど、
+といっても再販の再販までされてて何百人にも使われちゃってますが、
+中身は2000年代前半〜中盤のcode。未だにJSP(一部Java)。
+今やもうJavaEEから外れたっていうのに。
+OSやlibrary、middlewareもsupport切れで無いものは無いという。
+http/https混在、userのpasswordもDBに平文で保存してるくらい、
+設計思想からして古いままのものです。WAFも入ってないといいますし。
+早晩、こんなことが起こるだろうと傍で見ていて思っていましたが、
+現実になり、しかも発見者がぼくだとは。
+ぼく一応これ、部外者なんですけど。
+同じように派遣されててそっちも手伝っている同僚から、
+こんなaccessが沢山来てるってattack patternを見せられて。
+不覚にも最初は一般的な定期巡回sql injectionかと思ってました。
+Googleで調べると、<a href="https://serverfault.com/questions/541401/mysql-injection-attacks-random-urls-causing-errors">そういうのが載ってた</a>んです。</p>
+<p>(<a href="https://github.com/ron190/jsql-injection">jsql-injection</a>
+かとも思ったんですが、試してみるとちょっと違うかも。
+Havij ProはWindowsだしちょっと怖いので入れてません)</p>
+<p>ともあれ、だから単なる下調べ的なattackかと思ってました当初は。
+しかし、</p>
 <ol>
-<li><code>certbot-auto</code>を<code>git</code>又は<code>wget https://dl.eff.org/certbot-auto</code>で取得</li>
-<li>認証原理は、<ol>
-<li><code>certbot-auto</code>がLet's Encrypt側から指定された<code>http://.../.well-known/XXXXXX</code>にfileを作る</li>
-<li>Let's Encrypt側がそのfileを<code>GET</code>、認証</li>
+<li>IP遮断してもIP変えてやって来るくらいしつこい(IP元はHK,US,JP,CN,UK等々)</li>
+<li>しかも同じようだが微妙に違うrequestを大量にする</li>
 </ol>
-</li>
-<li>なので<code>standalone</code>(<code>certbot-auto</code>が臨時のhttp serverを建て、Let's Encryptからのrequestを受ける)が基本</li>
-<li>その間本来のWWW serverを止めねばならないが、止めたくない時は「<code>--webroot</code>」で<code>DocumentRoot</code>を指定し、<code>certbot-auto</code>にfileを作らせる</li>
-<li>初回の(というか最後に成功した)command optionsを<code>/etc/letsencrypt/</code>以下に保存しておき、次回以降「<code>renew</code>」commandでは省略可</li>
-<li><code>renew</code>を付けて走らせても、証明書期限が30日を切っていないと発動しない(無理やり更新するには<code>--force-renew</code> optionが必要)</li>
-<li><code>--post-hook</code>も指定して、apacheのreloadを自動化(これは<code>renew</code>が走らないと発動しない。単純に<code>renew</code>の終了status codeだと0になるので「&amp;&amp;」で繋ぐだけでは判別不能だった)</li>
-<li>証明書取得がうまく行くと、<code>/etc/letsencrypt/live/someserver.co.jp/</code>以下に各種cert filesのsymbolic linkが作成されるので、<code>/etc/apache2/site-enabled/default-ssl</code>中で<code>SSLCertificateFile</code>等の示す先をここの<code>cert.pem</code>等にする(Apache2.4以上やnginxなら証明書＋中間CA証明書に<code>fullchain.pem</code>が使える)</li>
-</ol>
-<p>こちとら、apache2 serverを止めたくない状況だったので、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cerbot-auto certonly --webroot -w /var/www/ -m support@company.co.jp -d someserver.co.jp --agree-tos
-</span></code></pre></td></tr></table></div></figure>
-<p>(<code>-w</code>: webroot-path, <code>-d</code>: domain, <code>-m</code>: mail address)</p>
-<p>更新は、<code>/etc/cron.daily/certbot</code>を作って、</p>
+<p>というところからすぐにピンとくるべきでした。
+翌週になって、そういえば見せられたqueryに
+このサイト固有の名前が入っていたな、
+というところから、ちょっと実際に叩いてみたんですね。
+そしたら...</p>
+<p>あらま。</p>
+<p>確かによく見たらqueryの中に「MAIL、PASSWD、TEL」の文字が。
+見事に抜かれてました。
+各queryの違いは、<code>lImIt</code>の数。
+これを変えて、順々に取って行ってたんですね。
+後でわかったことですが、固有名が無くても<code>information_schema</code>から
+table名1個ずつ抜けるんですね。</p>
+<p>attackがあったのが木曜、ぼくが気付いたのが翌週月曜、
+log解析依頼されて、調べてみるとMAIL AddressとかPASSWDが5万数千件は
+抜かれてました。
+その他、抜かれてたのはショップ運営者の方のID、MAIL、PASSWDも。
+それは6月19日に起きてました。
+今までずっと気付いてなかったという。
+再販先と連絡取って、すぐサイト全体落としたんですけど、
+全体をこれまでのオンプレミスサーバ群からクラウドに移行したということで、
+また再開したそうです(WAFは入れると言ってはいましたが)
+(しかも移行したといってもミスがあるらしくすぐにはうまく行っていないとかで、
+自分でやっといて直せないなんてアホの極みだと。
+その不具合修正をぼくに求めてくるという。
+確かにぼくはJava expertなので、
+なんで見当違いのところで騒いでるのかくらいの指摘はしてあげましたけど、
+自分の尻くらい自分で拭ったらどうですか?と)。</p>
+<p>色々信じられません。</p>
+<p>元々彼らの思考には付いていけてなくて。
+今自分がやらされているprojectの方でも、
+serverのlogic追ってったら「これ認証無いですよ」
+って言っても改善せずそのまま、
+他人の電話番号とか情報を抜けるPOC作って示しても、
+「そのPOC書くのにどのくらい時間かけた?」とか聞いてくる始末。
+もう匙投げてました。
+っていうか、こんな人もいるんだ、と勉強になりました。
+更に言えば、日本のsecurity意識って一般的にはこんなもんなんでしょうか。</p>
+<p>本当は、この実態を再販先等に告発した方が社会正義のためだと
+思うんですけれども、
+西宮冷蔵社長の例を鑑みても告発者が報われない社会なのは明らかなので、
+黙っているしか無いのかと悲しい思いをしています。</p>
+<p>早くこんなとこから抜け出さないと、イケマセン。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Getting Prize S Level Programmer at Paiza]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/"/><updated>2017-09-17T17:26:07+09:00</updated><id>/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/</id><content type="html"><![CDATA[<p>先日、<a href="https://paiza.jp/challenges">Paizaのスキルチェック</a>で
+<a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">時間切れ0点</a>を取ってしまったので、
+癪だからランクS、本気で取りに行きました。
+<a href="https://paiza.jp/challenges/share/BpVEE0xUqzek-gFkhWaalVEwoIv7rpTSXnDL6cOC4eo?source=social">ひとりすごろく</a>は第一次制限時間の40分を超えてしまったので、
+全ケース通ったんですけど95点でSではなくA判定。
+やっぱり時間が大事なんですね。
+Javaで「早く」書くのは確かにキツイです。
+ので、次は50点の制限時間が2時間の<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo?source=social">ビリヤードの玉突き</a>に挑戦しました。
+こちらは、問題中にヒントを書いていてくれていることもあり、
+60分で解答を提出、ようやっとSランクをゲットできました。
+今までAランクでいっか、とか思ってて、S問題はゆっくりやって、
+再チャレンジでcodeをbrush upして100点を取ってたんですけど、
+それより時間が大事、なんですかね。
+いや、実務では分を争う程、そこまでsevereではないので...
+それに、paizaでいくら頑張っても、
+小さいとこばっかりであんまり行きたい先が無いので、虚しいんです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Challenging Paiza TSP]]></title><link href="http://u-ryo.github.io//blog/2017/09/13/challenging-paiza-tsp/"/><updated>2017-09-17T17:27:16+09:00</updated><id>/blog/2017/09/13/challenging-paiza-tsp/</id><content type="html"><![CDATA[<p>8/13はPaizaの日、ということで、巡回セールスマン問題を出題していました。
+<a href="https://paiza.jp/works/algorithm/primer/algorithm3">Paizaラーニングでも巡回セールスマン問題のさわり(貪欲法)を取り上げていて</a>、
+2-OptやSimulatedAnnealing(焼きなまし法)を<a href="https://github.com/eugenp/tutorials/blob/3abb98e9e8acc7efe3f9f8423fcf0f8934655be7/algorithms/src/main/java/com/baeldung/algorithms/ga/annealing/SimulatedAnnealing.java">学んで</a>、
+いざ書いてみたんですが、なかなかうまく行きません。
+テストデータは<a href="http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp/">有名ドコロ</a>があります。
+まずはatt48で2-Optでやってみたものの、
+交差線が多く、全然それっぽい経路が得られません。
+なんでーーー!?
+<a href="http://ist.ksc.kwansei.ac.jp/~tutimura/GraphApplication/">Javaによるまんまのコード</a>があったので、
+読み解いていったんですけど時間かかっちゃって、
+結局Paizaの締切9/12に間に合いませんでした...
+何たること。</p>
+<p>どうも、キモはswapにあるようで、
+点を交換すると総延長が短くなる場合、
+当然点を交換するんですが、
+当該点だけを交換するだけじゃなく、
+そこから真ん中へ向かってずっと点を交換していくんですね。
+そうかー。</p>
+<p>悔しいから、久し振りにPaizaのS問題やってみました。
+最も簡単そうな最小辞書順列にしてみました。
+けれど、問題の意味を理解するのと、JavaのStreamで書ききったために、
+制限の2時間、あっという間に過ぎてしまいました。<a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">0点確定</a>です。トホホ。
+しかも、提出したコードは、2つの場合だけ通らずに、80点。
+どうしてコケる時があるのか、思い当たるフシもなく、未だにわかっていません。
+テストデータ、見せて欲しいです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[hostapd after that...]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/hostapd-after-that/"/><updated>2017-09-06T22:22:29+09:00</updated><id>/blog/2017/09/06/hostapd-after-that/</id><content type="html"><![CDATA[<p>何か、不安定ですhostapd。
+昨夜は、何故か出勤後の9:58に勝手に謎のrebootしてたし、
+今日も帰宅後、NotePCがWiFiで繋がらないから試行錯誤すると、
+一旦USB WiFiドングル抜き差ししてhostapdをstop/startしたら、漸く。
+でも、1秒毎にreconnectしたりして、もう何だか。
+やっぱり、何かWiFi station買ってこないとダメなのかなー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Grain on CodeAnywhere]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/grain-on-codeanywhere/"/><updated>2017-09-06T22:03:32+09:00</updated><id>/blog/2017/09/06/grain-on-codeanywhere/</id><content type="html"><![CDATA[<p>ちょっと、やっぱりダメですね。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
-</span><span class='line'>cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>java.lang.RuntimeException: While executing class com.sysgears.grain.registry.Registry.compile
+</span><span class='line'>        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+</span><span class='line'>        :
+</span><span class='line'>        :
+</span><span class='line'>Caused by: java.net.SocketTimeoutException: Accept timed out
+</span><span class='line'>        at java.net.PlainSocketImpl.socketAccept(Native Method)
 </span></code></pre></td></tr></table></div></figure>
-<p>で良さそうです。<code>sudo chmod a+x /etc/cron.daily/certbot</code>を忘れずに。</p>
-<p><code>certbot-auto</code>は、実行するといきなり<code>apt-get update</code>してからpython2.7とか入れるのと幾つかのpackagesをupdateするので注意です。</p>
-<p>また、Let's Encryptにしてから<a href="https://www.ssllabs.com/ssltest/">SSL Server Test</a>をかけてみると、「Incorrect SNI alerts」というのが出るようになりました。
-これは、<code>/etc/apache2/site-enabled/default-ssl</code>の<code>&lt;VirtualHost _default_:443&gt;</code>に<code>ServerName XXXXXX</code>とすることで解決しました。
-cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-alertsを解決する/">SSLテストで”Incorrect SNI alerts”を解決する</a></p>
-<h3>command log</h3>
+<p>といわれて、<code>./grainw generate</code>も<code>./grainw gendeploy</code>も出来ません。
+あーあ、なぁんだ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Current Project I'm working in]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/current-project-i-m-working-in/"/><updated>2017-09-06T22:03:07+09:00</updated><id>/blog/2017/09/06/current-project-i-m-working-in/</id><content type="html"><![CDATA[<p>今、グループ内会社のAndroidアプリ開発に売られてるんですけど、そこのソフトの作りがひどくてひどくて泣けてきます。</p>
+<ol>
+<li>「結果が表示されなくなった」というので見てみたら、<code>toString()</code>が変わっていたのが原因。より根本的な原因は、<code>toString()</code>というdebug用途のmethodをoverrideしてmainのlogicに使っていること。まぁ、Activity跨ぐstructured dataを<code>Parcelable</code>にする時間が無かった、という事情は分かるんですけど、<code>StringBuilder#toString</code>ですら使わず<code>new String(StringBuilder)</code>とするくらいなのでぼくは。</li>
+<li>「途中で落ちる」というので見てみると、ヌルポが出てました。どうしてかなー、と見ていくと、途中でnullを代入しているmethodが呼ばれています。どうしてこれを呼ぶよう変えたのか聞いてみると、終了処理をちゃんとするようしてる時に、comment outしてあったこのfinishっぽいmethodをcomment inしたんだそう。それがどういう効果を持つのかわからぬまま、そうしたんだって。えーーーっ!?</li>
+<li>極めつけは、今日わかったんですが、<code>HashMap</code>を<code>List</code>にしてその0番目を使ってるんですね。えーーーっ! どうしてAndroid 4.4.2ではうまく動かないの? というのを探っていったら、そこに行き着きました。逆に、これまでよく動いていましたねぇ。素晴らしい!! 先月までいた派遣のフリー技術者が書いたcodeの一部でしたけど、わざと書いたならいざ知らず、もし意識せず書いたのなら、恐ろしいです。</li>
+</ol>
+]]></content></entry><entry><title type="html"><![CDATA[Illegal keysize]]></title><link href="http://u-ryo.github.io//blog/2017/09/04/illegal-keysize/"/><updated>2017-09-04T02:32:48+09:00</updated><id>/blog/2017/09/04/illegal-keysize/</id><content type="html"><![CDATA[<p>Androidで<a href="https://github.com/NanoHttpd/nanohttpd">NanoHTTPD</a>を
+動かすprogramを開発しているんですが、
+WebRTCにするのに、TLSが必要じゃないですか。
+そのserver certを普通に作ると、<code>Illegal keysize</code>と言われて
+key load時に落ちるのでハマりました。
+<a href="https://github.com/NanoHttpd/nanohttpd#generating-an-self-signed-ssl-certificate">NanoHTTPDの解説</a>にあるように、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048 -ext SAN=DNS:localhost,IP:127.0.0.1  -validity 9999
+</span></code></pre></td></tr></table></div></figure>
+<p>と作ってもダメでした。
+色々調べると、AndroidにはBouncyCastle(BKS)でないとならないらしく、
+証明書は面倒なのでsnakeoilを流用して、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo openssl pkcs12 -export -in /etc/ssl/certs/ssl-cert-snakeoil.pem -inkey /etc/ssl/private/ssl-cert-snakeoil.key -out ~/AndroidStudioProjects/SharedEye/ssl-cert-snakeoil.p12 -name ssl-cert-snakeoil
+</span><span class='line'>$ /usr/lib/jvm/java-8-oracle/bin/keytool -importkeystore -deststorepass password -destkeypass password -destkeystore snakeoil.jks -srckeystore ssl-cert-snakeoil.p12 -srcstoretype PKCS12 -srcstorepass password -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath bcprov-jdk15-1.46.jar
+</span></code></pre></td></tr></table></div></figure>
+<p>とすると、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Problem importing entry for alias java.security.KeyStoreException: java.io.IOException: Error initialising store of key store: java.security.InvalidKeyException: Illegal key size.
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われてimport出来ませんでした(→jksが作れませんでした)。
+かなり悩んだのですが、結局<a href="http://qiita.com/mizuki_takahashi/items/cc26a7fd51aa04396e92">JavaでAES256を使用できるようにする</a>にあるように、
+JCE(Java Cryptography Extension)を落としてきて
+<code>local_policy.jar</code>を上書きしたら、
+jksも出来て、Android側でも何事もなくloadしてくれました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[revive hostapd]]></title><link href="http://u-ryo.github.io//blog/2017/09/03/revive-hostapd/"/><updated>2017-09-04T02:35:32+09:00</updated><id>/blog/2017/09/03/revive-hostapd/</id><content type="html"><![CDATA[<p>家のオンプレミスサーバが最近五月蝿く、
+何か常に3.4GHz近くまでいっていて電気食ってるようなので、
+1年弱ぶりに止めてみました。
+すると、次、立ち上げた時、
+繋げていたPlanexの11/n/g/b Real Portable Wi-Fi Router
+<a href="www.planex.co.jp/product/router/mzk-rp150n/point.shtml">MZK-RP150N</a>
+が死にました。
+通電はしているようなのですが、
+Wi-Fiは繋がらず(ランプも消灯)、resetかけようとマニュアル探して、
+その通りにボタン10秒以上長押ししてもPowerランプがつかず。
+USB刺してすぐはPowerランプとWirelessランプが暫時点灯するので、
+ランプの故障ではない模様。
+また、ケーブルがInternet側でもLAN側でも、設定したIP、
+defaultのIP、どんなIPでも繋がらず(ping不通)。
+ノートPCと直接LANで繋いでpacket captureしても、
+packetは漏れてこず。
+どうしようもないので、家庭内LANから取り外しました。
+けどWi-Fiがないのは不便すぎます。
+そこで、余っていたUSB WiFiドングルをオンプレミスサーバに挿し、
+実に久し振りにhostapdにしてみました。
+21世紀初頭、hostapdで頑張っていたんですが、
+設定が面倒臭かったから、MZK-RP150N買ってきたのに、
+今はhostapd、凄い簡単になったんですね。
+かつてはhostapdが出来るchipから気にしなきゃいけなかったのに、
+今やその辺のドングル刺しても大丈夫なんですか。隔世の感。
+こういうのは時に応じて調べなきゃならないと思うので、
+ここで設定の覚書を書いといても無駄な気がしますけど、一応。</p>
+<ul>
+<li><code>apt install hostapd</code></li>
+<li><code>/etc/hostapd/hostapd.conf</code>を編集</li>
+<li>bridgeは必要(ウチの場合)→<code>/etc/network/interfaces</code>に<code>br0</code>の設定要</li>
+</ul>
+<h1>hostapd.conf</h1>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -354,59 +220,135 @@ cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-a
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>wget https://dl.eff.org/certbot-auto
-</span><span class='line'>chmod a+x certbot-auto
-</span><span class='line'>sudo chown root:root certbot-auto
-</span><span class='line'>sudo mv -i certbot-auto /usr/local/bin/
-</span><span class='line'>sudo certbot-auto certonly --webroot -w /var/lib/tomcat7/webapps/ROOT/ -m ls-support@jmtech.co.jp -d cx4.locationsupporter.info --agree-tos
-</span><span class='line'>sudo vi /etc/apache2/sites-enabled/default-ssl
-</span><span class='line'>================================================
-</span><span class='line'>	SSLCertificateFile /etc/letsencrypt/live/cx4.locationsupporter.info/cert.pem
-</span><span class='line'>	SSLCertificateKeyFile /etc/letsencrypt/live/cx4.locationsupporter.info/privkey.pem
-</span><span class='line'>	SSLCertificateChainFile /etc/letsencrypt/live/cx4.locationsupporter.info/chain.pem
-</span><span class='line'>================================================
-</span><span class='line'>echo &#39;#!/bin/sh&#39; &gt; certbot
-</span><span class='line'>echo &quot;cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;&quot; &gt;&gt; certbot
-</span><span class='line'>chmod a+x certbot
-</span><span class='line'>sudo chown root:root certbot
-</span><span class='line'>sudo mv -i certbot /etc/cron.daily/
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>interface=wlan0
+</span><span class='line'># automatically register wlan0 to br0
+</span><span class='line'>bridge=br0
+</span><span class='line'># Wireless LAN adapter driver(fixed value)
+</span><span class='line'>driver=nl80211
+</span><span class='line'># SSID name
+</span><span class='line'>ssid=...
+</span><span class='line'># 802.11g/a/...
+</span><span class='line'>hw_mode=g
+</span><span class='line'># Enable 802.11n
+</span><span class='line'>ieee80211n=1
+</span><span class='line'># channel=60 when 802.11a
+</span><span class='line'>channel=7
+</span><span class='line'>wpa=2 # WPA2
+</span><span class='line'># passphrase for WPA2
+</span><span class='line'>wpa_passphrase=...
+</span><span class='line'># stealth
+</span><span class='line'>ignore_broadcast_ssid=1
+</span><span class='line'># Mac Address ACL
+</span><span class='line'>macaddr_acl=1
+</span><span class='line'># file for Mac Address ACL (permission should be 600)
+</span><span class='line'>accept_mac_file=/etc/hostapd/hostapd.accept
+</span><span class='line'>wpa_key_mgmt=WPA-PSK
+</span><span class='line'>rsn_pairwise=CCMP
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Lum-chan(Urusei Yatsura)]]></title><link href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-urusei-yatsura/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/07/04/lum-chan-urusei-yatsura/</id><content type="html"><![CDATA[<p>古巣のJIPDECに派遣されて、
-桂史郎くんから「またラム食べに行きましょう」
-って言われて、
-「ラムちゃん、行くんですね。
-大丈夫だっちゃ、とか言うべきでしょうか」
-って返したら、高嶋さんしか反応してくれなくて。
-でも、それで調べてたら、
-うる星やつら、
-<a href="http://freeanimedougadesu.blog70.fc2.com/blog-entry-2809.html">全部見られる</a>んですね。
-ルパン三世もそうでしたけど。
-何か、今頃になって見ちゃいました。
-リアルタイムだと、中学から高校の頃。
-その頃って確かにこういうの、見てなかったです全然。
-改めて見てみましたが、子供向けのドタバタですねー。
-確かにこれならいつまでも続けられそうですね。
-でも、なんて言うか、何か見ちゃうですね。
-どうせ今見るなら、昔見といた方が良かったのかな。
-これ、ラブコメでもあるから、今のぼくにはちょっとキュンときちゃいますね。</p>
-<p>というわけで、
-command line 1行で見られるようになったので、
-忘れないうちにメモ。</p>
-<h3>yourupload</h3>
-<p>youruploadのURL:
-<code>http://yourupload.com/watch/3OHj93</code>
-の最後の5文字を使って、</p>
+<p>あと前やったのに書き方忘れてたのが、
+<code>/etc/network/interfaces</code>の<code>br0</code>設定。</p>
+<h1>interfaces</h1>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>export R=3OHj93;mpv --referrer=http://www.yourupload.com/jwplayer/jwplayer.flash.swf `wget -q -O - http://www.yourupload.com/embed/$R|grep og:video|sed &#39;s/.*content=&quot;\(.*\)\/video.mp4.*/\1\/video.mp4/g&#39;`
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>iface br0 inet static
+</span><span class='line'>	bridge_ports eth1
+</span><span class='line'>	bridge_stp off
+</span><span class='line'>	bridge_maxwait 0
+</span><span class='line'>	address 192.168.X.X
+</span><span class='line'>	netmask 255.255.255.0
 </span></code></pre></td></tr></table></div></figure>
-<h3>mp4</h3>
-<p>mp4のURL:
-<code>http://mp4upload.com/embed-bbzw7vbui2r4-650x370.html</code>
-を利用します。</p>
+<p>iptalesの設定も変更忘れないように。</p>
+<p>Planex MZK-RP150NではMac Address制限が出来なかったので、
+ちょっぴり安心に。</p>
+<p>ですが、<code>hostapd.accept</code>書き換えても
+<code>sudo service hostapd restart</code>しないと反映されず、
+restartすると<code>br0</code>消えるっぽいので、注意です。
+<code>hostapd stop</code>して<code>ifup br0</code>、
+<code>hostapd start</code>するのが正しい手順でしょうか。
+その間ノートPCからは接続切れるので、これも気を付けませんと。</p>
+<p>それと、
+<a href="http://qiita.com/KuwabataK/items/5903c7584657151d576a">コマンド一発でLinuxマシンを即席無線LANルーターにできる「create_ap」がすごい便利だった</a>は、
+別件で使ってみましたが、ホントにすぐにhostapからbridge、
+dhcpまで出来て感動モノでした。
+今読んで、<code>haveged</code>というのを初めて知りました。
+オンプレミスサーバにはentropyが足りなかったので入れてみて、
+確かにentropyは上がりましたが、
+Wireless LANがホントに早くなるのかどうか...
+(確かに遅い感じはしてました)。</p>
+]]></content></entry><entry><title type="html"><![CDATA[information products]]></title><link href="http://u-ryo.github.io//blog/2017/08/30/information-products/"/><updated>2017-08-30T23:20:41+09:00</updated><id>/blog/2017/08/30/information-products/</id><content type="html"><![CDATA[<p>転職活動用の書類をなかなか書けなくて、
+現実逃避にFXとか調べてるうちに、
+情報商材に行き着きました。
+真面目によさ気なのは、</p>
+<ul>
+<li>FXだと<a href="www.w-crew.com/fxvictory/">佐野裕氏『ビクトリーメソッドアドバンス(VMA)』</a></li>
+<li>株だと<a href="http://best-pln.com/">投資顧問ベストプランナー</a></li>
+</ul>
+<p>の評価が高いです。
+やっぱ、こういうのやらないとダメなのかなー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[learning ruby and python3]]></title><link href="http://u-ryo.github.io//blog/2017/08/29/learning-ruby-and-python3/"/><updated>2017-08-30T07:06:14+09:00</updated><id>/blog/2017/08/29/learning-ruby-and-python3/</id><content type="html"><![CDATA[<p>paiza learningの<a href="https://paiza.jp/works/ruby/primerfemale">Ruby入門編</a>のコース、一部が期間限定無料だったので、やってみました。
+女の子の声、何かいいですね。
+内容は「入門編」だけにifやloopやarray等ホントに基本的なことで、ぼくには易しすぎですけど、演習問題で学習内容を確認出来るのがいい感じです。ただ、まだ有料部分もあり、そういう所は動画が見られないのは当然としても、演習問題も出来ないとは。
+物足りないので、<a href="https://paiza.jp/works/python3/primer">python3の入門編</a>もやっちゃいました。こちらは全編無料ですし。でも、やっぱりホント基本的なことですね。あと、rubyとpython、同時にやるもんじゃないです。<code>puts</code>とか<code>print</code>は勿論、<code>gets</code>と<code>input()</code>、<code>elsif</code>と<code>elif</code>等、色々ごっちゃになっちゃいます。rubyの方が後発のいいとこ取りなだけに、配列範囲外アクセスでもエラーにしない等洗練されてる印象。ただ、<code>puts</code>や<code>gets</code>は英語がヘン、というか独特な気が。日本人だから? 紹介されてたrubyのfor loop(<code>each do |x| ... end</code>)は、<code>do</code>と書かないで<code>each{|x|...}</code>と書けばJava8のStreamingと同じなんですね。<code>each</code>って<code>map</code>とかと同じ。なるほど、最初からそうなってるんだ、と納得です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[a-q-f points by games]]></title><link href="http://u-ryo.github.io//blog/2017/08/29/a-q-f-points-by-games/"/><updated>2017-08-29T07:54:08+09:00</updated><id>/blog/2017/08/29/a-q-f-points-by-games/</id><content type="html"><![CDATA[<p>最近、永久不滅ポイント稼ぎのために<a href="https://www.a-q-f.com/saison/gaingame/">ゲームサイト</a>でゲームやってました。
+アンケートはウザそうだったので。
+でも、よくよく冷静になって計算してみると、アクションポイント20稼ぐのに小一時間、それで0.2永久不滅ポイント、Amazonで1円です。
+時給1円かぁ。もっと時間を有効に使わないと、と思い直して、止めました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Gomix: JavaScript(Node.js) Editor and Server]]></title><link href="http://u-ryo.github.io//blog/2017/08/28/gomix-javascript-node-js-editor-and-server/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/28/gomix-javascript-node-js-editor-and-server/</id><content type="html"><![CDATA[<p>paizaの記事<a href="http://paiza.hatenablog.com/entry/2017/03/13/JavaScript開発はこれ1つでOK！超お手軽にWebアプリを作れる">JavaScript開発はこれ1つでOK！超お手軽にWebアプリを作れる</a>で紹介されてたのですが、<a href="https://glitch.com/edit/">Gomix</a>、とてもいいですね。取り敢えず記事にあったcodeを写経してみました。これでREST serverタダで作れますかね??</p>
+]]></content></entry><entry><title type="html"><![CDATA[Easy AI APIs]]></title><link href="http://u-ryo.github.io//blog/2017/08/23/easy-ai-apis/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/23/easy-ai-apis/</id><content type="html"><![CDATA[<p><a href="http://programming-study.com/trouble/ai5/">誰でも簡単に人工知能を使えるサービスがヤバすぎる！</a></p>
+<p>この辺の技術は、変化が激しいのでその時々で十分に調査する必要がありますね。
+それにしても、随分簡単に使えそうになっていますね。
+自分でやってみないと、何とも言えませんが...</p>
+]]></content></entry><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
+<ul>
+<li><code>WEB-INF/glassfish-web.xml</code>の<code>context-root</code>の最後が<code>/</code>だと、
+ログイン後、トップページに(<code>http://...//</code>という形で)飛ばされる</li>
+<li>Glassfish管理GUIにおいて、<code>glassfish-web.xml</code>の<code>context-root</code>と違うcontext名でdeployした場合、
+CUIでrestart(=disable/enable)すると、
+<code>glassfish-web.xml</code>の<code>context-root</code>のcontext名になってしまい、
+当該web applicationにaccess出来ないように見えてしまう</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/codeanywhere/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/22/codeanywhere/</id><content type="html"><![CDATA[<h2>ちょっとした注意点</h2>
+<ul>
+<li>Javaは入ってないので自分で入れる。<code>apt-cache</code>で見ると普通に<code>apt install</code>で入れられるのはJava7までっぽいが7で十分みたい。</li>
+<li>previewは、<code>./grainw</code>でcompile後、<code>http://...URL...:4000</code>で行けますね。→うーん、失敗する時の方が多いかも。</li>
+<li><code>timezone</code>の変更をしておかないと。何故か<code>dpkg-reconfigure</code>が無いので、<code>sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime</code>で。</li>
+<li><code>./grainw create-post '...'</code>の後、directory treeで<code>blog</code>を右click後Refreshしないと新しいfileが出て来ない。</li>
+<li><code>screen</code>は<code>apt install</code>すればおk。</li>
+<li>ssh accessも、<code>id_rsa.pub</code>を<code>authorized_keys</code>に登録後、<code>ssh -p 21808 cabox@host9.codeanyhost.com</code>でおk。</li>
+<li><code>./grainw gendeploy</code>は、<code>~/.ssh/id_rsa.pub</code>をgithubに登録しておかないと失敗する。</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[keep ssh connection]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/keep-ssh-connection/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/22/keep-ssh-connection/</id><content type="html"><![CDATA[<p>sshがよく切れるサイトが多いのですが、基本的には諦めてました。
+でも、こうすればよかったんですね。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>export U=http://mp4upload.com/embed-bbzw7vbui2r4-650x370.html;mpv --referrer=http://www.mp4upload.com/player/J6/jwplayer.flash.swf `wget -q -O - $U|grep &#39;&quot;file&quot;: &quot;http:&#39;|awk -F\&quot; &#39;{print $4}&#39;`
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ssh -L 8888:localhost:8080 -o &#39;TCPKeepAlive yes&#39; -o &#39;ServerAliveInterval 10&#39; r.umetsu@219.101.192.235
 </span></code></pre></td></tr></table></div></figure>
-<p>どちらも、何故か一回で行かない時があります。
-二度三度、retryすると、cacheにたまってうまく行くようになりました。
-何ででしょう?</p>
+]]></content></entry><entry><title type="html"><![CDATA[non buffered grep]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/non-buffered-grep/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/22/non-buffered-grep/</id><content type="html"><![CDATA[<p>grepをpipeで繋いでlogcatをscreeningした時、
+なかなかlogが出て来なかったので、
+もしやと思って調べたら、bufferingしてるようでした。
+それを避けて、出て来たらすぐgrepして出すようにするには、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>~/Android/Sdk/platform-tools/adb logcat -v time|grep --line-buffered -e send_code1 -e doOnNext -e &#39;D/After   ([ 1-9][0-9]*): [0-9]&#39;|tee remote_diagnosis.log
+</span></code></pre></td></tr></table></div></figure>
+<p>のように<code>--line-buffered</code>が必要でした。</p>
+]]></content></entry><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
+以後blogを書くのをサボってしまっていたんですが、
+再開します。
+どこで再開したらいいか迷っていましたけれども、
+<a href="https://blog.htmlhifive.com/2016/06/20/web-ide-six-elections/">インストール不要で使えるWeb IDE×6選</a>を見て、
+<a href="https://codeanywhere.com/">Codeanywhere · Cross Platform Cloud IDE</a>にしました。
+Javaが入ってないので自分で入れなきゃならないことや、
+ssh command lineで^Rとか使えないのでちょっと不便ですが仕方ないです。
+ここでcompile出来るだけで御の字でしょう。</p>
 ]]></content></entry></feed>

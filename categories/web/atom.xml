@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/web/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Angular2 Tutorial]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/angular2-tutorial/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/11/15/angular2-tutorial/</id><content type="html"><![CDATA[<p>Angular2の<a href="https://angular.io/docs/ts/latest/quickstart.html">Tutorial</a>が凄いです。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/web/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Angular2 Tutorial]]></title><link href="http://u-ryo.github.io//blog/2015/11/15/angular2-tutorial/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/11/15/angular2-tutorial/</id><content type="html"><![CDATA[<p>Angular2の<a href="https://angular.io/docs/ts/latest/quickstart.html">Tutorial</a>が凄いです。
 すぐ使えて面白いです。
 英語も平易ですし。
 そこから<a href="https://angular.io/docs/ts/latest/guide/">Developer Guides</a>へも、
@@ -12,7 +12,7 @@ netで探せばAngular2の解説が幾つか日本語でも出て来ますが、
 もう来年からAngular2になることが分かっているので、
 今更<code>$scope</code>とかやりたくないですよ。
 まだまだα版なので、これからも大きく変わりそうですけど...</p>
-]]></content></entry><entry><title type="html"><![CDATA[AuthType None]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/authtype-none/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
+]]></content></entry><entry><title type="html"><![CDATA[AuthType None]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/authtype-none/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/10/27/authtype-none/</id><content type="html"><![CDATA[<p>さっき同僚に聞かれて調べました。
 apacheにおけるBasic認証/Form認証等を
 子ディレクトリにおいては無効にしたい場合、
 .htaccessに、</p>
@@ -66,7 +66,7 @@ Internal Server Errorになってしまいます。</p>
 </span><span class='line'><span class="nb">Satisfy</span> <span class="k">All</span>
 </span></code></pre></td></tr></table></div></figure>
 <p>といった感じで解決しました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/koding/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/27/koding/</id><content type="html"><![CDATA[<p>今はコード書くのもブラウザでやるんですね。
+]]></content></entry><entry><title type="html"><![CDATA[Koding]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/koding/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/10/27/koding/</id><content type="html"><![CDATA[<p>今はコード書くのもブラウザでやるんですね。
 <a href="https://koding.com/">Koding</a>で開発環境が、shellまで含めて、ブラウザで完結するなんて。
 <a href="https://c9.io/">Cloud9</a>も試してみましたが、
 無料で使える範囲では、Kodingの方が良かったですぼくにとっては。</p>

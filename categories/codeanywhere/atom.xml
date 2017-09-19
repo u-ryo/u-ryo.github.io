@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/codeanywhere/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/codeanywhere/"/><updated>2017-08-22T14:27:51+09:00</updated><id>/blog/2017/08/22/codeanywhere/</id><content type="html"><![CDATA[<h2>ちょっとした注意点</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/codeanywhere/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Grain on CodeAnywhere]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/grain-on-codeanywhere/"/><updated>2017-09-06T22:03:32+09:00</updated><id>/blog/2017/09/06/grain-on-codeanywhere/</id><content type="html"><![CDATA[<p>ちょっと、やっぱりダメですね。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>java.lang.RuntimeException: While executing class com.sysgears.grain.registry.Registry.compile
+</span><span class='line'>        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+</span><span class='line'>        :
+</span><span class='line'>        :
+</span><span class='line'>Caused by: java.net.SocketTimeoutException: Accept timed out
+</span><span class='line'>        at java.net.PlainSocketImpl.socketAccept(Native Method)
+</span></code></pre></td></tr></table></div></figure>
+<p>といわれて、<code>./grainw generate</code>も<code>./grainw gendeploy</code>も出来ません。
+あーあ、なぁんだ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/codeanywhere/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/22/codeanywhere/</id><content type="html"><![CDATA[<h2>ちょっとした注意点</h2>
 <ul>
 <li>Javaは入ってないので自分で入れる。<code>apt-cache</code>で見ると普通に<code>apt install</code>で入れられるのはJava7までっぽいが7で十分みたい。</li>
 <li>previewは、<code>./grainw</code>でcompile後、<code>http://...URL...:4000</code>で行けますね。→うーん、失敗する時の方が多いかも。</li>
@@ -8,7 +24,7 @@
 <li>ssh accessも、<code>id_rsa.pub</code>を<code>authorized_keys</code>に登録後、<code>ssh -p 21808 cabox@host9.codeanyhost.com</code>でおk。</li>
 <li><code>./grainw gendeploy</code>は、<code>~/.ssh/id_rsa.pub</code>をgithubに登録しておかないと失敗する。</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-22T11:43:21+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
+]]></content></entry><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
 以後blogを書くのをサボってしまっていたんですが、
 再開します。
 どこで再開したらいいか迷っていましたけれども、
