@@ -1,6 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-09-20T01:19:46+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Images in README.md on Github]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/"/><updated>2017-09-20T01:19:46+09:00</updated><id>/blog/2017/09/20/images-in-readme-md-on-github/</id><content type="html"><![CDATA[<p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-09-26T01:33:45+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[BotUI - ChatBot only by JavaScript]]></title><link href="http://u-ryo.github.io//blog/2017/09/26/botui-chatbot-only-by-javascript/"/><updated>2017-09-26T01:33:45+09:00</updated><id>/blog/2017/09/26/botui-chatbot-only-by-javascript/</id><content type="html"><![CDATA[<p><a href="http://paiza.hatenablog.com/entry/2017/09/21/﻿JavaScriptだけで本格的なチャットボットを開発できる">paiza開発日誌</a>で紹介されていた<a href="https://github.com/botui/botui">BotUI</a>、なるほど予め型にはまった会話ならこれだけでお手軽にJavaScriptだけで(<code>.then(function(){...})</code>で繋ぐだけで)出来ちゃうんですね。注文を取るとか、特定のAPI叩く(Wizardを会話でやる)とか、サポートセンターで特定の電話番号につなぐとか。AIは使ってないので、user側の曖昧な自然言語を受け取って処理する、というものではないですけど、そういうのに繋げればいい? いや、IBMのWatsonとかみると、そういう会話のplatformも含めて提供しているので、そうなるとBotUIの出番は無い筈。
+<a href="https://webhacck.github.io/botui-sample/">Git Repositoriesの総数を答えるsample</a>は、<a href="https://examples.botui.org">公式のsamples</a>より面白かった(興味深かった)です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[S Rank of CodeIQ]]></title><link href="http://u-ryo.github.io//blog/2017/09/25/s-rank-of-codeiq/"/><updated>2017-09-26T00:26:43+09:00</updated><id>/blog/2017/09/25/s-rank-of-codeiq/</id><content type="html"><![CDATA[<p>もう昨日のことですが、<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo">Paiza</a>に続いてようやっと<a href="https://codeiq.jp">CodeIQ</a>でも<a href="https://codeiq.jp/badge/3116">Sランク取りました</a>。</p>
+<p>まぁ、u-ryoさんなら当然だよね、とか言われておしまいでしょうけど。</p>
+<p><a href="https://paiza.jp/challenges/share/UwlvLJ8wbTeDuWz-kV7g2vpFehW0vZE-wI-qg56WM98">Paizaにあった似た問題</a>(←これで見ると失敗もありますが、これは最初に提出したcodeについてで、後でちゃんと全部通るようにしてます)からcode引っ張ってきて、でも勿論そのままでは使えなくて。土曜未明の一晩で終えるつもりが、間にバイトやmachine troubleを挟んで日曜の午後までかかっちゃいました。ふと探してみると、<a href="http://ideone.com/pfoy7z">まんまのcode</a>があるのにはびっくり。流石にそのままっていうのは癪なので、「直前の方向を使う」というideaと検算にだけありがたく使わせてもらいました。
+探索順の違いによるエラーをなかなか潰せなくて。そっか全探索なのね、そのためには... BFSではなくDFSか、と辿って、あーそっか、その違いはstackかqueueかだけか、に最後の最後気付いてgoalでした。何か色々忘れてて、こういうのやり続けてないと錆び付いてたなーというのを思い知らされました。この手のalgorithm系は集中してやらないと!</p>
+<p>コメント書きすぎでしょうか。でもまんまの置いてあるよりは遥かにマシかと。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Images in README.md on Github]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/"/><updated>2017-09-20T01:27:50+09:00</updated><id>/blog/2017/09/20/images-in-readme-md-on-github/</id><content type="html"><![CDATA[<p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p>
 <ol>
-<li>image用の別branchを切る(e.g. https://github.com/cakecatz/garage)</li>
+<li>image用の別branchを切る(e.g. <a href="https://github.com/cakecatz/garage">https://github.com/cakecatz/garage</a>)</li>
 <li>Githubのissueを利用する(<a href="https://www.youtube.com/watch?v=hHbWF1Bvgf4">GitHub Readme Images Tutorial (screenshots in readmes)</a>)</li>
 <li>Githubのwikiを利用する(<a href="https://www.pupha.net/archives/1632/">GitHubに画像ファイルを保存してREADME.mdで表示する方法</a>)</li>
 </ol>
@@ -9,7 +16,10 @@
 何となくそれがちょっと嫌だったので、結局wikiを利用しました。
 一度何でもいいのでWikiのpageを保存しないとならないみたいです。
 一度保存しちゃえば、上記ページに書いてあるように<code>git clone https://github.com/.../XXX.wiki</code>で取ってこられて、images作って置けちゃうんですね。へー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[gitignore]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/gitignore/"/><updated>2017-09-20T00:57:10+09:00</updated><id>/blog/2017/09/20/gitignore/</id><content type="html"><![CDATA[<p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
+]]></content></entry><entry><title type="html"><![CDATA[gitignore]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/gitignore/"/><updated>2017-09-20T01:51:29+09:00</updated><id>/blog/2017/09/20/gitignore/</id><content type="html"><![CDATA[<p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
+<p>AndroidStudio用に引っ張ってきたんですけど、そのままだと<code>.idea/kotlinc.xml</code>が入ってきてしまうようです。<code>kotlinc.xml</code>はversion管理不要ですよね?
+逆に、<code>.idea/gradle.xml</code>はversion管理下に、という話が<a href="http://www.torutk.com/projects/swe/wiki/Android_Studioのバージョン管理対象ファイル">Android Studioのバージョン管理対象ファイル</a>、<a href="http://qiita.com/komax/items/d1aaecaec0a22cb5bc4e">Android Studioでバージョン管理下に置かないもの</a>、<a href="http://gihyo.jp/dev/serial/01/android_studio/0035">第35回　バージョン管理 ─プロジェクト管理ファイルについて［後編］</a>と出て来るんですが、<code>gitignore.io</code>のfileではexplicitlyにignore対象なんですよね...</p>
+<p>試してみると、特に<code>.idea/</code>が無くてもAndroid Projectとして開けますね。じゃ全部要らないのかな。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[Personal Information Leak Incident]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/personal-information-leak-incident/"/><updated>2017-09-17T17:12:32+09:00</updated><id>/blog/2017/09/16/personal-information-leak-incident/</id><content type="html"><![CDATA[<p>先日派遣先で、5万数千件にのぼる個人情報漏洩を見付けてしまいました。</p>
 <p>その会社ではチンケなECサイトをやってるんですけど、
 といっても再販の再販までされてて何百人にも使われちゃってますが、
@@ -334,21 +344,4 @@ CUIでrestart(=disable/enable)すると、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>ssh -L 8888:localhost:8080 -o &#39;TCPKeepAlive yes&#39; -o &#39;ServerAliveInterval 10&#39; r.umetsu@219.101.192.235
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[non buffered grep]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/non-buffered-grep/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/22/non-buffered-grep/</id><content type="html"><![CDATA[<p>grepをpipeで繋いでlogcatをscreeningした時、
-なかなかlogが出て来なかったので、
-もしやと思って調べたら、bufferingしてるようでした。
-それを避けて、出て来たらすぐgrepして出すようにするには、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>~/Android/Sdk/platform-tools/adb logcat -v time|grep --line-buffered -e send_code1 -e doOnNext -e &#39;D/After   ([ 1-9][0-9]*): [0-9]&#39;|tee remote_diagnosis.log
-</span></code></pre></td></tr></table></div></figure>
-<p>のように<code>--line-buffered</code>が必要でした。</p>
-]]></content></entry><entry><title type="html"><![CDATA[changing koding to codeanywhere]]></title><link href="http://u-ryo.github.io//blog/2017/08/21/changing-koding-to-codeanywhere/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/21/changing-koding-to-codeanywhere/</id><content type="html"><![CDATA[<p>2016年10月に<a href="https://koding.com">Koding</a>の無料提供が終わってしまったので、
-以後blogを書くのをサボってしまっていたんですが、
-再開します。
-どこで再開したらいいか迷っていましたけれども、
-<a href="https://blog.htmlhifive.com/2016/06/20/web-ide-six-elections/">インストール不要で使えるWeb IDE×6選</a>を見て、
-<a href="https://codeanywhere.com/">Codeanywhere · Cross Platform Cloud IDE</a>にしました。
-Javaが入ってないので自分で入れなきゃならないことや、
-ssh command lineで^Rとか使えないのでちょっと不便ですが仕方ないです。
-ここでcompile出来るだけで御の字でしょう。</p>
 ]]></content></entry></feed>

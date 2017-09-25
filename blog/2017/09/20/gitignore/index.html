@@ -116,6 +116,9 @@
 
 
 <div class="entry-content"><p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
+<p>AndroidStudio用に引っ張ってきたんですけど、そのままだと<code>.idea/kotlinc.xml</code>が入ってきてしまうようです。<code>kotlinc.xml</code>はversion管理不要ですよね?
+逆に、<code>.idea/gradle.xml</code>はversion管理下に、という話が<a href="http://www.torutk.com/projects/swe/wiki/Android_Studioのバージョン管理対象ファイル">Android Studioのバージョン管理対象ファイル</a>、<a href="http://qiita.com/komax/items/d1aaecaec0a22cb5bc4e">Android Studioでバージョン管理下に置かないもの</a>、<a href="http://gihyo.jp/dev/serial/01/android_studio/0035">第35回　バージョン管理 ─プロジェクト管理ファイルについて［後編］</a>と出て来るんですが、<code>gitignore.io</code>のfileではexplicitlyにignore対象なんですよね...</p>
+<p>試してみると、特に<code>.idea/</code>が無くてもAndroid Projectとして開けますね。じゃ全部要らないのかな。</p>
 </div>
 
 </article>
@@ -132,7 +135,7 @@
 
 
 
-     <time datetime="2017-09-20T00:57:10+09:00" class="updated">
+     <time datetime="2017-09-20T01:51:29+09:00" class="updated">
        Updated
        <span class="month">Sep</span>
        <span class="day">20</span>,
@@ -191,6 +194,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/09/26/botui-chatbot-only-by-javascript/">BotUI - ChatBot Only by JavaScript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/25/s-rank-of-codeiq/">S Rank of CodeIQ</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/09/20/images-in-readme-md-on-github/">Images in README.md on Github</a>
       </li>
     
@@ -200,14 +211,6 @@
     
       <li class="post">
         <a href="/blog/2017/09/16/personal-information-leak-incident/">Personal Information Leak Incident</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/">Getting Prize S Level Programmer at Paiza</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/09/13/challenging-paiza-tsp/">Challenging Paiza TSP</a>
       </li>
     
   </ul>
