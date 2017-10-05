@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/sqlite/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2017-09-29T00:19:24+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
+試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p>
+<p>従いまして、「SqlCipherの<code>key</code>を64文字の16進数にすれば速くなる」が結論です。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥
+</span><span class='line'>09-27 16:25:59.010 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>09-27 16:25:59.400 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>
+</span><span class='line'>64å­key
+</span><span class='line'>09-27 16:24:26.060 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span><span class='line'>09-27 16:24:26.080 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span></code></pre></td></tr></table></div></figure>
+<p>そこで、実際にAllcaridaで<code>c.bin</code>,<code>r.bin</code>だけ64字key版を作って「履歴一覧」画面表示を比較してみると、従来約3.5秒のところ約0.2秒で開けることを確認しました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥ 3.46ç§(ç´0.6ç§Ã5+Î±)
+</span><span class='line'>09-27 17:53:03.670 9054-9054/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:53:03.680 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:04.360 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:04.380 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:05.010 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.050 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:05.710 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.720 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:06.370 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:06.390 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:07.030 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>
+</span><span class='line'>64å­key 0.21ç§(0.0+0.01+0.01+0.02+0.03+Î±)
+</span><span class='line'>09-27 17:50:57.350 4493-4493/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.400 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.410 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.460 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.470 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.480 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.500 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.530 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.560 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span></code></pre></td></tr></table></div></figure>
+<p>More concretely,</p>
+<p><code>SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, "x\'2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99\'", null);</code></p>
+<p>in Java.</p>
+<p>To get a rekeyed file,</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt install sqlcipher
+</span><span class='line'>$ sqlcipher /tmp/c.bin
+</span><span class='line'>SQLCipher version 3.15.2 2016-11-28 19:13:37
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &#39;7824&#39;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;c2.bin&#39; AS c KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;c&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE c;
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure>
+<p>You'll get <code>c2.bin</code> with the new 64bit key.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sqlcipher r.bin
+</span><span class='line'>SQLCipher version 3.8.6 2014-08-15 11:46:33
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &quot;7824&quot;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;r2.bin&#39; AS r KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;r&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE r;sqlite&gt; PRAGMA user_version;
+</span><span class='line'>0
+</span><span class='line'>sqlite&gt; PRAGMA user_version = 6;
+</span><span class='line'>sqlite&gt; PRAGMA user_version;
+</span><span class='line'>6
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure>
+<p>You'll get <code>r2.bin</code> with the new 64bit key and version 6.</p>
+<p><code>PRAGMA user_version</code> is needed because in SQLiteOpenHelper class judges whether it calls <code>onCreate</code>(table creation) by <code>db.getVersion()</code>.
+<a href="http://d.hatena.ne.jp/isher/20091108/1257684508">[Android]データベースをアップグレードする時</a></p>
+<p>そもそも画面遷移に4秒も掛かるようなAndroidアプリをリリースするなんていうのもunbilievableですが、そういう人達なので...</p>
+<p>まぁ、暗号化するにせよ自分なら<a href="https://realm.io/">Realm</a>使うので、こんな知識不要ですけど、SqlCipher使うなら最初から64字16進code使うべきなんですね。</p>
+]]></content></entry></feed>

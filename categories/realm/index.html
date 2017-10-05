@@ -1,0 +1,94 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Realm - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/realm/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Realm</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Realm category via RSS" href="/categories/realm/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/">Digest Authentication and File Realm on Glassfish</a></h1> <p class="meta"> <time datetime="2017-10-04T19:27:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">04</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と 相変わらずわけわかんない指令を受けたので、 「何かに使う『digest』認証を任意の『Realm』で設定」 と解釈して取り組みました。 一番簡単な<code>FileRealm</code>でいいっしょ、 これは4848のGUIからRealms辿って<code>Manage Users</code>ボタンからuser足せばいいし、 Digest Authは<code>&lt;auth-method&gt;DIGEST&lt;/auth-method&gt;</code>で瞬殺、 とか思ってたら、ハマりました。 <code>index.html</code>と<code>web.xml</code>のみの最小構成でproof application作ったのですが、 どうしても認証できないのです。 <code>server.log</code>見ると、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>SEC1105: A PasswordCredential was required but not provided.
+</span></code></pre></td></tr></table></div></figure> <p>と言われています。えー!? 何で? 試しにBASIC認証にしてみると、(紆余曲折ありましたが要するに)通ります。 だから、<code>keyfile</code>の書き方が悪いわけでは無いんですね。 勿論色々ググりました。が、なかなか出て来ません類似例。 辛うじて同じような症状があっても、Answerがついてません。 半日悩みました。 GlassfishのRealmって、 JAAS Contextを指定する必要があって、これは<code>.../domains/domain/config/login.conf</code>で規定されているんですね。 これを見ると、 <code>fileRealm</code>は一つなのに、 <code>jdbcRealm</code>と<code>jdbcDigestRealm</code>ってあるぢゃないですか。 をぉ、と思って、source treeを探してみると、 <code>com.sun.enterprise.security.auth.login.DigestLoginModule</code> というのもあるんですね。 これどうやって使うんでしょうね。 使い方とかも例も、 JavaDocに書いてないしググっても出て来ませんでした。 試しに<code>digestRealm</code>なんて<code>login.conf</code>に他のを真似して、 上の<code>DigestLoginModule</code>を指定して作って使ってみたのですが、 fileから読み込むようにはなっていないようで、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>WEB9102: Web Login Failed: com.sun.enterprise.security.auth.login.common.LoginException: Login failed: unable to instantiate LoginModule: null
+</span></code></pre></td></tr></table></div></figure> <p>と言われて失敗してました。 ...って、これ<code>abstract class</code>だから当たり前じゃないですか恥ずかしい。 <code>DigestLoginModule</code>をextendsしてるのは<code>JDBCDigestLoginModule</code>だけだから、 file realmで使うなら<code>JDBCDigestLoginModule</code>みたいに自前で作らないとならないんじゃないでしょうかね。 でもそうならどっかにそう書いといてよねー。</p> <p>結局、大人しく<code>jdbcDigestRealm</code>を使うように変更することで面倒を回避しました。 まぁ、それだけ世にDigest Authenticationのdemandがない、 という証左なのかなと思いました。</p> <h3>minimum web.xml</h3> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+</span><span class='line'><span class="nt">&lt;web</span><span class="na">-app</span> <span class="na">xmlns=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee&quot;</span>
+</span><span class='line'>         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee</span>
+</span><span class='line'><span class="s">                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;</span>
+</span><span class='line'>         <span class="na">version=</span><span class="s">&quot;3.0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-constraint</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;web</span><span class="na">-resource-collection</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;web</span><span class="na">-resource-name</span><span class="nt">&gt;</span>Digest Authentication Test<span class="err">&lt;</span>/web-resource-name&gt;
+</span><span class='line'>      <span class="nt">&lt;url</span><span class="na">-pattern</span><span class="nt">&gt;</span>/*<span class="err">&lt;</span>/url-pattern&gt;
+</span><span class='line'>    <span class="err">&lt;</span>/web-resource-collection&gt;
+</span><span class='line'>    <span class="nt">&lt;auth</span><span class="na">-constraint</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>    <span class="err">&lt;</span>/auth-constraint&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-constraint&gt;
+</span><span class='line'>  <span class="nt">&lt;login</span><span class="na">-config</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;auth</span><span class="na">-method</span><span class="nt">&gt;</span>DIGEST<span class="err">&lt;</span>/auth-method&gt;
+</span><span class='line'>    <span class="nt">&lt;realm</span><span class="na">-name</span><span class="nt">&gt;</span>someCreatedRealmUsingjdbcDigestRealmOnJAASContext<span class="err">&lt;</span>/realm-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/login-config&gt;
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
+</span><span class='line'><span class="err">&lt;</span>/web-app&gt;
+</span></code></pre></td></tr></table></div></figure> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2017/10/05/vulnerability-poc-site/">Vulnerability POC Site</a> </li> <li class="post"> <a href="/blog/2017/10/05/enforce-fullgc-to-javavm/">Enforce FullGC to JavaVM</a> </li> <li class="post"> <a href="/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/">Digest Authentication and File Realm on Glassfish</a> </li> <li class="post"> <a href="/blog/2017/09/28/make-sqlcipher-faster/">Make SqlCipher Faster</a> </li> <li class="post"> <a href="/blog/2017/09/28/test-failed-on-androidstudio/">Test Failed on AndroidStudio</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2017 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>

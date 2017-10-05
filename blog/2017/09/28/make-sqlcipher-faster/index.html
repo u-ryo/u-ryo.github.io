@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>Make SqlCipher Faster - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various information for coding...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">Make SqlCipher Faster</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2017-09-28T14:23:00+09:00" pubdate data-updated=true>
+      <span class="month">Sep</span>
+      <span class="day">28</span>,
+      <span class="year">2017</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
+試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p>
+<p>従いまして、「SqlCipherの<code>key</code>を64文字の16進数にすれば速くなる」が結論です。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥
+</span><span class='line'>09-27 16:25:59.010 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>09-27 16:25:59.400 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>
+</span><span class='line'>64å­key
+</span><span class='line'>09-27 16:24:26.060 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span><span class='line'>09-27 16:24:26.080 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span></code></pre></td></tr></table></div></figure>
+<p>そこで、実際にAllcaridaで<code>c.bin</code>,<code>r.bin</code>だけ64字key版を作って「履歴一覧」画面表示を比較してみると、従来約3.5秒のところ約0.2秒で開けることを確認しました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥ 3.46ç§(ç´0.6ç§Ã5+Î±)
+</span><span class='line'>09-27 17:53:03.670 9054-9054/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:53:03.680 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:04.360 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:04.380 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:05.010 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.050 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:05.710 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.720 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:06.370 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:06.390 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:07.030 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>
+</span><span class='line'>64å­key 0.21ç§(0.0+0.01+0.01+0.02+0.03+Î±)
+</span><span class='line'>09-27 17:50:57.350 4493-4493/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.400 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.410 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.460 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.470 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.480 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.500 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.530 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.560 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span></code></pre></td></tr></table></div></figure>
+<p>More concretely,</p>
+<p><code>SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, "x\'2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99\'", null);</code></p>
+<p>in Java.</p>
+<p>To get a rekeyed file,</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt install sqlcipher
+</span><span class='line'>$ sqlcipher /tmp/c.bin
+</span><span class='line'>SQLCipher version 3.15.2 2016-11-28 19:13:37
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &#39;7824&#39;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;c2.bin&#39; AS c KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;c&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE c;
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure>
+<p>You'll get <code>c2.bin</code> with the new 64bit key.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sqlcipher r.bin
+</span><span class='line'>SQLCipher version 3.8.6 2014-08-15 11:46:33
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &quot;7824&quot;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;r2.bin&#39; AS r KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;r&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE r;sqlite&gt; PRAGMA user_version;
+</span><span class='line'>0
+</span><span class='line'>sqlite&gt; PRAGMA user_version = 6;
+</span><span class='line'>sqlite&gt; PRAGMA user_version;
+</span><span class='line'>6
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure>
+<p>You'll get <code>r2.bin</code> with the new 64bit key and version 6.</p>
+<p><code>PRAGMA user_version</code> is needed because in SQLiteOpenHelper class judges whether it calls <code>onCreate</code>(table creation) by <code>db.getVersion()</code>.
+<a href="http://d.hatena.ne.jp/isher/20091108/1257684508">[Android]データベースをアップグレードする時</a></p>
+<p>そもそも画面遷移に4秒も掛かるようなAndroidアプリをリリースするなんていうのもunbilievableですが、そういう人達なので...</p>
+<p>まぁ、暗号化するにせよ自分なら<a href="https://realm.io/">Realm</a>使うので、こんな知識不要ですけど、SqlCipher使うなら最初から64字16進code使うべきなんですね。</p>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2017-09-29T00:19:24+09:00" class="updated">
+       Updated
+       <span class="month">Sep</span>
+       <span class="day">29</span>,
+       <span class="year">2017</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/android/">android</a>
+  
+     <a class="category" href="/categories/sqlite/">sqlite</a>
+  
+     <a class="category" href="/categories/sqlcipher/">sqlcipher</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2017/09/28/make-sqlcipher-faster/" data-via="" data-counturl="/blog/2017/09/28/make-sqlcipher-faster/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/" title="Previous Post: Digest Authentication and File Realm on Glassfish">&laquo; Digest Authentication and File Realm on Glassfish</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/09/28/test-failed-on-androidstudio/" title="Next Post: Test Failed on AndroidStudio">Test Failed on AndroidStudio &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/05/vulnerability-poc-site/">Vulnerability POC Site</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/05/enforce-fullgc-to-javavm/">Enforce FullGC to JavaVM</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/">Digest Authentication and File Realm on Glassfish</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/28/make-sqlcipher-faster/">Make SqlCipher Faster</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/28/test-failed-on-androidstudio/">Test Failed on AndroidStudio</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A Java programmer in Tokyo.</p>
+</section>
+<section>
+  <h1><a href="privacy.html">Privacy Policy</a></h1>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/";
+    var disqus_url = "http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>
