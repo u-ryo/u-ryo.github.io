@@ -1,4 +1,56 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-10-09T16:29:39+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Alpaca Algo]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/"/><updated>2017-10-09T16:29:39+09:00</updated><id>/blog/2017/10/08/alpaca-algo/</id><content type="html"><![CDATA[<p>こういうの、あったんですねー。すごいすごい。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-10-21T03:07:49+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Knapsack Problem]]></title><link href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/"/><updated>2017-10-21T03:07:49+09:00</updated><id>/blog/2017/10/20/knapsack-problem/</id><content type="html"><![CDATA[<p>ここ最近、Knapsack Problemが流行っている感じがしています。</p>
+<p><a href="http://www.ap-siken.com/kakomon/29_haru/pm03.html">応用情報技術者過去問題 平成29年春期 午後問3</a>では基本「全探索」、改善提案が「枝刈り」でしたが、それでは全然不十分です。この問題は要するにKnapsack Problemのちょっとした変形で、code量もさしたることなく書けますし、折角FEではなくAPなのだし、日本の若者のためにも、Knapsackで書くよう誘導すべきだったのでは、と「禿げしく」思ったものでした。</p>
+<p>すると、今度は<a href="http://www.ap-siken.com/kakomon/29_aki/pm03.html">応用情報技術者過去問題 平成29年秋期 午後問3</a>でKnapsack Problemを正面から出してきましたね。0-1ではなく普通の。ぼくは前回のrevengeではないかと思ってみています。
+問題自体は、あまりにも普通のKnapsack Problemなので、ツッコミようがなくてつまんなかったデス。</p>
+<p>この他にアジアでも。そっちは0-1でした。</p>
+<h3>References</h3>
+<ul>
+<li>Wikipedia<a href="https://en.wikipedia.org/wiki/Knapsack_problem">En</a>, <a href="https://ja.wikipedia.org/wiki/%E3%83%8A%E3%83%83%E3%83%97%E3%82%B5%E3%83%83%E3%82%AF%E5%95%8F%E9%A1%8C">Ja</a></li>
+<li><a href="http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DPL_1_B">Aizu Online Judge</a></li>
+<li><a href="http://www.itmedia.co.jp/keywords/algorithmer.html">「最強最速アルゴリズマー養成講座」最新記事一覧</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1005/15/news002.html">病みつきになる「動的計画法」、その深淵に迫る</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1003/06/news002.html">アルゴリズマーの登竜門、「動的計画法・メモ化再帰」はこんなに簡単だった</a></li>
+<li><a href="http://pieceofnostalgy.blogspot.jp/2013/12/01.html">片鱗懐古のブログ 01ナップサック問題を動的計画法で解く場合の考え方</a></li>
+<li><a href="http://fantom1x.blog130.fc2.com/blog-entry-174.html">【Java】ナップサック問題(knapsack)[動的計画法]  </a></li>
+</ul>
+<p>ちなみに日本語では「ナップザック」、登山用語はドイツから入ってきたから、です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Tomcat vulnerability CVE-2017-12617]]></title><link href="http://u-ryo.github.io//blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/"/><updated>2017-10-16T21:11:35+09:00</updated><id>/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/</id><content type="html"><![CDATA[<p><a href="https://oss.sios.com/security/tomcat-security-vulnerabiltiy-20170920">Tomcatの複数の脆弱性(CVE-2017-12617, CVE-2017-12615 , CVE-2017-12616)</a>が、範囲が広がって出てました。
+<code>readonly initialization parameter</code>を<code>false</code>にして<code>PUT</code>を有効化している時にaffectする(任意のjsp fileを不正に<code>PUT</code>してから好き放題する)、とのことなので、きょうびはRESTで<code>PUT</code>多用するから影響範囲広いんでしょうか? 否、「default servletのinitialization parameter(具体的には<code>web.xml</code>の<code>servlet</code>tagの<code>init-param</code>)で<code>false</code>を明示した時(defaultは<code>true</code>)なので、殆どのところはそんなことしてないから大丈夫なんじゃないでしょうか。
+実際、<a href="https://github.com/cyberheartmi9/CVE-2017-12617">POC</a>で試してみたところ、うちのsiteは(version的には範囲内ですが)<code>Not Vulnerable to CVE-2017-12617</code>と出ました。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ python tomcat-cve-2017-12617.py -u http://localhost:8080
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>   _______      ________    ___   ___  __ ______     __ ___   __ __ ______ 
+</span><span class='line'>  / ____\ \    / /  ____|  |__ \ / _ \/_ |____  |   /_ |__ \ / //_ |____  |
+</span><span class='line'> | |     \ \  / /| |__ ______ ) | | | || |   / /_____| |  ) / /_ | |   / /
+</span><span class='line'> | |      \ \/ / |  __|______/ /| | | || |  / /______| | / / &#39;_ \| |  / /
+</span><span class='line'> | |____   \  /  | |____    / /_| |_| || | / /       | |/ /| (_) | | / /
+</span><span class='line'>  \_____|   \/   |______|  |____|\___/ |_|/_/        |_|____\___/|_|/_/
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>[@intx0x80]
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Poc Filename  Poc.jsp
+</span><span class='line'>Not Vulnerable to CVE-2017-12617
+</span></code></pre></td></tr></table></div></figure></p>
+]]></content></entry><entry><title type="html"><![CDATA[Alpaca Algo]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/"/><updated>2017-10-09T16:29:39+09:00</updated><id>/blog/2017/10/08/alpaca-algo/</id><content type="html"><![CDATA[<p>こういうの、あったんですねー。すごいすごい。
 <a href="https://algo.alpaca.ai">Alpaca Algo</a>、かつてのCapitalicoだそうですが、
 自分でindicatorを指定して、勝ちpattern(負例も!)を指定して、
 そうすると裏で超高速に事例を学習し、
@@ -46,7 +98,7 @@ Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞�
 <li>SHARPの8K、よ〜く見ると細かいところが滲んでたのは、多分撮影側が追いついてないせいでしょう。それより応用事例として心臓外科手術の映像流してましたがそちらの方が面白かったです。</li>
 <li><a href="http://internet.watch.impress.co.jp/docs/event/1084817.html">NTTのVRバッティングマシーン</a>は並ぶのでパス、<a href="http://k-tai.watch.impress.co.jp/docs/event/ceatec2017/1083982.html">KDDIの5G</a>は、遠隔の人の動きと同じ動きをロボットがするというものですけど、動いていなかったし慶応が同じことやってました。<a href="http://av.watch.impress.co.jp/docs/news/1084017.html">VR不動産案内</a>はあんまり魅力を感じず。富士通では量子コンピュータの話はあんまり見ず、コーヒーとクッキーだけ御馳走になりました。</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-09T16:07:03+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
+]]></content></entry><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-09T17:08:19+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
 ひょんなことから<a href="http://ukkyo.sakura.ne.jp/">未経験２７歳プログラマーへの道（イバラ）</a>を見付けて、一気に読んでしまいました。
 最初の企業の話は、まさに今のぼくのと符合するところが多く。
 でもこの人、人類みな京大なんですね頭いいんだ... というより、数学的で要領がいいんですね(ってご自分でも書いてますね)。
@@ -176,6 +228,12 @@ Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞�
 <li>金を残す者は三流<br  />
 仕事を残す者は二流<br  />
 人を残す者は一流</li>
+<li>だから時間でなく仕組みを売らなければならないのだ。
+仕組みを売ってその金で時間を買う。
+そうやってできた時間で新たな仕組みを作る。
+うまくこの循環に入ることができればいいのだが・・・・。
+これもまた言うは易しというもの。
+できるなら誰もがやってる。</li>
 </ul>
 ]]></content></entry><entry><title type="html"><![CDATA[Vulnerability POC site]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/vulnerability-poc-site/"/><updated>2017-10-05T23:10:34+09:00</updated><id>/blog/2017/10/05/vulnerability-poc-site/</id><content type="html"><![CDATA[<p>各種POCがありました。</p>
 <ul>
@@ -593,36 +651,4 @@ Javaで「早く」書くのは確かにキツイです。
 </span></code></pre></td></tr></table></div></figure>
 <p>といわれて、<code>./grainw generate</code>も<code>./grainw gendeploy</code>も出来ません。
 あーあ、なぁんだ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Current Project I'm working in]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/current-project-i-m-working-in/"/><updated>2017-09-06T22:03:07+09:00</updated><id>/blog/2017/09/06/current-project-i-m-working-in/</id><content type="html"><![CDATA[<p>今、グループ内会社のAndroidアプリ開発に売られてるんですけど、そこのソフトの作りがひどくてひどくて泣けてきます。</p>
-<ol>
-<li>「結果が表示されなくなった」というので見てみたら、<code>toString()</code>が変わっていたのが原因。より根本的な原因は、<code>toString()</code>というdebug用途のmethodをoverrideしてmainのlogicに使っていること。まぁ、Activity跨ぐstructured dataを<code>Parcelable</code>にする時間が無かった、という事情は分かるんですけど、<code>StringBuilder#toString</code>ですら使わず<code>new String(StringBuilder)</code>とするくらいなのでぼくは。</li>
-<li>「途中で落ちる」というので見てみると、ヌルポが出てました。どうしてかなー、と見ていくと、途中でnullを代入しているmethodが呼ばれています。どうしてこれを呼ぶよう変えたのか聞いてみると、終了処理をちゃんとするようしてる時に、comment outしてあったこのfinishっぽいmethodをcomment inしたんだそう。それがどういう効果を持つのかわからぬまま、そうしたんだって。えーーーっ!?</li>
-<li>極めつけは、今日わかったんですが、<code>HashMap</code>を<code>List</code>にしてその0番目を使ってるんですね。えーーーっ! どうしてAndroid 4.4.2ではうまく動かないの? というのを探っていったら、そこに行き着きました。逆に、これまでよく動いていましたねぇ。素晴らしい!! 先月までいた派遣のフリー技術者が書いたcodeの一部でしたけど、わざと書いたならいざ知らず、もし意識せず書いたのなら、恐ろしいです。</li>
-</ol>
-]]></content></entry><entry><title type="html"><![CDATA[Illegal keysize]]></title><link href="http://u-ryo.github.io//blog/2017/09/04/illegal-keysize/"/><updated>2017-09-04T02:32:48+09:00</updated><id>/blog/2017/09/04/illegal-keysize/</id><content type="html"><![CDATA[<p>Androidで<a href="https://github.com/NanoHttpd/nanohttpd">NanoHTTPD</a>を
-動かすprogramを開発しているんですが、
-WebRTCにするのに、TLSが必要じゃないですか。
-そのserver certを普通に作ると、<code>Illegal keysize</code>と言われて
-key load時に落ちるのでハマりました。
-<a href="https://github.com/NanoHttpd/nanohttpd#generating-an-self-signed-ssl-certificate">NanoHTTPDの解説</a>にあるように、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048 -ext SAN=DNS:localhost,IP:127.0.0.1  -validity 9999
-</span></code></pre></td></tr></table></div></figure>
-<p>と作ってもダメでした。
-色々調べると、AndroidにはBouncyCastle(BKS)でないとならないらしく、
-証明書は面倒なのでsnakeoilを流用して、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo openssl pkcs12 -export -in /etc/ssl/certs/ssl-cert-snakeoil.pem -inkey /etc/ssl/private/ssl-cert-snakeoil.key -out ~/AndroidStudioProjects/SharedEye/ssl-cert-snakeoil.p12 -name ssl-cert-snakeoil
-</span><span class='line'>$ /usr/lib/jvm/java-8-oracle/bin/keytool -importkeystore -deststorepass password -destkeypass password -destkeystore snakeoil.jks -srckeystore ssl-cert-snakeoil.p12 -srcstoretype PKCS12 -srcstorepass password -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath bcprov-jdk15-1.46.jar
-</span></code></pre></td></tr></table></div></figure>
-<p>とすると、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Problem importing entry for alias java.security.KeyStoreException: java.io.IOException: Error initialising store of key store: java.security.InvalidKeyException: Illegal key size.
-</span></code></pre></td></tr></table></div></figure>
-<p>と言われてimport出来ませんでした(→jksが作れませんでした)。
-かなり悩んだのですが、結局<a href="http://qiita.com/mizuki_takahashi/items/cc26a7fd51aa04396e92">JavaでAES256を使用できるようにする</a>にあるように、
-JCE(Java Cryptography Extension)を落としてきて
-<code>local_policy.jar</code>を上書きしたら、
-jksも出来て、Android側でも何事もなくloadしてくれました。</p>
 ]]></content></entry></feed>
