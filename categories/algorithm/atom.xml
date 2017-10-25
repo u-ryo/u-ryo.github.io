@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/algorithm/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Getting Prize S Level Programmer at Paiza]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/"/><updated>2017-09-17T17:26:07+09:00</updated><id>/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/</id><content type="html"><![CDATA[<p>先日、<a href="https://paiza.jp/challenges">Paizaのスキルチェック</a>で
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/algorithm/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Getting Prize S Level Programmer at Paiza]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/</id><content type="html"><![CDATA[<p>先日、<a href="https://paiza.jp/challenges">Paizaのスキルチェック</a>で
 <a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">時間切れ0点</a>を取ってしまったので、
 癪だからランクS、本気で取りに行きました。
 <a href="https://paiza.jp/challenges/share/BpVEE0xUqzek-gFkhWaalVEwoIv7rpTSXnDL6cOC4eo?source=social">ひとりすごろく</a>は第一次制限時間の40分を超えてしまったので、
@@ -14,7 +14,7 @@ Javaで「早く」書くのは確かにキツイです。
 いや、実務では分を争う程、そこまでsevereではないので...
 それに、paizaでいくら頑張っても、
 小さいとこばっかりであんまり行きたい先が無いので、虚しいんです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Challenging Paiza TSP]]></title><link href="http://u-ryo.github.io//blog/2017/09/13/challenging-paiza-tsp/"/><updated>2017-09-17T17:27:16+09:00</updated><id>/blog/2017/09/13/challenging-paiza-tsp/</id><content type="html"><![CDATA[<p>8/13はPaizaの日、ということで、巡回セールスマン問題を出題していました。
+]]></content></entry><entry><title type="html"><![CDATA[Challenging Paiza TSP]]></title><link href="http://u-ryo.github.io//blog/2017/09/13/challenging-paiza-tsp/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/13/challenging-paiza-tsp/</id><content type="html"><![CDATA[<p>8/13はPaizaの日、ということで、巡回セールスマン問題を出題していました。
 <a href="https://paiza.jp/works/algorithm/primer/algorithm3">Paizaラーニングでも巡回セールスマン問題のさわり(貪欲法)を取り上げていて</a>、
 2-OptやSimulatedAnnealing(焼きなまし法)を<a href="https://github.com/eugenp/tutorials/blob/3abb98e9e8acc7efe3f9f8423fcf0f8934655be7/algorithms/src/main/java/com/baeldung/algorithms/ga/annealing/SimulatedAnnealing.java">学んで</a>、
 いざ書いてみたんですが、なかなかうまく行きません。
@@ -39,7 +39,7 @@ Javaで「早く」書くのは確かにキツイです。
 しかも、提出したコードは、2つの場合だけ通らずに、80点。
 どうしてコケる時があるのか、思い当たるフシもなく、未だにわかっていません。
 テストデータ、見せて欲しいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Magic Square]]></title><link href="http://u-ryo.github.io//blog/2016/06/25/magic-square/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/06/25/magic-square/</id><content type="html"><![CDATA[<h3>3次魔方陣</h3>
+]]></content></entry><entry><title type="html"><![CDATA[Magic Square]]></title><link href="http://u-ryo.github.io//blog/2016/06/25/magic-square/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/25/magic-square/</id><content type="html"><![CDATA[<h3>3次魔方陣</h3>
 <ol>
 <li>爪のついたZ字順に1〜9を配置</li>
 <li>2と8を入れ替える</li>

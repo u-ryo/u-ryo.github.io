@@ -1,17 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-10-22T00:23:38+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Security Links]]></title><link href="http://u-ryo.github.io//blog/2017/10/21/security-links/"/><updated>2017-10-22T00:23:38+09:00</updated><id>/blog/2017/10/21/security-links/</id><content type="html"><![CDATA[<p>Security関係のLinkをまとめました。
-はてぶにすればいいのに > 自分</p>
-<ul>
-<li><a href="https://takagi-hiromitsu.jp/diary/">高木浩光＠自宅の日記</a></li>
-<li><a href="https://blog.tokumaru.org/">徳丸浩の日記</a></li>
-<li><a href="http://masatokinugawa.l0.cm/">Masato Kinugawa Security Blog</a></li>
-<li><a href="https://gist.github.com/mala">mala</a> 今LINEにいるんですね</li>
-<li><a href="https://blog.ohgaki.net/">yohgaki's blog 書かない日記</a></li>
-<li><a href="http://nanashi0x.hatenablog.com/">忙しい人のためのサイバーセキュリティニュース</a></li>
-<li><a href="http://n.pentest.ninja/">(n)</a>, <a href="http://csirt.ninja/">(n)inja csirt</a>(個人でCSIRT)</li>
-<li><a href="http://blog.macnica.net/">マクニカネットワークスセキュリティ研究センターブログ</a></li>
-</ul>
-<p>あー、勉強しないと。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Knapsack Problem]]></title><link href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/"/><updated>2017-10-21T03:07:49+09:00</updated><id>/blog/2017/10/20/knapsack-problem/</id><content type="html"><![CDATA[<p>ここ最近、Knapsack Problemが流行っている感じがしています。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-10-25T15:25:36+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Knapsack Problem]]></title><link href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/"/><updated>2017-10-25T15:25:09+09:00</updated><id>/blog/2017/10/20/knapsack-problem/</id><content type="html"><![CDATA[<p>ここ最近、Knapsack Problemが流行っている感じがしています。</p>
 <p><a href="http://www.ap-siken.com/kakomon/29_haru/pm03.html">応用情報技術者過去問題 平成29年春期 午後問3</a>では基本「全探索」、改善提案が「枝刈り」でしたが、それでは全然不十分です。この問題は要するにKnapsack Problemのちょっとした変形で、code量もさしたることなく書けますし、折角FEではなくAPなのだし、日本の若者のためにも、Knapsackで書くよう誘導すべきだったのでは、と「禿げしく」思ったものでした。</p>
 <p>すると、今度は<a href="http://www.ap-siken.com/kakomon/29_aki/pm03.html">応用情報技術者過去問題 平成29年秋期 午後問3</a>でKnapsack Problemを正面から出してきましたね。0-1ではなく普通の。ぼくは前回のrevengeではないかと思ってみています。
 問題自体は、あまりにも普通のKnapsack Problemなので、ツッコミようがなくてつまんなかったデス。</p>
@@ -25,7 +12,69 @@
 <li><a href="http://fantom1x.blog130.fc2.com/blog-entry-174.html">【Java】ナップサック問題(knapsack)[動的計画法]  </a></li>
 </ul>
 <p>ちなみに日本語では「ナップザック」、登山用語はドイツから入ってきたから、です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Tomcat vulnerability CVE-2017-12617]]></title><link href="http://u-ryo.github.io//blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/"/><updated>2017-10-16T21:11:35+09:00</updated><id>/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/</id><content type="html"><![CDATA[<p><a href="https://oss.sios.com/security/tomcat-security-vulnerabiltiy-20170920">Tomcatの複数の脆弱性(CVE-2017-12617, CVE-2017-12615 , CVE-2017-12616)</a>が、範囲が広がって出てました。
+]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-10-25T15:25:36+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+<ul>
+<li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>testCompile &#39;org.robolectric:robolectric:3.4.2&#39;
+</span><span class='line'>testCompile &#39;org.robolectric:shadows-multidex:3.3.2&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-module-junit4:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-module-junit4-rule:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-api-mockito2:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-reflect:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-classloading-xstream:1.7.3&#39;
+</span></code></pre></td></tr></table></div></figure></li>
+<li>Test Classは、Android Studioで開いた実class java fileの<code>public class CLASS名</code>のところで黄色いヒントをclickして<code>Create Test class</code>を選択、<code>JUnit4</code>で作成</li>
+<li>既存test classの<code>Whitebox</code>は<code>org.powermock.reflect.Whitebox</code>で置き換え</li>
+<li>既存test classの<code>@RunWith</code>の<code>MockitoJUnitRunner</code>は<code>org.mockito.junit.MockitoJUnitRunner</code>で置き換え</li>
+<li><code>org.mockito.exceptions.misusing.UnnecessaryStubbingException:</code>というwarningが出るようになったので<code>@RunWith(MockitoJUnitRunner.Silent.class)</code>にすると解消<br  />
+cf. <a href="https://stackoverflow.com/questions/42947613/how-to-resolve-unneccessary-stubbing-exception">How to resolve Unneccessary Stubbing exception</a></li>
+<li><code>Robolectric</code>なTestは、1.<code>@RunWith(RobolectricTestRunner.class)</code> 2.<code>activity = Robolectric.setupActivity(SomeActivity.class);</code>で<code>Activity</code>を起動</li>
+<li><code>RuntimeException: Multi dex installation failed</code>と言われるので<code>shadows-multidex</code>が必要<br  />
+cf. <a href="https://qiita.com/kuwapp/items/942f0e44adbd45adff10">Robolectric と Multidex でテストが落ちる問題の対応</a></li>
+<li>static methodのmockは<a href="https://github.com/powermock/powermock">PowerMock</a>と。<code>@RunWith</code>がかぶっちゃうよ、どうしよう! → <a href="https://github.com/robolectric/robolectric/wiki/Using-PowerMock">本家に解説</a>あり。要は、<code>@PowerMockIgnore</code>でmockito、robolectric、android標準classesを除外、<code>@PrepareForTest</code>でstatic methodを持つclassを指定し、<code>@Rule</code>を入れ(使わないのによくわからないが必要)、<code>PowerMockito.mockStatic(...)</code>で当該classを指定</li>
+<li><code>NoClassDefFoundError: org/powermock/classloading/ClassloaderExecutor</code>と言われるので、<code>powermock-classloading-xstream</code>が必要<br  />
+cf. <a href="https://github.com/powermock/powermock/issues/597">version 1.5.5 java.lang.ClassNotFoundException: org.powermock.classloading.DeepCloner #597</a></li>
+<li><code>NoClassDefFoundError: org/mockito/cglib/proxy/MethodInterceptor</code>と言われるので、<code>powermock-api-mockito2</code>と<code>2</code>でないとならない<br  />
+cf. <a href="https://github.com/powermock/powermock/issues/819">Problem with org.mockito.plugins.MockMaker and loading MethodInterceptor #819</a></li>
+<li><code>javax.xml.parsers.FactoryConfigurationError: Provider ...DocumentBuilderFactoryImpl cannot be cast to javax.xml.parsers.DocumentBuilderFactory</code>と言われるので<code>@PowerMockIgnore</code>に<code>"javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*", "org.apache.log4j.*"</code>が必要<br  />
+cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powermock + Mockito + Spring = DocumentBuilderFactoryImpl</a></li>
+<li><code>org/powermock/default.properties is found in 2 places</code>と言われてerrorにはならないけどwarningが出るので、<code>@PowerMockIgnore</code>に<code>"org.powermock.*"</code>も入れておく(試行錯誤の末なので参照なし)</li>
+<li><code>AsyncTask</code>があっても、特段その終了を待たずにtestが終了してしまう。<code>Robolectric.getBackgroundThreadScheduler().pause();</code>で<code>AsyncTask#doInBackground()</code>を止める必要がある(<code>AsyncTask#onPreExecute()</code>は実行される)。</li>
+<li><a href="https://github.com/robolectric/robolectric/blob/master/robolectric/src/test/java/org/robolectric/shadows/ShadowAsyncTaskTest.java"><code>ShadowAsyncTaskTest.java</code></a>を見ると、<code>setUp()</code>で<code>Robolectric.getBackgroundThreadScheduler().pause();</code>(と<code>Robolectric.getForegroundThreadScheduler().pause();</code>?)でthread止めて、<code>asyncTask.execute()</code>すると<code>onPreExecute()</code>が動き、次に<code>ShadowApplication.runBackgroundTasks();</code>すると<code>doInBackground()</code>、<code>ShadowLooper.runUiThreadTasks();</code>すると<code>onPostExecute()</code>が動く(ようだが、試してみると<code>ShadowApplication.runBackgroundTasks()</code>で返ってこなくなった。何故?!←これは単に<code>AsyncTask</code>中でdialog出して止まっていたため)</li>
+<li>target class内でnewしているもののmockは、
+<code>PowerMockito.whennew(XXX.class).thenReturn(mock);</code>
+だと、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>org.mockito.exceptions.base.MockitoException: 
+</span><span class='line'>ClassCastException occurred while creating the mockito mock :
+</span><span class='line'>...
+</span><span class='line'>You might experience classloading issues, please ask the mockito mailing-list.
+</span></code></pre></td></tr></table></div></figure>
+と言われて失敗する。</li>
+<li>shadow classでもstatic methodのmockが出来る。PowerMock使わずとも良い様子。いちいちShadow class作って各method毎に<code>@Implements</code>書くのは面倒ではあるが、PowerMockを<code>@Rule</code>して並存させると上述のようにclass loaderがどうのと言われて失敗したので、Robolectric一本で頑張った方がよさ気。PowerMock使わないなら<code>testCompile</code>も<code>robolectric</code>と<code>shadows-multidex</code>の2つで済むし、PowerMock導入に伴って変更したMockito部分も変更不要になる。</li>
+<li>Custom Shadow classesの追加でcustom TestRunnerは作成不要、単に<code>@Config</code>に<code>shadows={ShadowXXX.class}</code>と追記していけば良い。</li>
+<li>Shadowについて。Android APIのclassesについては、全て<code>ShadowXXX</code>というclassが揃っている(e.g. <code>ShadowActivity</code>)。まるっとmockしたものを返したい場合には、custom shadow methodで<code>return Shadow.newInstanceOf(ShadowBluetoothDevice.class);</code>で良い。</li>
+<li><a href="http://robolectric.org/extending/#shadowing-constructors">constructorもshadow出来る</a>。constructorの場合には単に<code>public void __constructor__(...){...}</code>でよく、<code>@Implementation</code> annotationは不要(あっても害はない)。</li>
+<li><code>extends</code>してるclassのconstructorの場合には、super classのconstructorのshadowingも必要。さもなくばsuper classの当該constructorが実行されてしまう。また、super classのconstructorもshadowingする場合、当該Shadow classの方も<code>extends</code>しないと<code>ClassCastException</code>に見舞われる。<code>A extends B</code>で<code>A</code>のconstructorをshadowingしたら<code>B</code>のconstructorもshadowingし、<code>ShadowA extends ShadowB</code>にする必要がある。</li>
+</ul>
+<h1>Robospock -> ElectricSpock or Spock for Android</h1>
+<p>せめてresourceの場所なりと。
+* <a href="http://robospock.github.io/RoboSpock/">RoboSpock</a>ですがちょっと更新が鈍いということで<a href="https://github.com/hkhc/electricspock">ElectricSpock</a>。但し新しい分情報少なし
+* <a href="https://github.com/AndrewReitz/android-spock">Spock for Android</a>もあり
+* どちらも、directory structureがstandardでないとならない様子(要するに<code>app/src/main/java/...</code>にsourceがあり<code>app/src/test/groovy/...</code>にSpock Testcodeがある)。<code>build.gradle</code>での<code>android.sourceSets.test.setRoot(...)</code>は効かないようだった
+* 要は、<code>buildscript.dependencies</code>で<code>classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.2.0'</code>を指定、<code>apply plugin: 'com.android.application'</code>と<code>apply plugin: 'groovyx.android'</code>を指定、<code>dependencies</code>に<code>testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'</code>を指定すれば素のSpock、<code>testCompile 'com.github.hkhc:electricspock:0.6'</code>ならElectricSpock、<code>androidTestCompile 'com.andrewreitz:spock-android:2.0'</code>ならSpock for Android(←これだけ<code>androidTestCompile</code>なのに注意)</p>
+<p>という感じでしょうか。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Tomcat vulnerability CVE-2017-12617]]></title><link href="http://u-ryo.github.io//blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/"/><updated>2017-10-13T12:13:30+09:00</updated><id>/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/</id><content type="html"><![CDATA[<p><a href="https://oss.sios.com/security/tomcat-security-vulnerabiltiy-20170920">Tomcatの複数の脆弱性(CVE-2017-12617, CVE-2017-12615 , CVE-2017-12616)</a>が、範囲が広がって出てました。
 <code>readonly initialization parameter</code>を<code>false</code>にして<code>PUT</code>を有効化している時にaffectする(任意のjsp fileを不正に<code>PUT</code>してから好き放題する)、とのことなので、きょうびはRESTで<code>PUT</code>多用するから影響範囲広いんでしょうか? 否、「default servletのinitialization parameter(具体的には<code>web.xml</code>の<code>servlet</code>tagの<code>init-param</code>)で<code>false</code>を明示した時(defaultは<code>true</code>)なので、殆どのところはそんなことしてないから大丈夫なんじゃないでしょうか。
 実際、<a href="https://github.com/cyberheartmi9/CVE-2017-12617">POC</a>で試してみたところ、うちのsiteは(version的には範囲内ですが)<code>Not Vulnerable to CVE-2017-12617</code>と出ました。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -63,7 +112,7 @@
 </span><span class='line'>Poc Filename  Poc.jsp
 </span><span class='line'>Not Vulnerable to CVE-2017-12617
 </span></code></pre></td></tr></table></div></figure></p>
-]]></content></entry><entry><title type="html"><![CDATA[Alpaca Algo]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/"/><updated>2017-10-09T16:29:39+09:00</updated><id>/blog/2017/10/08/alpaca-algo/</id><content type="html"><![CDATA[<p>こういうの、あったんですねー。すごいすごい。
+]]></content></entry><entry><title type="html"><![CDATA[Alpaca Algo]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/08/alpaca-algo/</id><content type="html"><![CDATA[<p>こういうの、あったんですねー。すごいすごい。
 <a href="https://algo.alpaca.ai">Alpaca Algo</a>、かつてのCapitalicoだそうですが、
 自分でindicatorを指定して、勝ちpattern(負例も!)を指定して、
 そうすると裏で超高速に事例を学習し、
@@ -91,13 +140,13 @@ back testの期間をdefaultの3ヶ月ではなく、
 <li>売り・買い両方揃えないとダメかしらん。</li>
 <li>範囲はどこまで指定したらいいのか、よくわからないですが、何となく学習してるのはindicatorがどうのというより値動き(ローソク足)だけっぽい? いやでも確かにindicatorの種類だけ変えると結果変わるのでindicatorも見てるんでしょうけど...</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[EmbodyMe]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/embodyme/"/><updated>2017-10-08T18:00:53+09:00</updated><id>/blog/2017/10/08/embodyme/</id><content type="html"><![CDATA[<p>Paizaのcasual面接ということで、<a href="https://www.facebook.com/issaymk2">吉田一星さん</a>とお会いしました。流石はYahooのsuper engineerだっただけはあり、凄かったです。麻布出身なんだー。頭いいわけですね。<a href="https://embodyme.com/">EmbodyMe</a>、早速体験させてもらえました。こんなのぼくには作れません。ぼくが本格的なVR初めてだった、というのもあるかもしれませんが、それを差っ引いても凄い、これだけでも十分面白いと思います。1000万くらい投資しようか、真剣に悩んでます。過去の<a href="http://www.appbank.net/2013/02/13/iphone-application/546662.php">怪人百面相</a>や<a href="http://nlab.itmedia.co.jp/nl/articles/1504/08/news077.html">なりきりろいど</a>は、競合が出ているしYahooのなので今はやめてしまっているそう。勿体無いです。っていうか、こういうのや吉田さんをちゃんと育てられなかったYahoo Japan、かなり幻滅しています。
+]]></content></entry><entry><title type="html"><![CDATA[EmbodyMe]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/embodyme/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/08/embodyme/</id><content type="html"><![CDATA[<p>Paizaのcasual面接ということで、<a href="https://www.facebook.com/issaymk2">吉田一星さん</a>とお会いしました。流石はYahooのsuper engineerだっただけはあり、凄かったです。麻布出身なんだー。頭いいわけですね。<a href="https://embodyme.com/">EmbodyMe</a>、早速体験させてもらえました。こんなのぼくには作れません。ぼくが本格的なVR初めてだった、というのもあるかもしれませんが、それを差っ引いても凄い、これだけでも十分面白いと思います。1000万くらい投資しようか、真剣に悩んでます。過去の<a href="http://www.appbank.net/2013/02/13/iphone-application/546662.php">怪人百面相</a>や<a href="http://nlab.itmedia.co.jp/nl/articles/1504/08/news077.html">なりきりろいど</a>は、競合が出ているしYahooのなので今はやめてしまっているそう。勿体無いです。っていうか、こういうのや吉田さんをちゃんと育てられなかったYahoo Japan、かなり幻滅しています。
 VRとかVisual系には疎い経歴なのに、なんでPaizaで声掛けてきたのかな、というのが最大の疑問でした。聞いてみますと、求人者側からは「研究開発」とかしか見えず、何をしていたのかはよくわからないinterfaceのようでした。要するにPaizaのUIがしょぼくてmismatchを誘発していたんですね。
 中国とかの方がVR、もっと溶け込んでいるらしいです。街のSC(Shopping Center)とかにVRがあったりとか。へー。日本って遅れてるんですね。日本ではsmart glassesが流行らないっていうのも、その辺にあるんですかね。
 日本の半導体工場で、closed intranetじゃないと云々、とか言ってる時点で日本捨てたら? というのは、なるほどそうですね。そもそも日本の半導体なんて、もうピーク終わってますもんねぇ。
 吉田さんに比べれば、ぼくの経歴やら技術力なんてつまんないもんです。
 Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞かれました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CEATEC 2017]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/ceatec-2017/"/><updated>2017-10-09T16:05:11+09:00</updated><id>/blog/2017/10/08/ceatec-2017/</id><content type="html"><![CDATA[<p>過日、<a href="http://www.ceatec.com/ja/">CEATEC Japan 2017</a>に行って来ました。
+]]></content></entry><entry><title type="html"><![CDATA[CEATEC 2017]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/ceatec-2017/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/08/ceatec-2017/</id><content type="html"><![CDATA[<p>過日、<a href="http://www.ceatec.com/ja/">CEATEC Japan 2017</a>に行って来ました。
 見所は色々<a href="http://www.watch.impress.co.jp/headline/extra/2017/ceatec/">報じられている通り</a>ですが、お前はどうだったの? という観点で勝手な印象を。</p>
 <ul>
 <li><a href="http://kaden.watch.impress.co.jp/docs/news/1084050.html">卓球ロボット(フォルフェウス)</a>はニュースでも取り上げられてましたね。OMRONなんですねこれ。なんでOMRONこんなことやってるんでしょう。smashは無理なんじゃね? と思ってたら、今回から対応したとのこと。最初にuser登録して、そのuserがsmashしそうになったらそれを検知して対応するんだとか。それは凄いですね。でも、打ち返すのがやっとのようでした。</li>
@@ -111,7 +160,7 @@ Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞�
 <li>SHARPの8K、よ〜く見ると細かいところが滲んでたのは、多分撮影側が追いついてないせいでしょう。それより応用事例として心臓外科手術の映像流してましたがそちらの方が面白かったです。</li>
 <li><a href="http://internet.watch.impress.co.jp/docs/event/1084817.html">NTTのVRバッティングマシーン</a>は並ぶのでパス、<a href="http://k-tai.watch.impress.co.jp/docs/event/ceatec2017/1083982.html">KDDIの5G</a>は、遠隔の人の動きと同じ動きをロボットがするというものですけど、動いていなかったし慶応が同じことやってました。<a href="http://av.watch.impress.co.jp/docs/news/1084017.html">VR不動産案内</a>はあんまり魅力を感じず。富士通では量子コンピュータの話はあんまり見ず、コーヒーとクッキーだけ御馳走になりました。</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-09T17:08:19+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
+]]></content></entry><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
 ひょんなことから<a href="http://ukkyo.sakura.ne.jp/">未経験２７歳プログラマーへの道（イバラ）</a>を見付けて、一気に読んでしまいました。
 最初の企業の話は、まさに今のぼくのと符合するところが多く。
 でもこの人、人類みな京大なんですね頭いいんだ... というより、数学的で要領がいいんですね(ってご自分でも書いてますね)。
@@ -248,7 +297,7 @@ Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞�
 これもまた言うは易しというもの。
 できるなら誰もがやってる。</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Vulnerability POC site]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/vulnerability-poc-site/"/><updated>2017-10-05T23:10:34+09:00</updated><id>/blog/2017/10/05/vulnerability-poc-site/</id><content type="html"><![CDATA[<p>各種POCがありました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Vulnerability POC site]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/vulnerability-poc-site/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/05/vulnerability-poc-site/</id><content type="html"><![CDATA[<p>各種POCがありました。</p>
 <ul>
 <li><a href="https://github.com/coffeehb/Some-PoC-oR-ExP">各漏洞poc、Exp的收集或写</a></li>
 </ul>
@@ -267,7 +316,7 @@ bannerは信じちゃダメですよね。ぼくも対策を求められて面�
 <li><p><a href="http://mkt-eva.hateblo.jp/entry/2017/09/11/020530">Apache Struts 2の脆弱性(S2-052)や(S2-053)についてのまとめてみた。</a> POCへのlinkがありました。</p>
 </li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Enforce FullGC to JavaVM]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/enforce-fullgc-to-javavm/"/><updated>2017-10-05T21:01:51+09:00</updated><id>/blog/2017/10/05/enforce-fullgc-to-javavm/</id><content type="html"><![CDATA[<p>あ、FullGCって強制的にかけられるんですね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Enforce FullGC to JavaVM]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/enforce-fullgc-to-javavm/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/05/enforce-fullgc-to-javavm/</id><content type="html"><![CDATA[<p>あ、FullGCって強制的にかけられるんですね。</p>
 <p><a href="http://cco.hatenablog.jp/entry/2013/05/20/223212">JavaでFull GCを実行する方法</a></p>
 <p>要するに、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -278,7 +327,7 @@ bannerは信じちゃダメですよね。ぼくも対策を求められて面�
 </span><span class='line'>jcmd <span class="nt">&lt;pid&gt;</span> GC.heap_dump <span class="nt">&lt;output</span><span class="na">_filename</span><span class="nt">&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 <p>「生存中のオブジェクトのみ抽出したメモリーマップを作成するために、直前にFull GCを実行するのでこれを利用する」のだそう。「対象のJavaプロセスを実行しているユーザで実行する必要があるので注意」ご尤も。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-10-06T21:56:37+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
+]]></content></entry><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
 相変わらずわけわかんない指令を受けたので、
 「何かに使う『digest』認証を任意の『Realm』で設定」
 と解釈して取り組みました。
@@ -371,7 +420,7 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 </span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
 </span><span class='line'><span class="err">&lt;</span>/web-app&gt;
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2017-10-06T00:52:34+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
+]]></content></entry><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
 試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p>
 <p>従いまして、「SqlCipherの<code>key</code>を64文字の16進数にすれば速くなる」が結論です。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -503,7 +552,7 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 <a href="http://d.hatena.ne.jp/isher/20091108/1257684508">[Android]データベースをアップグレードする時</a></p>
 <p>そもそも画面遷移に4秒も掛かるようなAndroidアプリをリリースするなんていうのもunbelievableですが、そういう人達なので...</p>
 <p>まぁ、暗号化するにせよ自分なら<a href="https://realm.io/">Realm</a>使うので、こんな知識不要ですけど、SqlCipher使うなら最初から64字16進code使うべきなんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Test Failed on AndroidStudio]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/test-failed-on-androidstudio/"/><updated>2017-10-06T00:54:10+09:00</updated><id>/blog/2017/09/28/test-failed-on-androidstudio/</id><content type="html"><![CDATA[<p>Android Studio(2.3.1)で久し振りにtestを動かしてみると、</p>
+]]></content></entry><entry><title type="html"><![CDATA[Test Failed on AndroidStudio]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/test-failed-on-androidstudio/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/09/28/test-failed-on-androidstudio/</id><content type="html"><![CDATA[<p>Android Studio(2.3.1)で久し振りにtestを動かしてみると、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>Caused by: java.lang.ClassNotFoundException: android.view.View$OnClickListener
 </span></code></pre></td></tr></table></div></figure>
@@ -513,14 +562,14 @@ instrumentation testではなくフツーのtestですjunit4とmockitoの。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ rm -rf .gradle
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[BotUI - ChatBot only by JavaScript]]></title><link href="http://u-ryo.github.io//blog/2017/09/26/botui-chatbot-only-by-javascript/"/><updated>2017-09-26T01:33:45+09:00</updated><id>/blog/2017/09/26/botui-chatbot-only-by-javascript/</id><content type="html"><![CDATA[<p><a href="http://paiza.hatenablog.com/entry/2017/09/21/﻿JavaScriptだけで本格的なチャットボットを開発できる">paiza開発日誌</a>で紹介されていた<a href="https://github.com/botui/botui">BotUI</a>、なるほど予め型にはまった会話ならこれだけでお手軽にJavaScriptだけで(<code>.then(function(){...})</code>で繋ぐだけで)出来ちゃうんですね。注文を取るとか、特定のAPI叩く(Wizardを会話でやる)とか、サポートセンターで特定の電話番号につなぐとか。AIは使ってないので、user側の曖昧な自然言語を受け取って処理する、というものではないですけど、そういうのに繋げればいい? いや、IBMのWatsonとかみると、そういう会話のplatformも含めて提供しているので、そうなるとBotUIの出番は無い筈。
+]]></content></entry><entry><title type="html"><![CDATA[BotUI - ChatBot only by JavaScript]]></title><link href="http://u-ryo.github.io//blog/2017/09/26/botui-chatbot-only-by-javascript/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/26/botui-chatbot-only-by-javascript/</id><content type="html"><![CDATA[<p><a href="http://paiza.hatenablog.com/entry/2017/09/21/﻿JavaScriptだけで本格的なチャットボットを開発できる">paiza開発日誌</a>で紹介されていた<a href="https://github.com/botui/botui">BotUI</a>、なるほど予め型にはまった会話ならこれだけでお手軽にJavaScriptだけで(<code>.then(function(){...})</code>で繋ぐだけで)出来ちゃうんですね。注文を取るとか、特定のAPI叩く(Wizardを会話でやる)とか、サポートセンターで特定の電話番号につなぐとか。AIは使ってないので、user側の曖昧な自然言語を受け取って処理する、というものではないですけど、そういうのに繋げればいい? いや、IBMのWatsonとかみると、そういう会話のplatformも含めて提供しているので、そうなるとBotUIの出番は無い筈。
 <a href="https://webhacck.github.io/botui-sample/">Git Repositoriesの総数を答えるsample</a>は、<a href="https://examples.botui.org">公式のsamples</a>より面白かった(興味深かった)です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[S Rank of CodeIQ]]></title><link href="http://u-ryo.github.io//blog/2017/09/25/s-rank-of-codeiq/"/><updated>2017-09-26T00:26:43+09:00</updated><id>/blog/2017/09/25/s-rank-of-codeiq/</id><content type="html"><![CDATA[<p>もう昨日のことですが、<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo">Paiza</a>に続いてようやっと<a href="https://codeiq.jp">CodeIQ</a>でも<a href="https://codeiq.jp/badge/3116">Sランク取りました</a>。</p>
+]]></content></entry><entry><title type="html"><![CDATA[S Rank of CodeIQ]]></title><link href="http://u-ryo.github.io//blog/2017/09/25/s-rank-of-codeiq/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/25/s-rank-of-codeiq/</id><content type="html"><![CDATA[<p>もう昨日のことですが、<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo">Paiza</a>に続いてようやっと<a href="https://codeiq.jp">CodeIQ</a>でも<a href="https://codeiq.jp/badge/3116">Sランク取りました</a>。</p>
 <p>まぁ、u-ryoさんなら当然だよね、とか言われておしまいでしょうけど。</p>
 <p><a href="https://paiza.jp/challenges/share/UwlvLJ8wbTeDuWz-kV7g2vpFehW0vZE-wI-qg56WM98">Paizaにあった似た問題</a>(←これで見ると失敗もありますが、これは最初に提出したcodeについてで、後でちゃんと全部通るようにしてます)からcode引っ張ってきて、でも勿論そのままでは使えなくて。土曜未明の一晩で終えるつもりが、間にバイトやmachine troubleを挟んで日曜の午後までかかっちゃいました。ふと探してみると、<a href="http://ideone.com/pfoy7z">まんまのcode</a>があるのにはびっくり。流石にそのままっていうのは癪なので、「直前の方向を使う」というideaと検算にだけありがたく使わせてもらいました。
 探索順の違いによるエラーをなかなか潰せなくて。そっか全探索なのね、そのためには... BFSではなくDFSか、と辿って、あーそっか、その違いはstackかqueueかだけか、に最後の最後気付いてgoalでした。何か色々忘れてて、こういうのやり続けてないと錆び付いてたなーというのを思い知らされました。この手のalgorithm系は集中してやらないと!</p>
 <p>コメント書きすぎでしょうか。でもまんまの置いてあるよりは遥かにマシかと。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Images in README.md on Github]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/"/><updated>2017-09-20T01:27:50+09:00</updated><id>/blog/2017/09/20/images-in-readme-md-on-github/</id><content type="html"><![CDATA[<p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Images in README.md on Github]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/20/images-in-readme-md-on-github/</id><content type="html"><![CDATA[<p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p>
 <ol>
 <li>image用の別branchを切る(e.g. <a href="https://github.com/cakecatz/garage">https://github.com/cakecatz/garage</a>)</li>
 <li>Githubのissueを利用する(<a href="https://www.youtube.com/watch?v=hHbWF1Bvgf4">GitHub Readme Images Tutorial (screenshots in readmes)</a>)</li>
@@ -531,11 +580,11 @@ instrumentation testではなくフツーのtestですjunit4とmockitoの。
 何となくそれがちょっと嫌だったので、結局wikiを利用しました。
 一度何でもいいのでWikiのpageを保存しないとならないみたいです。
 一度保存しちゃえば、上記ページに書いてあるように<code>git clone https://github.com/.../XXX.wiki</code>で取ってこられて、images作って置けちゃうんですね。へー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[gitignore]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/gitignore/"/><updated>2017-09-20T01:51:29+09:00</updated><id>/blog/2017/09/20/gitignore/</id><content type="html"><![CDATA[<p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
+]]></content></entry><entry><title type="html"><![CDATA[gitignore]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/gitignore/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/20/gitignore/</id><content type="html"><![CDATA[<p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
 <p>AndroidStudio用に引っ張ってきたんですけど、そのままだと<code>.idea/kotlinc.xml</code>が入ってきてしまうようです。<code>kotlinc.xml</code>はversion管理不要ですよね?
 逆に、<code>.idea/gradle.xml</code>はversion管理下に、という話が<a href="http://www.torutk.com/projects/swe/wiki/Android_Studioのバージョン管理対象ファイル">Android Studioのバージョン管理対象ファイル</a>、<a href="http://qiita.com/komax/items/d1aaecaec0a22cb5bc4e">Android Studioでバージョン管理下に置かないもの</a>、<a href="http://gihyo.jp/dev/serial/01/android_studio/0035">第35回　バージョン管理 ─プロジェクト管理ファイルについて［後編］</a>と出て来るんですが、<code>gitignore.io</code>のfileではexplicitlyにignore対象なんですよね...</p>
 <p>試してみると、特に<code>.idea/</code>が無くてもAndroid Projectとして開けますね。じゃ全部要らないのかな。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Personal Information Leak Incident]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/personal-information-leak-incident/"/><updated>2017-09-17T17:12:32+09:00</updated><id>/blog/2017/09/16/personal-information-leak-incident/</id><content type="html"><![CDATA[<p>先日派遣先で、5万数千件にのぼる個人情報漏洩を見付けてしまいました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Personal Information Leak Incident]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/personal-information-leak-incident/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/16/personal-information-leak-incident/</id><content type="html"><![CDATA[<p>先日派遣先で、5万数千件にのぼる個人情報漏洩を見付けてしまいました。</p>
 <p>その会社ではチンケなECサイトをやってるんですけど、
 といっても再販の再販までされてて何百人にも使われちゃってますが、
 中身は2000年代前半〜中盤のcode。未だにJSP(一部Java)。
@@ -601,7 +650,7 @@ serverのlogic追ってったら「これ認証無いですよ」
 西宮冷蔵社長の例を鑑みても告発者が報われない社会なのは明らかなので、
 黙っているしか無いのかと悲しい思いをしています。</p>
 <p>早くこんなとこから抜け出さないと、イケマセン。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Getting Prize S Level Programmer at Paiza]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/"/><updated>2017-09-17T17:26:07+09:00</updated><id>/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/</id><content type="html"><![CDATA[<p>先日、<a href="https://paiza.jp/challenges">Paizaのスキルチェック</a>で
+]]></content></entry><entry><title type="html"><![CDATA[Getting Prize S Level Programmer at Paiza]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/</id><content type="html"><![CDATA[<p>先日、<a href="https://paiza.jp/challenges">Paizaのスキルチェック</a>で
 <a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">時間切れ0点</a>を取ってしまったので、
 癪だからランクS、本気で取りに行きました。
 <a href="https://paiza.jp/challenges/share/BpVEE0xUqzek-gFkhWaalVEwoIv7rpTSXnDL6cOC4eo?source=social">ひとりすごろく</a>は第一次制限時間の40分を超えてしまったので、
@@ -617,7 +666,7 @@ Javaで「早く」書くのは確かにキツイです。
 いや、実務では分を争う程、そこまでsevereではないので...
 それに、paizaでいくら頑張っても、
 小さいとこばっかりであんまり行きたい先が無いので、虚しいんです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Challenging Paiza TSP]]></title><link href="http://u-ryo.github.io//blog/2017/09/13/challenging-paiza-tsp/"/><updated>2017-09-17T17:27:16+09:00</updated><id>/blog/2017/09/13/challenging-paiza-tsp/</id><content type="html"><![CDATA[<p>8/13はPaizaの日、ということで、巡回セールスマン問題を出題していました。
+]]></content></entry><entry><title type="html"><![CDATA[Challenging Paiza TSP]]></title><link href="http://u-ryo.github.io//blog/2017/09/13/challenging-paiza-tsp/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/13/challenging-paiza-tsp/</id><content type="html"><![CDATA[<p>8/13はPaizaの日、ということで、巡回セールスマン問題を出題していました。
 <a href="https://paiza.jp/works/algorithm/primer/algorithm3">Paizaラーニングでも巡回セールスマン問題のさわり(貪欲法)を取り上げていて</a>、
 2-OptやSimulatedAnnealing(焼きなまし法)を<a href="https://github.com/eugenp/tutorials/blob/3abb98e9e8acc7efe3f9f8423fcf0f8934655be7/algorithms/src/main/java/com/baeldung/algorithms/ga/annealing/SimulatedAnnealing.java">学んで</a>、
 いざ書いてみたんですが、なかなかうまく行きません。
@@ -642,7 +691,7 @@ Javaで「早く」書くのは確かにキツイです。
 しかも、提出したコードは、2つの場合だけ通らずに、80点。
 どうしてコケる時があるのか、思い当たるフシもなく、未だにわかっていません。
 テストデータ、見せて欲しいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[hostapd after that...]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/hostapd-after-that/"/><updated>2017-09-06T22:22:29+09:00</updated><id>/blog/2017/09/06/hostapd-after-that/</id><content type="html"><![CDATA[<p>何か、不安定ですhostapd。
+]]></content></entry><entry><title type="html"><![CDATA[hostapd after that...]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/hostapd-after-that/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/06/hostapd-after-that/</id><content type="html"><![CDATA[<p>何か、不安定ですhostapd。
 昨夜は、何故か出勤後の9:58に勝手に謎のrebootしてたし、
 今日も帰宅後、NotePCがWiFiで繋がらないから試行錯誤すると、
 一旦USB WiFiドングル抜き差ししてhostapdをstop/startしたら、漸く。

@@ -1,4 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-10-25T15:25:36+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+<ul>
+<li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>testCompile &#39;org.robolectric:robolectric:3.4.2&#39;
+</span><span class='line'>testCompile &#39;org.robolectric:shadows-multidex:3.3.2&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-module-junit4:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-module-junit4-rule:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-api-mockito2:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-reflect:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-classloading-xstream:1.7.3&#39;
+</span></code></pre></td></tr></table></div></figure></li>
+<li>Test Classは、Android Studioで開いた実class java fileの<code>public class CLASS名</code>のところで黄色いヒントをclickして<code>Create Test class</code>を選択、<code>JUnit4</code>で作成</li>
+<li>既存test classの<code>Whitebox</code>は<code>org.powermock.reflect.Whitebox</code>で置き換え</li>
+<li>既存test classの<code>@RunWith</code>の<code>MockitoJUnitRunner</code>は<code>org.mockito.junit.MockitoJUnitRunner</code>で置き換え</li>
+<li><code>org.mockito.exceptions.misusing.UnnecessaryStubbingException:</code>というwarningが出るようになったので<code>@RunWith(MockitoJUnitRunner.Silent.class)</code>にすると解消<br  />
+cf. <a href="https://stackoverflow.com/questions/42947613/how-to-resolve-unneccessary-stubbing-exception">How to resolve Unneccessary Stubbing exception</a></li>
+<li><code>Robolectric</code>なTestは、1.<code>@RunWith(RobolectricTestRunner.class)</code> 2.<code>activity = Robolectric.setupActivity(SomeActivity.class);</code>で<code>Activity</code>を起動</li>
+<li><code>RuntimeException: Multi dex installation failed</code>と言われるので<code>shadows-multidex</code>が必要<br  />
+cf. <a href="https://qiita.com/kuwapp/items/942f0e44adbd45adff10">Robolectric と Multidex でテストが落ちる問題の対応</a></li>
+<li>static methodのmockは<a href="https://github.com/powermock/powermock">PowerMock</a>と。<code>@RunWith</code>がかぶっちゃうよ、どうしよう! → <a href="https://github.com/robolectric/robolectric/wiki/Using-PowerMock">本家に解説</a>あり。要は、<code>@PowerMockIgnore</code>でmockito、robolectric、android標準classesを除外、<code>@PrepareForTest</code>でstatic methodを持つclassを指定し、<code>@Rule</code>を入れ(使わないのによくわからないが必要)、<code>PowerMockito.mockStatic(...)</code>で当該classを指定</li>
+<li><code>NoClassDefFoundError: org/powermock/classloading/ClassloaderExecutor</code>と言われるので、<code>powermock-classloading-xstream</code>が必要<br  />
+cf. <a href="https://github.com/powermock/powermock/issues/597">version 1.5.5 java.lang.ClassNotFoundException: org.powermock.classloading.DeepCloner #597</a></li>
+<li><code>NoClassDefFoundError: org/mockito/cglib/proxy/MethodInterceptor</code>と言われるので、<code>powermock-api-mockito2</code>と<code>2</code>でないとならない<br  />
+cf. <a href="https://github.com/powermock/powermock/issues/819">Problem with org.mockito.plugins.MockMaker and loading MethodInterceptor #819</a></li>
+<li><code>javax.xml.parsers.FactoryConfigurationError: Provider ...DocumentBuilderFactoryImpl cannot be cast to javax.xml.parsers.DocumentBuilderFactory</code>と言われるので<code>@PowerMockIgnore</code>に<code>"javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*", "org.apache.log4j.*"</code>が必要<br  />
+cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powermock + Mockito + Spring = DocumentBuilderFactoryImpl</a></li>
+<li><code>org/powermock/default.properties is found in 2 places</code>と言われてerrorにはならないけどwarningが出るので、<code>@PowerMockIgnore</code>に<code>"org.powermock.*"</code>も入れておく(試行錯誤の末なので参照なし)</li>
+<li><code>AsyncTask</code>があっても、特段その終了を待たずにtestが終了してしまう。<code>Robolectric.getBackgroundThreadScheduler().pause();</code>で<code>AsyncTask#doInBackground()</code>を止める必要がある(<code>AsyncTask#onPreExecute()</code>は実行される)。</li>
+<li><a href="https://github.com/robolectric/robolectric/blob/master/robolectric/src/test/java/org/robolectric/shadows/ShadowAsyncTaskTest.java"><code>ShadowAsyncTaskTest.java</code></a>を見ると、<code>setUp()</code>で<code>Robolectric.getBackgroundThreadScheduler().pause();</code>(と<code>Robolectric.getForegroundThreadScheduler().pause();</code>?)でthread止めて、<code>asyncTask.execute()</code>すると<code>onPreExecute()</code>が動き、次に<code>ShadowApplication.runBackgroundTasks();</code>すると<code>doInBackground()</code>、<code>ShadowLooper.runUiThreadTasks();</code>すると<code>onPostExecute()</code>が動く(ようだが、試してみると<code>ShadowApplication.runBackgroundTasks()</code>で返ってこなくなった。何故?!←これは単に<code>AsyncTask</code>中でdialog出して止まっていたため)</li>
+<li>target class内でnewしているもののmockは、
+<code>PowerMockito.whennew(XXX.class).thenReturn(mock);</code>
+だと、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>org.mockito.exceptions.base.MockitoException: 
+</span><span class='line'>ClassCastException occurred while creating the mockito mock :
+</span><span class='line'>...
+</span><span class='line'>You might experience classloading issues, please ask the mockito mailing-list.
+</span></code></pre></td></tr></table></div></figure>
+と言われて失敗する。</li>
+<li>shadow classでもstatic methodのmockが出来る。PowerMock使わずとも良い様子。いちいちShadow class作って各method毎に<code>@Implements</code>書くのは面倒ではあるが、PowerMockを<code>@Rule</code>して並存させると上述のようにclass loaderがどうのと言われて失敗したので、Robolectric一本で頑張った方がよさ気。PowerMock使わないなら<code>testCompile</code>も<code>robolectric</code>と<code>shadows-multidex</code>の2つで済むし、PowerMock導入に伴って変更したMockito部分も変更不要になる。</li>
+<li>Custom Shadow classesの追加でcustom TestRunnerは作成不要、単に<code>@Config</code>に<code>shadows={ShadowXXX.class}</code>と追記していけば良い。</li>
+<li>Shadowについて。Android APIのclassesについては、全て<code>ShadowXXX</code>というclassが揃っている(e.g. <code>ShadowActivity</code>)。まるっとmockしたものを返したい場合には、custom shadow methodで<code>return Shadow.newInstanceOf(ShadowBluetoothDevice.class);</code>で良い。</li>
+<li><a href="http://robolectric.org/extending/#shadowing-constructors">constructorもshadow出来る</a>。constructorの場合には単に<code>public void __constructor__(...){...}</code>でよく、<code>@Implementation</code> annotationは不要(あっても害はない)。</li>
+<li><code>extends</code>してるclassのconstructorの場合には、super classのconstructorのshadowingも必要。さもなくばsuper classの当該constructorが実行されてしまう。また、super classのconstructorもshadowingする場合、当該Shadow classの方も<code>extends</code>しないと<code>ClassCastException</code>に見舞われる。<code>A extends B</code>で<code>A</code>のconstructorをshadowingしたら<code>B</code>のconstructorもshadowingし、<code>ShadowA extends ShadowB</code>にする必要がある。</li>
+</ul>
+<h1>Robospock -> ElectricSpock or Spock for Android</h1>
+<p>せめてresourceの場所なりと。
+* <a href="http://robospock.github.io/RoboSpock/">RoboSpock</a>ですがちょっと更新が鈍いということで<a href="https://github.com/hkhc/electricspock">ElectricSpock</a>。但し新しい分情報少なし
+* <a href="https://github.com/AndrewReitz/android-spock">Spock for Android</a>もあり
+* どちらも、directory structureがstandardでないとならない様子(要するに<code>app/src/main/java/...</code>にsourceがあり<code>app/src/test/groovy/...</code>にSpock Testcodeがある)。<code>build.gradle</code>での<code>android.sourceSets.test.setRoot(...)</code>は効かないようだった
+* 要は、<code>buildscript.dependencies</code>で<code>classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.2.0'</code>を指定、<code>apply plugin: 'com.android.application'</code>と<code>apply plugin: 'groovyx.android'</code>を指定、<code>dependencies</code>に<code>testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'</code>を指定すれば素のSpock、<code>testCompile 'com.github.hkhc:electricspock:0.6'</code>ならElectricSpock、<code>androidTestCompile 'com.andrewreitz:spock-android:2.0'</code>ならSpock for Android(←これだけ<code>androidTestCompile</code>なのに注意)</p>
+<p>という感じでしょうか。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
 <a href="http://kyon-mm.hatenablog.com/entry/2014/08/06/132327">Spockのテストレポートが想像以上に凄い件について</a></p>
 <p>Gradleで作成されるReportで満足してしまっていましたが、
 もっと綺麗に出来るんですね。</p>
