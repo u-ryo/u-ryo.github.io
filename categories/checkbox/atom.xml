@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/checkbox/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2017-11-24T18:33:21+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
+<code>ListView</code>のそれぞれに<code>CheckBox</code>をつけたら、
+checkboxはcheck出来るものの、項目選択が出来なくなりました。
+どうやら<code>onItemClick</code>が呼ばれてない様子。
+調べてみると、<code>CheckBox</code>がfocusを奪ってしまっているそうでした。
+(<a href="http://inujirushi123.blog.fc2.com/blog-entry-53.html">カスタマイズしたListViewに設定したCheckBoxのon/offを行全体で行う</a>)</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>android:clickable=&quot;false&quot;
+</span><span class='line'>android:focusable=&quot;false&quot;
+</span></code></pre></td></tr></table></div></figure>
+<p>が必要とのこと。</p>
+<p>また、
+background処理後、<code>Adapter</code>の値を変えただけでは<code>CheckBox</code>の見た目に変化はないんですね。
+explicitに<code>setChecked(false)</code>して回らないとなりません。
+その際、<code>listView.getChildCount()</code>で取れるcountは、<code>ListView</code>の全てではなく、見える範囲のListのobjectなんですね! 確かにscrollすればredrawかかってadapterの値が反映されるからいいんですけど、何かしない限りredrawされないから自分で描画しないとならないんですねー。</p>
+]]></content></entry></feed>

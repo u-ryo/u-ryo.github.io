@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>OnClickListener with ProgressDialog by RxAndroid - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various information for coding...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">OnClickListener With ProgressDialog by RxAndroid</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2017-11-24T17:52:00+09:00" pubdate data-updated=true>
+      <span class="month">Nov</span>
+      <span class="day">24</span>,
+      <span class="year">2017</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>「clickしたらbackgroundで処理して
+その間ProgressDialog出して
+終わったらProgressDialog消して
+終了/失敗dialogを表示する」のを
+RxAndroid(AxJava)でやる、
+というのは、
+<code>using()</code>を使うといいらしいです。
+cf. <a href="https://qiita.com/boohbah/items/e8010730725c54f85a3a">RxJavaを使った通信中にProgressダイアログを出す</a></p>
+<p>元々がretrofit2を使ってないので、
+retrofit2を使うともうちょっと違うかも。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Override
+</span><span class='line'>public void onClick(View v) {
+</span><span class='line'>    LogUtil.d(&quot;è¨ºæ­åå¾çµæãuploadãã button&quot;);
+</span><span class='line'>    uploadButtonEnable(false);
+</span><span class='line'>    if (!activity.networkCheck()) {
+</span><span class='line'>        activity.genAlertDialog(activity.getString(
+</span><span class='line'>                R.string.no_network_connectivity_available_message),
+</span><span class='line'>                (dialog, which) -&gt; {});
+</span><span class='line'>        uploadButtonEnable(true);
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>    Single.using(this::showProgressDialog,
+</span><span class='line'>            dialog -&gt; Single.<span class="nt">&lt;Boolean&gt;</span>create(this::setUploadSubscriber)
+</span><span class='line'>                    .subscribeOn(Schedulers.newThread())
+</span><span class='line'>                    .observeOn(AndroidSchedulers.mainThread()),
+</span><span class='line'>            Dialog::dismiss)
+</span><span class='line'>            .subscribe(this::controlUploadButtonWithDialog,
+</span><span class='line'>                    this::showUploadFailureDialog);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private ProgressDialog showProgressDialog() {
+</span><span class='line'>    ProgressDialog dialog = new ProgressDialog(activity);
+</span><span class='line'>    dialog.setMessage(activity.getString(R.string.history_uploading));
+</span><span class='line'>    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+</span><span class='line'>    dialog.show();
+</span><span class='line'>    LogUtil.d(dialog.toString());
+</span><span class='line'>    return dialog;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void setUploadSubscriber(SingleSubscriber<span class="err">&lt;</span>? super Boolean&gt; subscriber) {
+</span><span class='line'>    View historyListView = activity.findViewById(R.id.historyListView);
+</span><span class='line'>    List<span class="nt">&lt;String&gt;</span> selectedList = new ArrayList<span class="err">&lt;</span>&gt;();
+</span><span class='line'>    Adapter adapter = null;
+</span><span class='line'>    if (historyListView != null) {
+</span><span class='line'>        adapter = ((ListView) historyListView).getAdapter();
+</span><span class='line'>        for (int i = 0; i <span class="nt">&lt; adapter</span><span class="err">.</span><span class="na">getCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>            <span class="na">Map</span><span class="err">&lt;</span><span class="na">String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span> historyItems = (Map<span class="nt">&lt;String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span>) adapter.getItem(i);
+</span><span class='line'>            if (&quot;true&quot;.equals(historyItems.get(&quot;historySelected&quot;))) {
+</span><span class='line'>                selectedList.add(historyItems.get(&quot;historyCatalogID&quot;));
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        if (selectedList.isEmpty()) {
+</span><span class='line'>            subscriber.onSuccess(false);
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    try {
+</span><span class='line'>        ProcessUtil.callReportDataAll(commonBean.toMapFull(), activity, selectedList);
+</span><span class='line'>        if ((!selectedList.isEmpty()
+</span><span class='line'>                <span class="err">&amp;&amp;</span> !ProcessUtil.uploadSucceeded(selectedList, activity))
+</span><span class='line'>                || (selectedList.isEmpty()
+</span><span class='line'>                <span class="err">&amp;&amp;</span> !ProcessUtil.lastUploadSucceeded(activity))) {
+</span><span class='line'>            subscriber.onError(new RuntimeException(&quot;&quot;));
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'>        ProcessUtil.sendTerminalUsageHistory(commonBean.toMap(), activity);
+</span><span class='line'>        subscriber.onSuccess(true);
+</span><span class='line'>        LogUtil.d(selectedList.toString());
+</span><span class='line'>
+</span><span class='line'>        if (adapter != null) {
+</span><span class='line'>            for (int i = 0; i <span class="nt">&lt; adapter</span><span class="err">.</span><span class="na">getCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>                <span class="na">Map</span><span class="err">&lt;</span><span class="na">String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span> historyItems = (Map<span class="nt">&lt;String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span>) adapter.getItem(i);
+</span><span class='line'>                if (&quot;true&quot;.equals(historyItems.get(&quot;historySelected&quot;))) {
+</span><span class='line'>                    historyItems.put(&quot;historySelected&quot;, &quot;false&quot;);
+</span><span class='line'>                    historyItems.put(&quot;historySaved&quot;,
+</span><span class='line'>                            activity.getString(R.string.history_list_already_saved));
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    } catch (Exception e) {
+</span><span class='line'>        LogUtil.e(e);
+</span><span class='line'>        subscriber.onError(e);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void controlUploadButtonWithDialog(boolean hasItemSelected) {
+</span><span class='line'>    ListView listView = (ListView) activity.findViewById(R.id.historyListView);
+</span><span class='line'>    if (hasItemSelected) {
+</span><span class='line'>        activity.genAlertDialog(activity.getString(
+</span><span class='line'>                R.string.diagnosis_result_upload_success_message),
+</span><span class='line'>                (dialog, which) -&gt; {});
+</span><span class='line'>        if (listView != null) {
+</span><span class='line'>            for (int i = 0; i <span class="nt">&lt; listView</span><span class="err">.</span><span class="na">getChildCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>                <span class="na">CheckBox</span> <span class="na">checkBox =</span><span class="err"> </span><span class="s">(CheckBox)</span> <span class="na">listView</span><span class="err">.</span><span class="na">getChildAt</span><span class="err">(</span><span class="na">i</span><span class="err">)</span>
+</span><span class='line'>                        <span class="err">.</span><span class="na">findViewById</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">id</span><span class="err">.</span><span class="na">historySelected</span><span class="err">);</span>
+</span><span class='line'>                <span class="na">if</span> <span class="err">(</span><span class="na">checkBox</span><span class="err">.</span><span class="na">isChecked</span><span class="err">())</span> <span class="err">{</span>
+</span><span class='line'>                    <span class="na">checkBox</span><span class="err">.</span><span class="na">setChecked</span><span class="err">(</span><span class="na">false</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">checkBox</span><span class="err">.</span><span class="na">setEnabled</span><span class="err">(</span><span class="na">false</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">TextView</span> <span class="na">saved =</span><span class="err"> </span><span class="s">(TextView)</span> <span class="na">listView</span><span class="err">.</span><span class="na">getChildAt</span><span class="err">(</span><span class="na">i</span><span class="err">)</span>
+</span><span class='line'>                            <span class="err">.</span><span class="na">findViewById</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">id</span><span class="err">.</span><span class="na">historySaved</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">saved</span><span class="err">.</span><span class="na">setText</span><span class="err">(</span><span class="na">activity</span><span class="err">.</span><span class="na">getString</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">string</span><span class="err">.</span><span class="na">history_list_already_saved</span><span class="err">));</span>
+</span><span class='line'>                    <span class="na">saved</span><span class="err">.</span><span class="na">setTextColor</span><span class="err">(</span><span class="na">Color</span><span class="err">.</span><span class="na">GRAY</span><span class="err">);</span>
+</span><span class='line'>                <span class="err">}</span>
+</span><span class='line'>            <span class="err">}</span>
+</span><span class='line'>        <span class="err">}</span>
+</span><span class='line'>    <span class="err">}</span> <span class="na">else</span> <span class="err">{</span>
+</span><span class='line'>        <span class="na">activity</span><span class="err">.</span><span class="na">genAlertDialog</span><span class="err">(</span><span class="na">activity</span><span class="err">.</span><span class="na">getString</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">string</span><span class="err">.</span><span class="na">history_nothing_checked</span><span class="err">),</span>
+</span><span class='line'>                <span class="err">(</span><span class="na">dialog</span><span class="err">,</span> <span class="na">which</span><span class="err">)</span> <span class="na">-</span><span class="nt">&gt;</span> {});
+</span><span class='line'>    }
+</span><span class='line'>    uploadButtonEnable(false);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void showUploadFailureDialog(Throwable e) {
+</span><span class='line'>    uploadButtonEnable(true);
+</span><span class='line'>    LogUtil.e(checkStr(e.getMessage()), e);
+</span><span class='line'>    activity.genAlertDialog(activity.getString(
+</span><span class='line'>            R.string.diagnosis_result_upload_failure_message)
+</span><span class='line'>                    + &quot;\n&quot; + e.getMessage(),
+</span><span class='line'>            (dialog, which) -&gt; {});
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>public void uploadButtonEnable(boolean enable) {
+</span><span class='line'>    uploadButton.setEnabled(enable);
+</span><span class='line'>    if (enable) {
+</span><span class='line'>        uploadButton.getBackground().setColorFilter(null);
+</span><span class='line'>    } else {
+</span><span class='line'>        uploadButton.getBackground()
+</span><span class='line'>                .setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2017-11-24T18:25:09+09:00" class="updated">
+       Updated
+       <span class="month">Nov</span>
+       <span class="day">24</span>,
+       <span class="year">2017</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/android/">android</a>
+  
+     <a class="category" href="/categories/rxandroid/">rxandroid</a>
+  
+     <a class="category" href="/categories/rxjava/">rxjava</a>
+  
+     <a class="category" href="/categories/progressdialog/">progressdialog</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/" data-via="" data-counturl="/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/11/24/checkbox-on-listview/" title="Previous Post: CheckBox on ListView">&laquo; CheckBox on ListView</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/10/20/knapsack-problem/" title="Next Post: Knapsack Problem">Knapsack Problem &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/24/checkbox-on-listview/">CheckBox on ListView</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/">OnClickListener With ProgressDialog by RxAndroid</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/knapsack-problem/">Knapsack Problem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/17/robolectric-powermock/">Robolectric + PowerMock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/">Tomcat Vulnerability CVE-2017-12617</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A Java programmer in Tokyo.</p>
+</section>
+<section>
+  <h1><a href="privacy.html">Privacy Policy</a></h1>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/";
+    var disqus_url = "http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>
