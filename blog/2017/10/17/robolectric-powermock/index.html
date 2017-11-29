@@ -194,7 +194,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <li>Retrofit2に対しては<a href="https://github.com/square/okhttp/tree/master/mockwebserver">MockWebServer</a>(<a href="https://qiita.com/toastkidjp/items/4986caee5d776a4c9e6c">OkHttp3 の MockWebServer を使う</a>)</li>
 <li>RxJavaに対しては<code>RxJavaHooks</code>(<a href="http://hydrakecat.hatenablog.jp/entry/2016/12/14/RxJava_のテスト(2)%3A_RxJavaHooks%2C_RxAndroidPlugins">RxJava のテスト(2): RxJavaHooks, RxAndroidPlugins</a>)</li>
 <li><code>MockWebServer</code>は、例にあるように基本<code>new</code>して<code>MockResponse</code>を<code>enqueue</code>して<code>url(...)</code>すればstartしてreturn valueにURL(<code>http://localhost:XXXXX/</code>←random port number)が入っているのでそれをRetrofitに食わせればいいのだけれども、URLをsetする部分はShadowの中なので、test classから直接食わせられず。なので固定port番号を使いたく、その場合は、
-``<code>
+``<code>&lt;br /&gt;
 でおk(</code>server.url("/...");`は不要)</li>
 <li>↑<code>http</code>になると<code>isCleartextTrafficPermitted()</code>まわりで失敗するようになった。これは、<a href="https://github.com/square/okhttp/issues/2533#issuecomment-223093100"><code>isCleartextTrafficPermitted()</code> fails on OpenJDK 8 + Robolectric #2533</a>にあるように、<code>NetworkSecurityPolicy</code>をShadowしてやればよい。</li>
 <li>RxJavaの<code>onNext</code>や<code>onCompleted</code>が実行されない問題は、<code>Robolectric.flushBackgroundThreadScheduler();</code>ではなく、
@@ -234,7 +234,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 
 
 
-     <time datetime="2017-11-29T14:51:09+09:00" class="updated">
+     <time datetime="2017-11-29T14:56:32+09:00" class="updated">
        Updated
        <span class="month">Nov</span>
        <span class="day">29</span>,
