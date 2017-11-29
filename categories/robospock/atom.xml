@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/robospock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T15:00:39+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/robospock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T15:46:13+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
 <ul>
 <li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -21,7 +21,10 @@
 <li>既存test classの<code>@RunWith</code>の<code>MockitoJUnitRunner</code>は<code>org.mockito.junit.MockitoJUnitRunner</code>で置き換え</li>
 <li><code>org.mockito.exceptions.misusing.UnnecessaryStubbingException:</code>というwarningが出るようになったので<code>@RunWith(MockitoJUnitRunner.Silent.class)</code>にすると解消<br  />
 cf. <a href="https://stackoverflow.com/questions/42947613/how-to-resolve-unneccessary-stubbing-exception">How to resolve Unneccessary Stubbing exception</a></li>
-<li><code>Robolectric</code>なTestは、1.<code>@RunWith(RobolectricTestRunner.class)</code> 2.<code>activity = Robolectric.setupActivity(SomeActivity.class);</code>で<code>Activity</code>を起動</li>
+<li><code>Robolectric</code>なTestは、
+<code>`
+</code>`
+でActivityを起動</li>
 <li><code>RuntimeException: Multi dex installation failed</code>と言われるので<code>shadows-multidex</code>が必要<br  />
 cf. <a href="https://qiita.com/kuwapp/items/942f0e44adbd45adff10">Robolectric と Multidex でテストが落ちる問題の対応</a></li>
 <li>static methodのmockは<a href="https://github.com/powermock/powermock">PowerMock</a>と。<code>@RunWith</code>がかぶっちゃうよ、どうしよう! → <a href="https://github.com/robolectric/robolectric/wiki/Using-PowerMock">本家に解説</a>あり。要は、<code>@PowerMockIgnore</code>でmockito、robolectric、android標準classesを除外、<code>@PrepareForTest</code>でstatic methodを持つclassを指定し、<code>@Rule</code>を入れ(使わないのによくわからないが必要)、<code>PowerMockito.mockStatic(...)</code>で当該classを指定</li>
@@ -33,18 +36,16 @@ cf. <a href="https://github.com/powermock/powermock/issues/819">Problem with org
 cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powermock + Mockito + Spring = DocumentBuilderFactoryImpl</a></li>
 <li><code>org/powermock/default.properties is found in 2 places</code>と言われてerrorにはならないけどwarningが出るので、<code>@PowerMockIgnore</code>に<code>"org.powermock.*"</code>も入れておく(試行錯誤の末なので参照なし)</li>
 <li><code>AsyncTask</code>があっても、特段その終了を待たずにtestが終了してしまう。<code>Robolectric.getBackgroundThreadScheduler().pause();</code>で<code>AsyncTask#doInBackground()</code>を止める必要がある(<code>AsyncTask#onPreExecute()</code>は実行される)。</li>
-<li><a href="https://github.com/robolectric/robolectric/blob/master/robolectric/src/test/java/org/robolectric/shadows/ShadowAsyncTaskTest.java"><code>ShadowAsyncTaskTest.java</code></a>を見ると、<code>setUp()</code>で<code>Robolectric.getBackgroundThreadScheduler().pause();</code>(と<code>Robolectric.getForegroundThreadScheduler().pause();</code>?)でthread止めて、<code>asyncTask.execute()</code>すると<code>onPreExecute()</code>が動き、次に<code>ShadowApplication.runBackgroundTasks();</code>すると<code>doInBackground()</code>、<code>ShadowLooper.runUiThreadTasks();</code>すると<code>onPostExecute()</code>が動く(ようだが、試してみると<code>ShadowApplication.runBackgroundTasks()</code>で返ってこなくなった。何故?!←これは単に<code>AsyncTask</code>中でdialog出して止まっていたため)</li>
+<li><a href="https://github.com/robolectric/robolectric/blob/master/robolectric/src/test/java/org/robolectric/shadows/ShadowAsyncTaskTest.java"><code>ShadowAsyncTaskTest.java</code></a>を見ると、<code>setUp()</code>で<code>Robolectric.getBackgroundThreadScheduler().pause();</code>(と<code>Robolectric.getForegroundThreadScheduler().pause();</code>?)でthread止めて、<code>asyncTask.execute()</code>すると<code>onPreExecute()</code>が動き、次に<code>`
+するとdoInBackground()、
+</code><code>
+するとonPostExecute()が動く
+(ようだが、試してみると</code>ShadowApplication.runBackgroundTasks()<code>で返ってこなくなった。何故?!←これは単に</code>AsyncTask`中でdialog出して止まっていたため)</li>
 <li>target class内でnewしているもののmockは、
 <code>PowerMockito.whennew(XXX.class).thenReturn(mock);</code>
 だと、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>org.mockito.exceptions.base.MockitoException: 
-</span><span class='line'>ClassCastException occurred while creating the mockito mock :
-</span><span class='line'>...
-</span><span class='line'>You might experience classloading issues, please ask the mockito mailing-list.
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@RunWith(RobolectricTestRunner.class)
 </span></code></pre></td></tr></table></div></figure>
 と言われて失敗する。</li>
 <li>shadow classでもstatic methodのmockが出来る。PowerMock使わずとも良い様子。いちいちShadow class作って各method毎に<code>@Implements</code>書くのは面倒ではあるが、PowerMockを<code>@Rule</code>して並存させると上述のようにclass loaderがどうのと言われて失敗したので、Robolectric一本で頑張った方がよさ気。PowerMock使わないなら<code>testCompile</code>も<code>robolectric</code>と<code>shadows-multidex</code>の2つで済むし、PowerMock導入に伴って変更したMockito部分も変更不要になる。</li>
@@ -55,11 +56,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <li><code>Shadows.shadowOf(myDialog).hasBeenDissmissed()</code>といったようにUIの状態を取得できる。</li>
 <li><code>context.getPackageManager().getLaunchIntentForPackage("package name")</code>がRobolectricsでやると<code>null</code>を返しやがるのでヌルポで失敗しくさる。多くの人が困っている模様。cf. <a href="https://github.com/robolectric/robolectric/issues/747">PackageManager#getLaunchIntentForPackage() returns null #747</a> ←これによると2.2の頃から。3.4から<code>PackageManager</code>周りは<code>RobolectricPackageManager</code>がdeprecatedになって他と同じように<code>ShadowPackageManager</code>を使えと<a href="http://robolectric.org/migrating/#migrating-from-33-to-34">Migrating from 3.3 to 3.4</a>にはあるが、<code>shadowOf(RuntimeEnvironment.application.getPackageManager());</code>としても、versionを3.3に落として<code>RuntimeEnvironment.setRobolectricPackageManager(packageManager);</code>としても、testにおける<code>ApplicationPackageManager#getLaunchIntentForPackage</code>は<code>null</code>を返す。仕方なく、<code>ShadowApplicationPackageManager</code>をextendsしてcustom PackageManagerを作ってみても、何を<code>@implements</code>したらいいのか。<code>PackageManager.class</code>では効かないし(抽象クラス?なのでそれは仕方ないのだろう)、<code>android.app.ApplicationPackageManager.class</code>では何故か名前解決に失敗してcompile出来ない。<a href="https://github.com/robolectric/robolectric/commit/5e082743821857f057ab45945e838d5ef6b69e37">RobolectricPackageManagerTest.java</a>を見ると、<code>notNullValue()</code>でassert出来そうなのだが、うまく行かなかった(Step Overしてやってみても、そもそも<code>ShadowApplicationPackageManager</code>ではなく<code>android.app.ApplicationPackageManager#getLaunchIntentForPackage</code>が何かにmethod callを取られて空で返している感じ)。色々探して結局諦めた。ホントは、↓というようにやりたかったのだが。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
-</span><span class='line'>assertThat(shadowOf(activity).getNextStartedActivity().getAction(),
-</span><span class='line'>               is(&quot;jp.ideacross.allcardia.main.SplashActivity&quot;));
+</pre></td><td class='code'><pre><code class='html'><span class='line'>activity = Robolectric.setupActivity(SomeActivity.class);
 </span></code></pre></td></tr></table></div></figure></li>
 </ul>
 <h2>Robospock -> ElectricSpock or Spock for Android</h2>
@@ -76,15 +73,15 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <ul>
 <li>Retrofit2に対しては<a href="https://github.com/square/okhttp/tree/master/mockwebserver">MockWebServer</a>(<a href="https://qiita.com/toastkidjp/items/4986caee5d776a4c9e6c">OkHttp3 の MockWebServer を使う</a>)</li>
 <li>RxJavaに対しては<code>RxJavaHooks</code>(<a href="http://hydrakecat.hatenablog.jp/entry/2016/12/14/RxJava_のテスト(2)%3A_RxJavaHooks%2C_RxAndroidPlugins">RxJava のテスト(2): RxJavaHooks, RxAndroidPlugins</a>)</li>
-<li><code>MockWebServer</code>は、例にあるように基本<code>new</code>して<code>MockResponse</code>を<code>enqueue</code>して<code>url(...)</code>すればstartしてreturn valueにURL(<code>http://localhost:XXXXX/</code>←random port number)が入っているのでそれをRetrofitに食わせればいいのだけれども、URLをsetする部分はShadowの中なので、test classから直接食わせられず。なので固定port番号を使いたく、その場合は、<code>server.url("/...");</code>は不要で、
+<li><code>MockWebServer</code>は、例にあるように基本<code>new</code>して<code>MockResponse</code>を<code>enqueue</code>して<code>url(...)</code>すればstartしてreturn valueにURL(<code>http://localhost:XXXXX/</code>←random port number)が入っているのでそれをRetrofitに食わせればいいのだけれども、URLをsetする部分はShadowの中なので、test classから直接食わせられず。なので固定port番号を使いたく、その場合<code>server.url("/...");</code>は不要で、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>server.start(portNumber);
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ShadowApplication.runBackgroundTasks();
 </span></code></pre></td></tr></table></div></figure>
 でおk</li>
 <li>↑<code>http</code>になると<code>isCleartextTrafficPermitted()</code>まわりで失敗するようになった。これは、<a href="https://github.com/square/okhttp/issues/2533#issuecomment-223093100"><code>isCleartextTrafficPermitted()</code> fails on OpenJDK 8 + Robolectric #2533</a>にあるように、<code>NetworkSecurityPolicy</code>をShadowしてやればよい。</li>
 <li>RxJavaの<code>onNext</code>や<code>onCompleted</code>が実行されない問題は、<code>Robolectric.flushBackgroundThreadScheduler();</code>ではなく、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>RxJavaHooks.setOnNewThreadScheduler(s -&gt; Schedulers.immediate());
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ShadowLooper.runUiThreadTasks();
 </span></code></pre></td></tr></table></div></figure>
 によって別threadじゃなくmain threadで実行するようにすればおk</li>
 <li>上記の話は、<code>Retrofit2</code>のService interfaceで<code>Observable&lt;...&gt;</code>を返す場合のもの。<code>Call&lt;...&gt;</code>を返す形にして<code>enqueue()</code>して<code>Callback&lt;...&gt;</code>で<code>onResponse()</code>、<code>onFailure()</code>でhandleする場合には、こうは行かなかった(<code>onResponse()</code>も<code>onFailure()</code>も実行されない)。<code>ShadowLooper.runUiThreadTasks()</code>でうまく行くようなことを書いてある情報(<a href="https://stackoverflow.com/questions/37909276/testing-retrofit-2-with-robolectric-callbacks-not-being-called">Testing retrofit 2 with robolectric, callbacks not being called</a>)もあったが、症状変わらず。<a href="https://qiita.com/noboru_i/items/5eeb8b8d5684622aee95">OkHttpのMockWebServerとRobolectricでFragmentの動作をテストする</a>にRetrofit2内で使っている<code>OkHttpClient.Builder#newBuilder</code>をshadowしてうまく行く話があったので、試すと確かに<code>onResponse()</code>が呼ばれた! ただ、今回ぼくは実classの方で<code>new Retrofit().newBuilder().client(new OkHttpClient().newBuilder().build())</code>とかって<code>client</code>methodを使っておらずdefaultで裏でimplicitlyに生成される<code>OkHttpClient</code>そのまま使っており、それだと<code>newBuilder()</code>呼ばれないので、色々辿ってった挙句、<code>okhttp3.Dispatcher#executorService</code>をshadowして、前述のpageにあったようにすぐ<code>command.run()</code>する<code>execute</code>methodを持つ<code>AbstractExecutorService</code>classを返してやると、うまく行った。<code>Dispatcher#executorService</code>って<code>java.util.concurrent.ThreadPoolExecutor</code>をdefaultでは使っており、Androidのthreadとは違うから、uncontrollableだったんですね。考えてみるに、RxAndroidと違いRetrofitはAndroid専用ではないので、<code>java.util.concurrent</code>の<code>Executor</code>使ってるのも当然ですか。</li>
@@ -98,36 +95,10 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>@Rule
-</span><span class='line'>public ExpectedException thrown = ExpectedException.none();
-</span><span class='line'>  :
-</span><span class='line'>Account account = new Account(&quot;any name&quot;, CarCloudAuthUtil.ACCOUNT_TYPE);
-</span><span class='line'>Application application = spy(RuntimeEnvironment.application);
-</span><span class='line'>util = new CarCloudAuthUtil(application);
-</span><span class='line'>AccountManager manager = spy(AccountManager.get(application));
-</span><span class='line'>doReturn(manager)
-</span><span class='line'>        .when(application)
-</span><span class='line'>        .getSystemService(Context.ACCOUNT_SERVICE);
-</span><span class='line'>manager.addAccountExplicitly(account, &quot;any key&quot;, new Bundle());
-</span><span class='line'>manager.setAuthToken(account, CarCloudAuthUtil.AUTH_TOKEN_TYPE, &quot;any string&quot;);
-</span><span class='line'>doThrow(AuthenticationException.class)
-</span><span class='line'>        .when(manager)
-</span><span class='line'>        .blockingGetAuthToken(eq(account), eq(CarCloudAuthUtil.AUTH_TOKEN_TYPE), eq(true));
-</span><span class='line'>thrown.expect(AuthenticationException.class);
-</span><span class='line'>thrown.expectMessage(new IsNull());
+</pre></td><td class='code'><pre><code class='html'><span class='line'>org.mockito.exceptions.base.MockitoException: 
+</span><span class='line'>ClassCastException occurred while creating the mockito mock :
+</span><span class='line'>...
+</span><span class='line'>You might experience classloading issues, please ask the mockito mailing-list.
 </span></code></pre></td></tr></table></div></figure></p>
 </li>
 <li><p><code>Exception</code>のassertionは、<code>@Test(expected=...)</code>でも良いが、<code>@Rule</code>でも書ける(<a href="https://qiita.com/su-kun1899/items/5c9f0294a7de1986e542#ruleを使った書き方">JUnitでの例外テストの書き方</a>)。その場合、<code>Exception#message</code>が<code>null</code>の場合のassertionは<code>org.hamcrest.core.IsNull</code>を用いて<code>thrown.expectMessage(new IsNull());</code>とする(<a href="https://stackoverflow.com/questions/35199026/expectedexception-expectmessagestring-null-is-not-working">ExpectedException.expectMessage((String) null) is not working</a>)。</p>
