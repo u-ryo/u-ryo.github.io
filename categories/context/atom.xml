@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/context/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2017-12-01T17:04:47+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
+暗い背景なので、defaultのdesignだと見にくいんですね。
+なのでcustomの白っぽいのに差し替えようとしたんですが、
+なかなかうまく行かなかったのです。
+基本的には、<code>res/drawable/</code>に、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_enabled=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_disabled&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;true&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_on&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;false&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_off&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;true&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;true&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_on_pressed&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;false&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;true&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_off_pressed&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/selector&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>と書いて(状態判定は上の行から順番になされる模様)、layoutで、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;CheckBox</span>
+</span><span class='line'>  <span class="na">android:id=</span><span class="s">&quot;@+id/historySelected&quot;</span>
+</span><span class='line'>  <span class="na">style=</span><span class="s">&quot;@style/historyListCheckBox&quot;</span>
+</span><span class='line'>  <span class="na">android:button=</span><span class="s">&quot;@drawable/selector_checkbox&quot;</span>
+</span><span class='line'><span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>というように参照すればいいんです。
+が、それだとcheckしても絵が変わらなかったんですね。
+別途<code>OnClickListener</code>に、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>checkbox.setButtonDrawable(checkbox.isChecked() ? R.drawable.ic_check_on : R.drawable.ic_check_off);
+</span></code></pre></td></tr></table></div></figure>
+<p>が必要でした、というのはまだわかるんですが、
+これを書いても<code>ic_check_on</code>の絵にならなかったんですね(<code>ic_check_off</code>の絵のまま)。
+なんでだろ～、1日程悩みました。</p>
+<p>結局、
+stackoverflowの<a href="https://stackoverflow.com/questions/34508164/cant-create-custom-arrayadapter-with-appcompat-elements-inside-of-it">Can't create custom arrayadapter with appcompat elements inside of it</a>に書いてあったんですけど、
+<code>ListView</code>のAdapterを作る時の<code>Context</code>が、
+<code>getApplicationContext()</code>で得られたものであったこと、
+が敗因でした。<code>getApplication()</code>でもダメでした。
+<code>this</code>でないと、<code>ic_check_on</code>がdrawされませんでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>adapter = new SimpleAdapter(this, someList, R.layout.some_listview, new String[]{...}, new int[]{R.id.someId,...});
+</span></code></pre></td></tr></table></div></figure>
+<p><code>this</code>で引き回すと、使ってるfieldとか色々引きずるから
+なるべく<code>getApplicationContext()</code>にしましょうね、
+というのを聞いたことがあるのですが、
+なるほどと思ってそうすると、
+結構色んな箇所で出るべきものが出なくなるんですよね。
+気を付けないとなりません。</p>
+]]></content></entry></feed>
