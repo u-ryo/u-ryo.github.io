@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/blog/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/blog/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-09T17:08:19+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
 ひょんなことから<a href="http://ukkyo.sakura.ne.jp/">未経験２７歳プログラマーへの道（イバラ）</a>を見付けて、一気に読んでしまいました。
 最初の企業の話は、まさに今のぼくのと符合するところが多く。
 でもこの人、人類みな京大なんですね頭いいんだ... というより、数学的で要領がいいんですね(ってご自分でも書いてますね)。
@@ -135,10 +135,10 @@
 これもまた言うは易しというもの。
 できるなら誰もがやってる。</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Hot Entry Generator]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/hot-entry-generator/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/06/hot-entry-generator/</id><content type="html"><![CDATA[<p>Catchyなblog titleを作ってくれる<a href="http://pha22.net/hotentry/">ホッテントリメーカー</a>というものがある件について。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Hot Entry Generator]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/hot-entry-generator/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/06/06/hot-entry-generator/</id><content type="html"><![CDATA[<p>Catchyなblog titleを作ってくれる<a href="http://pha22.net/hotentry/">ホッテントリメーカー</a>というものがある件について。</p>
 <p>そうか、みんなこうやってtitleつけてたのか...
 確かにありそうな提案をしてくるんで笑えますね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Disqus on this blog]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/11/10/disqus-on-this-blog/</id><content type="html"><![CDATA[<p>当初、このblogにはコメント欄がありませんでした。
+]]></content></entry><entry><title type="html"><![CDATA[Disqus on this blog]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/disqus-on-this-blog/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/11/10/disqus-on-this-blog/</id><content type="html"><![CDATA[<p>当初、このblogにはコメント欄がありませんでした。
 <a href="http://disqus.com">Disqus</a>を使える、
 ということが他の人のblogを見てわかって、
 うちでもSiteConfig.groovyをよく見たら、

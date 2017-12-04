@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/glassfish/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/glassfish/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-10-06T21:56:37+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
 相変わらずわけわかんない指令を受けたので、
 「何かに使う『digest』認証を任意の『Realm』で設定」
 と解釈して取り組みました。
@@ -91,7 +91,7 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 </span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
 </span><span class='line'><span class="err">&lt;</span>/web-app&gt;
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-22T17:23:43+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
+]]></content></entry><entry><title type="html"><![CDATA[glassfish small tips]]></title><link href="http://u-ryo.github.io//blog/2017/08/22/glassfish-small-tips/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2017/08/22/glassfish-small-tips/</id><content type="html"><![CDATA[<p>ちょっとハマったところを。</p>
 <ul>
 <li><code>WEB-INF/glassfish-web.xml</code>の<code>context-root</code>の最後が<code>/</code>だと、
 ログイン後、トップページに(<code>http://...//</code>という形で)飛ばされる</li>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/gradle/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[how to build my web application product]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/how-to-build-my-web-application-product/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/02/19/how-to-build-my-web-application-product/</id><content type="html"><![CDATA[<h2>Private memo</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/gradle/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[how to build my web application product]]></title><link href="http://u-ryo.github.io//blog/2016/02/19/how-to-build-my-web-application-product/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/02/19/how-to-build-my-web-application-product/</id><content type="html"><![CDATA[<h2>Private memo</h2>
 <p>To build hondaPortal,
 <code>cd</code> to hondaPortalView,
 <code>bower install</code> and <code>npm install</code> first to set up javascript libraries.
@@ -10,7 +10,7 @@ I found a workaround at <a href="https://github.com/gruntjs/grunt-contrib-imagem
 </pre></td><td class='code'><pre><code class='html'><span class='line'>cd node_modules/grunt-contrib-imagemin
 </span><span class='line'>npm install imagemin@4.0.0
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Created my blog by Grain]]></title><link href="http://u-ryo.github.io//blog/2015/10/26/created-my-blog-by-grain/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/26/created-my-blog-by-grain/</id><content type="html"><![CDATA[<h2>Blog、はじめました</h2>
+]]></content></entry><entry><title type="html"><![CDATA[Created my blog by Grain]]></title><link href="http://u-ryo.github.io//blog/2015/10/26/created-my-blog-by-grain/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/10/26/created-my-blog-by-grain/</id><content type="html"><![CDATA[<h2>Blog、はじめました</h2>
 <p>非常に遅まきながら、blogを作ってみました。</p>
 <p>きしださんの<a href="http://d.hatena.ne.jp/nowokay/20140225">2014-02-25(火) コミュニティに入るか入らないかでエンジニアとしての幸福度がかわる</a>を見まして、
 なるほどそうだなぁと思い、
