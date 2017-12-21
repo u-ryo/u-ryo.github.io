@@ -8,7 +8,251 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/21/security-links/">Security Links</a></h1> <p class="meta"> <time datetime="2017-10-21T23:55:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">21</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/21/security-links/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Security関係のLinkをまとめました。 はてぶにすればいいのに > 自分</p> <ul> <li><a href="https://takagi-hiromitsu.jp/diary/">高木浩光＠自宅の日記</a></li> <li><a href="https://blog.tokumaru.org/">徳丸浩の日記</a></li> <li><a href="http://masatokinugawa.l0.cm/">Masato Kinugawa Security Blog</a></li> <li><a href="https://gist.github.com/mala">mala</a> 今LINEにいるんですね</li> <li><a href="https://blog.ohgaki.net/">yohgaki's blog 書かない日記</a></li> <li><a href="http://nanashi0x.hatenablog.com/">忙しい人のためのサイバーセキュリティニュース</a></li> <li><a href="http://n.pentest.ninja/">(n)</a>, <a href="http://csirt.ninja/">(n)inja csirt</a>(個人でCSIRT)</li> <li><a href="http://blog.macnica.net/">マクニカネットワークスセキュリティ研究センターブログ</a></li> </ul> <p>あー、勉強しないと。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/20/knapsack-problem/">Knapsack Problem</a></h1> <p class="meta"> <time datetime="2017-10-20T23:48:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">20</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>ここ最近、Knapsack Problemが流行っている感じがしています。</p> <p><a href="http://www.ap-siken.com/kakomon/29_haru/pm03.html">応用情報技術者過去問題 平成29年春期 午後問3</a>では基本「全探索」、改善提案が「枝刈り」でしたが、それでは全然不十分です。この問題は要するにKnapsack Problemのちょっとした変形で、code量もさしたることなく書けますし、折角FEではなくAPなのだし、日本の若者のためにも、Knapsackで書くよう誘導すべきだったのでは、と「禿げしく」思ったものでした。</p> <p>すると、今度は<a href="http://www.ap-siken.com/kakomon/29_aki/pm03.html">応用情報技術者過去問題 平成29年秋期 午後問3</a>でKnapsack Problemを正面から出してきましたね。0-1ではなく普通の。ぼくは前回のrevengeではないかと思ってみています。 問題自体は、あまりにも普通のKnapsack Problemなので、ツッコミようがなくてつまんなかったデス。</p> <p>この他にアジアでも。そっちは0-1でした。</p> <h3>References</h3> <ul> <li>Wikipedia<a href="https://en.wikipedia.org/wiki/Knapsack_problem">En</a>, <a href="https://ja.wikipedia.org/wiki/%E3%83%8A%E3%83%83%E3%83%97%E3%82%B5%E3%83%83%E3%82%AF%E5%95%8F%E9%A1%8C">Ja</a></li> <li><a href="http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DPL_1_B">Aizu Online Judge</a></li> <li><a href="http://www.itmedia.co.jp/keywords/algorithmer.html">「最強最速アルゴリズマー養成講座」最新記事一覧</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1005/15/news002.html">病みつきになる「動的計画法」、その深淵に迫る</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1003/06/news002.html">アルゴリズマーの登竜門、「動的計画法・メモ化再帰」はこんなに簡単だった</a></li> <li><a href="http://pieceofnostalgy.blogspot.jp/2013/12/01.html">片鱗懐古のブログ 01ナップサック問題を動的計画法で解く場合の考え方</a></li> <li><a href="http://fantom1x.blog130.fc2.com/blog-entry-174.html">【Java】ナップサック問題(knapsack)[動的計画法] </a></li> </ul> <p>ちなみに日本語では「ナップザック」、登山用語はドイツから入ってきたから、です。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/17/robolectric-powermock/">Robolectric + PowerMock</a></h1> <p class="meta"> <time datetime="2017-10-17T18:26:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">17</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p> <ul> <li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/">OnClickListener With ProgressDialog by RxAndroid</a></h1> <p class="meta"> <time datetime="2017-11-24T17:52:00+09:00" pubdate data-updated=true> <span class="month">Nov</span> <span class="day">24</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>「clickしたらbackgroundで処理して その間ProgressDialog出して 終わったらProgressDialog消して 終了/失敗dialogを表示する」のを RxAndroid(AxJava)でやる、 というのは、 <code>using()</code>を使うといいらしいです。 cf. <a href="https://qiita.com/boohbah/items/e8010730725c54f85a3a">RxJavaを使った通信中にProgressダイアログを出す</a></p> <p>元々がretrofit2を使ってないので、 retrofit2を使うともうちょっと違うかも。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Override
+</span><span class='line'>public void onClick(View v) {
+</span><span class='line'>    LogUtil.d(&quot;è¨ºæ­åå¾çµæãuploadãã button&quot;);
+</span><span class='line'>    uploadButtonEnable(false);
+</span><span class='line'>    if (!activity.networkCheck()) {
+</span><span class='line'>        activity.genAlertDialog(activity.getString(
+</span><span class='line'>                R.string.no_network_connectivity_available_message),
+</span><span class='line'>                (dialog, which) -&gt; {});
+</span><span class='line'>        uploadButtonEnable(true);
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>    Single.using(this::showProgressDialog,
+</span><span class='line'>            dialog -&gt; Single.<span class="nt">&lt;Boolean&gt;</span>create(this::setUploadSubscriber)
+</span><span class='line'>                    .subscribeOn(Schedulers.newThread())
+</span><span class='line'>                    .observeOn(AndroidSchedulers.mainThread()),
+</span><span class='line'>            Dialog::dismiss)
+</span><span class='line'>            .subscribe(this::controlUploadButtonWithDialog,
+</span><span class='line'>                    this::showUploadFailureDialog);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private ProgressDialog showProgressDialog() {
+</span><span class='line'>    ProgressDialog dialog = new ProgressDialog(activity);
+</span><span class='line'>    dialog.setMessage(activity.getString(R.string.history_uploading));
+</span><span class='line'>    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+</span><span class='line'>    dialog.show();
+</span><span class='line'>    LogUtil.d(dialog.toString());
+</span><span class='line'>    return dialog;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void setUploadSubscriber(SingleSubscriber<span class="err">&lt;</span>? super Boolean&gt; subscriber) {
+</span><span class='line'>    View historyListView = activity.findViewById(R.id.historyListView);
+</span><span class='line'>    List<span class="nt">&lt;String&gt;</span> selectedList = new ArrayList<span class="err">&lt;</span>&gt;();
+</span><span class='line'>    Adapter adapter = null;
+</span><span class='line'>    if (historyListView != null) {
+</span><span class='line'>        adapter = ((ListView) historyListView).getAdapter();
+</span><span class='line'>        for (int i = 0; i <span class="nt">&lt; adapter</span><span class="err">.</span><span class="na">getCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>            <span class="na">Map</span><span class="err">&lt;</span><span class="na">String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span> historyItems = (Map<span class="nt">&lt;String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span>) adapter.getItem(i);
+</span><span class='line'>            if (&quot;true&quot;.equals(historyItems.get(&quot;historySelected&quot;))) {
+</span><span class='line'>                selectedList.add(historyItems.get(&quot;historyCatalogID&quot;));
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        if (selectedList.isEmpty()) {
+</span><span class='line'>            subscriber.onSuccess(false);
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    try {
+</span><span class='line'>        ProcessUtil.callReportDataAll(commonBean.toMapFull(), activity, selectedList);
+</span><span class='line'>        if ((!selectedList.isEmpty()
+</span><span class='line'>                <span class="err">&amp;&amp;</span> !ProcessUtil.uploadSucceeded(selectedList, activity))
+</span><span class='line'>                || (selectedList.isEmpty()
+</span><span class='line'>                <span class="err">&amp;&amp;</span> !ProcessUtil.lastUploadSucceeded(activity))) {
+</span><span class='line'>            subscriber.onError(new RuntimeException(&quot;&quot;));
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'>        ProcessUtil.sendTerminalUsageHistory(commonBean.toMap(), activity);
+</span><span class='line'>        subscriber.onSuccess(true);
+</span><span class='line'>        LogUtil.d(selectedList.toString());
+</span><span class='line'>
+</span><span class='line'>        if (adapter != null) {
+</span><span class='line'>            for (int i = 0; i <span class="nt">&lt; adapter</span><span class="err">.</span><span class="na">getCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>                <span class="na">Map</span><span class="err">&lt;</span><span class="na">String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span> historyItems = (Map<span class="nt">&lt;String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span>) adapter.getItem(i);
+</span><span class='line'>                if (&quot;true&quot;.equals(historyItems.get(&quot;historySelected&quot;))) {
+</span><span class='line'>                    historyItems.put(&quot;historySelected&quot;, &quot;false&quot;);
+</span><span class='line'>                    historyItems.put(&quot;historySaved&quot;,
+</span><span class='line'>                            activity.getString(R.string.history_list_already_saved));
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    } catch (Exception e) {
+</span><span class='line'>        LogUtil.e(e);
+</span><span class='line'>        subscriber.onError(e);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void controlUploadButtonWithDialog(boolean hasItemSelected) {
+</span><span class='line'>    ListView listView = (ListView) activity.findViewById(R.id.historyListView);
+</span><span class='line'>    if (hasItemSelected) {
+</span><span class='line'>        activity.genAlertDialog(activity.getString(
+</span><span class='line'>                R.string.diagnosis_result_upload_success_message),
+</span><span class='line'>                (dialog, which) -&gt; {});
+</span><span class='line'>        if (listView != null) {
+</span><span class='line'>            for (int i = 0; i <span class="nt">&lt; listView</span><span class="err">.</span><span class="na">getChildCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>                <span class="na">CheckBox</span> <span class="na">checkBox =</span><span class="err"> </span><span class="s">(CheckBox)</span> <span class="na">listView</span><span class="err">.</span><span class="na">getChildAt</span><span class="err">(</span><span class="na">i</span><span class="err">)</span>
+</span><span class='line'>                        <span class="err">.</span><span class="na">findViewById</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">id</span><span class="err">.</span><span class="na">historySelected</span><span class="err">);</span>
+</span><span class='line'>                <span class="na">if</span> <span class="err">(</span><span class="na">checkBox</span><span class="err">.</span><span class="na">isChecked</span><span class="err">())</span> <span class="err">{</span>
+</span><span class='line'>                    <span class="na">checkBox</span><span class="err">.</span><span class="na">setChecked</span><span class="err">(</span><span class="na">false</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">checkBox</span><span class="err">.</span><span class="na">setEnabled</span><span class="err">(</span><span class="na">false</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">TextView</span> <span class="na">saved =</span><span class="err"> </span><span class="s">(TextView)</span> <span class="na">listView</span><span class="err">.</span><span class="na">getChildAt</span><span class="err">(</span><span class="na">i</span><span class="err">)</span>
+</span><span class='line'>                            <span class="err">.</span><span class="na">findViewById</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">id</span><span class="err">.</span><span class="na">historySaved</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">saved</span><span class="err">.</span><span class="na">setText</span><span class="err">(</span><span class="na">activity</span><span class="err">.</span><span class="na">getString</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">string</span><span class="err">.</span><span class="na">history_list_already_saved</span><span class="err">));</span>
+</span><span class='line'>                    <span class="na">saved</span><span class="err">.</span><span class="na">setTextColor</span><span class="err">(</span><span class="na">Color</span><span class="err">.</span><span class="na">GRAY</span><span class="err">);</span>
+</span><span class='line'>                <span class="err">}</span>
+</span><span class='line'>            <span class="err">}</span>
+</span><span class='line'>        <span class="err">}</span>
+</span><span class='line'>    <span class="err">}</span> <span class="na">else</span> <span class="err">{</span>
+</span><span class='line'>        <span class="na">activity</span><span class="err">.</span><span class="na">genAlertDialog</span><span class="err">(</span><span class="na">activity</span><span class="err">.</span><span class="na">getString</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">string</span><span class="err">.</span><span class="na">history_nothing_checked</span><span class="err">),</span>
+</span><span class='line'>                <span class="err">(</span><span class="na">dialog</span><span class="err">,</span> <span class="na">which</span><span class="err">)</span> <span class="na">-</span><span class="nt">&gt;</span> {});
+</span><span class='line'>    }
+</span><span class='line'>    uploadButtonEnable(false);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void showUploadFailureDialog(Throwable e) {
+</span><span class='line'>    uploadButtonEnable(true);
+</span><span class='line'>    LogUtil.e(checkStr(e.getMessage()), e);
+</span><span class='line'>    activity.genAlertDialog(activity.getString(
+</span><span class='line'>            R.string.diagnosis_result_upload_failure_message)
+</span><span class='line'>                    + &quot;\n&quot; + e.getMessage(),
+</span><span class='line'>            (dialog, which) -&gt; {});
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>public void uploadButtonEnable(boolean enable) {
+</span><span class='line'>    uploadButton.setEnabled(enable);
+</span><span class='line'>    if (enable) {
+</span><span class='line'>        uploadButton.getBackground().setColorFilter(null);
+</span><span class='line'>    } else {
+</span><span class='line'>        uploadButton.getBackground()
+</span><span class='line'>                .setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/21/security-links/">Security Links</a></h1> <p class="meta"> <time datetime="2017-10-21T23:55:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">21</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/21/security-links/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Security関係のLinkをまとめました。 はてぶにすればいいのに > 自分</p> <ul> <li><a href="https://takagi-hiromitsu.jp/diary/">高木浩光＠自宅の日記</a></li> <li><a href="https://blog.tokumaru.org/">徳丸浩の日記</a></li> <li><a href="http://masatokinugawa.l0.cm/">Masato Kinugawa Security Blog</a></li> <li><a href="https://gist.github.com/mala">mala</a> 今LINEにいるんですね</li> <li><a href="https://blog.ohgaki.net/">yohgaki's blog 書かない日記</a></li> <li><a href="http://nanashi0x.hatenablog.com/">忙しい人のためのサイバーセキュリティニュース</a></li> <li><a href="http://n.pentest.ninja/">(n)</a>, <a href="http://csirt.ninja/">(n)inja csirt</a>(個人でCSIRT)</li> <li><a href="http://blog.macnica.net/">マクニカネットワークスセキュリティ研究センターブログ</a></li> </ul> <p>あー、勉強しないと。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/20/knapsack-problem/">Knapsack Problem</a></h1> <p class="meta"> <time datetime="2017-10-20T23:48:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">20</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>ここ最近、Knapsack Problemが流行っている感じがしています。</p> <p><a href="http://www.ap-siken.com/kakomon/29_haru/pm03.html">応用情報技術者過去問題 平成29年春期 午後問3</a>では基本「全探索」、改善提案が「枝刈り」でしたが、それでは全然不十分です。この問題は要するにKnapsack Problemのちょっとした変形で、code量もさしたることなく書けますし、折角FEではなくAPなのだし、日本の若者のためにも、Knapsackで書くよう誘導すべきだったのでは、と「禿げしく」思ったものでした。</p> <p>すると、今度は<a href="http://www.ap-siken.com/kakomon/29_aki/pm03.html">応用情報技術者過去問題 平成29年秋期 午後問3</a>でKnapsack Problemを正面から出してきましたね。0-1ではなく普通の。ぼくは前回のrevengeではないかと思ってみています。 問題自体は、あまりにも普通のKnapsack Problemなので、ツッコミようがなくてつまんなかったデス。</p> <p>この他にアジアでも。そっちは0-1でした。</p> <h3>References</h3> <ul> <li>Wikipedia<a href="https://en.wikipedia.org/wiki/Knapsack_problem">En</a>, <a href="https://ja.wikipedia.org/wiki/%E3%83%8A%E3%83%83%E3%83%97%E3%82%B5%E3%83%83%E3%82%AF%E5%95%8F%E9%A1%8C">Ja</a></li> <li><a href="http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DPL_1_B">Aizu Online Judge</a></li> <li><a href="http://www.itmedia.co.jp/keywords/algorithmer.html">「最強最速アルゴリズマー養成講座」最新記事一覧</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1005/15/news002.html">病みつきになる「動的計画法」、その深淵に迫る</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1003/06/news002.html">アルゴリズマーの登竜門、「動的計画法・メモ化再帰」はこんなに簡単だった</a></li> <li><a href="http://pieceofnostalgy.blogspot.jp/2013/12/01.html">片鱗懐古のブログ 01ナップサック問題を動的計画法で解く場合の考え方</a></li> <li><a href="http://fantom1x.blog130.fc2.com/blog-entry-174.html">【Java】ナップサック問題(knapsack)[動的計画法] </a></li> </ul> <p>ちなみに日本語では「ナップザック」、登山用語はドイツから入ってきたから、です。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/17/robolectric-powermock/">Robolectric + PowerMock</a></h1> <p class="meta"> <time datetime="2017-10-17T18:26:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">17</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p> <ul> <li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -108,7 +352,7 @@
 </span><span class='line'>
 </span><span class='line'>Poc Filename  Poc.jsp
 </span><span class='line'>Not Vulnerable to CVE-2017-12617
-</span></code></pre></td></tr></table></div></figure></p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/08/alpaca-algo/">Alpaca Algo</a></h1> <p class="meta"> <time datetime="2017-10-08T21:04:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">08</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>こういうの、あったんですねー。すごいすごい。 <a href="https://algo.alpaca.ai">Alpaca Algo</a>、かつてのCapitalicoだそうですが、 自分でindicatorを指定して、勝ちpattern(負例も!)を指定して、 そうすると裏で超高速に事例を学習し、 back testまで速攻でやってくれるとは! 幾つか試してみましたけど、テキトーにやっても、 back testでプラスになったりするので、おぉー! と思ってはみたものの。 back testの期間をdefaultの3ヶ月ではなく、 1年とか、特に2016年を入れると、 途端に物凄い成績悪くなります。 なんでー!? 2016年って何か違ったんでしょうか。 っていうか、2017年の方がおかしい? とにかく、何か違うようです。</p> <p>patternに当てはまったら通知もしてくれるというので、 試してみます。 まだ本番への適用は怖い感じですが。</p> <p>9日朝、2回通知来ましたけど、以降はさっぱり当たりませんでした。 デモ取引では、10:05にentryして15:48現在まだ売買成立してません。 ドル円上下15pipsなので、day tradeにはちょっと大きめの幅なんでしょう。</p> <p>色々試してみると、</p> <ul> <li>10〜20はpattern入れて、って書いてありますが、あんまり入れると取引回数少なくなる?</li> <li>負例も入りますが、負例はいくら入れても学習対象としてcountされません。入れた方がいいのかどうなのか、よくわかりません。</li> <li>back testでは、どのくらいの精度で当てはめてentryして、どのようにexitするかで当然成績は大きく変わってきますが、「全部お任せ!」にしておいた方が一番成績いいみたい、です。「最適な○○を最適化」とかって具体的には何やってんのかさっぱりですけど、グラフではなく数値で見ると、利食い損切りpipsがわかるので何となく。</li> <li>売り・買い両方揃えないとダメかしらん。</li> <li>範囲はどこまで指定したらいいのか、よくわからないですが、何となく学習してるのはindicatorがどうのというより値動き(ローソク足)だけっぽい? いやでも確かにindicatorの種類だけ変えると結果変わるのでindicatorも見てるんでしょうけど...</li> </ul> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/3/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2017/12/05/dream-of-deth/">Dream of Deth</a> </li> <li class="post"> <a href="/blog/2017/12/01/rx-as-stream-api/">Rx as Stream API</a> </li> <li class="post"> <a href="/blog/2017/12/01/checkbox-checked-drawable-not-shown/">CheckBox.checked Drawable Not Shown</a> </li> <li class="post"> <a href="/blog/2017/11/24/checkbox-on-listview/">CheckBox on ListView</a> </li> <li class="post"> <a href="/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/">OnClickListener With ProgressDialog by RxAndroid</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2017 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure></p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/3/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2017/12/19/spock-and-jmockit/">Spock and JMockit</a> </li> <li class="post"> <a href="/blog/2017/12/05/dream-of-deth/">Dream of Deth</a> </li> <li class="post"> <a href="/blog/2017/12/01/rx-as-stream-api/">Rx as Stream API</a> </li> <li class="post"> <a href="/blog/2017/12/01/checkbox-checked-drawable-not-shown/">CheckBox.checked Drawable Not Shown</a> </li> <li class="post"> <a href="/blog/2017/11/24/checkbox-on-listview/">CheckBox on ListView</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2017 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.

@@ -208,6 +208,39 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 </span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
 </span><span class='line'><span class="err">&lt;</span>/web-app&gt;
 </span></code></pre></td></tr></table></div></figure>
+<h3>WEB-INF/glassfish-web.xml</h3>
+<p>glassfishの場合は、以下のように<code>role-name</code>と<code>group-name</code>を結びつける<code>glassfish-web.xml</code>もないとダメでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE glassfish-web-app PUBLIC &quot;-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;glassfish</span><span class="na">-web-app</span> <span class="na">error-url=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role-mapping</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>    <span class="nt">&lt;group</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/group-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-role-mapping&gt;
+</span><span class='line'>  <span class="nt">&lt;class</span><span class="na">-loader</span> <span class="na">delegate=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;jsp</span><span class="na">-config</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;keepgenerated&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;description&gt;</span>.<span class="nt">&lt;/description&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/property&gt;</span>
+</span><span class='line'>  <span class="err">&lt;</span>/jsp-config&gt;
+</span><span class='line'><span class="err">&lt;</span>/glassfish-web-app&gt;
+</span></code></pre></td></tr></table></div></figure>
 </div>
 
 </article>
@@ -224,10 +257,10 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 
 
 
-     <time datetime="2017-10-06T21:56:37+09:00" class="updated">
+     <time datetime="2017-12-14T21:49:49+09:00" class="updated">
        Updated
-       <span class="month">Oct</span>
-       <span class="day">06</span>,
+       <span class="month">Dec</span>
+       <span class="day">14</span>,
        <span class="year">2017</span>
      </time>
 
@@ -289,6 +322,10 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/12/19/spock-and-jmockit/">Spock and JMockit</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/05/dream-of-deth/">Dream of Deth</a>
       </li>
     
@@ -302,10 +339,6 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
     
       <li class="post">
         <a href="/blog/2017/11/24/checkbox-on-listview/">CheckBox on ListView</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/">OnClickListener With ProgressDialog by RxAndroid</a>
       </li>
     
   </ul>

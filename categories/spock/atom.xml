@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T20:38:56+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2017-12-22T00:50:07+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
+いざ全pattern cross check! と思ったら、
+無限loopになるpatternが多くて。
+<code>@Timeout</code>導入でサクッと、と思ったら、
+loop回るのが早くて凄いmemoryと時間を食って、
+<code>@Timeout</code>では抑えきれません。
+うーむ、それじゃぁGroovyのmetaClassでmethodの振る舞いを変更だ!
+と思ったら、どうやっても振る舞いが変わりません。
+悩んだ末、GroovyのmetaClassでの再定義は、
+外側のJava classには及ばない(Groovyの世界の中だけ)、と結論。
+仕方無いじゃぁJMockitだ!
+って思ったんですが、今度はSpockとJMockitは相容れないようで、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Caused by: java.lang.UnsupportedOperationException: Attempted to redefine class loaded from custom class loader
+</span></code></pre></td></tr></table></div></figure>
+<p>なので<code>JAVA_OPTS=-javaagent:.../jmockit-1.37.jar</code>をつけて実行すると今度は、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>mockit.internal.ClassFile$NotFoundException: Unable to find class file for Test2$1
+</span></code></pre></td></tr></table></div></figure>
+<p>spockは諦めました。</p>
+<p>ならばせめてJUnit5だ! と思ったんですが、<code>build.gradle</code>で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>junitAnt &#39;org.apache.ant:ant-junit4:1.10.1&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>と指定しているので、敢え無く撃沈。
+調べるとどうも、JUnit5とAntを組み合わせる動きはないんですよね。
+<a href="https://devlog.arksystems.co.jp/2017/12/12/4436/">それでも Ant を使いたい人のための JUnit 5</a>というのもありましたけど、これは、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;java</span> <span class="na">fork=</span><span class="s">&quot;true&quot;</span> <span class="na">classname=</span><span class="s">&quot;org.junit.platform.console.ConsoleLauncher&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>で無理矢理実行してるだけですから、ちょっと違います。
+こちとら、<code>build.gradle</code>から<code>ant.junitAnt(...)</code>で呼んでいるので、
+<code>ConsoleLauncher</code>だと困るんです(→どうやって書いたらいいかよくわからない)。</p>
+<p>結局、JUnit4 + JMockit で書きました。
+<code>Timeout</code>や<code>ExpectedException</code>は<code>@Rule</code>にしてちょこっと今っぽくしましたけど、
+そのくらいが関の山でした。</p>
+<p><code>ant.junitAnt(...)</code>で<code>fork:true</code>にして、また更に
+<code>junit4.jar</code>より<code>jmockit.jar</code>を先に書いておかないと
+<code>IllegalStateException</code>が出る(<a href="http://cadeveloper.hatenablog.com/">gradle + jmockitでjava.lang.IllegalStateExceptionって出たので対応</a>)、
+というのでそう書いたし<code>gradle --stacktrace</code>してload順確認したんですけど、
+それでもException出たので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>jvmarg(line:&quot;-javaagent:${configurations.jmockit.asPath.split(&#39;:&#39;)[0]}&quot;)
+</span></code></pre></td></tr></table></div></figure>
+<p>を入れて漸く動きました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T20:38:56+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
 <ul>
 <li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

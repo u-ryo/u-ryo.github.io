@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-12-05T07:18:58+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Dream of deth]]></title><link href="http://u-ryo.github.io//blog/2017/12/05/dream-of-deth/"/><updated>2017-12-05T07:18:58+09:00</updated><id>/blog/2017/12/05/dream-of-deth/</id><content type="html"><![CDATA[<p>自分でもどういうわけかわかりませんが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-12-22T00:50:07+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2017-12-22T00:50:07+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
+いざ全pattern cross check! と思ったら、
+無限loopになるpatternが多くて。
+<code>@Timeout</code>導入でサクッと、と思ったら、
+loop回るのが早くて凄いmemoryと時間を食って、
+<code>@Timeout</code>では抑えきれません。
+うーむ、それじゃぁGroovyのmetaClassでmethodの振る舞いを変更だ!
+と思ったら、どうやっても振る舞いが変わりません。
+悩んだ末、GroovyのmetaClassでの再定義は、
+外側のJava classには及ばない(Groovyの世界の中だけ)、と結論。
+仕方無いじゃぁJMockitだ!
+って思ったんですが、今度はSpockとJMockitは相容れないようで、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Caused by: java.lang.UnsupportedOperationException: Attempted to redefine class loaded from custom class loader
+</span></code></pre></td></tr></table></div></figure>
+<p>なので<code>JAVA_OPTS=-javaagent:.../jmockit-1.37.jar</code>をつけて実行すると今度は、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>mockit.internal.ClassFile$NotFoundException: Unable to find class file for Test2$1
+</span></code></pre></td></tr></table></div></figure>
+<p>spockは諦めました。</p>
+<p>ならばせめてJUnit5だ! と思ったんですが、<code>build.gradle</code>で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>junitAnt &#39;org.apache.ant:ant-junit4:1.10.1&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>と指定しているので、敢え無く撃沈。
+調べるとどうも、JUnit5とAntを組み合わせる動きはないんですよね。
+<a href="https://devlog.arksystems.co.jp/2017/12/12/4436/">それでも Ant を使いたい人のための JUnit 5</a>というのもありましたけど、これは、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;java</span> <span class="na">fork=</span><span class="s">&quot;true&quot;</span> <span class="na">classname=</span><span class="s">&quot;org.junit.platform.console.ConsoleLauncher&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>で無理矢理実行してるだけですから、ちょっと違います。
+こちとら、<code>build.gradle</code>から<code>ant.junitAnt(...)</code>で呼んでいるので、
+<code>ConsoleLauncher</code>だと困るんです(→どうやって書いたらいいかよくわからない)。</p>
+<p>結局、JUnit4 + JMockit で書きました。
+<code>Timeout</code>や<code>ExpectedException</code>は<code>@Rule</code>にしてちょこっと今っぽくしましたけど、
+そのくらいが関の山でした。</p>
+<p><code>ant.junitAnt(...)</code>で<code>fork:true</code>にして、また更に
+<code>junit4.jar</code>より<code>jmockit.jar</code>を先に書いておかないと
+<code>IllegalStateException</code>が出る(<a href="http://cadeveloper.hatenablog.com/">gradle + jmockitでjava.lang.IllegalStateExceptionって出たので対応</a>)、
+というのでそう書いたし<code>gradle --stacktrace</code>してload順確認したんですけど、
+それでもException出たので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>jvmarg(line:&quot;-javaagent:${configurations.jmockit.asPath.split(&#39;:&#39;)[0]}&quot;)
+</span></code></pre></td></tr></table></div></figure>
+<p>を入れて漸く動きました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Dream of deth]]></title><link href="http://u-ryo.github.io//blog/2017/12/05/dream-of-deth/"/><updated>2017-12-10T00:13:19+09:00</updated><id>/blog/2017/12/05/dream-of-deth/</id><content type="html"><![CDATA[<p>自分でもどういうわけかわかりませんが、
 殺される夢を見ました。
 realな夢です。
 おかげで、2時半過ぎに寝たばかりなのに、5時頃起きてしまいました。
@@ -44,6 +89,12 @@ realな夢です。
 ぼくはいつも殆ど覚えてないですし、
 しかもこれで目が覚めるなんて。
 虫の知らせ??</p>
+<h3>後日</h3>
+<p>元同僚に話したら、<br  />
+「ぼくも体調悪い時には見ます。ビルから突き落とされる夢とか」<br  />
+なるほど! 確かに、ぼくも朝その時から悪寒はしてた感じなので、
+悪寒の説明をつけるために、脳が勝手な物語を紡いだ、のかな。
+だから単に体調が悪いというsignだったんでしょう。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2017-12-02T22:29:46+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
 Stream APIのようにCollectionsを扱えません。
 折角Java8で覚えたのに。
@@ -799,7 +850,7 @@ bannerは信じちゃダメですよね。ぼくも対策を求められて面�
 </span><span class='line'>jcmd <span class="nt">&lt;pid&gt;</span> GC.heap_dump <span class="nt">&lt;output</span><span class="na">_filename</span><span class="nt">&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 <p>「生存中のオブジェクトのみ抽出したメモリーマップを作成するために、直前にFull GCを実行するのでこれを利用する」のだそう。「対象のJavaプロセスを実行しているユーザで実行する必要があるので注意」ご尤も。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-10-06T21:56:37+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
+]]></content></entry><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-12-14T21:49:49+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
 相変わらずわけわかんない指令を受けたので、
 「何かに使う『digest』認証を任意の『Realm』で設定」
 と解釈して取り組みました。
@@ -891,6 +942,39 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 </span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
 </span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
 </span><span class='line'><span class="err">&lt;</span>/web-app&gt;
+</span></code></pre></td></tr></table></div></figure>
+<h3>WEB-INF/glassfish-web.xml</h3>
+<p>glassfishの場合は、以下のように<code>role-name</code>と<code>group-name</code>を結びつける<code>glassfish-web.xml</code>もないとダメでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE glassfish-web-app PUBLIC &quot;-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;glassfish</span><span class="na">-web-app</span> <span class="na">error-url=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role-mapping</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>    <span class="nt">&lt;group</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/group-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-role-mapping&gt;
+</span><span class='line'>  <span class="nt">&lt;class</span><span class="na">-loader</span> <span class="na">delegate=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;jsp</span><span class="na">-config</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;keepgenerated&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;description&gt;</span>.<span class="nt">&lt;/description&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/property&gt;</span>
+</span><span class='line'>  <span class="err">&lt;</span>/jsp-config&gt;
+</span><span class='line'><span class="err">&lt;</span>/glassfish-web-app&gt;
 </span></code></pre></td></tr></table></div></figure>
 ]]></content></entry><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2017-10-06T00:52:34+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
 試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p>
@@ -1038,9 +1122,4 @@ instrumentation testではなくフツーのtestですjunit4とmockitoの。
 <p>projectを<code>clean</code>した後、いくらbuildしても「<code>databinding</code> classが見つからない」と言われて困った時にも効きました。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[BotUI - ChatBot only by JavaScript]]></title><link href="http://u-ryo.github.io//blog/2017/09/26/botui-chatbot-only-by-javascript/"/><updated>2017-09-26T01:33:45+09:00</updated><id>/blog/2017/09/26/botui-chatbot-only-by-javascript/</id><content type="html"><![CDATA[<p><a href="http://paiza.hatenablog.com/entry/2017/09/21/﻿JavaScriptだけで本格的なチャットボットを開発できる">paiza開発日誌</a>で紹介されていた<a href="https://github.com/botui/botui">BotUI</a>、なるほど予め型にはまった会話ならこれだけでお手軽にJavaScriptだけで(<code>.then(function(){...})</code>で繋ぐだけで)出来ちゃうんですね。注文を取るとか、特定のAPI叩く(Wizardを会話でやる)とか、サポートセンターで特定の電話番号につなぐとか。AIは使ってないので、user側の曖昧な自然言語を受け取って処理する、というものではないですけど、そういうのに繋げればいい? いや、IBMのWatsonとかみると、そういう会話のplatformも含めて提供しているので、そうなるとBotUIの出番は無い筈。
 <a href="https://webhacck.github.io/botui-sample/">Git Repositoriesの総数を答えるsample</a>は、<a href="https://examples.botui.org">公式のsamples</a>より面白かった(興味深かった)です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[S Rank of CodeIQ]]></title><link href="http://u-ryo.github.io//blog/2017/09/25/s-rank-of-codeiq/"/><updated>2017-09-26T00:26:43+09:00</updated><id>/blog/2017/09/25/s-rank-of-codeiq/</id><content type="html"><![CDATA[<p>もう昨日のことですが、<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo">Paiza</a>に続いてようやっと<a href="https://codeiq.jp">CodeIQ</a>でも<a href="https://codeiq.jp/badge/3116">Sランク取りました</a>。</p>
-<p>まぁ、u-ryoさんなら当然だよね、とか言われておしまいでしょうけど。</p>
-<p><a href="https://paiza.jp/challenges/share/UwlvLJ8wbTeDuWz-kV7g2vpFehW0vZE-wI-qg56WM98">Paizaにあった似た問題</a>(←これで見ると失敗もありますが、これは最初に提出したcodeについてで、後でちゃんと全部通るようにしてます)からcode引っ張ってきて、でも勿論そのままでは使えなくて。土曜未明の一晩で終えるつもりが、間にバイトやmachine troubleを挟んで日曜の午後までかかっちゃいました。ふと探してみると、<a href="http://ideone.com/pfoy7z">まんまのcode</a>があるのにはびっくり。流石にそのままっていうのは癪なので、「直前の方向を使う」というideaと検算にだけありがたく使わせてもらいました。
-探索順の違いによるエラーをなかなか潰せなくて。そっか全探索なのね、そのためには... BFSではなくDFSか、と辿って、あーそっか、その違いはstackかqueueかだけか、に最後の最後気付いてgoalでした。何か色々忘れてて、こういうのやり続けてないと錆び付いてたなーというのを思い知らされました。この手のalgorithm系は集中してやらないと!</p>
-<p>コメント書きすぎでしょうか。でもまんまの置いてあるよりは遥かにマシかと。</p>
 ]]></content></entry></feed>

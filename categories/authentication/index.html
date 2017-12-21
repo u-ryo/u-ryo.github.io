@@ -58,6 +58,36 @@
 </span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
 </span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
 </span><span class='line'><span class="err">&lt;</span>/web-app&gt;
+</span></code></pre></td></tr></table></div></figure> <h3>WEB-INF/glassfish-web.xml</h3> <p>glassfishの場合は、以下のように<code>role-name</code>と<code>group-name</code>を結びつける<code>glassfish-web.xml</code>もないとダメでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE glassfish-web-app PUBLIC &quot;-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;glassfish</span><span class="na">-web-app</span> <span class="na">error-url=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role-mapping</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>    <span class="nt">&lt;group</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/group-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-role-mapping&gt;
+</span><span class='line'>  <span class="nt">&lt;class</span><span class="na">-loader</span> <span class="na">delegate=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;jsp</span><span class="na">-config</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;keepgenerated&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;description&gt;</span>.<span class="nt">&lt;/description&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/property&gt;</span>
+</span><span class='line'>  <span class="err">&lt;</span>/jsp-config&gt;
+</span><span class='line'><span class="err">&lt;</span>/glassfish-web-app&gt;
 </span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2015/10/27/authtype-none/">AuthType None</a></h1> <p class="meta"> <time datetime="2015-10-27T15:11:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">27</span>, <span class="year">2015</span> </time> | <a href="http://u-ryo.github.io//blog/2015/10/27/authtype-none/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>さっき同僚に聞かれて調べました。 apacheにおけるBasic認証/Form認証等を 子ディレクトリにおいては無効にしたい場合、 .htaccessに、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">Satisfy</span> <span class="k">Any</span>
 </span></code></pre></td></tr></table></div></figure> <p>と書けば良い、という説が諸所にあったのですが、 ちゃんとキャンセルするには、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -88,7 +118,7 @@
 </span><span class='line'><span class="nb">Allow</span> from <span class="m">127.0.0.1</span>
 </span><span class='line'><span class="nb">Deny</span> from <span class="k">all</span>
 </span><span class='line'><span class="nb">Satisfy</span> <span class="k">All</span>
-</span></code></pre></td></tr></table></div></figure> <p>といった感じで解決しました。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2017/12/05/dream-of-deth/">Dream of Deth</a> </li> <li class="post"> <a href="/blog/2017/12/01/rx-as-stream-api/">Rx as Stream API</a> </li> <li class="post"> <a href="/blog/2017/12/01/checkbox-checked-drawable-not-shown/">CheckBox.checked Drawable Not Shown</a> </li> <li class="post"> <a href="/blog/2017/11/24/checkbox-on-listview/">CheckBox on ListView</a> </li> <li class="post"> <a href="/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/">OnClickListener With ProgressDialog by RxAndroid</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2017 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure> <p>といった感じで解決しました。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2017/12/19/spock-and-jmockit/">Spock and JMockit</a> </li> <li class="post"> <a href="/blog/2017/12/05/dream-of-deth/">Dream of Deth</a> </li> <li class="post"> <a href="/blog/2017/12/01/rx-as-stream-api/">Rx as Stream API</a> </li> <li class="post"> <a href="/blog/2017/12/01/checkbox-checked-drawable-not-shown/">CheckBox.checked Drawable Not Shown</a> </li> <li class="post"> <a href="/blog/2017/11/24/checkbox-on-listview/">CheckBox on ListView</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2017 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.

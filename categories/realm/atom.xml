@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/realm/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-10-06T21:56:37+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/realm/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-12-14T21:49:49+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
 相変わらずわけわかんない指令を受けたので、
 「何かに使う『digest』認証を任意の『Realm』で設定」
 と解釈して取り組みました。
@@ -90,5 +90,38 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 </span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
 </span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
 </span><span class='line'><span class="err">&lt;</span>/web-app&gt;
+</span></code></pre></td></tr></table></div></figure>
+<h3>WEB-INF/glassfish-web.xml</h3>
+<p>glassfishの場合は、以下のように<code>role-name</code>と<code>group-name</code>を結びつける<code>glassfish-web.xml</code>もないとダメでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE glassfish-web-app PUBLIC &quot;-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;glassfish</span><span class="na">-web-app</span> <span class="na">error-url=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role-mapping</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>    <span class="nt">&lt;group</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/group-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-role-mapping&gt;
+</span><span class='line'>  <span class="nt">&lt;class</span><span class="na">-loader</span> <span class="na">delegate=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;jsp</span><span class="na">-config</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;keepgenerated&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;description&gt;</span>.<span class="nt">&lt;/description&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/property&gt;</span>
+</span><span class='line'>  <span class="err">&lt;</span>/jsp-config&gt;
+</span><span class='line'><span class="err">&lt;</span>/glassfish-web-app&gt;
 </span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>
