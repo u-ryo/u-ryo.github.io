@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/junit5/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2017-12-22T00:50:07+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/junit5/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2017-12-22T23:27:44+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
 いざ全pattern cross check! と思ったら、
 無限loopになるpatternが多くて。
 <code>@Timeout</code>導入でサクッと、と思ったら、
@@ -43,4 +43,15 @@ loop回るのが早くて凄いmemoryと時間を食って、
 </pre></td><td class='code'><pre><code class='html'><span class='line'>jvmarg(line:&quot;-javaagent:${configurations.jmockit.asPath.split(&#39;:&#39;)[0]}&quot;)
 </span></code></pre></td></tr></table></div></figure>
 <p>を入れて漸く動きました。</p>
+<p>けど、折角JMockit入れたのに、
+やっぱり別の時には<code>Timeout</code>も必要で。
+JUnit4だと<code>@Rule</code>つけて<code>Timeout.millis(200)</code>でいいんですね今。
+そしたら、JMockitで振る舞い変えなくても、
+GroovyでなくJavaなら<code>Timeout</code>だけで済むじゃーないですかー!
+うぁーん。</p>
+<p>あとはParameterized Testにしました。
+<a href="https://github.com/Pragmatists/JUnitParams">JUnitParams</a>が簡便そうです。
+何がいいって、<a href="https://github.com/junit-team/junit4/wiki/parameterized-tests">JUnit4標準の方法</a>だとinstance fieldがparameterになるので、
+全methodについて回っちゃいませんか? というのが不安で。
+JUnitParamsなら、明示的に単一methodに対してparameter指定できるので安心です。</p>
 ]]></content></entry></feed>

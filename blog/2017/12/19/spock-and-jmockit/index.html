@@ -160,6 +160,17 @@ loop回るのが早くて凄いmemoryと時間を食って、
 </pre></td><td class='code'><pre><code class='html'><span class='line'>jvmarg(line:&quot;-javaagent:${configurations.jmockit.asPath.split(&#39;:&#39;)[0]}&quot;)
 </span></code></pre></td></tr></table></div></figure>
 <p>を入れて漸く動きました。</p>
+<p>けど、折角JMockit入れたのに、
+やっぱり別の時には<code>Timeout</code>も必要で。
+JUnit4だと<code>@Rule</code>つけて<code>Timeout.millis(200)</code>でいいんですね今。
+そしたら、JMockitで振る舞い変えなくても、
+GroovyでなくJavaなら<code>Timeout</code>だけで済むじゃーないですかー!
+うぁーん。</p>
+<p>あとはParameterized Testにしました。
+<a href="https://github.com/Pragmatists/JUnitParams">JUnitParams</a>が簡便そうです。
+何がいいって、<a href="https://github.com/junit-team/junit4/wiki/parameterized-tests">JUnit4標準の方法</a>だとinstance fieldがparameterになるので、
+全methodについて回っちゃいませんか? というのが不安で。
+JUnitParamsなら、明示的に単一methodに対してparameter指定できるので安心です。</p>
 </div>
 
 </article>
@@ -176,7 +187,7 @@ loop回るのが早くて凄いmemoryと時間を食って、
 
 
 
-     <time datetime="2017-12-22T00:50:07+09:00" class="updated">
+     <time datetime="2017-12-22T23:27:44+09:00" class="updated">
        Updated
        <span class="month">Dec</span>
        <span class="day">22</span>,
