@@ -149,17 +149,10 @@ buttonを<code>onTouchListener</code>っていうのもなんですが、
 waitしたいみたいなんですが、
 <code>while(true){if(!flag)break;}</code>ってこれじゃぁCPU無駄遣いでしょ。
 改善したっていって<code>do{i=0;}while(!flag);</code>って、あのねー...</li>
-<li>無駄な<code>synchronized wait()</code>
+<li><code>synchronized wait()</code>で同期
 他Activity(dialog)に遷移させ、
-直後に<code>synchronized(this){wait();}</code>ってあるんですが、
-これ意味無いですよね。
-何かこれdeja vuがあって。
-他の箇所で<code>Handler</code>使って別threadでdialog生成、
-それのwaitに使ってたんですよね。
-んなことするなよアホかと。testしにくいし。
-それをそのまま使い回したっぽい感じです。
-仕組はどうあれ、dialog生成の後はsynchronized waitが
-必要なんだって刷り込まれてる感じがします。</li>
+その同期に<code>synchronized(this){wait();}</code>って使ってます。
+そういうthread jugglingはやめて欲しい、です。</li>
 </ul>
 <p>...というように。
 こういうcodeと共に仕事するのは、嫌で嫌で仕方ありません。</p>
@@ -179,7 +172,7 @@ waitしたいみたいなんですが、
 
 
 
-     <time datetime="2018-01-16T10:49:06+09:00" class="updated">
+     <time datetime="2018-01-16T12:20:24+09:00" class="updated">
        Updated
        <span class="month">Jan</span>
        <span class="day">16</span>,
