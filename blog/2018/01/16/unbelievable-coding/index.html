@@ -152,7 +152,14 @@ waitしたいみたいなんですが、
 <li><code>synchronized wait()</code>で同期
 他Activity(dialog)に遷移させ、
 その同期に<code>synchronized(this){wait();}</code>って使ってます。
-そういうthread jugglingはやめて欲しい、です。</li>
+そういうthread jugglingはやめて欲しい、です。
+こういうのってホントはRXですよね。</li>
+<li>method/field名が大文字で始まっててclass名と区別がつかない、
+なんていうのは可愛い方で、もう気にもならなくなってますそういえば。
+methodも長いし条件分岐も複雑で、
+state patternとかなんて知らないんだろうなぁと。</li>
+<li>というか全てがfat ActionでFragmentもなければApplicationもないという
+(基本的には。後から「訳も分からずダーッとコピペした部分」にはありますが)。</li>
 </ul>
 <p>...というように。
 こういうcodeと共に仕事するのは、嫌で嫌で仕方ありません。</p>
@@ -172,7 +179,7 @@ waitしたいみたいなんですが、
 
 
 
-     <time datetime="2018-01-16T12:20:24+09:00" class="updated">
+     <time datetime="2018-01-16T14:42:29+09:00" class="updated">
        Updated
        <span class="month">Jan</span>
        <span class="day">16</span>,
@@ -207,6 +214,8 @@ waitしたいみたいなんですが、
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2018/01/30/rpa-and-sikuli/" title="Previous Post: RPA and Sikuli">&laquo; RPA and Sikuli</a>
+      
       
         <a class="basic-alignment right" href="/blog/2017/12/19/spock-and-jmockit/" title="Next Post: Spock and JMockit">Spock and JMockit &raquo;</a>
       
@@ -229,6 +238,14 @@ waitしたいみたいなんですが、
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/01/30/jhipster/">JHipster</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/30/rpa-and-sikuli/">RPA and Sikuli</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/01/16/unbelievable-coding/">Unbelievable Coding</a>
       </li>
     
@@ -238,14 +255,6 @@ waitしたいみたいなんですが、
     
       <li class="post">
         <a href="/blog/2017/12/05/dream-of-deth/">Dream of Deth</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/01/rx-as-stream-api/">Rx as Stream API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/01/checkbox-checked-drawable-not-shown/">CheckBox.checked Drawable Not Shown</a>
       </li>
     
   </ul>

@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-01-16T12:20:24+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-01-16T12:20:24+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-01-30T13:58:58+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-30T13:58:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
+それと今ならSPAでぼくはAngular派なので、
+それに今時認証は自分でやりたくないよねとOAuth2で、
+連動させるの大変だなぁとかって思ってたら、
+そういうの全部ひっくるめた<a href="http://www.jhipster.tech/">JHipster</a>というのがあるんだ!
+というのが衝撃でした。
+かなり前からあったんですね。</p>
+<p>ただこれ難しいですね。
+scaffoldingまでは簡単ですけど、
+そこからどうしていいのか。
+自動生成filesはなるべく弄りたくないですが、
+そうもいかないですよねこれ。
+samplesも、「そこから先」についてはなかなか。
+<a href="https://www.infoq.com/minibooks/jhipster-4-mini-book">JHipster Mini-Book 4.0</a>も見てみましたものの、それをなぞって行けるわけでは無かったので。
+scaffoldingと、JDLでentities作って、
+<code>jhipster spring-controller Foo</code>や<code>ng g component Bar</code>とかのcommandで取っ掛かりを作って、
+そこから作り込んでいく、感じでしょうか。</p>
+<p>Angular CLIがうまく動かなかった等あったのでメモ。
+jhipsterのversionが変われば、こんな知識も不要になると思われますが。</p>
+<ul>
+<li>JDLでfield名はsnakeやhyphenationではなくcamelで。
+DBだからhyphenかなと思ったんですが、
+生成されたclassのfield名がcamelにならなかったので。</li>
+<li>JDLでUserは特別なentity。
+<a href="http://www.jhipster.tech/managing-relationships/">Manual</a>に書いてありました。
+scaffoldingの次は取り敢えず
+<a href="https://start.jhipster.tech/jdl-studio/">JDL Studio</a>でentity作成、import、
+になるのに、解説すっ飛ばしてJDL見たので、なんだろう?って思うんですよね。</li>
+<li>jhipster 4.13.3で入るAngular CLI(<code>./node_modules/@angular/cli/</code>)のversionは
+1.6.0(<code>package.json</code>)でbug持ち(<code>@angular-devkit/core</code>が入らない)なので、
+<code>ng g ...</code>が失敗します。<code>package.json</code>中の<code>@angular/cli</code>の
+version numberを最新のもの(本執筆時点では1.6.6)に書き換え、
+<code>yarn install</code>するとうまく行きました
+(Angular CLIをglobalでinstallしてもlocalのversionのモノを使うのでダメ、
+<code>@angular-devkit/core</code>を個別に<code>npm install ...</code>しても、
+次から次へと足りないものが出て来て、
+全部入れた挙句の果てに<code>yarn start</code>がコケるようになるのでダメ)。</li>
+</ul>
+<p>JHipsterは「Java/Angular版Rails」か! とも思ったんですが、
+もう出てだいぶ経つみたいですし、
+でもまだそこまで洗練されてはいないのかなと。
+Angularの難しさ、面倒臭さ、
+とnode modules周りの変化が激しいのもあるためか、
+使いこなすのはなかなか大変だと思います。</p>
+]]></content></entry><entry><title type="html"><![CDATA[RPA and Sikuli]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/rpa-and-sikuli/"/><updated>2018-01-30T12:00:47+09:00</updated><id>/blog/2018/01/30/rpa-and-sikuli/</id><content type="html"><![CDATA[<p>昨日、社内で「事務部門はRPA(Robotics Process Automation)を導入して業務効率化を図る」という発表があったので、どんな凄いことしてるのかと思ったら、要するに<a href="http://www.sikuli.org">Sikuli</a>のパクリなんですね<a href="https://www.asirrera.com/solution/">これ</a>。年間150万近く払ってこんなの使いたいなんて、よくわかんないですタダで出来るのに。</p>
+<p>しかし、Sikuliに「ロボ・オペレータ」とかRobotics Process Automationとかご大層な名前を付けて、ITに疎い事務部門に売り付けるという発想は、凄いと思いました。それは思い付かなかったですねー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-01-16T14:42:29+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
 <ul>
 <li>onTouchListenerの上にonClickListenerを上書き<br  />
 あるbuttonを<code>setOnTouchListener(this);</code>してて。
@@ -35,7 +82,14 @@ waitしたいみたいなんですが、
 <li><code>synchronized wait()</code>で同期
 他Activity(dialog)に遷移させ、
 その同期に<code>synchronized(this){wait();}</code>って使ってます。
-そういうthread jugglingはやめて欲しい、です。</li>
+そういうthread jugglingはやめて欲しい、です。
+こういうのってホントはRXですよね。</li>
+<li>method/field名が大文字で始まっててclass名と区別がつかない、
+なんていうのは可愛い方で、もう気にもならなくなってますそういえば。
+methodも長いし条件分岐も複雑で、
+state patternとかなんて知らないんだろうなぁと。</li>
+<li>というか全てがfat ActionでFragmentもなければApplicationもないという
+(基本的には。後から「訳も分からずダーッとコピペした部分」にはありますが)。</li>
 </ul>
 <p>...というように。
 こういうcodeと共に仕事するのは、嫌で嫌で仕方ありません。</p>
@@ -1030,148 +1084,4 @@ file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自
 </span><span class='line'>  <span class="err">&lt;</span>/jsp-config&gt;
 </span><span class='line'><span class="err">&lt;</span>/glassfish-web-app&gt;
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
-試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p>
-<p>従いまして、「SqlCipherの<code>key</code>を64文字の16進数にすれば速くなる」が結論です。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥
-</span><span class='line'>09-27 16:25:59.010 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
-</span><span class='line'>09-27 16:25:59.400 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
-</span><span class='line'>
-</span><span class='line'>64å­key
-</span><span class='line'>09-27 16:24:26.060 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
-</span><span class='line'>09-27 16:24:26.080 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
-</span></code></pre></td></tr></table></div></figure>
-<p>そこで、実際にAllcaridaで<code>c.bin</code>,<code>r.bin</code>だけ64字key版を作って「履歴一覧」画面表示を比較してみると、従来約3.5秒のところ約0.2秒で開けることを確認しました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥ 3.46ç§(ç´0.6ç§Ã5+Î±)
-</span><span class='line'>09-27 17:53:03.670 9054-9054/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
-</span><span class='line'>09-27 17:53:03.680 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
-</span><span class='line'>09-27 17:53:04.360 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:53:04.380 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
-</span><span class='line'>09-27 17:53:05.010 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:53:05.050 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
-</span><span class='line'>09-27 17:53:05.710 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:53:05.720 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
-</span><span class='line'>09-27 17:53:06.370 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:53:06.390 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
-</span><span class='line'>09-27 17:53:07.030 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>
-</span><span class='line'>64å­key 0.21ç§(0.0+0.01+0.01+0.02+0.03+Î±)
-</span><span class='line'>09-27 17:50:57.350 4493-4493/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
-</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
-</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:50:57.400 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
-</span><span class='line'>09-27 17:50:57.410 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:50:57.460 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
-</span><span class='line'>09-27 17:50:57.470 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:50:57.480 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
-</span><span class='line'>09-27 17:50:57.500 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span><span class='line'>09-27 17:50:57.530 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
-</span><span class='line'>09-27 17:50:57.560 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
-</span></code></pre></td></tr></table></div></figure>
-<p>More concretely,</p>
-<p><code>SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, "x\'2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99\'", null);</code></p>
-<p>in Java.</p>
-<p>To get a rekeyed file,</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt install sqlcipher
-</span><span class='line'>$ sqlcipher /tmp/c.bin
-</span><span class='line'>SQLCipher version 3.15.2 2016-11-28 19:13:37
-</span><span class='line'>Enter &quot;.help&quot; for instructions
-</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
-</span><span class='line'>sqlite&gt; PRAGMA key = &#39;7824&#39;;
-</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;c2.bin&#39; AS c KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
-</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;c&#39;);
-</span><span class='line'>
-</span><span class='line'>sqlite&gt; DETACH DATABASE c;
-</span><span class='line'>sqlite&gt;
-</span></code></pre></td></tr></table></div></figure>
-<p>You'll get <code>c2.bin</code> with the new 64bit key.</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sqlcipher r.bin
-</span><span class='line'>SQLCipher version 3.8.6 2014-08-15 11:46:33
-</span><span class='line'>Enter &quot;.help&quot; for instructions
-</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
-</span><span class='line'>sqlite&gt; PRAGMA key = &quot;7824&quot;;
-</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;r2.bin&#39; AS r KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
-</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;r&#39;);
-</span><span class='line'>
-</span><span class='line'>sqlite&gt; DETACH DATABASE r;sqlite&gt; PRAGMA user_version;
-</span><span class='line'>0
-</span><span class='line'>sqlite&gt; PRAGMA user_version = 6;
-</span><span class='line'>sqlite&gt; PRAGMA user_version;
-</span><span class='line'>6
-</span><span class='line'>sqlite&gt;
-</span></code></pre></td></tr></table></div></figure>
-<p>You'll get <code>r2.bin</code> with the new 64bit key and version 6.</p>
-<p><code>PRAGMA user_version</code> is needed because in SQLiteOpenHelper class judges whether it calls <code>onCreate</code>(table creation) by <code>db.getVersion()</code>.
-<a href="http://d.hatena.ne.jp/isher/20091108/1257684508">[Android]データベースをアップグレードする時</a></p>
-<p>そもそも画面遷移に4秒も掛かるようなAndroidアプリをリリースするなんていうのもunbelievableですが、そういう人達なので...</p>
-<p>まぁ、暗号化するにせよ自分なら<a href="https://realm.io/">Realm</a>使うので、こんな知識不要ですけど、SqlCipher使うなら最初から64字16進code使うべきなんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Test Failed on AndroidStudio]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/test-failed-on-androidstudio/"/><updated>2017-11-15T17:09:06+09:00</updated><id>/blog/2017/09/28/test-failed-on-androidstudio/</id><content type="html"><![CDATA[<p>Android Studio(2.3.1)で久し振りにtestを動かしてみると、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Caused by: java.lang.ClassNotFoundException: android.view.View$OnClickListener
-</span></code></pre></td></tr></table></div></figure>
-<p>と言われて動かなくなりました。
-instrumentation testではなくフツーのtestですjunit4とmockitoの。
-<a href="https://stackoverflow.com/questions/14213219/java-lang-noclassdeffounderrorandroid-and-junit-test">java.lang.NoClassDefFoundError:android and junit test</a>を見付けて、えーとか思いつつもやってみたら、確かに直りました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ rm -rf .gradle
-</span></code></pre></td></tr></table></div></figure>
-<h3>追記</h3>
-<p>projectを<code>clean</code>した後、いくらbuildしても「<code>databinding</code> classが見つからない」と言われて困った時にも効きました。</p>
 ]]></content></entry></feed>

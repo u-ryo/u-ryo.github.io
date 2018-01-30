@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/angular/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-30T13:58:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
+それと今ならSPAでぼくはAngular派なので、
+それに今時認証は自分でやりたくないよねとOAuth2で、
+連動させるの大変だなぁとかって思ってたら、
+そういうの全部ひっくるめた<a href="http://www.jhipster.tech/">JHipster</a>というのがあるんだ!
+というのが衝撃でした。
+かなり前からあったんですね。</p>
+<p>ただこれ難しいですね。
+scaffoldingまでは簡単ですけど、
+そこからどうしていいのか。
+自動生成filesはなるべく弄りたくないですが、
+そうもいかないですよねこれ。
+samplesも、「そこから先」についてはなかなか。
+<a href="https://www.infoq.com/minibooks/jhipster-4-mini-book">JHipster Mini-Book 4.0</a>も見てみましたものの、それをなぞって行けるわけでは無かったので。
+scaffoldingと、JDLでentities作って、
+<code>jhipster spring-controller Foo</code>や<code>ng g component Bar</code>とかのcommandで取っ掛かりを作って、
+そこから作り込んでいく、感じでしょうか。</p>
+<p>Angular CLIがうまく動かなかった等あったのでメモ。
+jhipsterのversionが変われば、こんな知識も不要になると思われますが。</p>
+<ul>
+<li>JDLでfield名はsnakeやhyphenationではなくcamelで。
+DBだからhyphenかなと思ったんですが、
+生成されたclassのfield名がcamelにならなかったので。</li>
+<li>JDLでUserは特別なentity。
+<a href="http://www.jhipster.tech/managing-relationships/">Manual</a>に書いてありました。
+scaffoldingの次は取り敢えず
+<a href="https://start.jhipster.tech/jdl-studio/">JDL Studio</a>でentity作成、import、
+になるのに、解説すっ飛ばしてJDL見たので、なんだろう?って思うんですよね。</li>
+<li>jhipster 4.13.3で入るAngular CLI(<code>./node_modules/@angular/cli/</code>)のversionは
+1.6.0(<code>package.json</code>)でbug持ち(<code>@angular-devkit/core</code>が入らない)なので、
+<code>ng g ...</code>が失敗します。<code>package.json</code>中の<code>@angular/cli</code>の
+version numberを最新のもの(本執筆時点では1.6.6)に書き換え、
+<code>yarn install</code>するとうまく行きました
+(Angular CLIをglobalでinstallしてもlocalのversionのモノを使うのでダメ、
+<code>@angular-devkit/core</code>を個別に<code>npm install ...</code>しても、
+次から次へと足りないものが出て来て、
+全部入れた挙句の果てに<code>yarn start</code>がコケるようになるのでダメ)。</li>
+</ul>
+<p>JHipsterは「Java/Angular版Rails」か! とも思ったんですが、
+もう出てだいぶ経つみたいですし、
+でもまだそこまで洗練されてはいないのかなと。
+Angularの難しさ、面倒臭さ、
+とnode modules周りの変化が激しいのもあるためか、
+使いこなすのはなかなか大変だと思います。</p>
+]]></content></entry></feed>
