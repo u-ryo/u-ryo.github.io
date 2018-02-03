@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-01-30T13:58:58+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-30T13:58:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-02-04T01:19:53+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Brain Science]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/brain-science/"/><updated>2018-02-04T01:19:53+09:00</updated><id>/blog/2018/02/03/brain-science/</id><content type="html"><![CDATA[<p>出されている仕事先の事務女性が前社長夫人で、
+今頃になってパワハラとか受けて辞めそうだと聞いていて、
+そういう今日このごろに刺さった記事がありました。
+<a href="http://toyokeizai.net/articles/-/205707">ヒトの脳は｢他人を裁く｣ようにできている ｢暴走する正義漢｣を止める方法はない</a>
+そこから、
+「シャーデンフロイデ」(≒メシウマ)、
+脳科学者中野信子さん、と調べて読んでいきました。</p>
+<ul>
+<li><a href="http://logmi.jp/234713">ネットで誰かを吊し上げて叩くと快感が得られる–脳科学者・中野信子氏が解説する「シャーデンフロイデ」という感情</a></li>
+<li><a href="http://news.livedoor.com/article/detail/9282077/">脳科学者・中野信子「人間は実力のある人よりも、確信のある人のほうにひかれるのです」</a></li>
+<li><a href="https://www.cafeglobe.com/2017/11/065561book.html">脳科学者・中野信子さんが教える「大人のいじめ」回避のしかた</a></li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Optical Illusion]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/optical-illusion/"/><updated>2018-02-03T15:07:12+09:00</updated><id>/blog/2018/02/03/optical-illusion/</id><content type="html"><![CDATA[<p>IT mediaの記事(<a href="http://www.itmedia.co.jp/news/articles/1802/02/news010.html">コンピュータで“錯視”の謎に迫る：試してびっくり　点を回転させると円に見える「グラス・パターン」錯視の謎</a>)を見て、<a href="http://araiweb.matrix.jp/Exhibition/illusiongallary4.html">こんな世界</a>があるんだー! って驚きました。錯視を引き起こす成分を分離できるなんて!
+ここでも出来るのかな?</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span><span class='line'>
+</span><span class='line'>ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤
+</span><span class='line'>ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤
+</span><span class='line'>
+</span><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T21:52:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、
@@ -36,6 +67,7 @@ version numberを最新のもの(本執筆時点では1.6.6)に書き換え、
 <code>@angular-devkit/core</code>を個別に<code>npm install ...</code>しても、
 次から次へと足りないものが出て来て、
 全部入れた挙句の果てに<code>yarn start</code>がコケるようになるのでダメ)。</li>
+<li><code>ng g component Foo</code>としてそれを表示させるにはどうしたらいいんだろう? と悩みました。route作ってそこで表示させるべく、他のentityとか見よう見真似で<code>foo.route.ts</code>作ってpath直打ちして試したものの、表示されず。errorも何も出ないので、何が悪いのか分かりません。多分登録が届いてないんだろうとは思ってたんですけど、具体的にどこをどう直せばいいのかわけわかめです。<a href="https://stackoverflow.com/questions/46587247/adding-new-route-to-jhipster-using-angular-4">StackOverflow</a>に回答があったので出来ました。結局、0.<code>ng g component Foo</code>でcomponentを作る 1.<code>foo.route.ts</code>を作る(その際<code>Routes</code>で配列にするのではなく<code>Route</code>で単数に?) 2.<code>index.ts</code>を真似して作る(<code>foo.module</code>のimportは記載不要) 3.<code>foo.module.ts</code>を作る 4.<code>app.module.ts</code>に登録(その際Angular CLIが自動登録したcomponentは削除しないとtop pageが表示されず) →そもそもcomponentではなくmoduleをgenerateするべきだったのでしょうか。よくわかりませんが、scaffoldingの後のことはなかなか書いてないので、「こんなのわかんないよー」という感じです。</li>
 </ul>
 <p>JHipsterは「Java/Angular版Rails」か! とも思ったんですが、
 もう出てだいぶ経つみたいですし、
@@ -43,9 +75,9 @@ version numberを最新のもの(本執筆時点では1.6.6)に書き換え、
 Angularの難しさ、面倒臭さ、
 とnode modules周りの変化が激しいのもあるためか、
 使いこなすのはなかなか大変だと思います。</p>
-]]></content></entry><entry><title type="html"><![CDATA[RPA and Sikuli]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/rpa-and-sikuli/"/><updated>2018-01-30T12:00:47+09:00</updated><id>/blog/2018/01/30/rpa-and-sikuli/</id><content type="html"><![CDATA[<p>昨日、社内で「事務部門はRPA(Robotics Process Automation)を導入して業務効率化を図る」という発表があったので、どんな凄いことしてるのかと思ったら、要するに<a href="http://www.sikuli.org">Sikuli</a>のパクリなんですね<a href="https://www.asirrera.com/solution/">これ</a>。年間150万近く払ってこんなの使いたいなんて、よくわかんないですタダで出来るのに。</p>
+]]></content></entry><entry><title type="html"><![CDATA[RPA and Sikuli]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/rpa-and-sikuli/"/><updated>2018-01-30T20:42:32+09:00</updated><id>/blog/2018/01/30/rpa-and-sikuli/</id><content type="html"><![CDATA[<p>昨日、社内で「事務部門はRPA(Robotics Process Automation)を導入して業務効率化を図る」という発表があったので、どんな凄いことしてるのかと思ったら、要するに<a href="http://www.sikuli.org">Sikuli</a>のパクリなんですね<a href="https://www.asirrera.com/solution/">これ</a>。年間150万近く払ってこんなの使いたいなんて、よくわかんないですタダで出来るのに。</p>
 <p>しかし、Sikuliに「ロボ・オペレータ」とかRobotics Process Automationとかご大層な名前を付けて、ITに疎い事務部門に売り付けるという発想は、凄いと思いました。それは思い付かなかったですねー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-01-16T14:42:29+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-01-30T20:42:32+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
 <ul>
 <li>onTouchListenerの上にonClickListenerを上書き<br  />
 あるbuttonを<code>setOnTouchListener(this);</code>してて。
@@ -93,7 +125,7 @@ state patternとかなんて知らないんだろうなぁと。</li>
 </ul>
 <p>...というように。
 こういうcodeと共に仕事するのは、嫌で嫌で仕方ありません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2018-01-16T10:02:12+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
+]]></content></entry><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2017-12-23T00:37:17+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
 いざ全pattern cross check! と思ったら、
 無限loopになるpatternが多くて。
 <code>@Timeout</code>導入でサクッと、と思ったら、
@@ -151,7 +183,7 @@ GroovyでなくJavaなら<code>Timeout</code>だけで済むじゃーないで�
 JUnitParamsなら、明示的に単一methodに対してparameter指定できるので安心です。</p>
 <p>...ダメです。JUnitParams使うと、Timeout効かないことがわかりました。
 悲しい。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Dream of deth]]></title><link href="http://u-ryo.github.io//blog/2017/12/05/dream-of-deth/"/><updated>2018-01-16T10:02:12+09:00</updated><id>/blog/2017/12/05/dream-of-deth/</id><content type="html"><![CDATA[<p>自分でもどういうわけかわかりませんが、
+]]></content></entry><entry><title type="html"><![CDATA[Dream of deth]]></title><link href="http://u-ryo.github.io//blog/2017/12/05/dream-of-deth/"/><updated>2017-12-10T00:13:19+09:00</updated><id>/blog/2017/12/05/dream-of-deth/</id><content type="html"><![CDATA[<p>自分でもどういうわけかわかりませんが、
 殺される夢を見ました。
 realな夢です。
 おかげで、2時半過ぎに寝たばかりなのに、5時頃起きてしまいました。
@@ -203,7 +235,7 @@ realな夢です。
 なるほど! 確かに、ぼくも朝その時から悪寒はしてた感じなので、
 悪寒の説明をつけるために、脳が勝手な物語を紡いだ、のかな。
 だから単に体調が悪いというsignだったんでしょう。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2017-12-01T17:41:42+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
+]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2017-12-02T22:29:46+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
 Stream APIのようにCollectionsを扱えません。
 折角Java8で覚えたのに。
 ですが、RxJavaを使うとほぼStream APIのように書けるんですねーへーーー。
@@ -212,7 +244,7 @@ Stream APIのようにCollectionsを扱えません。
 ifの条件節に直接書けるようになりました。
 <code>Optional</code>も出来るんですね。
 書いてありますが、キモは<code>toBlocking().single()</code>でしょうか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2017-12-01T17:04:47+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2017-12-02T22:29:46+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
 暗い背景なので、defaultのdesignだと見にくいんですね。
 なのでcustomの白っぽいのに差し替えようとしたんですが、
 なかなかうまく行かなかったのです。
@@ -270,7 +302,7 @@ stackoverflowの<a href="https://stackoverflow.com/questions/34508164/cant-creat
 なるほどと思ってそうすると、
 結構色んな箇所で出るべきものが出なくなるんですよね。
 気を付けないとなりません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2017-11-24T18:33:21+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2017-11-29T20:38:56+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
 <code>ListView</code>のそれぞれに<code>CheckBox</code>をつけたら、
 checkboxはcheck出来るものの、項目選択が出来なくなりました。
 どうやら<code>onItemClick</code>が呼ばれてない様子。
@@ -286,7 +318,7 @@ checkboxはcheck出来るものの、項目選択が出来なくなりました�
 background処理後、<code>Adapter</code>の値を変えただけでは<code>CheckBox</code>の見た目に変化はないんですね。
 explicitに<code>setChecked(false)</code>して回らないとなりません。
 その際、<code>listView.getChildCount()</code>で取れるcountは、<code>ListView</code>の全てではなく、見える範囲のListのobjectなんですね! 確かにscrollすればredrawかかってadapterの値が反映されるからいいんですけど、何かしない限りredrawされないから自分で描画しないとならないんですねー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[OnClickListener with ProgressDialog by RxAndroid]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/"/><updated>2017-11-24T18:25:09+09:00</updated><id>/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/</id><content type="html"><![CDATA[<p>「clickしたらbackgroundで処理して
+]]></content></entry><entry><title type="html"><![CDATA[OnClickListener with ProgressDialog by RxAndroid]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/"/><updated>2017-11-29T20:38:56+09:00</updated><id>/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/</id><content type="html"><![CDATA[<p>「clickしたらbackgroundで処理して
 その間ProgressDialog出して
 終わったらProgressDialog消して
 終了/失敗dialogを表示する」のを
@@ -541,7 +573,7 @@ retrofit2を使うともうちょっと違うかも。</p>
 </span><span class='line'>    }
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Security Links]]></title><link href="http://u-ryo.github.io//blog/2017/10/21/security-links/"/><updated>2017-12-14T10:41:36+09:00</updated><id>/blog/2017/10/21/security-links/</id><content type="html"><![CDATA[<p>Security関係のLinkをまとめました。
+]]></content></entry><entry><title type="html"><![CDATA[Security Links]]></title><link href="http://u-ryo.github.io//blog/2017/10/21/security-links/"/><updated>2017-10-22T00:23:38+09:00</updated><id>/blog/2017/10/21/security-links/</id><content type="html"><![CDATA[<p>Security関係のLinkをまとめました。
 はてぶにすればいいのに > 自分</p>
 <ul>
 <li><a href="https://takagi-hiromitsu.jp/diary/">高木浩光＠自宅の日記</a></li>
@@ -554,7 +586,7 @@ retrofit2を使うともうちょっと違うかも。</p>
 <li><a href="http://blog.macnica.net/">マクニカネットワークスセキュリティ研究センターブログ</a></li>
 </ul>
 <p>あー、勉強しないと。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Knapsack Problem]]></title><link href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/"/><updated>2017-10-25T15:25:09+09:00</updated><id>/blog/2017/10/20/knapsack-problem/</id><content type="html"><![CDATA[<p>ここ最近、Knapsack Problemが流行っている感じがしています。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Knapsack Problem]]></title><link href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/"/><updated>2017-10-21T03:07:49+09:00</updated><id>/blog/2017/10/20/knapsack-problem/</id><content type="html"><![CDATA[<p>ここ最近、Knapsack Problemが流行っている感じがしています。</p>
 <p><a href="http://www.ap-siken.com/kakomon/29_haru/pm03.html">応用情報技術者過去問題 平成29年春期 午後問3</a>では基本「全探索」、改善提案が「枝刈り」でしたが、それでは全然不十分です。この問題は要するにKnapsack Problemのちょっとした変形で、code量もさしたることなく書けますし、折角FEではなくAPなのだし、日本の若者のためにも、Knapsackで書くよう誘導すべきだったのでは、と「禿げしく」思ったものでした。</p>
 <p>すると、今度は<a href="http://www.ap-siken.com/kakomon/29_aki/pm03.html">応用情報技術者過去問題 平成29年秋期 午後問3</a>でKnapsack Problemを正面から出してきましたね。0-1ではなく普通の。ぼくは前回のrevengeではないかと思ってみています。
 問題自体は、あまりにも普通のKnapsack Problemなので、ツッコミようがなくてつまんなかったデス。</p>
@@ -568,7 +600,7 @@ retrofit2を使うともうちょっと違うかも。</p>
 <li><a href="http://fantom1x.blog130.fc2.com/blog-entry-174.html">【Java】ナップサック問題(knapsack)[動的計画法]  </a></li>
 </ul>
 <p>ちなみに日本語では「ナップザック」、登山用語はドイツから入ってきたから、です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T15:50:42+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T20:38:56+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
 <ul>
 <li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -705,7 +737,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <li><p>mocking method実行時に他のことをしたい時には、<code>when(mock.methodCall()).thenAnswer(m -&gt; {...});</code>とlambdaで書ける(<a href="https://qiita.com/kazurof/items/1171c7e038050453c6c9#mockitoでのサンプル">mockitoとJMockitについてのメモ</a>)。</p>
 </li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Tomcat vulnerability CVE-2017-12617]]></title><link href="http://u-ryo.github.io//blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/"/><updated>2017-10-13T12:13:30+09:00</updated><id>/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/</id><content type="html"><![CDATA[<p><a href="https://oss.sios.com/security/tomcat-security-vulnerabiltiy-20170920">Tomcatの複数の脆弱性(CVE-2017-12617, CVE-2017-12615 , CVE-2017-12616)</a>が、範囲が広がって出てました。
+]]></content></entry><entry><title type="html"><![CDATA[Tomcat vulnerability CVE-2017-12617]]></title><link href="http://u-ryo.github.io//blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/"/><updated>2017-10-16T21:11:35+09:00</updated><id>/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/</id><content type="html"><![CDATA[<p><a href="https://oss.sios.com/security/tomcat-security-vulnerabiltiy-20170920">Tomcatの複数の脆弱性(CVE-2017-12617, CVE-2017-12615 , CVE-2017-12616)</a>が、範囲が広がって出てました。
 <code>readonly initialization parameter</code>を<code>false</code>にして<code>PUT</code>を有効化している時にaffectする(任意のjsp fileを不正に<code>PUT</code>してから好き放題する)、とのことなので、きょうびはRESTで<code>PUT</code>多用するから影響範囲広いんでしょうか? 否、「default servletのinitialization parameter(具体的には<code>web.xml</code>の<code>servlet</code>tagの<code>init-param</code>)で<code>false</code>を明示した時(defaultは<code>true</code>)なので、殆どのところはそんなことしてないから大丈夫なんじゃないでしょうか。
 実際、<a href="https://github.com/cyberheartmi9/CVE-2017-12617">POC</a>で試してみたところ、うちのsiteは(version的には範囲内ですが)<code>Not Vulnerable to CVE-2017-12617</code>と出ました。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -743,7 +775,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 </span><span class='line'>Poc Filename  Poc.jsp
 </span><span class='line'>Not Vulnerable to CVE-2017-12617
 </span></code></pre></td></tr></table></div></figure></p>
-]]></content></entry><entry><title type="html"><![CDATA[Alpaca Algo]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/08/alpaca-algo/</id><content type="html"><![CDATA[<p>こういうの、あったんですねー。すごいすごい。
+]]></content></entry><entry><title type="html"><![CDATA[Alpaca Algo]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/"/><updated>2017-10-09T16:29:39+09:00</updated><id>/blog/2017/10/08/alpaca-algo/</id><content type="html"><![CDATA[<p>こういうの、あったんですねー。すごいすごい。
 <a href="https://algo.alpaca.ai">Alpaca Algo</a>、かつてのCapitalicoだそうですが、
 自分でindicatorを指定して、勝ちpattern(負例も!)を指定して、
 そうすると裏で超高速に事例を学習し、
@@ -771,13 +803,13 @@ back testの期間をdefaultの3ヶ月ではなく、
 <li>売り・買い両方揃えないとダメかしらん。</li>
 <li>範囲はどこまで指定したらいいのか、よくわからないですが、何となく学習してるのはindicatorがどうのというより値動き(ローソク足)だけっぽい? いやでも確かにindicatorの種類だけ変えると結果変わるのでindicatorも見てるんでしょうけど...</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[EmbodyMe]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/embodyme/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/08/embodyme/</id><content type="html"><![CDATA[<p>Paizaのcasual面接ということで、<a href="https://www.facebook.com/issaymk2">吉田一星さん</a>とお会いしました。流石はYahooのsuper engineerだっただけはあり、凄かったです。麻布出身なんだー。頭いいわけですね。<a href="https://embodyme.com/">EmbodyMe</a>、早速体験させてもらえました。こんなのぼくには作れません。ぼくが本格的なVR初めてだった、というのもあるかもしれませんが、それを差っ引いても凄い、これだけでも十分面白いと思います。1000万くらい投資しようか、真剣に悩んでます。過去の<a href="http://www.appbank.net/2013/02/13/iphone-application/546662.php">怪人百面相</a>や<a href="http://nlab.itmedia.co.jp/nl/articles/1504/08/news077.html">なりきりろいど</a>は、競合が出ているしYahooのなので今はやめてしまっているそう。勿体無いです。っていうか、こういうのや吉田さんをちゃんと育てられなかったYahoo Japan、かなり幻滅しています。
+]]></content></entry><entry><title type="html"><![CDATA[EmbodyMe]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/embodyme/"/><updated>2017-10-08T18:00:53+09:00</updated><id>/blog/2017/10/08/embodyme/</id><content type="html"><![CDATA[<p>Paizaのcasual面接ということで、<a href="https://www.facebook.com/issaymk2">吉田一星さん</a>とお会いしました。流石はYahooのsuper engineerだっただけはあり、凄かったです。麻布出身なんだー。頭いいわけですね。<a href="https://embodyme.com/">EmbodyMe</a>、早速体験させてもらえました。こんなのぼくには作れません。ぼくが本格的なVR初めてだった、というのもあるかもしれませんが、それを差っ引いても凄い、これだけでも十分面白いと思います。1000万くらい投資しようか、真剣に悩んでます。過去の<a href="http://www.appbank.net/2013/02/13/iphone-application/546662.php">怪人百面相</a>や<a href="http://nlab.itmedia.co.jp/nl/articles/1504/08/news077.html">なりきりろいど</a>は、競合が出ているしYahooのなので今はやめてしまっているそう。勿体無いです。っていうか、こういうのや吉田さんをちゃんと育てられなかったYahoo Japan、かなり幻滅しています。
 VRとかVisual系には疎い経歴なのに、なんでPaizaで声掛けてきたのかな、というのが最大の疑問でした。聞いてみますと、求人者側からは「研究開発」とかしか見えず、何をしていたのかはよくわからないinterfaceのようでした。要するにPaizaのUIがしょぼくてmismatchを誘発していたんですね。
 中国とかの方がVR、もっと溶け込んでいるらしいです。街のSC(Shopping Center)とかにVRがあったりとか。へー。日本って遅れてるんですね。日本ではsmart glassesが流行らないっていうのも、その辺にあるんですかね。
 日本の半導体工場で、closed intranetじゃないと云々、とか言ってる時点で日本捨てたら? というのは、なるほどそうですね。そもそも日本の半導体なんて、もうピーク終わってますもんねぇ。
 吉田さんに比べれば、ぼくの経歴やら技術力なんてつまんないもんです。
 Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞かれました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CEATEC 2017]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/ceatec-2017/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/08/ceatec-2017/</id><content type="html"><![CDATA[<p>過日、<a href="http://www.ceatec.com/ja/">CEATEC Japan 2017</a>に行って来ました。
+]]></content></entry><entry><title type="html"><![CDATA[CEATEC 2017]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/ceatec-2017/"/><updated>2017-10-09T16:05:11+09:00</updated><id>/blog/2017/10/08/ceatec-2017/</id><content type="html"><![CDATA[<p>過日、<a href="http://www.ceatec.com/ja/">CEATEC Japan 2017</a>に行って来ました。
 見所は色々<a href="http://www.watch.impress.co.jp/headline/extra/2017/ceatec/">報じられている通り</a>ですが、お前はどうだったの? という観点で勝手な印象を。</p>
 <ul>
 <li><a href="http://kaden.watch.impress.co.jp/docs/news/1084050.html">卓球ロボット(フォルフェウス)</a>はニュースでも取り上げられてましたね。OMRONなんですねこれ。なんでOMRONこんなことやってるんでしょう。smashは無理なんじゃね? と思ってたら、今回から対応したとのこと。最初にuser登録して、そのuserがsmashしそうになったらそれを検知して対応するんだとか。それは凄いですね。でも、打ち返すのがやっとのようでした。</li>
@@ -791,7 +823,7 @@ Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞�
 <li>SHARPの8K、よ〜く見ると細かいところが滲んでたのは、多分撮影側が追いついてないせいでしょう。それより応用事例として心臓外科手術の映像流してましたがそちらの方が面白かったです。</li>
 <li><a href="http://internet.watch.impress.co.jp/docs/event/1084817.html">NTTのVRバッティングマシーン</a>は並ぶのでパス、<a href="http://k-tai.watch.impress.co.jp/docs/event/ceatec2017/1083982.html">KDDIの5G</a>は、遠隔の人の動きと同じ動きをロボットがするというものですけど、動いていなかったし慶応が同じことやってました。<a href="http://av.watch.impress.co.jp/docs/news/1084017.html">VR不動産案内</a>はあんまり魅力を感じず。富士通では量子コンピュータの話はあんまり見ず、コーヒーとクッキーだけ御馳走になりました。</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
+]]></content></entry><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-09T17:08:19+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
 ひょんなことから<a href="http://ukkyo.sakura.ne.jp/">未経験２７歳プログラマーへの道（イバラ）</a>を見付けて、一気に読んでしまいました。
 最初の企業の話は、まさに今のぼくのと符合するところが多く。
 でもこの人、人類みな京大なんですね頭いいんだ... というより、数学的で要領がいいんですね(ってご自分でも書いてますね)。
@@ -928,7 +960,7 @@ Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞�
 これもまた言うは易しというもの。
 できるなら誰もがやってる。</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Vulnerability POC site]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/vulnerability-poc-site/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/05/vulnerability-poc-site/</id><content type="html"><![CDATA[<p>各種POCがありました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Vulnerability POC site]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/vulnerability-poc-site/"/><updated>2017-10-05T23:10:34+09:00</updated><id>/blog/2017/10/05/vulnerability-poc-site/</id><content type="html"><![CDATA[<p>各種POCがありました。</p>
 <ul>
 <li><a href="https://github.com/coffeehb/Some-PoC-oR-ExP">各漏洞poc、Exp的收集或写</a></li>
 </ul>
@@ -947,141 +979,4 @@ bannerは信じちゃダメですよね。ぼくも対策を求められて面�
 <li><p><a href="http://mkt-eva.hateblo.jp/entry/2017/09/11/020530">Apache Struts 2の脆弱性(S2-052)や(S2-053)についてのまとめてみた。</a> POCへのlinkがありました。</p>
 </li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Enforce FullGC to JavaVM]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/enforce-fullgc-to-javavm/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/05/enforce-fullgc-to-javavm/</id><content type="html"><![CDATA[<p>あ、FullGCって強制的にかけられるんですね。</p>
-<p><a href="http://cco.hatenablog.jp/entry/2013/05/20/223212">JavaでFull GCを実行する方法</a></p>
-<p>要するに、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>jmap -histo:live <span class="nt">&lt;pid&gt;</span>
-</span><span class='line'>or
-</span><span class='line'>jcmd <span class="nt">&lt;pid&gt;</span> GC.heap_dump <span class="nt">&lt;output</span><span class="na">_filename</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>「生存中のオブジェクトのみ抽出したメモリーマップを作成するために、直前にFull GCを実行するのでこれを利用する」のだそう。「対象のJavaプロセスを実行しているユーザで実行する必要があるので注意」ご尤も。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Digest Authentication and File Realm on Glassfish]]></title><link href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/"/><updated>2017-12-14T11:29:06+09:00</updated><id>/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/</id><content type="html"><![CDATA[<p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と
-相変わらずわけわかんない指令を受けたので、
-「何かに使う『digest』認証を任意の『Realm』で設定」
-と解釈して取り組みました。
-一番簡単な<code>FileRealm</code>でいいっしょ、
-これは4848のGUIからRealms辿って<code>Manage Users</code>ボタンからuser足せばいいし、
-Digest Authは<code>&lt;auth-method&gt;DIGEST&lt;/auth-method&gt;</code>で瞬殺、
-とか思ってたら、ハマりました。
-<code>index.html</code>と<code>web.xml</code>のみの最小構成でproof application作ったのですが、
-どうしても認証できないのです。
-<code>server.log</code>見ると、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>SEC1105: A PasswordCredential was required but not provided.
-</span></code></pre></td></tr></table></div></figure>
-<p>と言われています。えー!? 何で?
-試しにBASIC認証にしてみると、(紆余曲折ありましたが要するに)通ります。
-だから、<code>keyfile</code>の書き方が悪いわけでは無いんですね。
-勿論色々ググりました。が、なかなか出て来ません類似例。
-辛うじて同じような症状があっても、Answerがついてません。
-半日悩みました。
-GlassfishのRealmって、
-JAAS Contextを指定する必要があって、これは<code>.../domains/domain/config/login.conf</code>で規定されているんですね。
-これを見ると、
-fileについては<code>fileRealm</code>は一つなのに、
-jdbcについては<code>jdbcRealm</code>と<code>jdbcDigestRealm</code>ってあるぢゃないですか。
-をぉ、と思って、source treeを探してみると、
-<code>com.sun.enterprise.security.auth.login.DigestLoginModule</code>
-というのもあるんですね。
-これどうやって使うんでしょうね。
-使い方とかも例も、
-JavaDocに書いてないしググっても出て来ませんでした。
-試しに<code>digestRealm</code>なんて<code>login.conf</code>に他のを真似して、
-上の<code>DigestLoginModule</code>を指定して作って使ってみたのですが、
-fileから読み込むようにはなっていないようで、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>WEB9102: Web Login Failed: com.sun.enterprise.security.auth.login.common.LoginException: Login failed: unable to instantiate LoginModule: null
-</span></code></pre></td></tr></table></div></figure>
-<p>と言われて失敗してました。
-...って、これ<code>abstract class</code>だから当たり前じゃないですか恥ずかしい。
-<code>DigestLoginModule</code>をextendsしてるのは<code>JDBCDigestLoginModule</code>だけだから、
-file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自前で作らないとならないんじゃないでしょうかね。
-でもそうならどっかにそう書いといてよねー。</p>
-<p>結局、大人しく<code>jdbcDigestRealm</code>を使うように変更することで面倒を回避しました。
-まぁ、それだけ世にDigest Authenticationのdemandがない、
-という証左なのかなと思いました。</p>
-<h3>minimum web.xml</h3>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
-</span><span class='line'><span class="nt">&lt;web</span><span class="na">-app</span> <span class="na">xmlns=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee&quot;</span>
-</span><span class='line'>         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-</span><span class='line'>         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee</span>
-</span><span class='line'><span class="s">                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;</span>
-</span><span class='line'>         <span class="na">version=</span><span class="s">&quot;3.0&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-constraint</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;web</span><span class="na">-resource-collection</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;web</span><span class="na">-resource-name</span><span class="nt">&gt;</span>Digest Authentication Test<span class="err">&lt;</span>/web-resource-name&gt;
-</span><span class='line'>      <span class="nt">&lt;url</span><span class="na">-pattern</span><span class="nt">&gt;</span>/*<span class="err">&lt;</span>/url-pattern&gt;
-</span><span class='line'>    <span class="err">&lt;</span>/web-resource-collection&gt;
-</span><span class='line'>    <span class="nt">&lt;auth</span><span class="na">-constraint</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
-</span><span class='line'>    <span class="err">&lt;</span>/auth-constraint&gt;
-</span><span class='line'>  <span class="err">&lt;</span>/security-constraint&gt;
-</span><span class='line'>  <span class="nt">&lt;login</span><span class="na">-config</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;auth</span><span class="na">-method</span><span class="nt">&gt;</span>DIGEST<span class="err">&lt;</span>/auth-method&gt;
-</span><span class='line'>    <span class="nt">&lt;realm</span><span class="na">-name</span><span class="nt">&gt;</span>someCreatedRealmUsingjdbcDigestRealmOnJAASContext<span class="err">&lt;</span>/realm-name&gt;
-</span><span class='line'>  <span class="err">&lt;</span>/login-config&gt;
-</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
-</span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
-</span><span class='line'><span class="err">&lt;</span>/web-app&gt;
-</span></code></pre></td></tr></table></div></figure>
-<h3>WEB-INF/glassfish-web.xml</h3>
-<p>glassfishの場合は、以下のように<code>role-name</code>と<code>group-name</code>を結びつける<code>glassfish-web.xml</code>もないとダメでした。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-</span><span class='line'><span class="cp">&lt;!DOCTYPE glassfish-web-app PUBLIC &quot;-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN&quot; </span>
-</span><span class='line'><span class="cp">&quot;http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd&quot;&gt;</span>
-</span><span class='line'><span class="nt">&lt;glassfish</span><span class="na">-web-app</span> <span class="na">error-url=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role-mapping</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/role-name&gt;
-</span><span class='line'>    <span class="nt">&lt;group</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/group-name&gt;
-</span><span class='line'>  <span class="err">&lt;</span>/security-role-mapping&gt;
-</span><span class='line'>  <span class="nt">&lt;class</span><span class="na">-loader</span> <span class="na">delegate=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;jsp</span><span class="na">-config</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;keepgenerated&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;description&gt;</span>.<span class="nt">&lt;/description&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/property&gt;</span>
-</span><span class='line'>  <span class="err">&lt;</span>/jsp-config&gt;
-</span><span class='line'><span class="err">&lt;</span>/glassfish-web-app&gt;
-</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry></feed>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/brain/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Brain Science]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/brain-science/"/><updated>2018-02-04T01:19:53+09:00</updated><id>/blog/2018/02/03/brain-science/</id><content type="html"><![CDATA[<p>出されている仕事先の事務女性が前社長夫人で、
+今頃になってパワハラとか受けて辞めそうだと聞いていて、
+そういう今日このごろに刺さった記事がありました。
+<a href="http://toyokeizai.net/articles/-/205707">ヒトの脳は｢他人を裁く｣ようにできている ｢暴走する正義漢｣を止める方法はない</a>
+そこから、
+「シャーデンフロイデ」(≒メシウマ)、
+脳科学者中野信子さん、と調べて読んでいきました。</p>
+<ul>
+<li><a href="http://logmi.jp/234713">ネットで誰かを吊し上げて叩くと快感が得られる–脳科学者・中野信子氏が解説する「シャーデンフロイデ」という感情</a></li>
+<li><a href="http://news.livedoor.com/article/detail/9282077/">脳科学者・中野信子「人間は実力のある人よりも、確信のある人のほうにひかれるのです」</a></li>
+<li><a href="https://www.cafeglobe.com/2017/11/065561book.html">脳科学者・中野信子さんが教える「大人のいじめ」回避のしかた</a></li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Optical Illusion]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/optical-illusion/"/><updated>2018-02-03T15:07:12+09:00</updated><id>/blog/2018/02/03/optical-illusion/</id><content type="html"><![CDATA[<p>IT mediaの記事(<a href="http://www.itmedia.co.jp/news/articles/1802/02/news010.html">コンピュータで“錯視”の謎に迫る：試してびっくり　点を回転させると円に見える「グラス・パターン」錯視の謎</a>)を見て、<a href="http://araiweb.matrix.jp/Exhibition/illusiongallary4.html">こんな世界</a>があるんだー! って驚きました。錯視を引き起こす成分を分離できるなんて!
+ここでも出来るのかな?</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span><span class='line'>
+</span><span class='line'>ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤
+</span><span class='line'>ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤ã¼ã¯ãå¤
+</span><span class='line'>
+</span><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span><span class='line'>å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼å¤ã¯ãã¼
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry></feed>

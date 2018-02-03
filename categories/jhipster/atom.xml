@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-30T13:58:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T21:52:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、
@@ -36,6 +36,7 @@ version numberを最新のもの(本執筆時点では1.6.6)に書き換え、
 <code>@angular-devkit/core</code>を個別に<code>npm install ...</code>しても、
 次から次へと足りないものが出て来て、
 全部入れた挙句の果てに<code>yarn start</code>がコケるようになるのでダメ)。</li>
+<li><code>ng g component Foo</code>としてそれを表示させるにはどうしたらいいんだろう? と悩みました。route作ってそこで表示させるべく、他のentityとか見よう見真似で<code>foo.route.ts</code>作ってpath直打ちして試したものの、表示されず。errorも何も出ないので、何が悪いのか分かりません。多分登録が届いてないんだろうとは思ってたんですけど、具体的にどこをどう直せばいいのかわけわかめです。<a href="https://stackoverflow.com/questions/46587247/adding-new-route-to-jhipster-using-angular-4">StackOverflow</a>に回答があったので出来ました。結局、0.<code>ng g component Foo</code>でcomponentを作る 1.<code>foo.route.ts</code>を作る(その際<code>Routes</code>で配列にするのではなく<code>Route</code>で単数に?) 2.<code>index.ts</code>を真似して作る(<code>foo.module</code>のimportは記載不要) 3.<code>foo.module.ts</code>を作る 4.<code>app.module.ts</code>に登録(その際Angular CLIが自動登録したcomponentは削除しないとtop pageが表示されず) →そもそもcomponentではなくmoduleをgenerateするべきだったのでしょうか。よくわかりませんが、scaffoldingの後のことはなかなか書いてないので、「こんなのわかんないよー」という感じです。</li>
 </ul>
 <p>JHipsterは「Java/Angular版Rails」か! とも思ったんですが、
 もう出てだいぶ経つみたいですし、

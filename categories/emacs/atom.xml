@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/emacs/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/emacs/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
 <p>最近のpackage管理は、便利になってるんですけど、用途によって色々と分かれてしまっているので、却って使いづらいというか。<code>apt-get install</code>でいいじゃん... ってのは、ダメなんですかねぇ。</p>
 <ul>
 <li><a href="http://sdkman.io/">SDKMAN!</a>(GVMの後継。Java系(Groovy,Ant,Kotlin,Maven,Scala,grails,JBoss Forge,...)のinstall、version管理に。installationは<code>curl -s api.sdkman.io|bash</code>)</li>
@@ -6,12 +6,12 @@
 <li><a href="https://github.com/cask/cask">cask</a>(<a href="http://qiita.com/tadsan/items/6c658cc471be61cbc8f6">2015年Emacsパッケージ事情</a>)</li>
 <li><a href="https://github.com/dimitri/el-get">El-Get</a>(<a href="http://tarao.hatenablog.com/entry/20150221/1424518030">Caskはもう古い、これからはEl-Get - いまどきのEmacsパッケージ管理</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[scp on emacs dired]]></title><link href="http://u-ryo.github.io//blog/2016/01/06/scp-on-emacs-dired/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/01/06/scp-on-emacs-dired/</id><content type="html"><![CDATA[<h3>emacs上でのscp with tramp</h3>
+]]></content></entry><entry><title type="html"><![CDATA[scp on emacs dired]]></title><link href="http://u-ryo.github.io//blog/2016/01/06/scp-on-emacs-dired/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2016/01/06/scp-on-emacs-dired/</id><content type="html"><![CDATA[<h3>emacs上でのscp with tramp</h3>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>/scp:mickey:/mnt/u-ryo/photo/20151227/
 </span></code></pre></td></tr></table></div></figure>
 <p>というように、<code>scp</code>とした方が良いらしい。</p>
-]]></content></entry><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
+]]></content></entry><entry><title type="html"><![CDATA[more package-list in emacs on ubuntu]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/"/><updated>2017-08-28T21:21:17+09:00</updated><id>/blog/2015/11/12/more-package-list-in-emacs-on-ubuntu/</id><content type="html"><![CDATA[<p>emacsでmarkdownを書く時に、
 markdown-modeが欲しいと思ったので、
 <code>list-package</code>したら、
 なかったんですね選択肢に。
