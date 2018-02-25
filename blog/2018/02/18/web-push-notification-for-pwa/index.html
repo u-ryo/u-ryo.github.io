@@ -147,6 +147,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 <li><code>sw.js</code>では、push通知が喜た場合<code>push</code> eventがfireされるので、<code>event.waitUntil(registration.showNotification(...)</code>する。この<code>registration</code>がどこから来るのかよくわからなかったが、ともあれ明示的に<code>waitUntil</code>して<code>showNotification</code>しないとならない(勝手に表示されるわけではない)。</li>
 <li>表示されたNotificationをclickすると<code>notificationClick</code> eventがfireされるので、clickしたらどこかへ遷移したい場合にはこのevent listenerを<code>sw.js</code>に書いておく必要がある。</li>
 <li>PWA用に、<code>sw.js</code>の<code>install</code> eventと<code>fetch</code> event listenerでfile chacheの作成とその利用をcodeする(<code>install</code>でcacheに加え、<code>fetch</code>ではcacheにあったらそれを、なければfetchするようにする)。</li>
+<li>notificationをpushするには、push server側でまず<code>new PushService(publicKey, privateKey, "http://localhost")</code>してから、clientから貰った情報で<code>push.send(new Notification(...))</code>する。中では色々と暗号化しているが、<a href="https://github.com/web-push-libs/webpush-java">nl.martijndwarsのwebpush-java</a>を使えばVAPIDのkey生成やnotificationのsendもone methodでよろしくやってくれる。他の言語も<a href="https://github.com/web-push-libs">web-push-libs</a>に各種あり。</li>
 </ol>
 <p>実際に自分で真似して書いてみて、
 値やcodeを色々変えて試してみることで、
@@ -167,7 +168,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 
 
 
-     <time datetime="2018-02-25T17:29:44+09:00" class="updated">
+     <time datetime="2018-02-25T17:40:37+09:00" class="updated">
        Updated
        <span class="month">Feb</span>
        <span class="day">25</span>,
