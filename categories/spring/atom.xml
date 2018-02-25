@@ -1,4 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T21:52:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-25T17:29:44+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+具体的にどうやるんだろう? と思ってました。
+仕組みから考えて、WebSocketが必須なのかな?
+とかって勝手に思ってたんですが、違うんですね!
+「やってみた」系の記事見て、Firebaseを使うものばっかりだったので、
+えーっ! Firebase hosting必須なの?!
+と思いきや、
+VAPID(Voluntary Application Server Identification)も
+あるということで一安心。
+あーでも、別にFCM(Firebase Cloud Messaging)をhostingじゃなく使うことも出来るので、
+その方が楽なのかな。
+browser毎じゃなくてuser毎に送れるっていうし。
+でもvendor lock onも嫌なので、
+VAPIDからやってみました。</p>
+<p>Web Pushの仕組みは、<a href="https://ajike.github.io/how-pwa-push-works/">PWAのプッシュ通知の仕組み</a>がよくまとまってました。
+PWAとWeb Push Notificationは別なんですね。</p>
+<p>browser上からは、<a href="https://gauntface.github.io/simple-push-demo/">Push Demo</a>などですぐ試せます。</p>
+<p>自分の手に馴染ませないとよくわからないので、<a href="https://github.com/u-ryo/my_web_push">作ってみました</a>。</p>
+<ol>
+<li>push server側で、VAPIDのkey(public, private)を決めておく。key generationは、<a href="https://github.com/web-push-libs/web-push/">web-push</a>の<code>client.js</code>をcommand lineから使って<code>$ node_modules/web-push/src/cli.js generate-vapid-keys</code>とせよ、とか<a href="https://dzone.com/articles/web-push-notifications-1">書いてあるもの</a>も他に多くありましたが、Googleの<a href="https://developers.google.com/web/fundamentals/codelabs/push-notifications/">Adding Push Notifications to a Web App</a>にあるように<a href="https://web-push-codelab.glitch.me/">Push Companion</a>で簡単に作れますね。試しに作ってみたものではscriptで毎回自動生成してclient(=web browser, html and javascript側)に読ませてみるようにしてみましたが、実運用上はベタに固定値書いておいた方が楽だしわかりやすいし再起動の度に値変わらないからその方がいいのかな。</li>
+<li>あとserver側は各clientのnotificationEndPoint、publicKey、authを知ってないといけない。これらはclientが<code>serviceWorkerRegistration.pushManager.subscribe(subscribeParams)</code>した時に得られる。<code>subscribeParameter</code>とは、server側のpublicKeyを<code>urlB64ToUint8Array()</code>したものと<code>userVisibleOnly: true</code>は固定値。そうして得られた3つの値をserver側に引き渡さねばならないのだが、そのまま渡すのではなく、<code>btoa(String.fromCharCode.apply(null, new Uint8Array(key)))</code>などとしてString化する必要がある。</li>
+<li>上記でもらう<code>notificationEndPoint</code>って、mozillaなら<code>https://updates.push.services.mozilla.com/wpush/v2/...</code>、chrome(chromium)なら<code>https://fcm.googleapis.com/fcm/...</code>というように、browser毎にmaker別のpush server持ってるんですね。ってことは、browserは裏ではこうしたsiteと常にconnection張ってるということ?</li>
+<li>もっと深い原理(具体的にどういうheader/encryptionでpush serviceに送っているか)は<a href="http://adiary.blog.abk.nu/0391">Web Pushの実装まとめ（Chrome/Firefox/Android共通）</a>参照。</li>
+<li>client側では、<code>main.js</code>で、まず<code>Notification.requestPermission()</code>で許可を得る。許可を求めるtimingは、page load直後かと思いきや、最初にいきなり許可求めると拒否られることが多いということで、button式に。button押したら許可求める、と。</li>
+<li>許可が得られたら<code>navigator.serviceWorker.register('/sw.js')</code>でService Worker scriptを登録。<code>navigator.serviceWorker.ready</code>で利用可能になるのを待つ。これのreturn value(の型)は<code>ServiceWorkerRegistration</code>であり<code>navigator.serviceWorker</code>ではないので注意。これから<code>pushManager</code>を得ることになる。</li>
+<li>その後、push serverからserverのpublicKeyをGET。</li>
+<li><code>subscribeParams</code>を作って<code>serviceWorkerRegistration.pushManager.getSubscription(subscribeParams)</code>してみる。既に登録があったらunsubscribeしないとならない。上述のように、parameterではserver側のpublicKeyを<code>urlB64ToUint8Array()</code>したものと<code>userVisibleOnly: true</code>は固定値。</li>
+<li>それから<code>serviceWorkerRegistration.pushManager.subscribe(subscribeParams)</code>でsubscribeする。</li>
+<li>そうすると、endpoint、key、authが得られるので、それらをpush server側に通知。</li>
+<li><code>sw.js</code>では、push通知が喜た場合<code>push</code> eventがfireされるので、<code>event.waitUntil(registration.showNotification(...)</code>する。この<code>registration</code>がどこから来るのかよくわからなかったが、ともあれ明示的に<code>waitUntil</code>して<code>showNotification</code>しないとならない(勝手に表示されるわけではない)。</li>
+<li>表示されたNotificationをclickすると<code>notificationClick</code> eventがfireされるので、clickしたらどこかへ遷移したい場合にはこのevent listenerを<code>sw.js</code>に書いておく必要がある。</li>
+<li>PWA用に、<code>sw.js</code>の<code>install</code> eventと<code>fetch</code> event listenerでfile chacheの作成とその利用をcodeする(<code>install</code>でcacheに加え、<code>fetch</code>ではcacheにあったらそれを、なければfetchするようにする)。</li>
+</ol>
+<p>実際に自分で真似して書いてみて、
+値やcodeを色々変えて試してみることで、
+大分わかってきました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T21:52:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、

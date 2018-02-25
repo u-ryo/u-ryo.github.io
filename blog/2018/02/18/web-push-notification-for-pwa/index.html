@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>Web Push Notification for PWA - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various information for coding...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">Web Push Notification for PWA</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2018-02-18T22:32:00+09:00" pubdate data-updated=true>
+      <span class="month">Feb</span>
+      <span class="day">18</span>,
+      <span class="year">2018</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+具体的にどうやるんだろう? と思ってました。
+仕組みから考えて、WebSocketが必須なのかな?
+とかって勝手に思ってたんですが、違うんですね!
+「やってみた」系の記事見て、Firebaseを使うものばっかりだったので、
+えーっ! Firebase hosting必須なの?!
+と思いきや、
+VAPID(Voluntary Application Server Identification)も
+あるということで一安心。
+あーでも、別にFCM(Firebase Cloud Messaging)をhostingじゃなく使うことも出来るので、
+その方が楽なのかな。
+browser毎じゃなくてuser毎に送れるっていうし。
+でもvendor lock onも嫌なので、
+VAPIDからやってみました。</p>
+<p>Web Pushの仕組みは、<a href="https://ajike.github.io/how-pwa-push-works/">PWAのプッシュ通知の仕組み</a>がよくまとまってました。
+PWAとWeb Push Notificationは別なんですね。</p>
+<p>browser上からは、<a href="https://gauntface.github.io/simple-push-demo/">Push Demo</a>などですぐ試せます。</p>
+<p>自分の手に馴染ませないとよくわからないので、<a href="https://github.com/u-ryo/my_web_push">作ってみました</a>。</p>
+<ol>
+<li>push server側で、VAPIDのkey(public, private)を決めておく。key generationは、<a href="https://github.com/web-push-libs/web-push/">web-push</a>の<code>client.js</code>をcommand lineから使って<code>$ node_modules/web-push/src/cli.js generate-vapid-keys</code>とせよ、とか<a href="https://dzone.com/articles/web-push-notifications-1">書いてあるもの</a>も他に多くありましたが、Googleの<a href="https://developers.google.com/web/fundamentals/codelabs/push-notifications/">Adding Push Notifications to a Web App</a>にあるように<a href="https://web-push-codelab.glitch.me/">Push Companion</a>で簡単に作れますね。試しに作ってみたものではscriptで毎回自動生成してclient(=web browser, html and javascript側)に読ませてみるようにしてみましたが、実運用上はベタに固定値書いておいた方が楽だしわかりやすいし再起動の度に値変わらないからその方がいいのかな。</li>
+<li>あとserver側は各clientのnotificationEndPoint、publicKey、authを知ってないといけない。これらはclientが<code>serviceWorkerRegistration.pushManager.subscribe(subscribeParams)</code>した時に得られる。<code>subscribeParameter</code>とは、server側のpublicKeyを<code>urlB64ToUint8Array()</code>したものと<code>userVisibleOnly: true</code>は固定値。そうして得られた3つの値をserver側に引き渡さねばならないのだが、そのまま渡すのではなく、<code>btoa(String.fromCharCode.apply(null, new Uint8Array(key)))</code>などとしてString化する必要がある。</li>
+<li>上記でもらう<code>notificationEndPoint</code>って、mozillaなら<code>https://updates.push.services.mozilla.com/wpush/v2/...</code>、chrome(chromium)なら<code>https://fcm.googleapis.com/fcm/...</code>というように、browser毎にmaker別のpush server持ってるんですね。ってことは、browserは裏ではこうしたsiteと常にconnection張ってるということ?</li>
+<li>もっと深い原理(具体的にどういうheader/encryptionでpush serviceに送っているか)は<a href="http://adiary.blog.abk.nu/0391">Web Pushの実装まとめ（Chrome/Firefox/Android共通）</a>参照。</li>
+<li>client側では、<code>main.js</code>で、まず<code>Notification.requestPermission()</code>で許可を得る。許可を求めるtimingは、page load直後かと思いきや、最初にいきなり許可求めると拒否られることが多いということで、button式に。button押したら許可求める、と。</li>
+<li>許可が得られたら<code>navigator.serviceWorker.register('/sw.js')</code>でService Worker scriptを登録。<code>navigator.serviceWorker.ready</code>で利用可能になるのを待つ。これのreturn value(の型)は<code>ServiceWorkerRegistration</code>であり<code>navigator.serviceWorker</code>ではないので注意。これから<code>pushManager</code>を得ることになる。</li>
+<li>その後、push serverからserverのpublicKeyをGET。</li>
+<li><code>subscribeParams</code>を作って<code>serviceWorkerRegistration.pushManager.getSubscription(subscribeParams)</code>してみる。既に登録があったらunsubscribeしないとならない。上述のように、parameterではserver側のpublicKeyを<code>urlB64ToUint8Array()</code>したものと<code>userVisibleOnly: true</code>は固定値。</li>
+<li>それから<code>serviceWorkerRegistration.pushManager.subscribe(subscribeParams)</code>でsubscribeする。</li>
+<li>そうすると、endpoint、key、authが得られるので、それらをpush server側に通知。</li>
+<li><code>sw.js</code>では、push通知が喜た場合<code>push</code> eventがfireされるので、<code>event.waitUntil(registration.showNotification(...)</code>する。この<code>registration</code>がどこから来るのかよくわからなかったが、ともあれ明示的に<code>waitUntil</code>して<code>showNotification</code>しないとならない(勝手に表示されるわけではない)。</li>
+<li>表示されたNotificationをclickすると<code>notificationClick</code> eventがfireされるので、clickしたらどこかへ遷移したい場合にはこのevent listenerを<code>sw.js</code>に書いておく必要がある。</li>
+<li>PWA用に、<code>sw.js</code>の<code>install</code> eventと<code>fetch</code> event listenerでfile chacheの作成とその利用をcodeする(<code>install</code>でcacheに加え、<code>fetch</code>ではcacheにあったらそれを、なければfetchするようにする)。</li>
+</ol>
+<p>実際に自分で真似して書いてみて、
+値やcodeを色々変えて試してみることで、
+大分わかってきました。</p>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2018-02-25T17:29:44+09:00" class="updated">
+       Updated
+       <span class="month">Feb</span>
+       <span class="day">25</span>,
+       <span class="year">2018</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/pwa/">pwa</a>
+  
+     <a class="category" href="/categories/javascript/">javascript</a>
+  
+     <a class="category" href="/categories/spring/">spring</a>
+  
+     <a class="category" href="/categories/java/">java</a>
+  
+     <a class="category" href="/categories/webpush/">webpush</a>
+  
+     <a class="category" href="/categories/notification/">notification</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2018/02/18/web-push-notification-for-pwa/" data-via="" data-counturl="/blog/2018/02/18/web-push-notification-for-pwa/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2018/02/03/brain-science/" title="Next Post: Brain Science">Brain Science &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/02/18/web-push-notification-for-pwa/">Web Push Notification for PWA</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/03/brain-science/">Brain Science</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/03/optical-illusion/">Optical Illusion</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/30/jhipster/">JHipster</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/30/rpa-and-sikuli/">RPA and Sikuli</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A Java programmer in Tokyo.</p>
+</section>
+<section>
+  <h1><a href="privacy.html">Privacy Policy</a></h1>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/";
+    var disqus_url = "http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>
