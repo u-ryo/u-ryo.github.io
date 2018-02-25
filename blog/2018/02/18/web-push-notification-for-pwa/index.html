@@ -144,7 +144,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 <li><code>subscribeParams</code>を作って<code>serviceWorkerRegistration.pushManager.getSubscription(subscribeParams)</code>してみる。既に登録があったらunsubscribeしないとならない。上述のように、parameterではserver側のpublicKeyを<code>urlB64ToUint8Array()</code>したものと<code>userVisibleOnly: true</code>は固定値。</li>
 <li>それから<code>serviceWorkerRegistration.pushManager.subscribe(subscribeParams)</code>でsubscribeする。</li>
 <li>そうすると、endpoint、key、authが得られるので、それらをpush server側に通知。</li>
-<li><code>sw.js</code>では、push通知が喜た場合<code>push</code> eventがfireされるので、<code>event.waitUntil(registration.showNotification(...)</code>する。この<code>registration</code>がどこから来るのかよくわからなかったが、ともあれ明示的に<code>waitUntil</code>して<code>showNotification</code>しないとならない(勝手に表示されるわけではない)。</li>
+<li><code>sw.js</code>では、push通知が喜た場合<code>push</code> eventがfireされるので、<code>event.waitUntil(registration.showNotification(...)</code>する。この<code>registration</code>がどこから来るのかよくわからなかったが、ともあれ明示的に<code>waitUntil</code>して<code>showNotification</code>しないと表示されない(pushが来て勝手に表示されるわけではない)。</li>
 <li>表示されたNotificationをclickすると<code>notificationClick</code> eventがfireされるので、clickしたらどこかへ遷移したい場合にはこのevent listenerを<code>sw.js</code>に書いておく必要がある。</li>
 <li>PWA用に、<code>sw.js</code>の<code>install</code> eventと<code>fetch</code> event listenerでfile chacheの作成とその利用をcodeする(<code>install</code>でcacheに加え、<code>fetch</code>ではcacheにあったらそれを、なければfetchするようにする)。</li>
 <li>notificationをpushするには、push server側でまず<code>new PushService(publicKey, privateKey, "http://localhost")</code>してから、clientから貰った情報で<code>push.send(new Notification(...))</code>する。中では色々と暗号化しているが、<a href="https://github.com/web-push-libs/webpush-java">nl.martijndwarsのwebpush-java</a>を使えばVAPIDのkey生成やnotificationのsendもone methodでよろしくやってくれる。他の言語も<a href="https://github.com/web-push-libs">web-push-libs</a>に各種あり。</li>
@@ -168,7 +168,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 
 
 
-     <time datetime="2018-02-25T17:40:37+09:00" class="updated">
+     <time datetime="2018-02-25T17:44:25+09:00" class="updated">
        Updated
        <span class="month">Feb</span>
        <span class="day">25</span>,
