@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-03-05T23:16:28+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Github Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-03-05T23:16:28+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>Github Pagesって、各user一つしか持てないのかとずっと思ってて。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-03-05T23:24:55+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[GitHub Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-03-05T23:24:55+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>GitHub Pagesって、各user一つしか持てないのかとずっと思ってて。
 それを<a href="https://u-ryo.github.io/">my blog</a>に当ててきたから、
 もう持てないのかと。
 でも、違うのね。
 各project毎に持てるんですね。
-しかも、昔は<code>gh-pages</code>とかっていうbranch切らないとならなかったのが、
-今では<code>master</code> branchそのまま、もしくは<code>master</code> branchの<code>docs</code> directory
-以下をGithub Pagesとしてhttpsで公開できるんですね。</p>
-<p>試しにやってみました。</p>
+しかも、昔は<code>gh-pages</code>とかっていうbranch切らないとならなかったのが
+(今でもこの方法はある)、
+その他に<code>master</code> branchそのまま、
+もしくは<code>master</code> branchの<code>docs</code> directory以下を
+GitHub Pagesとしてhttpsで公開できるんですね。</p>
+<p>試しにdocsでやってみました。</p>
 <ul>
 <li>project page: https://github.com/u-ryo/PWCat/</li>
-<li>Github Page: https://u-ryo.github.io/PWCat/</li>
+<li>GitHub Page: https://u-ryo.github.io/PWCat/</li>
 </ul>
 ]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-25T17:44:25+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
