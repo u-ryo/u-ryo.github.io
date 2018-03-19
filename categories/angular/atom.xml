@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/angular/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-03-19T21:42:12+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/angular/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-03-19T22:12:00+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
 理解を深めました。<a href="https://github.com/u-ryo/my_web_push">作ってもみました</a>。</p>
 <p>やりたいアプリは<a href="https://www.jhipster.tech">Jhipster</a>で
 <a href="https://angular.io">Angular</a>使ってるんですが、
@@ -28,7 +28,7 @@
 <li><code>src/ngsw-config.json</code>を作成(雛形をコピペ)</li>
 <li><code>ng build --prod</code>としてbuild(<code>ng serve</code>ではダメ)(base hrefを<code>/</code>の他にしたいなら<code>--base-href /another/directory/</code>が必要。←最後が<code>/</code>でないとダメ)</li>
 </ol>
-<p>PWAとしては、あと<code>manifest.json</code>が必要?<a href="https://docs.google.com/document/d/1F0e0ROaZUnTFftmC0XovpREHWHjcXa4CggiFlmifjhw/edit#">Progressive Web Apps using the Angular Service Worker</a></p>
+<p>PWAとしては、あと<code>manifest.json</code>が必要?(<a href="https://docs.google.com/document/d/1F0e0ROaZUnTFftmC0XovpREHWHjcXa4CggiFlmifjhw/edit#">Progressive Web Apps using the Angular Service Worker</a>, <a href="https://qiita.com/studioTeaTwo/items/648731b61962b7687f5a">AngularアプリをPWAにする方法</a>)</p>
 <p>これで、当該projectをweb browserで表示させると、
 service workerが読み込まれ、
 offline cacheが効くようになる、筈...
