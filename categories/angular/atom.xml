@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/angular/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-03-19T20:30:58+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/angular/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-03-19T20:39:40+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
 理解を深めました。<a href="https://github.com/u-ryo/my_web_push">作ってもみました</a>。</p>
 <p>やりたいアプリは<a href="https://www.jhipster.tech">Jhipster</a>で
 <a href="https://angular.io">Angular</a>使ってるんですが、
@@ -11,6 +11,7 @@
 <li><a href="https://angular.jp/guide/service-worker-getting-started">(Angular公式) Service Workerを始める</a></li>
 <li><a href="https://qiita.com/studioTeaTwo/items/648731b61962b7687f5a">AngularアプリをPWAにする方法</a></li>
 <li><a href="https://medium.com/@nsmirnova/creating-pwa-with-angular-5-e36ea2378b5d">Creating PWA with Angular 5. Part 1: Getting started with framework, creating an application, hosting it on github-pages.</a>, <a href="https://medium.com/@nsmirnova/creating-pwa-with-angular-5-part-2-progressifying-the-application-449e3a706129">Creating PWA with Angular 5. Part 2: Progressifying the application</a> → <a href="https://github.com/NastyaSmirnova/PWCat/">PWCat</a>を<a href="https://github.com/u-ryo/PWCat/">写経して比較検討しました</a></li>
+<li><a href="https://blog.angular-university.io/angular-service-worker/">Angular Service Worker - Step-By-Step Guide for turning your Application into a PWA</a></li>
 </ul>
 <p>多くの導きのおかげで、angular5にてどのようにservice workerを導入するか、
 はわかってきました。</p>
@@ -89,7 +90,13 @@ comment付けておきました。</p>
 <code>notification.close()</code>の方も、
 <code>error TS2339: Property 'notification' does not exist on type 'Object | Client'</code>と言われて、
 どうしていいかわからず。
-生成されるべきcodeはわかってるのに、悔しい、です。</p>
+生成されるべきcodeはわかってるのに、悔しい、です。
+折角<a href="https://github.com/angular/code-of-conduct/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a>や<a href="https://github.com/angular/angular/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a>読んでcoding ruleやcommit message formatを学んだり<a href="http://code.google.com/legal/individual-cla-v1.0.html">CLA(Contributor License Agreement)</a>登録したり<a href="https://github.com/angular/angular/blob/master/docs/DEVELOPER.md">DEVELOPER.md</a>読んでbuildやtestの仕方学んだりしたのにー。
+でもまぁ確かに、飛び先のURLはどこに書くべきか、とか、
+clickしたら飛ばないでただ閉じるように/閉じないようにしたい、とかするには、
+<code>eventListener('notificationclick',(event)=&gt;{...});</code>を
+直接いじらないとならないし、
+仕様を含めたもっと別の方策が必要だと思います本当は。</p>
 <p>favicon等iconを作るのに、<a href="https://realfavicongenerator.net/">Real Favicon Generator</a>、いいですね。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T21:52:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
