@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/github-pages/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[GitHub Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-03-05T23:24:55+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>GitHub Pagesって、各user一つしか持てないのかとずっと思ってて。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/github-pages/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[GitHub Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-03-19T21:45:29+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>GitHub Pagesって、各user一つしか持てないのかとずっと思ってて。
 それを<a href="https://u-ryo.github.io/">my blog</a>に当ててきたから、
 もう持てないのかと。
-でも、違うのね。
+でも、違うんですね。
 各project毎に持てるんですね。
 しかも、昔は<code>gh-pages</code>とかっていうbranch切らないとならなかったのが
 (今でもこの方法はある)、
@@ -10,7 +10,7 @@
 GitHub Pagesとしてhttpsで公開できるんですね。</p>
 <p>試しにdocsでやってみました。</p>
 <ul>
-<li>project page: https://github.com/u-ryo/PWCat/</li>
-<li>GitHub Page: https://u-ryo.github.io/PWCat/</li>
+<li>project page: <a href="https://github.com/u-ryo/PWCat/">https://github.com/u-ryo/PWCat/</a></li>
+<li>GitHub Page: <a href="https://u-ryo.github.io/PWCat/">https://u-ryo.github.io/PWCat/</a></li>
 </ul>
 ]]></content></entry></feed>

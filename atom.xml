@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-03-19T20:39:40+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-03-19T20:39:40+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-03-19T21:45:29+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-03-19T21:42:12+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
 理解を深めました。<a href="https://github.com/u-ryo/my_web_push">作ってもみました</a>。</p>
 <p>やりたいアプリは<a href="https://www.jhipster.tech">Jhipster</a>で
 <a href="https://angular.io">Angular</a>使ってるんですが、
@@ -6,7 +6,7 @@
 ということからまた勉強が始まりました。
 調べてみると、簡単に使えるようになっているんですね(Angular CLI 1.6以降は)。</p>
 <ul>
-<li><a href="https://qiita.com/studioTeaTwo/items/157e1c380ca63b372dc0">3分クッキング ServiceWorkerで阿部寛さんを超える</a> → いやこれ、単に阿部のページはcontents量が少ないから、というだけのjokeですよね</li>
+<li><a href="https://qiita.com/studioTeaTwo/items/157e1c380ca63b372dc0">3分クッキング ServiceWorkerで阿部寛さんを超える</a> → いやこれ、単に阿部さんのページはcontents量が少ないから、というだけのjokeですよね</li>
 <li><a href="https://medium.com/lacolaco-blog/angular-cli-1-5%E3%81%AB%E3%82%88%E3%82%8Bangular-service-worker%E3%82%AF%E3%82%A4%E3%83%83%E3%82%AF%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88-bd90db99fe13">Angular CLI 1.5によるAngular Service Workerクイックスタート</a> → 「angular.jpで公式ドキュメントの翻訳が完了しているので、こちらをご覧ください」確かに公式見た方がいいですか。</li>
 <li><a href="https://angular.jp/guide/service-worker-getting-started">(Angular公式) Service Workerを始める</a></li>
 <li><a href="https://qiita.com/studioTeaTwo/items/648731b61962b7687f5a">AngularアプリをPWAにする方法</a></li>
@@ -98,10 +98,10 @@ clickしたら飛ばないでただ閉じるように/閉じないようにし�
 直接いじらないとならないし、
 仕様を含めたもっと別の方策が必要だと思います本当は。</p>
 <p>favicon等iconを作るのに、<a href="https://realfavicongenerator.net/">Real Favicon Generator</a>、いいですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[GitHub Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-03-05T23:24:55+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>GitHub Pagesって、各user一つしか持てないのかとずっと思ってて。
+]]></content></entry><entry><title type="html"><![CDATA[GitHub Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-03-19T21:45:29+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>GitHub Pagesって、各user一つしか持てないのかとずっと思ってて。
 それを<a href="https://u-ryo.github.io/">my blog</a>に当ててきたから、
 もう持てないのかと。
-でも、違うのね。
+でも、違うんですね。
 各project毎に持てるんですね。
 しかも、昔は<code>gh-pages</code>とかっていうbranch切らないとならなかったのが
 (今でもこの方法はある)、
@@ -110,8 +110,8 @@ clickしたら飛ばないでただ閉じるように/閉じないようにし�
 GitHub Pagesとしてhttpsで公開できるんですね。</p>
 <p>試しにdocsでやってみました。</p>
 <ul>
-<li>project page: https://github.com/u-ryo/PWCat/</li>
-<li>GitHub Page: https://u-ryo.github.io/PWCat/</li>
+<li>project page: <a href="https://github.com/u-ryo/PWCat/">https://github.com/u-ryo/PWCat/</a></li>
+<li>GitHub Page: <a href="https://u-ryo.github.io/PWCat/">https://u-ryo.github.io/PWCat/</a></li>
 </ul>
 ]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-25T17:44:25+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
