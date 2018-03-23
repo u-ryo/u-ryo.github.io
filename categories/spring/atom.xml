@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-25T17:44:25+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-03-23T23:24:05+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+<ul>
+<li><p>unit test実行は<code>gradle test</code></p>
+</li>
+<li><p>単一test classを指定するには<code>gradle test --tests FQDN.class.name</code></p>
+</li>
+<li><p>test class内の<code>log.debug(...)</code>を出力するには、<code>build.gradle</code>に<code>test.testLogging.showStandardStreams = true</code>を記述し、また<code>src/test/resources/application.yml</code>に以下を記述(<code>src/main/resources/application-dev.yml</code>には記述あり)
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>logging:
+</span><span class='line'>    level:
+</span><span class='line'>        ROOT: DEBUG
+</span><span class='line'>        bz.mydns.walt.canmatch: DEBUG
+</span><span class='line'>        io.github.jhipster: DEBUG
+</span></code></pre></td></tr></table></div></figure></p>
+</li>
+<li><p>test classにおいてRESTで認証したuserを表したい時には<code>@WithMockUser</code>(<code>import org.springframework.security.test.context.support.WithMockUser;</code>)</p>
+</li>
+<li><p>testされる側のREST methodでは、<code>java.security.Principal</code>を勝手に引数に加えることでlogin userを取得出来、それをtestする場合にはtest classの<code>MockMvc</code>で<code>restUserInfoMockMvc.perform(post("/api/user-infos")...)</code>などとする時に<code>org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user</code>を使って<code>.user("foo")</code>とすると、認証された"foo"というuserでのaccessをmock出来るが、<code>org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication()</code>というstatic methodで<code>java.security.Principal</code>が取れ、それに<code>.getName()</code>で名前を取得可能。その方がspringっぽいのかな。test class側では、認証accessが必要なmethodに上記の<code>@WithMockUser</code>をつければ良い。<code>@WithMockUser(username="foo", password="pw", roles={"USER"})</code>などとすれば色々指定可能だが基本的には不要</p>
+</li>
+</ul>
+<h3>参照</h3>
+<ul>
+<li><a href="https://docs.spring.io/spring-security/site/docs/4.2.5.BUILD-SNAPSHOT/apidocs/org/springframework/security/test/context/support/WithMockUser.html">WithMockUser</a></li>
+<li><a href="https://qiita.com/opengl-8080/items/eaa8f4eb9286a3df7986">Spring Security 使い方メモ　テスト</a>(2017-08-02)</li>
+<li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html">11. Testing Method Security</a>(Spring公式doc)</li>
+<li><a href="https://ishiis.net/2016/11/12/spring-boot-security-unit-test/">Spring Securityを使っているWebアプリのUnitテスト</a>(2016/11/12)</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-25T17:44:25+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
 仕組みから考えて、WebSocketが必須なのかな?
 とかって勝手に思ってたんですが、違うんですね!
