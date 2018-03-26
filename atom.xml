@@ -1,4 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-03-23T23:24:05+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-03-23T23:24:05+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-03-27T06:04:34+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-03-27T06:04:34+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+<p>使う時は<code>build.gradle</code>で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>testCompile &#39;com.github.tomakehurst:wiremock-standalone:2.15.0&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>して(<code>wiremock-standalone</code>でないと、
+jetty系のClassNotFoundExceptionに見舞われた)から、
+test classの方で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import com.github.tomakehurst.wiremock.junit.WireMockRule;
+</span><span class='line'>import static com.github.tomakehurst.wiremock.client.WireMock.*;
+</span><span class='line'>    :
+</span><span class='line'>    @Rule
+</span><span class='line'>    public WireMockRule wireMockRule = new WireMockRule(8089);
+</span></code></pre></td></tr></table></div></figure>
+<p>とし、各test method内で、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>        stubFor(post(urlPathEqualTo(&quot;/any_path&quot;))
+</span><span class='line'>                .withRequestBody(matching(&quot;.*arr_stn=%96%BC%8C%C3%89%AE.*&quot;))
+</span><span class='line'>                .withRequestBody(matching(&quot;.*dep_stn=%93%8C%8B%9E.*&quot;))
+</span><span class='line'>                .withRequestBody(matching(&quot;.*train=1.*&quot;))
+</span><span class='line'>                .willReturn(aResponse()
+</span><span class='line'>                            .withStatus(200)
+</span><span class='line'>                            .withBodyFile(&quot;for_test.html&quot;)));
+</span></code></pre></td></tr></table></div></figure>
+<p>とすれば良い。
+post body requestに対して<code>.withQueryParam("...", matching("..."))</code>は効かなかった。
+また、<code>matching</code>なので全体にmatchingさせる必要があることに注意。
+<code>find</code>系はなし。</p>
+<p>test対象classでのqueryがここでの指定に合わなければ、404がthrowされる。</p>
+<p>上記のように、test用に既に用意してあるhtml fileを<code>.withBodyFile("...")</code>で指定でき、
+実体は<code>src/test/resources/__files/</code>に置く。</p>
+<p>こうしたmappingを<code>src/test/resources/mappings/</code>以下に<code>anyName.json</code>を置いて、
+requestとresponseを指定できるのだが、
+それだと「こういうrequest bodyの時はこのようなresponse、
+こっちの時はこれこれのresponse」というように、
+複数の条件を書くことが出来なかった
+(書いてみると、最後のrequest/response条件しか効かず。
+ならばと複数fileに分けてみたら、
+file名alphabeticalで最後のrequest/responseしか効かず)。
+なので、Javaでstub条件書いて各test method内に書くしか無い?</p>
+<p>testの時だけ<code>localhost:8089</code>を見るようにするには、
+<code>〜.config.ApplicationProperties</code> classにfield定義、setter/getterのaccessorを付け、<code>src/main/resources/config/application.yml</code>の<code>application:</code>以下に通常時の値を、<code>src/test/resources/config/application.yml</code>の<code>application:</code>以下にtest時の値(この場合は<code>http://localhost:8089/any_path</code>)を記述。
+実際に使うには、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>    @Autowired
+</span><span class='line'>    private ApplicationProperties properties;
+</span></code></pre></td></tr></table></div></figure>
+<p>とDIさせて、<code>properties.get〜()</code>と普通にgetterでget。</p>
+<p>AssertJ、method chainで書けるので、
+static importが<code>assertThat</code>だけで済んでいいですね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-03-23T23:24:05+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
 <ul>
 <li><p>unit test実行は<code>gradle test</code></p>
 </li>
@@ -947,32 +1009,4 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 </span><span class='line'>Poc Filename  Poc.jsp
 </span><span class='line'>Not Vulnerable to CVE-2017-12617
 </span></code></pre></td></tr></table></div></figure></p>
-]]></content></entry><entry><title type="html"><![CDATA[Alpaca Algo]]></title><link href="http://u-ryo.github.io//blog/2017/10/08/alpaca-algo/"/><updated>2017-10-09T16:29:39+09:00</updated><id>/blog/2017/10/08/alpaca-algo/</id><content type="html"><![CDATA[<p>こういうの、あったんですねー。すごいすごい。
-<a href="https://algo.alpaca.ai">Alpaca Algo</a>、かつてのCapitalicoだそうですが、
-自分でindicatorを指定して、勝ちpattern(負例も!)を指定して、
-そうすると裏で超高速に事例を学習し、
-back testまで速攻でやってくれるとは!
-幾つか試してみましたけど、テキトーにやっても、
-back testでプラスになったりするので、おぉー!
-と思ってはみたものの。
-back testの期間をdefaultの3ヶ月ではなく、
-1年とか、特に2016年を入れると、
-途端に物凄い成績悪くなります。
-なんでー!? 2016年って何か違ったんでしょうか。
-っていうか、2017年の方がおかしい?
-とにかく、何か違うようです。</p>
-<p>patternに当てはまったら通知もしてくれるというので、
-試してみます。
-まだ本番への適用は怖い感じですが。</p>
-<p>9日朝、2回通知来ましたけど、以降はさっぱり当たりませんでした。
-デモ取引では、10:05にentryして15:48現在まだ売買成立してません。
-ドル円上下15pipsなので、day tradeにはちょっと大きめの幅なんでしょう。</p>
-<p>色々試してみると、</p>
-<ul>
-<li>10〜20はpattern入れて、って書いてありますが、あんまり入れると取引回数少なくなる?</li>
-<li>負例も入りますが、負例はいくら入れても学習対象としてcountされません。入れた方がいいのかどうなのか、よくわかりません。</li>
-<li>back testでは、どのくらいの精度で当てはめてentryして、どのようにexitするかで当然成績は大きく変わってきますが、「全部お任せ!」にしておいた方が一番成績いいみたい、です。「最適な○○を最適化」とかって具体的には何やってんのかさっぱりですけど、グラフではなく数値で見ると、利食い損切りpipsがわかるので何となく。</li>
-<li>売り・買い両方揃えないとダメかしらん。</li>
-<li>範囲はどこまで指定したらいいのか、よくわからないですが、何となく学習してるのはindicatorがどうのというより値動き(ローソク足)だけっぽい? いやでも確かにindicatorの種類だけ変えると結果変わるのでindicatorも見てるんでしょうけど...</li>
-</ul>
 ]]></content></entry></feed>
