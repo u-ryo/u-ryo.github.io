@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/git/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Images in README.md on Github]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/"/><updated>2017-09-20T01:27:50+09:00</updated><id>/blog/2017/09/20/images-in-readme-md-on-github/</id><content type="html"><![CDATA[<p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/git/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[git stash]]></title><link href="http://u-ryo.github.io//blog/2018/04/10/git-stash/"/><updated>2018-04-10T11:51:49+09:00</updated><id>/blog/2018/04/10/git-stash/</id><content type="html"><![CDATA[<p>調べりゃすぐ出て来ますが。</p>
+<h3>Situation</h3>
+<p>localに取っておきたい一時的な変更があって、
+でもそのせいで<code>git pull</code>してupdate出来ない、
+<code>git checkout ...</code>してbranchを変えられない時。</p>
+<h3>Operation</h3>
+<ul>
+<li><code>git stash list -p</code>で確認</li>
+<li><code>git stash</code>で退避</li>
+<li>localの変更が無くなるので、この状態で<code>git checkou ...</code>なり<code>git pull ...</code>なり</li>
+<li><code>git stash apply stash@{0}</code>で直前のstashをapply</li>
+<li><code>git stash dtrop stash@{0}</code>で直前のstashをdrop←すぐ消さないと、後々残って何の変更なのかわからなくなる</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Images in README.md on Github]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/20/images-in-readme-md-on-github/</id><content type="html"><![CDATA[<p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p>
 <ol>
 <li>image用の別branchを切る(e.g. <a href="https://github.com/cakecatz/garage">https://github.com/cakecatz/garage</a>)</li>
 <li>Githubのissueを利用する(<a href="https://www.youtube.com/watch?v=hHbWF1Bvgf4">GitHub Readme Images Tutorial (screenshots in readmes)</a>)</li>
@@ -9,7 +22,7 @@
 何となくそれがちょっと嫌だったので、結局wikiを利用しました。
 一度何でもいいのでWikiのpageを保存しないとならないみたいです。
 一度保存しちゃえば、上記ページに書いてあるように<code>git clone https://github.com/.../XXX.wiki</code>で取ってこられて、images作って置けちゃうんですね。へー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[gitignore]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/gitignore/"/><updated>2017-09-20T01:51:29+09:00</updated><id>/blog/2017/09/20/gitignore/</id><content type="html"><![CDATA[<p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
+]]></content></entry><entry><title type="html"><![CDATA[gitignore]]></title><link href="http://u-ryo.github.io//blog/2017/09/20/gitignore/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/20/gitignore/</id><content type="html"><![CDATA[<p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p>
 <p>AndroidStudio用に引っ張ってきたんですけど、そのままだと<code>.idea/kotlinc.xml</code>が入ってきてしまうようです。<code>kotlinc.xml</code>はversion管理不要ですよね?
 逆に、<code>.idea/gradle.xml</code>はversion管理下に、という話が<a href="http://www.torutk.com/projects/swe/wiki/Android_Studioのバージョン管理対象ファイル">Android Studioのバージョン管理対象ファイル</a>、<a href="http://qiita.com/komax/items/d1aaecaec0a22cb5bc4e">Android Studioでバージョン管理下に置かないもの</a>、<a href="http://gihyo.jp/dev/serial/01/android_studio/0035">第35回　バージョン管理 ─プロジェクト管理ファイルについて［後編］</a>と出て来るんですが、<code>gitignore.io</code>のfileではexplicitlyにignore対象なんですよね...</p>
 <p>試してみると、特に<code>.idea/</code>が無くてもAndroid Projectとして開けますね。じゃ全部要らないのかな。</p>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-28T21:21:17+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-03-27T06:04:34+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+<p>参考: <a href="https://dev.classmethod.jp/etc/wiremock-practice/">WireMockを使って通信に関するテストをやってみよう</a></p>
 <p>使う時は<code>build.gradle</code>で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>testCompile &#39;com.github.tomakehurst:wiremock-standalone:2.15.0&#39;
@@ -33,13 +34,17 @@ test classの方で、</p>
 </span><span class='line'>                            .withStatus(200)
 </span><span class='line'>                            .withBodyFile(&quot;for_test.html&quot;)));
 </span></code></pre></td></tr></table></div></figure>
-<p>とすれば良い。
+<p>とstatic importした
+<code>com.github.tomakehurst.wiremock.client.WireMock.stubFor</code>を使えば良い。
+matching rule詳細は<a href="http://wiremock.org/docs/request-matching/">公式ページ</a>を。
 post body requestに対して<code>.withQueryParam("...", matching("..."))</code>は効かなかった。
 また、<code>matching</code>なので全体にmatchingさせる必要があることに注意。
 <code>find</code>系はなし。</p>
 <p>test対象classでのqueryがここでの指定に合わなければ、404がthrowされる。</p>
 <p>上記のように、test用に既に用意してあるhtml fileを<code>.withBodyFile("...")</code>で指定でき、
-実体は<code>src/test/resources/__files/</code>に置く。</p>
+実体は<code>src/test/resources/__files/</code>に置く。
+<code>.withBodyFile(...)</code>は公式Docに無く、JavaDoc APIも無いので、
+<a href="https://github.com/tomakehurst/wiremock/blob/master/src/main/java/com/github/tomakehurst/wiremock/client/MappingBuilder.java">Github上のsource code</a>を眺めて見つけた。</p>
 <p>こうしたmappingを<code>src/test/resources/mappings/</code>以下に<code>anyName.json</code>を置いて、
 requestとresponseを指定できるのだが、
 それだと「こういうrequest bodyの時はこのようなresponse、
@@ -49,7 +54,8 @@ requestとresponseを指定できるのだが、
 ならばと複数fileに分けてみたら、
 file名alphabeticalで最後のrequest/responseしか効かず)。
 なので、Javaでstub条件書いて各test method内に書くしか無い?</p>
-<p>testの時だけ<code>localhost:8089</code>を見るようにするには、
+<p>これはSpringの話だが、
+testの時だけ<code>localhost:8089</code>を見るようにするには、
 <code>〜.config.ApplicationProperties</code> classにfield定義、setter/getterのaccessorを付け、<code>src/main/resources/config/application.yml</code>の<code>application:</code>以下に通常時の値を、<code>src/test/resources/config/application.yml</code>の<code>application:</code>以下にtest時の値(この場合は<code>http://localhost:8089/any_path</code>)を記述。
 実際に使うには、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -60,7 +66,12 @@ file名alphabeticalで最後のrequest/responseしか効かず)。
 <p>とDIさせて、<code>properties.get〜()</code>と普通にgetterでget。</p>
 <p>AssertJ、method chainで書けるので、
 static importが<code>assertThat</code>だけで済んでいいですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-03-23T23:24:05+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+<p>これはJHipsterの話?(Springかなぁ?)で、
+Test Class内で<code>@Autowired</code>してるservice classのmockが必要になったら、
+特に<code>build.grade</code>に記述せずとも<code>import org.mockito.Mock;</code>して
+mockitoの<code>@Mock</code>が使えるんですね。
+そう言えば、元々<code>import org.mockito.MockitoAnnotations;</code>されてますね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
 <ul>
 <li><p>unit test実行は<code>gradle test</code></p>
 </li>
@@ -91,7 +102,7 @@ static importが<code>assertThat</code>だけで済んでいいですね。</p>
 <li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html">11. Testing Method Security</a>(Spring公式doc)</li>
 <li><a href="https://ishiis.net/2016/11/12/spring-boot-security-unit-test/">Spring Securityを使っているWebアプリのUnitテスト</a>(2016/11/12)</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-25T17:44:25+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
 仕組みから考えて、WebSocketが必須なのかな?
 とかって勝手に思ってたんですが、違うんですね!
@@ -128,7 +139,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 <p>実際に自分で真似して書いてみて、
 値やcodeを色々変えて試してみることで、
 大分わかってきました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T21:52:58+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T14:42:38+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、
