@@ -129,7 +129,7 @@ Azure上のVM with GPUとか貰って試していたのですが、
 でも、分かって来るとその限界や欠点も見えてきました。
 また、課題に対する知見も溜まってきたので、忘れないうちに。</p>
 <ul>
-<li>基本的な流れは、<code>Read CSV(train.csv)</code>→<code>Cross Validation</code>(<code>Gradient Boosted Trees</code>→<code>Apply Model</code>→<code>Performance(Binominal Classification)</code>)と<code>Read CSV(test.csv)</code>を合わせて→<code>Apply Model</code>→<code>Select Atributes</code>→<code>Write CSV</code><img src="rapidminer1.png" alt="RapidMiner flow" /> <img src="rapidminer2.png" alt="inside cross validation" /></li>
+<li>基本的な流れは、<code>Read CSV(train.csv)</code>→<code>Cross Validation</code>(<code>Gradient Boosted Trees</code>→<code>Apply Model</code>→<code>Performance(Binominal Classification)</code>)と<code>Read CSV(test.csv)</code>を合わせて→<code>Apply Model</code>→<code>Select Atributes</code>→<code>Write CSV</code><img src="https://raw.githubusercontent.com/wiki/u-ryo/u-ryo.github.io/images/rapidminer1.png" alt="RapidMiner flow" /> <img src="https://raw.githubusercontent.com/wiki/u-ryo/u-ryo.github.io/images/rapidminer2.png" alt="inside cross validation" /></li>
 <li>CSVのreadでは、まず最初の列のidを<code>id</code>、最後のyを<code>label</code>に指定、その他のattributesについては、yes/no 2値のものを<code>binominal</code>、dayを<code>integer</code>ではなく<code>polynominal</code>にするのがpointか。</li>
 <li>dayとmonthから日付にしては? と思っていたのだが、pdateを見ると同じ月日でも何百日のものもあって複数yearsありそう、且つyearは特定できなさそう(365日毎でもない)</li>
 <li>ならいっそday/monthをfeatureから落とすと精度が落ちる</li>
@@ -196,7 +196,7 @@ RapidMinerじゃない何か、RかPythonを使って、
 
 
 
-     <time datetime="2018-05-11T17:25:36+09:00" class="updated">
+     <time datetime="2018-05-11T18:01:35+09:00" class="updated">
        Updated
        <span class="month">May</span>
        <span class="day">11</span>,
