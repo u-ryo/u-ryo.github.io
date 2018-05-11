@@ -1,0 +1,74 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Signate - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/signate/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Signate</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Signate category via RSS" href="/categories/signate/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2018/05/11/rapidminer/">RapidMiner</a></h1> <p class="meta"> <time datetime="2018-05-11T10:11:00+09:00" pubdate data-updated=true> <span class="month">May</span> <span class="day">11</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/05/11/rapidminer/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>今、会社の業務の一部(先月から0.75)でAI、機械学習をやっています。 題材として<a href="http://signate.jp/">Signate</a>の <a href="https://signate.jp/competitions/1">【練習問題】銀行の顧客ターゲティング</a> をやっています。 業務時間中に色々試せるのはありがたいです。 PythonやR、kerasや<a href="https://colab.research.google.com/">Google Colaboratory</a>や Azure上のVM with GPUとか貰って試していたのですが、 結局<a href="http://rapidminer.com/">RapidMiner</a>使ってみました。 <a href="https://www.rapidminer.jp/2016/07/07/【連載】rapidminerで始めるデータ分析～part5：予測モデル/">KSKのtutorial</a>で勉強して、 色々と回せるようになりました。 確かに簡単ですねこれ。 でも、分かって来るとその限界や欠点も見えてきました。 また、課題に対する知見も溜まってきたので、忘れないうちに。</p> <ul> <li>基本的な流れは、<code>Read CSV(train.csv)</code>→<code>Cross Validation</code>(<code>Gradient Boosted Trees</code>→<code>Apply Model</code>→<code>Performance(Binominal Classification)</code>)と<code>Read CSV(test.csv)</code>を合わせて→<code>Apply Model</code>→<code>Select Atributes</code>→<code>Write CSV</code><img src="rapidminer1.png" alt="RapidMiner flow"/> <img src="rapidminer2.png" alt="inside cross validation"/></li> <li>CSVのreadでは、まず最初の列のidを<code>id</code>、最後のyを<code>label</code>に指定、その他のattributesについては、yes/no 2値のものを<code>binominal</code>、dayを<code>integer</code>ではなく<code>polynominal</code>にするのがpointか。</li> <li>dayとmonthから日付にしては? と思っていたのだが、pdateを見ると同じ月日でも何百日のものもあって複数yearsありそう、且つyearは特定できなさそう(365日毎でもない)</li> <li>ならいっそday/monthをfeatureから落とすと精度が落ちる</li> <li>せめてmonthだけでも<code>date</code>として認識できないかと試したがdate format指定を<code>mmm</code>では出来なかった(小文字だから?)</li> <li>ウリのAutoModelを試したところ、data file指定、fieldsのcorrelationから落とすattributesを指定、複数種類のmodelを実行、その後modelのparameterをいじれてsimulationが出来、modelに対する理解が進むというもの。AutoModelではGBoostよりDeepLearningが僅差で良かったがAUC 0.89程度</li> <li>自分でcross validationするようにして色々なmodelerを試したところ、Deep Learningも良かったがGradient Boosted TreesがAUC 0.90と最強だった</li> <li>なのでGBoostでparameter tuningを。number of treesはdefaultの20からぐっと増やした方が。max depthはちょっとでも大きすぎるとダメ。learning rateもちょっとでも増やすと精度は落ちる</li> <li>あんまり細かくtuningしても、結局randomizeの影響が大きい。小数点以下3桁程度のぶれは出てしまう。即ち、全く同じparametersで試しても結果が違う。reproducibleをcheckしても、cross validationの仕方が違うので、全てのrandom性を注意深く固定しないとならないし、randomのseedを探索する事になってしまうのもアホらしい</li> <li>仮にmodelingが出来たとして、これをserviceとして抜き出すのは難しそう。RapidMiner Serverを買えということか。そういうところで彼らは商売をしているのだろう。</li> <li>GPUが無くても速い(30秒程度)のは、MultiThreadを使っているからか。<code>top</code>を見ていると気持ちいいくらいmulti coresを使っている。流石はJavaである。</li> <li>よく言われる<code>XGBoost</code>というmodelerは無く、<code>Gradient Boosted Trees</code>がそれ相当</li> <li>one-hot vector化しようと思って<code>Nominal to Numerical</code>を前処理に入れたら精度が落ちた。その出力をよく見たら、これ単に非numericalなattributesを落としてるだけ。何これ。じゃぁっていうんで<code>Nominal to Binomial</code>にしてみても全く同じ。えー、RapidMinerではone-hot vector化、簡単に出来ないの!? 他の言語ではチョー簡単なのに。</li> <li>RapidMiner、凄く簡単ですけど、これはinput dataがone fileで数万recordsしか無いから、でしょう。これが画像群だったらこうはいかないでしょう。</li> </ul> <h3>現時点で最良の結果(5/11/2018現在68位)</h3> <p>https://signate.jp/competitions/1/leaderboard#scoreboard</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>number of trees: 205
+</span><span class='line'>maximal depth: 5
+</span><span class='line'>min rows: 10.0
+</span><span class='line'>min split improvement: 0.0
+</span><span class='line'>number of bins: 20
+</span><span class='line'>learning rate: 0.1
+</span><span class='line'>sample rate: 0.8
+</span><span class='line'>
+</span><span class='line'>PerformanceVector:
+</span><span class='line'>accuracy: 90.89% +/- 0.42% (mikro: 90.89%)
+</span><span class='line'>ConfusionMatrix:
+</span><span class='line'>True:	1	0
+</span><span class='line'>1:	1638	935
+</span><span class='line'>0:	1536	23019
+</span><span class='line'>AUC: 0.933 +/- 0.006 (mikro: 0.933) (positive class: 0)
+</span></code></pre></td></tr></table></div></figure> <p>これ以上AUCを上げるには、 RapidMinerじゃない何か、RかPythonを使って、 入力dataもone-hot vector化して、とかしないとならないような気がします。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/05/11/rapidminer/">RapidMiner</a> </li> <li class="post"> <a href="/blog/2018/04/10/git-stash/">Git Stash</a> </li> <li class="post"> <a href="/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/">Mock Web Server by WireMock on JHipster</a> </li> <li class="post"> <a href="/blog/2018/03/23/unit-test-on-jhipster/">Unit Test on Jhipster</a> </li> <li class="post"> <a href="/blog/2018/03/19/push-notification-on-angular5/">Push Notification on Angular5</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>
