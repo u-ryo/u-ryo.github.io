@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-05-11T18:01:35+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[RapidMiner]]></title><link href="http://u-ryo.github.io//blog/2018/05/11/rapidminer/"/><updated>2018-05-11T18:01:35+09:00</updated><id>/blog/2018/05/11/rapidminer/</id><content type="html"><![CDATA[<p>今、会社の業務の一部(先月から0.75)でAI、機械学習をやっています。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:46:02+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T07:46:02+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
+Java9以上のGroovyでmoduleが足りない、
+具体的には、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Caught: java.lang.NoClassDefFoundError: Unable to load class groovy.xml.jaxb.JaxbGroovyMethods due to missing dependency javax/xml/bind/JAXBContext
+</span><span class='line'>java.lang.NoClassDefFoundError: Unable to load class groovy.xml.jaxb.JaxbGroovyMethods due to missing dependency javax/xml/bind/JAXBContext
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われる時。
+groovyではどうやって<code>--add-modules</code>すればいいのかなって。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ JAVA_OPTS=&#39;--add-modules=ALL-SYSTEM&#39; groovy ...
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[RapidMiner]]></title><link href="http://u-ryo.github.io//blog/2018/05/11/rapidminer/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/05/11/rapidminer/</id><content type="html"><![CDATA[<p>今、会社の業務の一部(先月から0.75)でAI、機械学習をやっています。
 題材として<a href="http://signate.jp/">Signate</a>の
 <a href="https://signate.jp/competitions/1">【練習問題】銀行の顧客ターゲティング</a>
 をやっています。
@@ -63,7 +76,7 @@ Azure上のVM with GPUとか貰って試していたのですが、
 <p>これ以上AUCを上げるには、
 RapidMinerじゃない何か、RかPythonを使って、
 入力dataもone-hot vector化して、とかしないとならないような気がします。</p>
-]]></content></entry><entry><title type="html"><![CDATA[git stash]]></title><link href="http://u-ryo.github.io//blog/2018/04/10/git-stash/"/><updated>2018-04-10T11:51:49+09:00</updated><id>/blog/2018/04/10/git-stash/</id><content type="html"><![CDATA[<p>調べりゃすぐ出て来ますが。</p>
+]]></content></entry><entry><title type="html"><![CDATA[git stash]]></title><link href="http://u-ryo.github.io//blog/2018/04/10/git-stash/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/04/10/git-stash/</id><content type="html"><![CDATA[<p>調べりゃすぐ出て来ますが。</p>
 <h3>Situation</h3>
 <p>localに取っておきたい一時的な変更があって、
 でもそのせいで<code>git pull</code>してupdate出来ない、
@@ -76,7 +89,7 @@ RapidMinerじゃない何か、RかPythonを使って、
 <li><code>git stash apply stash@{0}</code>で直前のstashをapply</li>
 <li><code>git stash dtrop stash@{0}</code>で直前のstashをdrop←すぐ消さないと、後々残って何の変更なのかわからなくなる</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
 <p>参考: <a href="https://dev.classmethod.jp/etc/wiremock-practice/">WireMockを使って通信に関するテストをやってみよう</a></p>
 <p>使う時は<code>build.gradle</code>で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -149,7 +162,7 @@ Test Class内で<code>@Autowired</code>してるservice classのmockが必要に
 特に<code>build.grade</code>に記述せずとも<code>import org.mockito.Mock;</code>して
 mockitoの<code>@Mock</code>が使えるんですね。
 そう言えば、元々<code>import org.mockito.MockitoAnnotations;</code>されてますね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
 <ul>
 <li><p>unit test実行は<code>gradle test</code></p>
 </li>
@@ -180,7 +193,7 @@ mockitoの<code>@Mock</code>が使えるんですね。
 <li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html">11. Testing Method Security</a>(Spring公式doc)</li>
 <li><a href="https://ishiis.net/2016/11/12/spring-boot-security-unit-test/">Spring Securityを使っているWebアプリのUnitテスト</a>(2016/11/12)</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-03-23T10:33:45+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
+]]></content></entry><entry><title type="html"><![CDATA[push notification on Angular5]]></title><link href="http://u-ryo.github.io//blog/2018/03/19/push-notification-on-angular5/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/19/push-notification-on-angular5/</id><content type="html"><![CDATA[<p>もう先月ですが、Web Push Notificationを勉強して自分で試すことで、
 理解を深めました。<a href="https://github.com/u-ryo/my_web_push">作ってもみました</a>。</p>
 <p>やりたいアプリは<a href="https://www.jhipster.tech">Jhipster</a>で
 <a href="https://angular.io">Angular</a>使ってるんですが、
@@ -280,7 +293,7 @@ clickしたら飛ばないでただ閉じるように/閉じないようにし�
 直接いじらないとならないし、
 仕様を含めたもっと別の方策が必要だと思います本当は。</p>
 <p>favicon等iconを作るのに、<a href="https://realfavicongenerator.net/">Real Favicon Generator</a>、いいですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[GitHub Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-03-23T10:33:45+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>GitHub Pagesって、各user一つしか持てないのかとずっと思ってて。
+]]></content></entry><entry><title type="html"><![CDATA[GitHub Pages]]></title><link href="http://u-ryo.github.io//blog/2018/03/05/github-pages/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/05/github-pages/</id><content type="html"><![CDATA[<p>GitHub Pagesって、各user一つしか持てないのかとずっと思ってて。
 それを<a href="https://u-ryo.github.io/">my blog</a>に当ててきたから、
 もう持てないのかと。
 でも、違うんですね。
@@ -295,7 +308,7 @@ GitHub Pagesとしてhttpsで公開できるんですね。</p>
 <li>project page: <a href="https://github.com/u-ryo/PWCat/">https://github.com/u-ryo/PWCat/</a></li>
 <li>GitHub Page: <a href="https://u-ryo.github.io/PWCat/">https://u-ryo.github.io/PWCat/</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
 仕組みから考えて、WebSocketが必須なのかな?
 とかって勝手に思ってたんですが、違うんですね!
@@ -332,7 +345,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 <p>実際に自分で真似して書いてみて、
 値やcodeを色々変えて試してみることで、
 大分わかってきました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Brain Science]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/brain-science/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/03/brain-science/</id><content type="html"><![CDATA[<p>出されている仕事先の事務女性が前社長夫人で、
+]]></content></entry><entry><title type="html"><![CDATA[Brain Science]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/brain-science/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/02/03/brain-science/</id><content type="html"><![CDATA[<p>出されている仕事先の事務女性が前社長夫人で、
 今頃になってパワハラとか受けて辞めそうだと聞いていて、
 そういう今日このごろに刺さった記事がありました。
 <a href="http://toyokeizai.net/articles/-/205707">ヒトの脳は｢他人を裁く｣ようにできている ｢暴走する正義漢｣を止める方法はない</a>
@@ -344,7 +357,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 <li><a href="http://news.livedoor.com/article/detail/9282077/">脳科学者・中野信子「人間は実力のある人よりも、確信のある人のほうにひかれるのです」</a></li>
 <li><a href="https://www.cafeglobe.com/2017/11/065561book.html">脳科学者・中野信子さんが教える「大人のいじめ」回避のしかた</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Optical Illusion]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/optical-illusion/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/03/optical-illusion/</id><content type="html"><![CDATA[<p>IT mediaの記事(<a href="http://www.itmedia.co.jp/news/articles/1802/02/news010.html">コンピュータで“錯視”の謎に迫る：試してびっくり　点を回転させると円に見える「グラス・パターン」錯視の謎</a>)を見て、<a href="http://araiweb.matrix.jp/Exhibition/illusiongallary4.html">こんな世界</a>があるんだー! って驚きました。錯視を引き起こす成分を分離できるなんて!
+]]></content></entry><entry><title type="html"><![CDATA[Optical Illusion]]></title><link href="http://u-ryo.github.io//blog/2018/02/03/optical-illusion/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/02/03/optical-illusion/</id><content type="html"><![CDATA[<p>IT mediaの記事(<a href="http://www.itmedia.co.jp/news/articles/1802/02/news010.html">コンピュータで“錯視”の謎に迫る：試してびっくり　点を回転させると円に見える「グラス・パターン」錯視の謎</a>)を見て、<a href="http://araiweb.matrix.jp/Exhibition/illusiongallary4.html">こんな世界</a>があるんだー! って驚きました。錯視を引き起こす成分を分離できるなんて!
 ここでも出来るのかな?</p>
 <p>夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー<br  />
 夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー</p>
@@ -352,7 +365,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 ーナワ夏ーナワ夏ーナワ夏ーナワ夏ーナワ夏ーナワ夏ーナワ夏ーナワ夏ーナワ夏ーナワ夏</p>
 <p>夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー<br  />
 夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー夏ワナー</p>
-]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T14:42:38+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、
@@ -398,9 +411,9 @@ version numberを最新のもの(本執筆時点では1.6.6)に書き換え、
 Angularの難しさ、面倒臭さ、
 とnode modules周りの変化が激しいのもあるためか、
 使いこなすのはなかなか大変だと思います。</p>
-]]></content></entry><entry><title type="html"><![CDATA[RPA and Sikuli]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/rpa-and-sikuli/"/><updated>2018-01-30T12:00:47+09:00</updated><id>/blog/2018/01/30/rpa-and-sikuli/</id><content type="html"><![CDATA[<p>昨日、社内で「事務部門はRPA(Robotics Process Automation)を導入して業務効率化を図る」という発表があったので、どんな凄いことしてるのかと思ったら、要するに<a href="http://www.sikuli.org">Sikuli</a>のパクリなんですね<a href="https://www.asirrera.com/solution/">これ</a>。年間150万近く払ってこんなの使いたいなんて、よくわかんないですタダで出来るのに。</p>
+]]></content></entry><entry><title type="html"><![CDATA[RPA and Sikuli]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/rpa-and-sikuli/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/01/30/rpa-and-sikuli/</id><content type="html"><![CDATA[<p>昨日、社内で「事務部門はRPA(Robotics Process Automation)を導入して業務効率化を図る」という発表があったので、どんな凄いことしてるのかと思ったら、要するに<a href="http://www.sikuli.org">Sikuli</a>のパクリなんですね<a href="https://www.asirrera.com/solution/">これ</a>。年間150万近く払ってこんなの使いたいなんて、よくわかんないですタダで出来るのに。</p>
 <p>しかし、Sikuliに「ロボ・オペレータ」とかRobotics Process Automationとかご大層な名前を付けて、ITに疎い事務部門に売り付けるという発想は、凄いと思いました。それは思い付かなかったですねー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-01-16T14:42:29+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
 <ul>
 <li>onTouchListenerの上にonClickListenerを上書き<br  />
 あるbuttonを<code>setOnTouchListener(this);</code>してて。
@@ -448,7 +461,7 @@ state patternとかなんて知らないんだろうなぁと。</li>
 </ul>
 <p>...というように。
 こういうcodeと共に仕事するのは、嫌で嫌で仕方ありません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2018-01-16T10:02:12+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
+]]></content></entry><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
 いざ全pattern cross check! と思ったら、
 無限loopになるpatternが多くて。
 <code>@Timeout</code>導入でサクッと、と思ったら、
@@ -506,7 +519,7 @@ GroovyでなくJavaなら<code>Timeout</code>だけで済むじゃーないで�
 JUnitParamsなら、明示的に単一methodに対してparameter指定できるので安心です。</p>
 <p>...ダメです。JUnitParams使うと、Timeout効かないことがわかりました。
 悲しい。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Dream of deth]]></title><link href="http://u-ryo.github.io//blog/2017/12/05/dream-of-deth/"/><updated>2018-01-16T10:02:12+09:00</updated><id>/blog/2017/12/05/dream-of-deth/</id><content type="html"><![CDATA[<p>自分でもどういうわけかわかりませんが、
+]]></content></entry><entry><title type="html"><![CDATA[Dream of deth]]></title><link href="http://u-ryo.github.io//blog/2017/12/05/dream-of-deth/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/05/dream-of-deth/</id><content type="html"><![CDATA[<p>自分でもどういうわけかわかりませんが、
 殺される夢を見ました。
 realな夢です。
 おかげで、2時半過ぎに寝たばかりなのに、5時頃起きてしまいました。
@@ -558,7 +571,7 @@ realな夢です。
 なるほど! 確かに、ぼくも朝その時から悪寒はしてた感じなので、
 悪寒の説明をつけるために、脳が勝手な物語を紡いだ、のかな。
 だから単に体調が悪いというsignだったんでしょう。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2017-12-01T17:41:42+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
+]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
 Stream APIのようにCollectionsを扱えません。
 折角Java8で覚えたのに。
 ですが、RxJavaを使うとほぼStream APIのように書けるんですねーへーーー。
@@ -567,7 +580,7 @@ Stream APIのようにCollectionsを扱えません。
 ifの条件節に直接書けるようになりました。
 <code>Optional</code>も出来るんですね。
 書いてありますが、キモは<code>toBlocking().single()</code>でしょうか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2017-12-01T17:04:47+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
 暗い背景なので、defaultのdesignだと見にくいんですね。
 なのでcustomの白っぽいのに差し替えようとしたんですが、
 なかなかうまく行かなかったのです。
@@ -625,7 +638,7 @@ stackoverflowの<a href="https://stackoverflow.com/questions/34508164/cant-creat
 なるほどと思ってそうすると、
 結構色んな箇所で出るべきものが出なくなるんですよね。
 気を付けないとなりません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2017-11-24T18:33:21+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
 <code>ListView</code>のそれぞれに<code>CheckBox</code>をつけたら、
 checkboxはcheck出来るものの、項目選択が出来なくなりました。
 どうやら<code>onItemClick</code>が呼ばれてない様子。
@@ -641,7 +654,7 @@ checkboxはcheck出来るものの、項目選択が出来なくなりました�
 background処理後、<code>Adapter</code>の値を変えただけでは<code>CheckBox</code>の見た目に変化はないんですね。
 explicitに<code>setChecked(false)</code>して回らないとなりません。
 その際、<code>listView.getChildCount()</code>で取れるcountは、<code>ListView</code>の全てではなく、見える範囲のListのobjectなんですね! 確かにscrollすればredrawかかってadapterの値が反映されるからいいんですけど、何かしない限りredrawされないから自分で描画しないとならないんですねー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[OnClickListener with ProgressDialog by RxAndroid]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/"/><updated>2017-11-24T18:25:09+09:00</updated><id>/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/</id><content type="html"><![CDATA[<p>「clickしたらbackgroundで処理して
+]]></content></entry><entry><title type="html"><![CDATA[OnClickListener with ProgressDialog by RxAndroid]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/</id><content type="html"><![CDATA[<p>「clickしたらbackgroundで処理して
 その間ProgressDialog出して
 終わったらProgressDialog消して
 終了/失敗dialogを表示する」のを
@@ -896,7 +909,7 @@ retrofit2を使うともうちょっと違うかも。</p>
 </span><span class='line'>    }
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Security Links]]></title><link href="http://u-ryo.github.io//blog/2017/10/21/security-links/"/><updated>2017-12-14T10:41:36+09:00</updated><id>/blog/2017/10/21/security-links/</id><content type="html"><![CDATA[<p>Security関係のLinkをまとめました。
+]]></content></entry><entry><title type="html"><![CDATA[Security Links]]></title><link href="http://u-ryo.github.io//blog/2017/10/21/security-links/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/10/21/security-links/</id><content type="html"><![CDATA[<p>Security関係のLinkをまとめました。
 はてぶにすればいいのに > 自分</p>
 <ul>
 <li><a href="https://takagi-hiromitsu.jp/diary/">高木浩光＠自宅の日記</a></li>
@@ -909,18 +922,4 @@ retrofit2を使うともうちょっと違うかも。</p>
 <li><a href="http://blog.macnica.net/">マクニカネットワークスセキュリティ研究センターブログ</a></li>
 </ul>
 <p>あー、勉強しないと。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Knapsack Problem]]></title><link href="http://u-ryo.github.io//blog/2017/10/20/knapsack-problem/"/><updated>2017-10-25T15:25:09+09:00</updated><id>/blog/2017/10/20/knapsack-problem/</id><content type="html"><![CDATA[<p>ここ最近、Knapsack Problemが流行っている感じがしています。</p>
-<p><a href="http://www.ap-siken.com/kakomon/29_haru/pm03.html">応用情報技術者過去問題 平成29年春期 午後問3</a>では基本「全探索」、改善提案が「枝刈り」でしたが、それでは全然不十分です。この問題は要するにKnapsack Problemのちょっとした変形で、code量もさしたることなく書けますし、折角FEではなくAPなのだし、日本の若者のためにも、Knapsackで書くよう誘導すべきだったのでは、と「禿げしく」思ったものでした。</p>
-<p>すると、今度は<a href="http://www.ap-siken.com/kakomon/29_aki/pm03.html">応用情報技術者過去問題 平成29年秋期 午後問3</a>でKnapsack Problemを正面から出してきましたね。0-1ではなく普通の。ぼくは前回のrevengeではないかと思ってみています。
-問題自体は、あまりにも普通のKnapsack Problemなので、ツッコミようがなくてつまんなかったデス。</p>
-<p>この他にアジアでも。そっちは0-1でした。</p>
-<h3>References</h3>
-<ul>
-<li>Wikipedia<a href="https://en.wikipedia.org/wiki/Knapsack_problem">En</a>, <a href="https://ja.wikipedia.org/wiki/%E3%83%8A%E3%83%83%E3%83%97%E3%82%B5%E3%83%83%E3%82%AF%E5%95%8F%E9%A1%8C">Ja</a></li>
-<li><a href="http://judge.u-aizu.ac.jp/onlinejudge/commentary.jsp?id=DPL_1_B">Aizu Online Judge</a></li>
-<li><a href="http://www.itmedia.co.jp/keywords/algorithmer.html">「最強最速アルゴリズマー養成講座」最新記事一覧</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1005/15/news002.html">病みつきになる「動的計画法」、その深淵に迫る</a>, <a href="http://www.itmedia.co.jp/enterprise/articles/1003/06/news002.html">アルゴリズマーの登竜門、「動的計画法・メモ化再帰」はこんなに簡単だった</a></li>
-<li><a href="http://pieceofnostalgy.blogspot.jp/2013/12/01.html">片鱗懐古のブログ 01ナップサック問題を動的計画法で解く場合の考え方</a></li>
-<li><a href="http://fantom1x.blog130.fc2.com/blog-entry-174.html">【Java】ナップサック問題(knapsack)[動的計画法]  </a></li>
-</ul>
-<p>ちなみに日本語では「ナップザック」、登山用語はドイツから入ってきたから、です。</p>
 ]]></content></entry></feed>

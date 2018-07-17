@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/java9/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T07:46:02+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
+Java9以上のGroovyでmoduleが足りない、
+具体的には、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Caught: java.lang.NoClassDefFoundError: Unable to load class groovy.xml.jaxb.JaxbGroovyMethods due to missing dependency javax/xml/bind/JAXBContext
+</span><span class='line'>java.lang.NoClassDefFoundError: Unable to load class groovy.xml.jaxb.JaxbGroovyMethods due to missing dependency javax/xml/bind/JAXBContext
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われる時。
+groovyではどうやって<code>--add-modules</code>すればいいのかなって。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ JAVA_OPTS=&#39;--add-modules=ALL-SYSTEM&#39; groovy ...
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry></feed>
