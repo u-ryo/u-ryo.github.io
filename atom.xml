@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T16:19:39+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Caution on ListView]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/caution-on-listview/"/><updated>2018-07-18T16:19:39+09:00</updated><id>/blog/2018/07/18/caution-on-listview/</id><content type="html"><![CDATA[<p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T16:54:40+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[How to get the result from DialogFragment]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/how-to-get-the-result-from-dialogfragment/"/><updated>2018-07-18T16:54:40+09:00</updated><id>/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/</id><content type="html"><![CDATA[<p><code>DialogFragment</code>をnewしてdialogを表示させ、
+そこでのbutton tapによって、元のActivity上で処理をさせたい時、
+どうやってfeedbackしたら良いのかなと。
+呼び出し元は<code>Fragment</code>ではなく<code>Activity</code>なので、
+<a href="https://tech.mokelab.com/android/Fragment/result.html">Fragmentで呼び出し元に結果を伝える</a><a href="https://stackoverflow.com/questions/10905312/receive-result-from-dialogfragment">Receive result from DialogFragment</a>等にあるように<code>setTargetFragment()</code>を使えないんですよね。</p>
+<p>結局、<code>DialogFragment</code>側に<code>setCallback(Callback callback)</code>と
+Functional Interfaceとして<code>Callback</code>を定義して、
+button押したら<code>callback.call();</code>とし、
+呼び出し元の<code>Activity</code>側で<code>new SomeDialogFragment().setCallback(() -&gt; someMethod())</code>としてやりたいことを<code>someMethod()</code>に込めました。
+ちょっと面倒ですけどこのようにcallback駆使するしか無いのかなぁと。
+<code>onActivityResult()</code>は<code>getTargetFragment()</code>が使えないのと
+処理を<code>Activity</code>側に書きたいというのがあったので。
+いや、<code>onActivityResult()</code>の中身は<code>Activity</code>側ですか。
+<code>setTargetFragment()</code>の代わりに何か<code>Activity</code>のreferenceを
+<code>DialogFragment</code>側に持たせればよかった?のかな?
+いやいや、そもそも<code>Fragment</code>から<code>getActivity()</code>で取得できる?
+からこんなことしなくてよかった?
+あれ??
+いやーでも<code>DialogFragment</code>側は引数の情報を持っておらず、
+<code>Activity</code>側しか引数持ってないんですよね。
+今回のぼくの場合では、
+引数を引き回すか、再度SQLで取得するかして<code>onActivityResult()</code>でkickするか、
+callbackを作るか、ということだったでしょうか。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Caution on ListView]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/caution-on-listview/"/><updated>2018-07-18T16:19:39+09:00</updated><id>/blog/2018/07/18/caution-on-listview/</id><content type="html"><![CDATA[<p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
 <code>ListView</code>のviewの使い回しでbugがあったのでメモです。
 ぼくがやったんじゃないです。</p>
 <p><code>public View getView(int position, View convertView, ViewGroup parent)</code>
@@ -733,20 +756,4 @@ stackoverflowの<a href="https://stackoverflow.com/questions/34508164/cant-creat
 なるほどと思ってそうすると、
 結構色んな箇所で出るべきものが出なくなるんですよね。
 気を付けないとなりません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2017-11-24T18:33:21+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
-<code>ListView</code>のそれぞれに<code>CheckBox</code>をつけたら、
-checkboxはcheck出来るものの、項目選択が出来なくなりました。
-どうやら<code>onItemClick</code>が呼ばれてない様子。
-調べてみると、<code>CheckBox</code>がfocusを奪ってしまっているそうでした。
-(<a href="http://inujirushi123.blog.fc2.com/blog-entry-53.html">カスタマイズしたListViewに設定したCheckBoxのon/offを行全体で行う</a>)</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>android:clickable=&quot;false&quot;
-</span><span class='line'>android:focusable=&quot;false&quot;
-</span></code></pre></td></tr></table></div></figure>
-<p>が必要とのこと。</p>
-<p>また、
-background処理後、<code>Adapter</code>の値を変えただけでは<code>CheckBox</code>の見た目に変化はないんですね。
-explicitに<code>setChecked(false)</code>して回らないとなりません。
-その際、<code>listView.getChildCount()</code>で取れるcountは、<code>ListView</code>の全てではなく、見える範囲のListのobjectなんですね! 確かにscrollすればredrawかかってadapterの値が反映されるからいいんですけど、何かしない限りredrawされないから自分で描画しないとならないんですねー。</p>
 ]]></content></entry></feed>
