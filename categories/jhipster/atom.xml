@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
 <p>参考: <a href="https://dev.classmethod.jp/etc/wiremock-practice/">WireMockを使って通信に関するテストをやってみよう</a></p>
 <p>使う時は<code>build.gradle</code>で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -71,7 +71,7 @@ Test Class内で<code>@Autowired</code>してるservice classのmockが必要に
 特に<code>build.grade</code>に記述せずとも<code>import org.mockito.Mock;</code>して
 mockitoの<code>@Mock</code>が使えるんですね。
 そう言えば、元々<code>import org.mockito.MockitoAnnotations;</code>されてますね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
 <ul>
 <li><p>unit test実行は<code>gradle test</code></p>
 </li>
@@ -102,7 +102,7 @@ mockitoの<code>@Mock</code>が使えるんですね。
 <li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html">11. Testing Method Security</a>(Spring公式doc)</li>
 <li><a href="https://ishiis.net/2016/11/12/spring-boot-security-unit-test/">Spring Securityを使っているWebアプリのUnitテスト</a>(2016/11/12)</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T14:42:38+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、

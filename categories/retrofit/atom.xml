@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/retrofit/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[NullPointerException on Retrofit2 with Robolectric]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/"/><updated>2018-07-18T14:37:35+09:00</updated><id>/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/</id><content type="html"><![CDATA[<p>Android ApplicationをRobolectricでtestしていて、
+どうにも困ったのでメモです。</p>
+<p>状況は、Android Applicationで、
+Robolectricを使っていて、
+Retrofit2で<code>POST</code>しにいく部分(受け手はMockWebServer)のunit testで、
+突然<code>NullPointerException</code>になって<code>subscribe</code>の<code>error</code>に入ってしまう、というもの。
+breakpointで追っていっても<code>call()</code>で突如NPEに入ってしまって、
+具体的にどこでNPEに陥っているのかよく分かりませんでした。
+Googleで探してみると、
+<a href="https://stackoverflow.com/questions/39827081/unit-testing-android-application-with-retrofit-and-rxjava">Stack Overflow</a>にそれらしき投稿があり、
+<code>.observeOn(AndroidSchedulers.mainThread())</code>は
+<code>LooperScheduler</code>なのでここでNPEになる、
+だから<code>RxAndroidPlugins</code>の<code>registerSchedulersHook()</code>で
+<code>Schedulers.immediate()</code>してやると良い、
+と書いてあって、やったー!
+と思ったものの、効果なく。</p>
+<p>結局そうではなくて、
+MockWebServer使っているから<code>http://localhost:NNNN/...</code>に
+requestを改装しているせいなんですけど、
+SecurityPolicy絡みのExceptionが裏で出ているようで、
+以下のようなShadowを用意して<code>@Config({shadows=...})</code>に
+書いてやればそのままですんなり行きました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import android.security.NetworkSecurityPolicy;
+</span><span class='line'>
+</span><span class='line'>import org.robolectric.annotation.Implementation;
+</span><span class='line'>import org.robolectric.annotation.Implements;
+</span><span class='line'>
+</span><span class='line'>@Implements(NetworkSecurityPolicy.class)
+</span><span class='line'>public class ShadowNetworkSecurityPolicy {
+</span><span class='line'>    @Implementation
+</span><span class='line'>    public static NetworkSecurityPolicy getInstance() {
+</span><span class='line'>        try {
+</span><span class='line'>            Class<span class="err">&lt;</span>?&gt; shadow = ShadowNetworkSecurityPolicy.class.forName(&quot;android.security.NetworkSecurityPolicy&quot;);
+</span><span class='line'>            return (NetworkSecurityPolicy) shadow.newInstance();
+</span><span class='line'>        } catch (Exception e) {
+</span><span class='line'>            throw new AssertionError();
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    @Implementation
+</span><span class='line'>    public boolean isCleartextTrafficPermitted(String hostname) {
+</span><span class='line'>        return true;
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>勿論、<code>.subscribeOn(Schedulers.io())</code>に対しては
+<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>
+した上で、です。</p>
+]]></content></entry></feed>

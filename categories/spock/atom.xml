@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spock/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spock and JMockit]]></title><link href="http://u-ryo.github.io//blog/2017/12/19/spock-and-jmockit/"/><updated>2018-01-16T10:02:12+09:00</updated><id>/blog/2017/12/19/spock-and-jmockit/</id><content type="html"><![CDATA[<p>バイトのtestで、Spockでさらっとtest書いて、
 いざ全pattern cross check! と思ったら、
 無限loopになるpatternが多くて。
 <code>@Timeout</code>導入でサクッと、と思ったら、
@@ -56,7 +56,7 @@ GroovyでなくJavaなら<code>Timeout</code>だけで済むじゃーないで�
 JUnitParamsなら、明示的に単一methodに対してparameter指定できるので安心です。</p>
 <p>...ダメです。JUnitParams使うと、Timeout効かないことがわかりました。
 悲しい。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T15:50:42+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
 <ul>
 <li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -193,7 +193,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <li><p>mocking method実行時に他のことをしたい時には、<code>when(mock.methodCall()).thenAnswer(m -&gt; {...});</code>とlambdaで書ける(<a href="https://qiita.com/kazurof/items/1171c7e038050453c6c9#mockitoでのサンプル">mockitoとJMockitについてのメモ</a>)。</p>
 </li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
+]]></content></entry><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
 <a href="http://kyon-mm.hatenablog.com/entry/2014/08/06/132327">Spockのテストレポートが想像以上に凄い件について</a></p>
 <p>Gradleで作成されるReportで満足してしまっていましたが、
 もっと綺麗に出来るんですね。</p>
