@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T16:13:01+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Caution on ListView]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/caution-on-listview/"/><updated>2018-07-18T16:13:01+09:00</updated><id>/blog/2018/07/18/caution-on-listview/</id><content type="html"><![CDATA[<p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
-<code>ListView</code>のviewの使い回しでbugがあったのでメモ。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T16:19:39+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Caution on ListView]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/caution-on-listview/"/><updated>2018-07-18T16:19:39+09:00</updated><id>/blog/2018/07/18/caution-on-listview/</id><content type="html"><![CDATA[<p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
+<code>ListView</code>のviewの使い回しでbugがあったのでメモです。
+ぼくがやったんじゃないです。</p>
 <p><code>public View getView(int position, View convertView, ViewGroup parent)</code>
 の<code>convertView</code>を使い回すわけですが、
 <code>null</code>の時と<code>not null</code>の時の扱いが微妙に違うんですね。
@@ -21,6 +22,7 @@ objectの一部が<code>null</code>のままで次に進むと<code>NullPointerE
 <p>まーでもこんなlevelのbugはまだいぃ方ですけどねー
 このsoftwareについては。
 色々アホなのはホントやる気無くします。</p>
+<p>参考: <a href="https://dev.classmethod.jp/smartphone/gridview-performanceup-1/">Android GridViewのパフォーマンスを上げよう(1/2)</a>←そうですよね普通気を付けますよね、<a href="https://kokufu.blogspot.com/2012/03/listview-graphical-layout.html">ListView は Graphical Layout で作ったまま使ってはいけない</a>←そうなんですよ最初、頭の1つだけ<code>null</code>で呼ばれた後画面に見える分だけ<code>not null</code>で呼ばれ、その後改めて<code>null</code>で呼ばれるので、何でかなーと思ったものです。ただもぅ今は<code>RecyclerView</code>だからこんなtipsはもう不要かなーと。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[NullPointerException on Retrofit2 with Robolectric]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/"/><updated>2018-07-18T14:37:35+09:00</updated><id>/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/</id><content type="html"><![CDATA[<p>Android ApplicationをRobolectricでtestしていて、
 どうにも困ったのでメモです。</p>
 <p>状況は、Android Applicationで、

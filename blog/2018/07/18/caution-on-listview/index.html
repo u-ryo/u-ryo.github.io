@@ -116,7 +116,8 @@
 
 
 <div class="entry-content"><p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
-<code>ListView</code>のviewの使い回しでbugがあったのでメモ。</p>
+<code>ListView</code>のviewの使い回しでbugがあったのでメモです。
+ぼくがやったんじゃないです。</p>
 <p><code>public View getView(int position, View convertView, ViewGroup parent)</code>
 の<code>convertView</code>を使い回すわけですが、
 <code>null</code>の時と<code>not null</code>の時の扱いが微妙に違うんですね。
@@ -138,6 +139,7 @@ objectの一部が<code>null</code>のままで次に進むと<code>NullPointerE
 <p>まーでもこんなlevelのbugはまだいぃ方ですけどねー
 このsoftwareについては。
 色々アホなのはホントやる気無くします。</p>
+<p>参考: <a href="https://dev.classmethod.jp/smartphone/gridview-performanceup-1/">Android GridViewのパフォーマンスを上げよう(1/2)</a>←そうですよね普通気を付けますよね、<a href="https://kokufu.blogspot.com/2012/03/listview-graphical-layout.html">ListView は Graphical Layout で作ったまま使ってはいけない</a>←そうなんですよ最初、頭の1つだけ<code>null</code>で呼ばれた後画面に見える分だけ<code>not null</code>で呼ばれ、その後改めて<code>null</code>で呼ばれるので、何でかなーと思ったものです。ただもぅ今は<code>RecyclerView</code>だからこんなtipsはもう不要かなーと。</p>
 </div>
 
 </article>
@@ -154,7 +156,7 @@ objectの一部が<code>null</code>のままで次に進むと<code>NullPointerE
 
 
 
-     <time datetime="2018-07-18T16:13:01+09:00" class="updated">
+     <time datetime="2018-07-18T16:19:39+09:00" class="updated">
        Updated
        <span class="month">Jul</span>
        <span class="day">18</span>,
