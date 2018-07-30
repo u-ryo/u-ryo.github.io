@@ -1,4 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T16:54:40+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[How to get the result from DialogFragment]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/how-to-get-the-result-from-dialogfragment/"/><updated>2018-07-18T16:54:40+09:00</updated><id>/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/</id><content type="html"><![CDATA[<p><code>DialogFragment</code>をnewしてdialogを表示させ、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-30T18:30:38+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-07-30T18:30:38+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
+今日得た知見をば。</p>
+<h3>getTextSize/setTextSize</h3>
+<p>あるActivityの画面で、
+本文とボタンのtext sizeを揃えようとして、
+<code>TextView#getTextSize</code>してから<code>setTextSize</code>したら、
+大きくなるんですよね。何でだろう、調べると、
+<a href="http://yamato-iphone.blogspot.com/2012/02/gettextsizesettextsize.html">TextView#getTextSizeとsetTextSize`のデフォルト単位が違う</a>
+のだそう。びっくりです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>renewalButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, caution.getTextSize());
+</span></code></pre></td></tr></table></div></figure>
+<p>というように、単位を明示する必要があるそう。</p>
+<h3>サイズ自動調整TextView</h3>
+<p><code>TextView</code>で、指示通りに改行位置を固定しようと思って。
+指示中の、禁則処理に失敗しているところも含めて忠実に再現しようと。
+そのためにはtext sizeを随意にせねばならず。
+<a href="https://gist.github.com/STAR-ZERO/2934490">【Android】横幅に合わせてテキストサイズを調整するTextView</a>そのままで上手く行きました。
+あーでも<code>onLayout()</code>の最初の引数<code>changed</code>が<code>true</code>の時だけ
+<code>resize()</code>すればよかとです。</p>
+<p>今は<a href="https://developer.android.com/guide/topics/ui/look-and-feel/autosizing-textview">Autosizing TextViews</a>というのがあるそう。
+ただ、API 26からなのでまだなかなか使えないでしょうか。</p>
+<h3>onLayout後の値の取得</h3>
+<p>上記のようにtext sizeを変えてから、
+その結果のtext sizeに合わせて他のViewのtext sizeを
+決定しようとすると、
+<code>onLayout()</code>が呼ばれ終わってから出ないと
+目的の値が取得出来ないんですね。
+そこで、
+<a href="https://stackoverflow.com/questions/8418868/how-to-know-when-an-activity-finishes-a-layout-pass">How to know when an activity finishes a layout pass?</a>
+にあるように、
+<code>myView..getViewTreeObserver().addOnGlobalLayoutListener(() -&gt; {...});</code>
+とすれば良いです。</p>
+<h3>Rx Androidにmaxはない?</h3>
+<p>探したんですけど見つからなかったので自分で集計しました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>// ãã­ã¹ãã®æå¤§è¡æ¨ªå¹åå¾(æå­æ°ã ã¨æ¼¢å­ã¨alphabetã§å·®ç°ãåºã)
+</span><span class='line'>float textWidth = rx.Observable
+</span><span class='line'>        .from(getText().toString().split(&quot;\n&quot;))
+</span><span class='line'>        .map(paint::measureText)
+</span><span class='line'>        .reduce(Math::max)
+</span><span class='line'>        .toBlocking()
+</span><span class='line'>        .single();
+</span></code></pre></td></tr></table></div></figure>
+<h3>TextViewで白枠</h3>
+<p>ある段落を白枠で囲って欲しいと言われました。
+調べると、<a href="https://qiita.com/Yuki_Yamada/items/15fc68dc88b57734149b">[android]xmlで枠を指定する</a>というのがあり、
+それ用のdrawable XMLを作ってやって<code>android:background=...</code>で
+それを指定すれば、望み通りのものが得られました。
+背景色は``</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;shape</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+</span><span class='line'>    <span class="na">android:shape=</span><span class="s">&quot;rectangle&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- èæ¯è² --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">&quot;#00ffffff&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- è§ã®ä¸¸ã¿ --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;stroke</span> <span class="na">android:width=</span><span class="s">&quot;1dp&quot;</span>
+</span><span class='line'>        <span class="na">android:color=</span><span class="s">&quot;@color/white&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;corners</span> <span class="na">android:radius=</span><span class="s">&quot;1dp&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/shape&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[How to get the result from DialogFragment]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/how-to-get-the-result-from-dialogfragment/"/><updated>2018-07-18T16:54:40+09:00</updated><id>/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/</id><content type="html"><![CDATA[<p><code>DialogFragment</code>をnewしてdialogを表示させ、
 そこでのbutton tapによって、元のActivity上で処理をさせたい時、
 どうやってfeedbackしたら良いのかなと。
 呼び出し元は<code>Fragment</code>ではなく<code>Activity</code>なので、
@@ -698,62 +775,4 @@ Stream APIのようにCollectionsを扱えません。
 ifの条件節に直接書けるようになりました。
 <code>Optional</code>も出来るんですね。
 書いてありますが、キモは<code>toBlocking().single()</code>でしょうか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2017-12-01T17:04:47+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
-暗い背景なので、defaultのdesignだと見にくいんですね。
-なのでcustomの白っぽいのに差し替えようとしたんですが、
-なかなかうまく行かなかったのです。
-基本的には、<code>res/drawable/</code>に、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-</span><span class='line'><span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_enabled=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_disabled&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;true&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_on&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;false&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_off&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;true&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;true&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_on_pressed&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;false&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;true&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_off_pressed&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'><span class="nt">&lt;/selector&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>と書いて(状態判定は上の行から順番になされる模様)、layoutで、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;CheckBox</span>
-</span><span class='line'>  <span class="na">android:id=</span><span class="s">&quot;@+id/historySelected&quot;</span>
-</span><span class='line'>  <span class="na">style=</span><span class="s">&quot;@style/historyListCheckBox&quot;</span>
-</span><span class='line'>  <span class="na">android:button=</span><span class="s">&quot;@drawable/selector_checkbox&quot;</span>
-</span><span class='line'><span class="nt">/&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>というように参照すればいいんです。
-が、それだとcheckしても絵が変わらなかったんですね。
-別途<code>OnClickListener</code>に、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>checkbox.setButtonDrawable(checkbox.isChecked() ? R.drawable.ic_check_on : R.drawable.ic_check_off);
-</span></code></pre></td></tr></table></div></figure>
-<p>が必要でした、というのはまだわかるんですが、
-これを書いても<code>ic_check_on</code>の絵にならなかったんですね(<code>ic_check_off</code>の絵のまま)。
-なんでだろ～、1日程悩みました。</p>
-<p>結局、
-stackoverflowの<a href="https://stackoverflow.com/questions/34508164/cant-create-custom-arrayadapter-with-appcompat-elements-inside-of-it">Can't create custom arrayadapter with appcompat elements inside of it</a>に書いてあったんですけど、
-<code>ListView</code>のAdapterを作る時の<code>Context</code>が、
-<code>getApplicationContext()</code>で得られたものであったこと、
-が敗因でした。<code>getApplication()</code>でもダメでした。
-<code>this</code>でないと、<code>ic_check_on</code>がdrawされませんでした。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>adapter = new SimpleAdapter(this, someList, R.layout.some_listview, new String[]{...}, new int[]{R.id.someId,...});
-</span></code></pre></td></tr></table></div></figure>
-<p><code>this</code>で引き回すと、使ってるfieldとか色々引きずるから
-なるべく<code>getApplicationContext()</code>にしましょうね、
-というのを聞いたことがあるのですが、
-なるほどと思ってそうすると、
-結構色んな箇所で出るべきものが出なくなるんですよね。
-気を付けないとなりません。</p>
 ]]></content></entry></feed>

@@ -1,0 +1,80 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Textview - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/textview/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Textview</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Textview category via RSS" href="/categories/textview/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2018/07/30/android-petite-tips/">Android Petite Tips</a></h1> <p class="meta"> <time datetime="2018-07-30T18:05:00+09:00" pubdate data-updated=true> <span class="month">Jul</span> <span class="day">30</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>お仕事で極悪Androidアプリを改修していて、 今日得た知見をば。</p> <h3>getTextSize/setTextSize</h3> <p>あるActivityの画面で、 本文とボタンのtext sizeを揃えようとして、 <code>TextView#getTextSize</code>してから<code>setTextSize</code>したら、 大きくなるんですよね。何でだろう、調べると、 <a href="http://yamato-iphone.blogspot.com/2012/02/gettextsizesettextsize.html">TextView#getTextSizeとsetTextSize`のデフォルト単位が違う</a> のだそう。びっくりです。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>renewalButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, caution.getTextSize());
+</span></code></pre></td></tr></table></div></figure> <p>というように、単位を明示する必要があるそう。</p> <h3>サイズ自動調整TextView</h3> <p><code>TextView</code>で、指示通りに改行位置を固定しようと思って。 指示中の、禁則処理に失敗しているところも含めて忠実に再現しようと。 そのためにはtext sizeを随意にせねばならず。 <a href="https://gist.github.com/STAR-ZERO/2934490">【Android】横幅に合わせてテキストサイズを調整するTextView</a>そのままで上手く行きました。 あーでも<code>onLayout()</code>の最初の引数<code>changed</code>が<code>true</code>の時だけ <code>resize()</code>すればよかとです。</p> <p>今は<a href="https://developer.android.com/guide/topics/ui/look-and-feel/autosizing-textview">Autosizing TextViews</a>というのがあるそう。 ただ、API 26からなのでまだなかなか使えないでしょうか。</p> <h3>onLayout後の値の取得</h3> <p>上記のようにtext sizeを変えてから、 その結果のtext sizeに合わせて他のViewのtext sizeを 決定しようとすると、 <code>onLayout()</code>が呼ばれ終わってから出ないと 目的の値が取得出来ないんですね。 そこで、 <a href="https://stackoverflow.com/questions/8418868/how-to-know-when-an-activity-finishes-a-layout-pass">How to know when an activity finishes a layout pass?</a> にあるように、 <code>myView..getViewTreeObserver().addOnGlobalLayoutListener(() -&gt; {...});</code> とすれば良いです。</p> <h3>Rx Androidにmaxはない?</h3> <p>探したんですけど見つからなかったので自分で集計しました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>// ãã­ã¹ãã®æå¤§è¡æ¨ªå¹åå¾(æå­æ°ã ã¨æ¼¢å­ã¨alphabetã§å·®ç°ãåºã)
+</span><span class='line'>float textWidth = rx.Observable
+</span><span class='line'>        .from(getText().toString().split(&quot;\n&quot;))
+</span><span class='line'>        .map(paint::measureText)
+</span><span class='line'>        .reduce(Math::max)
+</span><span class='line'>        .toBlocking()
+</span><span class='line'>        .single();
+</span></code></pre></td></tr></table></div></figure> <h3>TextViewで白枠</h3> <p>ある段落を白枠で囲って欲しいと言われました。 調べると、<a href="https://qiita.com/Yuki_Yamada/items/15fc68dc88b57734149b">[android]xmlで枠を指定する</a>というのがあり、 それ用のdrawable XMLを作ってやって<code>android:background=...</code>で それを指定すれば、望み通りのものが得られました。 背景色は``</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;shape</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+</span><span class='line'>    <span class="na">android:shape=</span><span class="s">&quot;rectangle&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- èæ¯è² --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">&quot;#00ffffff&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- è§ã®ä¸¸ã¿ --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;stroke</span> <span class="na">android:width=</span><span class="s">&quot;1dp&quot;</span>
+</span><span class='line'>        <span class="na">android:color=</span><span class="s">&quot;@color/white&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;corners</span> <span class="na">android:radius=</span><span class="s">&quot;1dp&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/shape&gt;</span>
+</span></code></pre></td></tr></table></div></figure> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/07/30/android-petite-tips/">Android Petite Tips</a> </li> <li class="post"> <a href="/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/">How to Get the Result From DialogFragment</a> </li> <li class="post"> <a href="/blog/2018/07/18/caution-on-listview/">Caution on ListView</a> </li> <li class="post"> <a href="/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/">NullPointerException on Retrofit2 With Robolectric</a> </li> <li class="post"> <a href="/blog/2018/07/18/groovy-on-java9/">Groovy on Java9+</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>
