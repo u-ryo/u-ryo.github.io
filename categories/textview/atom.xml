@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/textview/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-07-30T18:30:38+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/textview/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-14T17:07:33+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
 今日得た知見をば。</p>
 <h3>getTextSize/setTextSize</h3>
 <p>あるActivityの画面で、
 本文とボタンのtext sizeを揃えようとして、
 <code>TextView#getTextSize</code>してから<code>setTextSize</code>したら、
 大きくなるんですよね。何でだろう、調べると、
-<a href="http://yamato-iphone.blogspot.com/2012/02/gettextsizesettextsize.html">TextView#getTextSizeとsetTextSize`のデフォルト単位が違う</a>
+<a href="http://yamato-iphone.blogspot.com/2012/02/gettextsizesettextsize.html"><code>TextView#getTextSize</code>と<code>setTextSize</code>のデフォルト単位が違う</a>
 のだそう。びっくりです。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>renewalButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, caution.getTextSize());
@@ -24,13 +24,36 @@
 <p>上記のようにtext sizeを変えてから、
 その結果のtext sizeに合わせて他のViewのtext sizeを
 決定しようとすると、
-<code>onLayout()</code>が呼ばれ終わってから出ないと
+<code>onLayout()</code>が呼ばれ終わってからでないと
 目的の値が取得出来ないんですね。
 そこで、
 <a href="https://stackoverflow.com/questions/8418868/how-to-know-when-an-activity-finishes-a-layout-pass">How to know when an activity finishes a layout pass?</a>
 にあるように、
-<code>myView..getViewTreeObserver().addOnGlobalLayoutListener(() -&gt; {...});</code>
+<code>myView.getViewTreeObserver().addOnGlobalLayoutListener(() -&gt; {...});</code>
 とすれば良いです。</p>
+<h4>補足</h4>
+<p>RobolectricでUnit Test書いてたら、
+このclass、testが終わらないんです。
+何でかなー、とbreakpointで追ってみると、
+延々と<code>onGlobalLayout()</code>が呼ばれ続けてるんですね。
+えーっと思って。
+<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>
+しても、
+<code>ShadowApplication.runBackgroundTasks();</code>
+しても効き目はなく。
+<a href="http://shim0mura.hatenadiary.jp/entry/2016/01/11/013000">androidでheightやwidthが0になって取得できない時</a>
+を見ると、用が済んだらすぐremoveするんですね。そっか。
+というわけで、Android SDKのversionによって分けて、
+<code>removeOnGlobalLayoutListener(this)</code>と
+<code>removeGlobalOnLayoutListener(this)</code>でremoveするように
+したんですけど、今度は<code>this</code>が効かない。
+なるほど、lambdaだと<code>this</code>は外側のclass instanceになるんですね。
+じゃぁっていうんでlambda自体をListener instanceとして名前付けて、
+lambdaの中で<code>this</code>じゃなくてその名前で参照しようとしたんですが、
+<code>might not have been initialized</code>とか言われ、
+<code>null</code>で初期化すると今度は<code>effectively final</code>じゃないと言われて、
+うー、とか思って仕方なく諦めて、
+初めてlambdaを解いてinner classの記述に戻しました。</p>
 <h3>Rx Androidにmaxはない?</h3>
 <p>探したんですけど見つからなかったので自分で集計しました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -39,9 +62,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>// ãã­ã¹ãã®æå¤§è¡æ¨ªå¹åå¾(æå­æ°ã ã¨æ¼¢å­ã¨alphabetã§å·®ç°ãåºã)
-</span><span class='line'>float textWidth = rx.Observable
+</pre></td><td class='code'><pre><code class='html'><span class='line'>float textWidth = rx.Observable
 </span><span class='line'>        .from(getText().toString().split(&quot;\n&quot;))
 </span><span class='line'>        .map(paint::measureText)
 </span><span class='line'>        .reduce(Math::max)
@@ -51,9 +72,9 @@
 <h3>TextViewで白枠</h3>
 <p>ある段落を白枠で囲って欲しいと言われました。
 調べると、<a href="https://qiita.com/Yuki_Yamada/items/15fc68dc88b57734149b">[android]xmlで枠を指定する</a>というのがあり、
-それ用のdrawable XMLを作ってやって<code>android:background=...</code>で
+それ用のdrawable XMLを作ってやって<code>android:background="@drawable/..."</code>で、
 それを指定すれば、望み通りのものが得られました。
-背景色は``</p>
+背景色は、これも書いてありますが<code>#00ffffff</code>で透明になります。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -67,9 +88,9 @@
 </pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 </span><span class='line'><span class="nt">&lt;shape</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
 </span><span class='line'>    <span class="na">android:shape=</span><span class="s">&quot;rectangle&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="c">&lt;!-- èæ¯è² --&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- background --&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">&quot;#00ffffff&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="c">&lt;!-- è§ã®ä¸¸ã¿ --&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- rounded corners --&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;stroke</span> <span class="na">android:width=</span><span class="s">&quot;1dp&quot;</span>
 </span><span class='line'>        <span class="na">android:color=</span><span class="s">&quot;@color/white&quot;</span> <span class="nt">/&gt;</span>
 </span><span class='line'>    <span class="nt">&lt;corners</span> <span class="na">android:radius=</span><span class="s">&quot;1dp&quot;</span> <span class="nt">/&gt;</span>
