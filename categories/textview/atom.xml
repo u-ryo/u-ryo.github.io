@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/textview/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-14T17:07:33+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/textview/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-16T12:00:29+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
 今日得た知見をば。</p>
 <h3>getTextSize/setTextSize</h3>
 <p>あるActivityの画面で、
@@ -96,4 +96,30 @@ lambdaの中で<code>this</code>じゃなくてその名前で参照しようと
 </span><span class='line'>    <span class="nt">&lt;corners</span> <span class="na">android:radius=</span><span class="s">&quot;1dp&quot;</span> <span class="nt">/&gt;</span>
 </span><span class='line'><span class="nt">&lt;/shape&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
+<h3>Robolectricで次のActivityへの遷移の確認</h3>
+<p><code>shadowOf(activity).peekNextStartedActivity()</code>で<code>Intent</code>を取得、
+<code>getComponent().getClassName()</code>が目的のclass nameかをassert。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Intent intent = shadowOf(activity).peekNextStartedActivity();
+</span><span class='line'>assertThat(Objects.requireNonNull(intent.getComponent()).getClassName(),
+</span><span class='line'>        is(MainActivity.class.getName()));
+</span></code></pre></td></tr></table></div></figure>
+<h3>Local PushでNotification</h3>
+<p>Local PushでNotificationをして欲しい、と言われました。
+調べてみると、要するに、
+<code>AlarmManager</code>に<code>PendingIntent</code>をsetして、
+それが<code>set</code>時の引数のUnix Time(millisec)になると、
+これも<code>set</code>時引数の<code>BroadcastReceiver</code>の子classの
+<code>onReceive(context, intent)</code>が呼ばれるので、
+そこで<code>NotificationManager.notify()</code>をする、と。</p>
+<p>AndroidのNotificationについては、
+sample applicationを作って色々と試してみました。</p>
+<ol>
+<li>uninstall/端末再起動すれば登録済みのalarmは解除される</li>
+<li>多重登録しても<code>PendingIntent.FLAG_UPDATE_CURRENT</code>なら最後のNotificationに上書きされる</li>
+<li>過去の時日のalarmを登録するとすぐNotifyされてしまう</li>
+<li>機種によっては挙動が違う(Huaweiでは、アプリが起動していない時/Sleep時にAlarmを発動させるには「保護されたアプリ」でないとならない、等)</li>
+</ol>
 ]]></content></entry></feed>
