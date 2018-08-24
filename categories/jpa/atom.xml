@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jpa/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Getting the first in Spring DATA JPA]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/getting-the-first-in-spring-data-jpa/"/><updated>2018-08-23T18:27:06+09:00</updated><id>/blog/2018/08/23/getting-the-first-in-spring-data-jpa/</id><content type="html"><![CDATA[<p>Spring DATA JPAで、「最新のもの一つ」を取得したかったんです。
+Spring DATA JPAは、<code>findFirstBy...</code>とかってmethodに命名すれば
+自動的にSQL作ってくれるらしいんですが(<a href="https://qiita.com/sndr/items/af7d12be264c2cc4b252">【Spring Data JPA】自動実装されるメソッドの命名ルール</a>)、
+目的のものではlogin userを自動的にparameterizeしたかったので、
+それが出来ませんでした。←<code>User</code> objectは別途取得しておいて、
+それをparameterに入れれば良かったかも、ですけど。
+ともあれ、<code>findFirstBy...</code>で出来ないなら、
+<code>Pageable</code>を付けるしかなさそうだ、ということで、
+SQL文にはMySQLでいうところの<code>limit=1</code>などはつけずに引数の最後に<code>Pageable</code>を添え、
+<code>new PageRequest(0, 1, DESC, "to")</code>として範囲を指定しました(<code>org.springframework.data.domain.Sort.Direction.DESC</code>)。</p>
+<h3>参考URLs</h3>
+<ol>
+<li><a href="https://github.com/yamkazu/springdata-jpa-example/blob/pageable/src/test/java/org/yamkazu/springdata/EmpRepositoryTest.java">yamkazu/springdata-jpa-example</a></li>
+<li><a href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></li>
+<li><a href="https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">setMaxResults for Spring-Data-JPA annotation?</a></li>
+</ol>
+]]></content></entry></feed>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/textview/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-16T12:00:29+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/textview/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-17T18:34:45+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
 今日得た知見をば。</p>
 <h3>getTextSize/setTextSize</h3>
 <p>あるActivityの画面で、
@@ -121,5 +121,6 @@ sample applicationを作って色々と試してみました。</p>
 <li>多重登録しても<code>PendingIntent.FLAG_UPDATE_CURRENT</code>なら最後のNotificationに上書きされる</li>
 <li>過去の時日のalarmを登録するとすぐNotifyされてしまう</li>
 <li>機種によっては挙動が違う(Huaweiでは、アプリが起動していない時/Sleep時にAlarmを発動させるには「保護されたアプリ」でないとならない、等)</li>
+<li>長いtextは全文出ないで端折られる。出したいなら、<code>.setStyle(new NotificationCompat.BigTextStyle().bigText("..."))</code>する。但し<code>.setBigContentTitle(intent.getStringExtra("..."))</code>も同時に加えるとダメっぽい。</li>
 </ol>
 ]]></content></entry></feed>

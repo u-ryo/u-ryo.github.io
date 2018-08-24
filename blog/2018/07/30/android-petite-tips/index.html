@@ -238,6 +238,7 @@ sample applicationを作って色々と試してみました。</p>
 <li>多重登録しても<code>PendingIntent.FLAG_UPDATE_CURRENT</code>なら最後のNotificationに上書きされる</li>
 <li>過去の時日のalarmを登録するとすぐNotifyされてしまう</li>
 <li>機種によっては挙動が違う(Huaweiでは、アプリが起動していない時/Sleep時にAlarmを発動させるには「保護されたアプリ」でないとならない、等)</li>
+<li>長いtextは全文出ないで端折られる。出したいなら、<code>.setStyle(new NotificationCompat.BigTextStyle().bigText("..."))</code>する。但し<code>.setBigContentTitle(intent.getStringExtra("..."))</code>も同時に加えるとダメっぽい。</li>
 </ol>
 </div>
 
@@ -255,10 +256,10 @@ sample applicationを作って色々と試してみました。</p>
 
 
 
-     <time datetime="2018-08-16T12:00:29+09:00" class="updated">
+     <time datetime="2018-08-17T18:34:45+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
-       <span class="day">16</span>,
+       <span class="day">17</span>,
        <span class="year">2018</span>
      </time>
 
@@ -292,6 +293,8 @@ sample applicationを作って色々と試してみました。</p>
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2018/08/17/localdate-to-zonedatetime/" title="Previous Post: LocalDate to ZoneDateTime">&laquo; LocalDate to ZoneDateTime</a>
+      
       
         <a class="basic-alignment right" href="/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/" title="Next Post: How to get the result from DialogFragment">How to Get the Result From DialogFragment &raquo;</a>
       
@@ -314,23 +317,23 @@ sample applicationを作って色々と試してみました。</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/07/30/android-petite-tips/">Android Petite Tips</a>
+        <a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/">How to Get the Result From DialogFragment</a>
+        <a href="/blog/2018/08/24/fluent-on-lombok/">Fluent on Lombok</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/07/18/caution-on-listview/">Caution on ListView</a>
+        <a href="/blog/2018/08/24/returning-xml-from-spring-boot-rest/">Returning XML From Spring Boot REST</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/">NullPointerException on Retrofit2 With Robolectric</a>
+        <a href="/blog/2018/08/24/java8-datetime-api/">Java8 DateTime API</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/07/18/groovy-on-java9/">Groovy on Java9+</a>
+        <a href="/blog/2018/08/23/getting-the-first-in-spring-data-jpa/">Getting the First in Spring DATA JPA</a>
       </li>
     
   </ul>

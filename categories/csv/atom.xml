@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/csv/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[importing CSV to Zaim]]></title><link href="http://u-ryo.github.io//blog/2015/10/28/importing-csv-to-zaim/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/28/importing-csv-to-zaim/</id><content type="html"><![CDATA[<p>Zaimですが、よく見ますとCSVインポート機能はとうに付いてるんですね。
-ただ、試してみますと、
-セゾンのクレジットカード明細CSVって、
-お店と品目が一緒くたに書いてあって、
-インポートさせる時の欄指定がうまく出来ません。
-思い余って、クレジットカードも連携させてみると、
-綺麗に情報取れているという...
-やはり利便性には敵いません。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/csv/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T14:00:35+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
+<a href="https://qiita.com/yo1000/items/050c5c47daabf7a10e10">Spring MVC で CSV をダウンロードさせる</a>を参考にしました。
+要するに、</p>
+<ul>
+<li><code>compile "com.fasterxml.jackson.dataformat:jackson-dataformat-csv"</code> in <code>build.gradle</code></li>
+<li>Bean classの各fieldに<code>@JsonProperty</code></li>
+<li>field出力順を制御したいので<code>@JsonPropertyOrder({"login", "filename",...})</code></li>
+<li><code>CsvMapper mapper = new CsvMapper();</code>して<code>CsvSchema schema = mapper.schemaFor(SomeBean.class).withHeader();</code>して<code>return mapper.writer(schema).writeValueAsString(beans);</code></li>
+<li><code>compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"</code>を入れて<code>@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")</code>して<code>mapper.registerModule(new JavaTimeModule());</code>すると、<code>ZonedDateTime</code>を如意に表示できる?<a href="http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/">Formatting Java Time with Spring Boot using JSON</a></li>
+</ul>
 ]]></content></entry></feed>

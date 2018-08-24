@@ -1,4 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ubuntu/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Controlling Unity on ubuntu through CLI]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/</id><content type="html"><![CDATA[<h3>Clock on the menu bar</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ubuntu/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[daemonizing jhipster application]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/19/daemonizing-jhipster-application/</id><content type="html"><![CDATA[<p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、
+OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するようにするには。</p>
+<p>きっとSpring Bootでdaemonizeする方法を探ればいいと思って、
+<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html">61. Installing Spring Boot Applications</a>にあるように、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>bootJar {
+</span><span class='line'>	launchScript()
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>でもこれ、Spring Boot 2での話で、
+こちとらまだJHipster 4.14.4、Spring Bootは1.5です。
+そんなものはない、と当然失敗します。
+なのでもうちょっと古い記事を探しました。</p>
+<p><a href="https://ishiis.net/2016/09/27/spring-boot-init-script/">spring bootアプリの起動スクリプトを作る</a>を見て、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>apply plugin: &#39;spring-boot&#39;
+</span><span class='line'>
+</span><span class='line'>springBoot {
+</span><span class='line'>    executable = true
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>としたんですが、<code>plugin 'spring-boot'</code>はないと言われ、
+<code>executable = true</code>は<code>build.gradle</code>に既に書いてありました。</p>
+<p>そもそもそんなことしなくても、
+<a href="https://www.jhipster.tech/production/">Using in Production</a>
+にあるように、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gradle -Pprod bootWar
+</span></code></pre></td></tr></table></div></figure>
+<p>でexecutable war作れるんですね。
+で、それを<code>/etc/init.d/</code>にsymlinkすればいいだけという。
+<code>-Pprod</code>を付けないとdevelopment versionになってしまいます。
+あとは、<code>update-rc.d appname defaults</code>で登録すれば良いです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Time/Date Display Format on GNOME Shell]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/time-date-display-format-on-gnome-shell/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/19/time-date-display-format-on-gnome-shell/</id><content type="html"><![CDATA[<p>Ubuntu 18.04使ってるんですが、
+Unityから変わったGNOME Shellの真ん中に出てるのが
+曜日と時分だけなので、不便でした。
+日付を確認したくなることもあるし、
+秒がないと動いているのか止まっているのかよくわからなかったりとかするんですよね。
+どうするのかなー、と思って調べたら、一発でした。
+<a href="https://linuxfan.info/gnome-shell-clock-show-date">GNOME Shellのパネルに日付を表示する方法</a></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gsettings set org.gnome.desktop.interface clock-show-date true
+</span><span class='line'>$ gsettings set org.gnome.desktop.interface clock-show-seconds true
+</span></code></pre></td></tr></table></div></figure>
+<p>tabによる補完で調べると、他には<code>clock-show-weekday</code>があり、
+それは既に<code>true</code>になってるんでしょうね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Controlling Unity on ubuntu through CLI]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/11/10/controlling-unity-on-ubuntu-through-cli/</id><content type="html"><![CDATA[<h3>Clock on the menu bar</h3>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

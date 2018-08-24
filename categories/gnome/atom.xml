@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/gnome/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Time/Date Display Format on GNOME Shell]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/time-date-display-format-on-gnome-shell/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/19/time-date-display-format-on-gnome-shell/</id><content type="html"><![CDATA[<p>Ubuntu 18.04使ってるんですが、
+Unityから変わったGNOME Shellの真ん中に出てるのが
+曜日と時分だけなので、不便でした。
+日付を確認したくなることもあるし、
+秒がないと動いているのか止まっているのかよくわからなかったりとかするんですよね。
+どうするのかなー、と思って調べたら、一発でした。
+<a href="https://linuxfan.info/gnome-shell-clock-show-date">GNOME Shellのパネルに日付を表示する方法</a></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gsettings set org.gnome.desktop.interface clock-show-date true
+</span><span class='line'>$ gsettings set org.gnome.desktop.interface clock-show-seconds true
+</span></code></pre></td></tr></table></div></figure>
+<p>tabによる補完で調べると、他には<code>clock-show-weekday</code>があり、
+それは既に<code>true</code>になってるんでしょうね。</p>
+]]></content></entry></feed>

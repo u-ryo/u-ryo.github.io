@@ -1,44 +1,1058 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/android/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Developing and Building Cordova App]]></title><link href="http://u-ryo.github.io//blog/2015/11/10/developing-and-building-cordova-app/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/11/10/developing-and-building-cordova-app/</id><content type="html"><![CDATA[<p>all cloud環境で、hybrid applicationsを開発する方法がわかりました。</p>
-<ol>
-<li><a href="http://c9.io">Cloud9</a>で作る</li>
-<li><a href="https://github.com">GitHub</a>に置く</li>
-<li><a href="https://build.phonegap.com">PhoneGap Builder</a>でbuild</li>
-</ol>
-<h3>Cloud9</h3>
-<p>templateは何を選んでもnode.jsが付いてくるみたいです。
-<a href="http://daniel.favand.net/2014/11/21/developing-ionic-cordova-apps-in-the-cloud-with-cloud9/">Developing Ionic (Cordova) apps in the cloud with Cloud9</a>
-に従って、以下project nameを「firstproject」とします。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/android/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-17T18:34:45+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
+今日得た知見をば。</p>
+<h3>getTextSize/setTextSize</h3>
+<p>あるActivityの画面で、
+本文とボタンのtext sizeを揃えようとして、
+<code>TextView#getTextSize</code>してから<code>setTextSize</code>したら、
+大きくなるんですよね。何でだろう、調べると、
+<a href="http://yamato-iphone.blogspot.com/2012/02/gettextsizesettextsize.html"><code>TextView#getTextSize</code>と<code>setTextSize</code>のデフォルト単位が違う</a>
+のだそう。びっくりです。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ npm -g install cordova ionic
-</span><span class='line'>$ ionic start firstproject
-</span><span class='line'>$ cd firstproject
+</pre></td><td class='code'><pre><code class='html'><span class='line'>renewalButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, caution.getTextSize());
 </span></code></pre></td></tr></table></div></figure>
-<p>これで準備が出来ます。
-<a href="https://docs.c9.io/docs/ionic">official document</a>にもありますが、
-<code>$ ionic start firstproject sidemenu</code>とすれば、
-tabではなくsidemenu型のprototypeが用意されるようです。</p>
-<h3>GitHub</h3>
-<p>buildには、上述のように、PhoneGap Builderを使います。
-そのためには、一度GitHubにpushせねばなりません。</p>
-<p>まずGitHubに行って、repositoryを作ります。
-その上で、</p>
+<p>というように、単位を明示する必要があるそう。</p>
+<h3>サイズ自動調整TextView</h3>
+<p><code>TextView</code>で、指示通りに改行位置を固定しようと思って。
+指示中の、禁則処理に失敗しているところも含めて忠実に再現しようと。
+そのためにはtext sizeを随意にせねばならず。
+<a href="https://gist.github.com/STAR-ZERO/2934490">【Android】横幅に合わせてテキストサイズを調整するTextView</a>そのままで上手く行きました。
+あーでも<code>onLayout()</code>の最初の引数<code>changed</code>が<code>true</code>の時だけ
+<code>resize()</code>すればよかとです。</p>
+<p>今は<a href="https://developer.android.com/guide/topics/ui/look-and-feel/autosizing-textview">Autosizing TextViews</a>というのがあるそう。
+ただ、API 26からなのでまだなかなか使えないでしょうか。</p>
+<h3>onLayout後の値の取得</h3>
+<p>上記のようにtext sizeを変えてから、
+その結果のtext sizeに合わせて他のViewのtext sizeを
+決定しようとすると、
+<code>onLayout()</code>が呼ばれ終わってからでないと
+目的の値が取得出来ないんですね。
+そこで、
+<a href="https://stackoverflow.com/questions/8418868/how-to-know-when-an-activity-finishes-a-layout-pass">How to know when an activity finishes a layout pass?</a>
+にあるように、
+<code>myView.getViewTreeObserver().addOnGlobalLayoutListener(() -&gt; {...});</code>
+とすれば良いです。</p>
+<h4>補足</h4>
+<p>RobolectricでUnit Test書いてたら、
+このclass、testが終わらないんです。
+何でかなー、とbreakpointで追ってみると、
+延々と<code>onGlobalLayout()</code>が呼ばれ続けてるんですね。
+えーっと思って。
+<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>
+しても、
+<code>ShadowApplication.runBackgroundTasks();</code>
+しても効き目はなく。
+<a href="http://shim0mura.hatenadiary.jp/entry/2016/01/11/013000">androidでheightやwidthが0になって取得できない時</a>
+を見ると、用が済んだらすぐremoveするんですね。そっか。
+というわけで、Android SDKのversionによって分けて、
+<code>removeOnGlobalLayoutListener(this)</code>と
+<code>removeGlobalOnLayoutListener(this)</code>でremoveするように
+したんですけど、今度は<code>this</code>が効かない。
+なるほど、lambdaだと<code>this</code>は外側のclass instanceになるんですね。
+じゃぁっていうんでlambda自体をListener instanceとして名前付けて、
+lambdaの中で<code>this</code>じゃなくてその名前で参照しようとしたんですが、
+<code>might not have been initialized</code>とか言われ、
+<code>null</code>で初期化すると今度は<code>effectively final</code>じゃないと言われて、
+うー、とか思って仕方なく諦めて、
+初めてlambdaを解いてinner classの記述に戻しました。</p>
+<h3>Rx Androidにmaxはない?</h3>
+<p>探したんですけど見つからなかったので自分で集計しました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ git init
-</span><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m &quot;Initial commit&quot;
-</span><span class='line'>$ git remote add origin https://github.com/u-ryo/firstproject.git
-</span><span class='line'>$ git push -u origin master
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>float textWidth = rx.Observable
+</span><span class='line'>        .from(getText().toString().split(&quot;\n&quot;))
+</span><span class='line'>        .map(paint::measureText)
+</span><span class='line'>        .reduce(Math::max)
+</span><span class='line'>        .toBlocking()
+</span><span class='line'>        .single();
 </span></code></pre></td></tr></table></div></figure>
-<h3>PhoneGap Builder</h3>
-<p>そうしておいてから、
-<a href="https://build.phonegap.com">PhoneGap Builder</a>(passwordは英小文字大文字8文字以上)に行って、
-buildして、端末にはQR codeで読み込ませれば、
-install、実行が出来ます。</p>
-<p>はぁ〜、イマドキのアプリって、こういう風に作れちゃうんですねー。</p>
+<h3>TextViewで白枠</h3>
+<p>ある段落を白枠で囲って欲しいと言われました。
+調べると、<a href="https://qiita.com/Yuki_Yamada/items/15fc68dc88b57734149b">[android]xmlで枠を指定する</a>というのがあり、
+それ用のdrawable XMLを作ってやって<code>android:background="@drawable/..."</code>で、
+それを指定すれば、望み通りのものが得られました。
+背景色は、これも書いてありますが<code>#00ffffff</code>で透明になります。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;shape</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+</span><span class='line'>    <span class="na">android:shape=</span><span class="s">&quot;rectangle&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- background --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">&quot;#00ffffff&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- rounded corners --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;stroke</span> <span class="na">android:width=</span><span class="s">&quot;1dp&quot;</span>
+</span><span class='line'>        <span class="na">android:color=</span><span class="s">&quot;@color/white&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;corners</span> <span class="na">android:radius=</span><span class="s">&quot;1dp&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/shape&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<h3>Robolectricで次のActivityへの遷移の確認</h3>
+<p><code>shadowOf(activity).peekNextStartedActivity()</code>で<code>Intent</code>を取得、
+<code>getComponent().getClassName()</code>が目的のclass nameかをassert。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Intent intent = shadowOf(activity).peekNextStartedActivity();
+</span><span class='line'>assertThat(Objects.requireNonNull(intent.getComponent()).getClassName(),
+</span><span class='line'>        is(MainActivity.class.getName()));
+</span></code></pre></td></tr></table></div></figure>
+<h3>Local PushでNotification</h3>
+<p>Local PushでNotificationをして欲しい、と言われました。
+調べてみると、要するに、
+<code>AlarmManager</code>に<code>PendingIntent</code>をsetして、
+それが<code>set</code>時の引数のUnix Time(millisec)になると、
+これも<code>set</code>時引数の<code>BroadcastReceiver</code>の子classの
+<code>onReceive(context, intent)</code>が呼ばれるので、
+そこで<code>NotificationManager.notify()</code>をする、と。</p>
+<p>AndroidのNotificationについては、
+sample applicationを作って色々と試してみました。</p>
+<ol>
+<li>uninstall/端末再起動すれば登録済みのalarmは解除される</li>
+<li>多重登録しても<code>PendingIntent.FLAG_UPDATE_CURRENT</code>なら最後のNotificationに上書きされる</li>
+<li>過去の時日のalarmを登録するとすぐNotifyされてしまう</li>
+<li>機種によっては挙動が違う(Huaweiでは、アプリが起動していない時/Sleep時にAlarmを発動させるには「保護されたアプリ」でないとならない、等)</li>
+<li>長いtextは全文出ないで端折られる。出したいなら、<code>.setStyle(new NotificationCompat.BigTextStyle().bigText("..."))</code>する。但し<code>.setBigContentTitle(intent.getStringExtra("..."))</code>も同時に加えるとダメっぽい。</li>
+</ol>
+]]></content></entry><entry><title type="html"><![CDATA[How to get the result from DialogFragment]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/how-to-get-the-result-from-dialogfragment/"/><updated>2018-07-18T16:54:40+09:00</updated><id>/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/</id><content type="html"><![CDATA[<p><code>DialogFragment</code>をnewしてdialogを表示させ、
+そこでのbutton tapによって、元のActivity上で処理をさせたい時、
+どうやってfeedbackしたら良いのかなと。
+呼び出し元は<code>Fragment</code>ではなく<code>Activity</code>なので、
+<a href="https://tech.mokelab.com/android/Fragment/result.html">Fragmentで呼び出し元に結果を伝える</a><a href="https://stackoverflow.com/questions/10905312/receive-result-from-dialogfragment">Receive result from DialogFragment</a>等にあるように<code>setTargetFragment()</code>を使えないんですよね。</p>
+<p>結局、<code>DialogFragment</code>側に<code>setCallback(Callback callback)</code>と
+Functional Interfaceとして<code>Callback</code>を定義して、
+button押したら<code>callback.call();</code>とし、
+呼び出し元の<code>Activity</code>側で<code>new SomeDialogFragment().setCallback(() -&gt; someMethod())</code>としてやりたいことを<code>someMethod()</code>に込めました。
+ちょっと面倒ですけどこのようにcallback駆使するしか無いのかなぁと。
+<code>onActivityResult()</code>は<code>getTargetFragment()</code>が使えないのと
+処理を<code>Activity</code>側に書きたいというのがあったので。
+いや、<code>onActivityResult()</code>の中身は<code>Activity</code>側ですか。
+<code>setTargetFragment()</code>の代わりに何か<code>Activity</code>のreferenceを
+<code>DialogFragment</code>側に持たせればよかった?のかな?
+いやいや、そもそも<code>Fragment</code>から<code>getActivity()</code>で取得できる?
+からこんなことしなくてよかった?
+あれ??
+いやーでも<code>DialogFragment</code>側は引数の情報を持っておらず、
+<code>Activity</code>側しか引数持ってないんですよね。
+今回のぼくの場合では、
+引数を引き回すか、再度SQLで取得するかして<code>onActivityResult()</code>でkickするか、
+callbackを作るか、ということだったでしょうか。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Caution on ListView]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/caution-on-listview/"/><updated>2018-07-18T16:19:39+09:00</updated><id>/blog/2018/07/18/caution-on-listview/</id><content type="html"><![CDATA[<p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
+<code>ListView</code>のviewの使い回しでbugがあったのでメモです。
+ぼくがやったんじゃないです。</p>
+<p><code>public View getView(int position, View convertView, ViewGroup parent)</code>
+の<code>convertView</code>を使い回すわけですが、
+<code>null</code>の時と<code>not null</code>の時の扱いが微妙に違うんですね。
+具体的には、
+<code>null</code>の時だけ<code>setOnItemSelectedListener</code>を設定して、
+その<code>OnItemSelectedListener</code>が表示される初回だけ
+<code>onItemSelected</code>が発動することを利用してobjectの
+設定の一部をしているから、
+<code>not null</code>の時にはその経路を通らず、
+objectの一部が<code>null</code>のままで次に進むと<code>NullPointerException</code>に
+なるという。
+だからこのbugの発現条件は、
+「初回表示時のリストの数が画面を2つ以上超える」時、
+というわかりにくい、後からでは見つけにくいものになっています。
+<code>OnItemSelectedListener</code>で設定しているのも悪いし、
+<code>convertView</code>が<code>null</code>の時と<code>null</code>でない時の処理に
+きちんと心を砕かなかったから、
+こういうことになるんですね。</p>
+<p>まーでもこんなlevelのbugはまだいぃ方ですけどねー
+このsoftwareについては。
+色々アホなのはホントやる気無くします。</p>
+<p>参考: <a href="https://dev.classmethod.jp/smartphone/gridview-performanceup-1/">Android GridViewのパフォーマンスを上げよう(1/2)</a>←そうですよね普通気を付けますよね、<a href="https://kokufu.blogspot.com/2012/03/listview-graphical-layout.html">ListView は Graphical Layout で作ったまま使ってはいけない</a>←そうなんですよ最初、頭の1つだけ<code>null</code>で呼ばれた後画面に見える分だけ<code>not null</code>で呼ばれ、その後改めて<code>null</code>で呼ばれるので、何でかなーと思ったものです。ただもぅ今は<code>RecyclerView</code>だからこんなtipsはもう不要かなーと。</p>
+]]></content></entry><entry><title type="html"><![CDATA[NullPointerException on Retrofit2 with Robolectric]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/"/><updated>2018-07-18T14:37:35+09:00</updated><id>/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/</id><content type="html"><![CDATA[<p>Android ApplicationをRobolectricでtestしていて、
+どうにも困ったのでメモです。</p>
+<p>状況は、Android Applicationで、
+Robolectricを使っていて、
+Retrofit2で<code>POST</code>しにいく部分(受け手はMockWebServer)のunit testで、
+突然<code>NullPointerException</code>になって<code>subscribe</code>の<code>error</code>に入ってしまう、というもの。
+breakpointで追っていっても<code>call()</code>で突如NPEに入ってしまって、
+具体的にどこでNPEに陥っているのかよく分かりませんでした。
+Googleで探してみると、
+<a href="https://stackoverflow.com/questions/39827081/unit-testing-android-application-with-retrofit-and-rxjava">Stack Overflow</a>にそれらしき投稿があり、
+<code>.observeOn(AndroidSchedulers.mainThread())</code>は
+<code>LooperScheduler</code>なのでここでNPEになる、
+だから<code>RxAndroidPlugins</code>の<code>registerSchedulersHook()</code>で
+<code>Schedulers.immediate()</code>してやると良い、
+と書いてあって、やったー!
+と思ったものの、効果なく。</p>
+<p>結局そうではなくて、
+MockWebServer使っているから<code>http://localhost:NNNN/...</code>に
+requestを改装しているせいなんですけど、
+SecurityPolicy絡みのExceptionが裏で出ているようで、
+以下のようなShadowを用意して<code>@Config({shadows=...})</code>に
+書いてやればそのままですんなり行きました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import android.security.NetworkSecurityPolicy;
+</span><span class='line'>
+</span><span class='line'>import org.robolectric.annotation.Implementation;
+</span><span class='line'>import org.robolectric.annotation.Implements;
+</span><span class='line'>
+</span><span class='line'>@Implements(NetworkSecurityPolicy.class)
+</span><span class='line'>public class ShadowNetworkSecurityPolicy {
+</span><span class='line'>    @Implementation
+</span><span class='line'>    public static NetworkSecurityPolicy getInstance() {
+</span><span class='line'>        try {
+</span><span class='line'>            Class<span class="err">&lt;</span>?&gt; shadow = ShadowNetworkSecurityPolicy.class.forName(&quot;android.security.NetworkSecurityPolicy&quot;);
+</span><span class='line'>            return (NetworkSecurityPolicy) shadow.newInstance();
+</span><span class='line'>        } catch (Exception e) {
+</span><span class='line'>            throw new AssertionError();
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    @Implementation
+</span><span class='line'>    public boolean isCleartextTrafficPermitted(String hostname) {
+</span><span class='line'>        return true;
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>勿論、<code>.subscribeOn(Schedulers.io())</code>に対しては
+<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>
+した上で、です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-01-16T14:42:29+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
+<ul>
+<li>onTouchListenerの上にonClickListenerを上書き<br  />
+あるbuttonを<code>setOnTouchListener(this);</code>してて。
+buttonを<code>onTouchListener</code>っていうのもなんですが、
+<code>onTouch(...)</code>で更に<code>setOnClickListener(...);</code>してるという...</li>
+<li>timer止めずに新しいinstanceを上書き<br  />
+<code>CountDownTimer</code>をinstance fieldとして持ってて、
+途中でnewしてるんですが、それが複数箇所あるんですよね...
+直前にcancel処理とか特に無いし。大丈夫なのかこれ。</li>
+<li>カタカナや"$","/"にtoLowerCase()/toUpperCase()してindexOf()<br  />
+<code>"半角カタカナ".toLowerCase()</code>してから<code>indexOf(...)&gt;-1</code>して、
+<code>contains(...)</code>と同じことしてました。<code>indexOf</code>はまだしも、
+<code>toLowerCase</code>したからって
+全角カタカナが半角カタカナになるわけじゃないのに。
+え、まさか、とか思ってしまった自分が情けないです。
+同様に、記号に対しても<code>"$".toLowerCase()</code>とか謎すぎます。</li>
+<li>他の(inflateもincludeもしてない)View上のR.idをfindViewById()<br  />
+当然<code>null</code>です<code>findViewById()</code>しても。実質無害なcodeではありますが。
+どうやら他から何も考えずにコピペしたから、らしいです。</li>
+<li>listの2度回し<br  />
+なるべく一度で済むように書きますよねぇ、フツーは。
+ちょっと違う処理をするから、なのか、
+同じlistを直後に2度回して、って。
+まー他でも同じtableのDB accessを3回してたりしますからねーこのcode。</li>
+<li>1830秒?<br  />
+随分謎なMagic Numberです。</li>
+<li>loop回すのに中で値を上書き(結局見てるのは最後の値だけ)<br  />
+<code>for(i in list){v = i}</code>みたいな。<code>v=list[lastIndex]</code>でいいじゃん。
+そういうことされると意図が読めないんですよね。困ります。</li>
+<li>loopの空回し<br  />
+waitしたいみたいなんですが、
+<code>while(true){if(!flag)break;}</code>ってこれじゃぁCPU無駄遣いでしょ。
+改善したっていって<code>do{i=0;}while(!flag);</code>って、あのねー...</li>
+<li><code>synchronized wait()</code>で同期
+他Activity(dialog)に遷移させ、
+その同期に<code>synchronized(this){wait();}</code>って使ってます。
+そういうthread jugglingはやめて欲しい、です。
+こういうのってホントはRXですよね。</li>
+<li>method/field名が大文字で始まっててclass名と区別がつかない、
+なんていうのは可愛い方で、もう気にもならなくなってますそういえば。
+methodも長いし条件分岐も複雑で、
+state patternとかなんて知らないんだろうなぁと。</li>
+<li>というか全てがfat ActionでFragmentもなければApplicationもないという
+(基本的には。後から「訳も分からずダーッとコピペした部分」にはありますが)。</li>
+</ul>
+<p>...というように。
+こういうcodeと共に仕事するのは、嫌で嫌で仕方ありません。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2017-12-01T17:41:42+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
+Stream APIのようにCollectionsを扱えません。
+折角Java8で覚えたのに。
+ですが、RxJavaを使うとほぼStream APIのように書けるんですねーへーーー。
+<a href="https://qiita.com/disc99/items/1b2e44a1105008ec3ac9">非同期や並列処理にも役立つRxJavaの使い方</a>
+おかげでloopを回さず一文になったので、
+ifの条件節に直接書けるようになりました。
+<code>Optional</code>も出来るんですね。
+書いてありますが、キモは<code>toBlocking().single()</code>でしょうか。</p>
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2017-12-01T17:04:47+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
+暗い背景なので、defaultのdesignだと見にくいんですね。
+なのでcustomの白っぽいのに差し替えようとしたんですが、
+なかなかうまく行かなかったのです。
+基本的には、<code>res/drawable/</code>に、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_enabled=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_disabled&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;true&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_on&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;false&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;false&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_off&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;true&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;true&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_on_pressed&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;item</span> <span class="na">android:state_checked=</span><span class="s">&quot;false&quot;</span> <span class="na">android:state_pressed=</span><span class="s">&quot;true&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@drawable/ic_check_off_pressed&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/selector&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>と書いて(状態判定は上の行から順番になされる模様)、layoutで、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;CheckBox</span>
+</span><span class='line'>  <span class="na">android:id=</span><span class="s">&quot;@+id/historySelected&quot;</span>
+</span><span class='line'>  <span class="na">style=</span><span class="s">&quot;@style/historyListCheckBox&quot;</span>
+</span><span class='line'>  <span class="na">android:button=</span><span class="s">&quot;@drawable/selector_checkbox&quot;</span>
+</span><span class='line'><span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>というように参照すればいいんです。
+が、それだとcheckしても絵が変わらなかったんですね。
+別途<code>OnClickListener</code>に、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>checkbox.setButtonDrawable(checkbox.isChecked() ? R.drawable.ic_check_on : R.drawable.ic_check_off);
+</span></code></pre></td></tr></table></div></figure>
+<p>が必要でした、というのはまだわかるんですが、
+これを書いても<code>ic_check_on</code>の絵にならなかったんですね(<code>ic_check_off</code>の絵のまま)。
+なんでだろ～、1日程悩みました。</p>
+<p>結局、
+stackoverflowの<a href="https://stackoverflow.com/questions/34508164/cant-create-custom-arrayadapter-with-appcompat-elements-inside-of-it">Can't create custom arrayadapter with appcompat elements inside of it</a>に書いてあったんですけど、
+<code>ListView</code>のAdapterを作る時の<code>Context</code>が、
+<code>getApplicationContext()</code>で得られたものであったこと、
+が敗因でした。<code>getApplication()</code>でもダメでした。
+<code>this</code>でないと、<code>ic_check_on</code>がdrawされませんでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>adapter = new SimpleAdapter(this, someList, R.layout.some_listview, new String[]{...}, new int[]{R.id.someId,...});
+</span></code></pre></td></tr></table></div></figure>
+<p><code>this</code>で引き回すと、使ってるfieldとか色々引きずるから
+なるべく<code>getApplicationContext()</code>にしましょうね、
+というのを聞いたことがあるのですが、
+なるほどと思ってそうすると、
+結構色んな箇所で出るべきものが出なくなるんですよね。
+気を付けないとなりません。</p>
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2017-11-24T18:33:21+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
+<code>ListView</code>のそれぞれに<code>CheckBox</code>をつけたら、
+checkboxはcheck出来るものの、項目選択が出来なくなりました。
+どうやら<code>onItemClick</code>が呼ばれてない様子。
+調べてみると、<code>CheckBox</code>がfocusを奪ってしまっているそうでした。
+(<a href="http://inujirushi123.blog.fc2.com/blog-entry-53.html">カスタマイズしたListViewに設定したCheckBoxのon/offを行全体で行う</a>)</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>android:clickable=&quot;false&quot;
+</span><span class='line'>android:focusable=&quot;false&quot;
+</span></code></pre></td></tr></table></div></figure>
+<p>が必要とのこと。</p>
+<p>また、
+background処理後、<code>Adapter</code>の値を変えただけでは<code>CheckBox</code>の見た目に変化はないんですね。
+explicitに<code>setChecked(false)</code>して回らないとなりません。
+その際、<code>listView.getChildCount()</code>で取れるcountは、<code>ListView</code>の全てではなく、見える範囲のListのobjectなんですね! 確かにscrollすればredrawかかってadapterの値が反映されるからいいんですけど、何かしない限りredrawされないから自分で描画しないとならないんですねー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[OnClickListener with ProgressDialog by RxAndroid]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/"/><updated>2017-11-24T18:25:09+09:00</updated><id>/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/</id><content type="html"><![CDATA[<p>「clickしたらbackgroundで処理して
+その間ProgressDialog出して
+終わったらProgressDialog消して
+終了/失敗dialogを表示する」のを
+RxAndroid(AxJava)でやる、
+というのは、
+<code>using()</code>を使うといいらしいです。
+cf. <a href="https://qiita.com/boohbah/items/e8010730725c54f85a3a">RxJavaを使った通信中にProgressダイアログを出す</a></p>
+<p>元々がretrofit2を使ってないので、
+retrofit2を使うともうちょっと違うかも。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Override
+</span><span class='line'>public void onClick(View v) {
+</span><span class='line'>    LogUtil.d(&quot;è¨ºæ­åå¾çµæãuploadãã button&quot;);
+</span><span class='line'>    uploadButtonEnable(false);
+</span><span class='line'>    if (!activity.networkCheck()) {
+</span><span class='line'>        activity.genAlertDialog(activity.getString(
+</span><span class='line'>                R.string.no_network_connectivity_available_message),
+</span><span class='line'>                (dialog, which) -&gt; {});
+</span><span class='line'>        uploadButtonEnable(true);
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>    Single.using(this::showProgressDialog,
+</span><span class='line'>            dialog -&gt; Single.<span class="nt">&lt;Boolean&gt;</span>create(this::setUploadSubscriber)
+</span><span class='line'>                    .subscribeOn(Schedulers.newThread())
+</span><span class='line'>                    .observeOn(AndroidSchedulers.mainThread()),
+</span><span class='line'>            Dialog::dismiss)
+</span><span class='line'>            .subscribe(this::controlUploadButtonWithDialog,
+</span><span class='line'>                    this::showUploadFailureDialog);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private ProgressDialog showProgressDialog() {
+</span><span class='line'>    ProgressDialog dialog = new ProgressDialog(activity);
+</span><span class='line'>    dialog.setMessage(activity.getString(R.string.history_uploading));
+</span><span class='line'>    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+</span><span class='line'>    dialog.show();
+</span><span class='line'>    LogUtil.d(dialog.toString());
+</span><span class='line'>    return dialog;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void setUploadSubscriber(SingleSubscriber<span class="err">&lt;</span>? super Boolean&gt; subscriber) {
+</span><span class='line'>    View historyListView = activity.findViewById(R.id.historyListView);
+</span><span class='line'>    List<span class="nt">&lt;String&gt;</span> selectedList = new ArrayList<span class="err">&lt;</span>&gt;();
+</span><span class='line'>    Adapter adapter = null;
+</span><span class='line'>    if (historyListView != null) {
+</span><span class='line'>        adapter = ((ListView) historyListView).getAdapter();
+</span><span class='line'>        for (int i = 0; i <span class="nt">&lt; adapter</span><span class="err">.</span><span class="na">getCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>            <span class="na">Map</span><span class="err">&lt;</span><span class="na">String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span> historyItems = (Map<span class="nt">&lt;String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span>) adapter.getItem(i);
+</span><span class='line'>            if (&quot;true&quot;.equals(historyItems.get(&quot;historySelected&quot;))) {
+</span><span class='line'>                selectedList.add(historyItems.get(&quot;historyCatalogID&quot;));
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        if (selectedList.isEmpty()) {
+</span><span class='line'>            subscriber.onSuccess(false);
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    try {
+</span><span class='line'>        ProcessUtil.callReportDataAll(commonBean.toMapFull(), activity, selectedList);
+</span><span class='line'>        if ((!selectedList.isEmpty()
+</span><span class='line'>                <span class="err">&amp;&amp;</span> !ProcessUtil.uploadSucceeded(selectedList, activity))
+</span><span class='line'>                || (selectedList.isEmpty()
+</span><span class='line'>                <span class="err">&amp;&amp;</span> !ProcessUtil.lastUploadSucceeded(activity))) {
+</span><span class='line'>            subscriber.onError(new RuntimeException(&quot;&quot;));
+</span><span class='line'>            return;
+</span><span class='line'>        }
+</span><span class='line'>        ProcessUtil.sendTerminalUsageHistory(commonBean.toMap(), activity);
+</span><span class='line'>        subscriber.onSuccess(true);
+</span><span class='line'>        LogUtil.d(selectedList.toString());
+</span><span class='line'>
+</span><span class='line'>        if (adapter != null) {
+</span><span class='line'>            for (int i = 0; i <span class="nt">&lt; adapter</span><span class="err">.</span><span class="na">getCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>                <span class="na">Map</span><span class="err">&lt;</span><span class="na">String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span> historyItems = (Map<span class="nt">&lt;String</span><span class="err">,</span> <span class="na">String</span><span class="nt">&gt;</span>) adapter.getItem(i);
+</span><span class='line'>                if (&quot;true&quot;.equals(historyItems.get(&quot;historySelected&quot;))) {
+</span><span class='line'>                    historyItems.put(&quot;historySelected&quot;, &quot;false&quot;);
+</span><span class='line'>                    historyItems.put(&quot;historySaved&quot;,
+</span><span class='line'>                            activity.getString(R.string.history_list_already_saved));
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    } catch (Exception e) {
+</span><span class='line'>        LogUtil.e(e);
+</span><span class='line'>        subscriber.onError(e);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void controlUploadButtonWithDialog(boolean hasItemSelected) {
+</span><span class='line'>    ListView listView = (ListView) activity.findViewById(R.id.historyListView);
+</span><span class='line'>    if (hasItemSelected) {
+</span><span class='line'>        activity.genAlertDialog(activity.getString(
+</span><span class='line'>                R.string.diagnosis_result_upload_success_message),
+</span><span class='line'>                (dialog, which) -&gt; {});
+</span><span class='line'>        if (listView != null) {
+</span><span class='line'>            for (int i = 0; i <span class="nt">&lt; listView</span><span class="err">.</span><span class="na">getChildCount</span><span class="err">();</span> <span class="na">i</span><span class="err">++)</span> <span class="err">{</span>
+</span><span class='line'>                <span class="na">CheckBox</span> <span class="na">checkBox =</span><span class="err"> </span><span class="s">(CheckBox)</span> <span class="na">listView</span><span class="err">.</span><span class="na">getChildAt</span><span class="err">(</span><span class="na">i</span><span class="err">)</span>
+</span><span class='line'>                        <span class="err">.</span><span class="na">findViewById</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">id</span><span class="err">.</span><span class="na">historySelected</span><span class="err">);</span>
+</span><span class='line'>                <span class="na">if</span> <span class="err">(</span><span class="na">checkBox</span><span class="err">.</span><span class="na">isChecked</span><span class="err">())</span> <span class="err">{</span>
+</span><span class='line'>                    <span class="na">checkBox</span><span class="err">.</span><span class="na">setChecked</span><span class="err">(</span><span class="na">false</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">checkBox</span><span class="err">.</span><span class="na">setEnabled</span><span class="err">(</span><span class="na">false</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">TextView</span> <span class="na">saved =</span><span class="err"> </span><span class="s">(TextView)</span> <span class="na">listView</span><span class="err">.</span><span class="na">getChildAt</span><span class="err">(</span><span class="na">i</span><span class="err">)</span>
+</span><span class='line'>                            <span class="err">.</span><span class="na">findViewById</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">id</span><span class="err">.</span><span class="na">historySaved</span><span class="err">);</span>
+</span><span class='line'>                    <span class="na">saved</span><span class="err">.</span><span class="na">setText</span><span class="err">(</span><span class="na">activity</span><span class="err">.</span><span class="na">getString</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">string</span><span class="err">.</span><span class="na">history_list_already_saved</span><span class="err">));</span>
+</span><span class='line'>                    <span class="na">saved</span><span class="err">.</span><span class="na">setTextColor</span><span class="err">(</span><span class="na">Color</span><span class="err">.</span><span class="na">GRAY</span><span class="err">);</span>
+</span><span class='line'>                <span class="err">}</span>
+</span><span class='line'>            <span class="err">}</span>
+</span><span class='line'>        <span class="err">}</span>
+</span><span class='line'>    <span class="err">}</span> <span class="na">else</span> <span class="err">{</span>
+</span><span class='line'>        <span class="na">activity</span><span class="err">.</span><span class="na">genAlertDialog</span><span class="err">(</span><span class="na">activity</span><span class="err">.</span><span class="na">getString</span><span class="err">(</span><span class="na">R</span><span class="err">.</span><span class="na">string</span><span class="err">.</span><span class="na">history_nothing_checked</span><span class="err">),</span>
+</span><span class='line'>                <span class="err">(</span><span class="na">dialog</span><span class="err">,</span> <span class="na">which</span><span class="err">)</span> <span class="na">-</span><span class="nt">&gt;</span> {});
+</span><span class='line'>    }
+</span><span class='line'>    uploadButtonEnable(false);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>private void showUploadFailureDialog(Throwable e) {
+</span><span class='line'>    uploadButtonEnable(true);
+</span><span class='line'>    LogUtil.e(checkStr(e.getMessage()), e);
+</span><span class='line'>    activity.genAlertDialog(activity.getString(
+</span><span class='line'>            R.string.diagnosis_result_upload_failure_message)
+</span><span class='line'>                    + &quot;\n&quot; + e.getMessage(),
+</span><span class='line'>            (dialog, which) -&gt; {});
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>public void uploadButtonEnable(boolean enable) {
+</span><span class='line'>    uploadButton.setEnabled(enable);
+</span><span class='line'>    if (enable) {
+</span><span class='line'>        uploadButton.getBackground().setColorFilter(null);
+</span><span class='line'>    } else {
+</span><span class='line'>        uploadButton.getBackground()
+</span><span class='line'>                .setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T15:50:42+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+<ul>
+<li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>testCompile &#39;org.robolectric:robolectric:3.4.2&#39;
+</span><span class='line'>testCompile &#39;org.robolectric:shadows-multidex:3.3.2&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-module-junit4:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-module-junit4-rule:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-api-mockito2:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-reflect:1.7.3&#39;
+</span><span class='line'>testCompile &#39;org.powermock:powermock-classloading-xstream:1.7.3&#39;
+</span></code></pre></td></tr></table></div></figure></li>
+<li>Test Classは、Android Studioで開いた実class java fileの<code>public class CLASS名</code>のところで黄色いヒントをclickして<code>Create Test class</code>を選択、<code>JUnit4</code>で作成</li>
+<li>既存test classの<code>Whitebox</code>は<code>org.powermock.reflect.Whitebox</code>で置き換え</li>
+<li>既存test classの<code>@RunWith</code>の<code>MockitoJUnitRunner</code>は<code>org.mockito.junit.MockitoJUnitRunner</code>で置き換え</li>
+<li><code>org.mockito.exceptions.misusing.UnnecessaryStubbingException:</code>というwarningが出るようになったので<code>@RunWith(MockitoJUnitRunner.Silent.class)</code>にすると解消<br  />
+cf. <a href="https://stackoverflow.com/questions/42947613/how-to-resolve-unneccessary-stubbing-exception">How to resolve Unneccessary Stubbing exception</a></li>
+<li><code>Robolectric</code>なTestは、1.<code>@RunWith(RobolectricTestRunner.class)</code> 2.<code>activity = Robolectric.setupActivity(SomeActivity.class);</code>で<code>Activity</code>を起動</li>
+<li><code>RuntimeException: Multi dex installation failed</code>と言われるので<code>shadows-multidex</code>が必要<br  />
+cf. <a href="https://qiita.com/kuwapp/items/942f0e44adbd45adff10">Robolectric と Multidex でテストが落ちる問題の対応</a></li>
+<li>static methodのmockは<a href="https://github.com/powermock/powermock">PowerMock</a>と。<code>@RunWith</code>がかぶっちゃうよ、どうしよう! → <a href="https://github.com/robolectric/robolectric/wiki/Using-PowerMock">本家に解説</a>あり。要は、<code>@PowerMockIgnore</code>でmockito、robolectric、android標準classesを除外、<code>@PrepareForTest</code>でstatic methodを持つclassを指定し、<code>@Rule</code>を入れ(使わないのによくわからないが必要)、<code>PowerMockito.mockStatic(...)</code>で当該classを指定</li>
+<li><code>NoClassDefFoundError: org/powermock/classloading/ClassloaderExecutor</code>と言われるので、<code>powermock-classloading-xstream</code>が必要<br  />
+cf. <a href="https://github.com/powermock/powermock/issues/597">version 1.5.5 java.lang.ClassNotFoundException: org.powermock.classloading.DeepCloner #597</a></li>
+<li><code>NoClassDefFoundError: org/mockito/cglib/proxy/MethodInterceptor</code>と言われるので、<code>powermock-api-mockito2</code>と<code>2</code>でないとならない<br  />
+cf. <a href="https://github.com/powermock/powermock/issues/819">Problem with org.mockito.plugins.MockMaker and loading MethodInterceptor #819</a></li>
+<li><code>javax.xml.parsers.FactoryConfigurationError: Provider ...DocumentBuilderFactoryImpl cannot be cast to javax.xml.parsers.DocumentBuilderFactory</code>と言われるので<code>@PowerMockIgnore</code>に<code>"javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*", "org.apache.log4j.*"</code>が必要<br  />
+cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powermock + Mockito + Spring = DocumentBuilderFactoryImpl</a></li>
+<li><code>org/powermock/default.properties is found in 2 places</code>と言われてerrorにはならないけどwarningが出るので、<code>@PowerMockIgnore</code>に<code>"org.powermock.*"</code>も入れておく(試行錯誤の末なので参照なし)</li>
+<li><code>AsyncTask</code>があっても、特段その終了を待たずにtestが終了してしまう。<code>Robolectric.getBackgroundThreadScheduler().pause();</code>で<code>AsyncTask#doInBackground()</code>を止める必要がある(<code>AsyncTask#onPreExecute()</code>は実行される)。</li>
+<li><a href="https://github.com/robolectric/robolectric/blob/master/robolectric/src/test/java/org/robolectric/shadows/ShadowAsyncTaskTest.java"><code>ShadowAsyncTaskTest.java</code></a>を見ると、<code>setUp()</code>で<code>Robolectric.getBackgroundThreadScheduler().pause();</code>(と<code>Robolectric.getForegroundThreadScheduler().pause();</code>?)でthread止めて、<code>asyncTask.execute()</code>すると<code>onPreExecute()</code>が動き、次に<code>ShadowApplication.runBackgroundTasks();</code>すると<code>doInBackground()</code>、<code>ShadowLooper.runUiThreadTasks();</code>すると<code>onPostExecute()</code>が動く(ようだが、試してみると<code>ShadowApplication.runBackgroundTasks()</code>で返ってこなくなった。何故?!←これは単に<code>AsyncTask</code>中でdialog出して止まっていたため)</li>
+<li>target class内でnewしているもののmockは、
+<code>PowerMockito.whennew(XXX.class).thenReturn(mock);</code>
+だと、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>org.mockito.exceptions.base.MockitoException: 
+</span><span class='line'>ClassCastException occurred while creating the mockito mock :
+</span><span class='line'>...
+</span><span class='line'>You might experience classloading issues, please ask the mockito mailing-list.
+</span></code></pre></td></tr></table></div></figure>
+と言われて失敗する。</li>
+<li>shadow classでもstatic methodのmockが出来る。PowerMock使わずとも良い様子。いちいちShadow class作って各method毎に<code>@Implements</code>書くのは面倒ではあるが、PowerMockを<code>@Rule</code>して並存させると上述のようにclass loaderがどうのと言われて失敗したので、Robolectric一本で頑張った方がよさ気。PowerMock使わないなら<code>testCompile</code>も<code>robolectric</code>と<code>shadows-multidex</code>の2つで済むし、PowerMock導入に伴って変更したMockito部分も変更不要になる。</li>
+<li>Custom Shadow classesの追加でcustom TestRunnerは作成不要、単に<code>@Config</code>に<code>shadows={ShadowXXX.class}</code>と追記していけば良い。</li>
+<li>Shadowについて。Android APIのclassesについては、全て<code>ShadowXXX</code>というclassが揃っている(e.g. <code>ShadowActivity</code>)。まるっとmockしたものを返したい場合には、custom shadow methodで<code>return Shadow.newInstanceOf(ShadowBluetoothDevice.class);</code>で良い。</li>
+<li><a href="http://robolectric.org/extending/#shadowing-constructors">constructorもshadow出来る</a>。constructorの場合には単に<code>public void __constructor__(...){...}</code>でよく、<code>@Implementation</code> annotationは不要(あっても害はない)。</li>
+<li><code>extends</code>してるclassのconstructorの場合には、super classのconstructorのshadowingも必要。さもなくばsuper classの当該constructorが実行されてしまう。また、super classのconstructorもshadowingする場合、当該Shadow classの方も<code>extends</code>しないと<code>ClassCastException</code>に見舞われる。<code>A extends B</code>で<code>A</code>のconstructorをshadowingしたら<code>B</code>のconstructorもshadowingし、<code>ShadowA extends ShadowB</code>にする必要がある。</li>
+<li><code>Shadows.shadowOf(myDialog).hasBeenDissmissed()</code>といったようにUIの状態を取得できる。</li>
+<li><code>context.getPackageManager().getLaunchIntentForPackage("package name")</code>がRobolectricsでやると<code>null</code>を返しやがるのでヌルポで失敗しくさる。多くの人が困っている模様。cf. <a href="https://github.com/robolectric/robolectric/issues/747">PackageManager#getLaunchIntentForPackage() returns null #747</a> ←これによると2.2の頃から。3.4から<code>PackageManager</code>周りは<code>RobolectricPackageManager</code>がdeprecatedになって他と同じように<code>ShadowPackageManager</code>を使えと<a href="http://robolectric.org/migrating/#migrating-from-33-to-34">Migrating from 3.3 to 3.4</a>にはあるが、<code>shadowOf(RuntimeEnvironment.application.getPackageManager());</code>としても、versionを3.3に落として<code>RuntimeEnvironment.setRobolectricPackageManager(packageManager);</code>としても、testにおける<code>ApplicationPackageManager#getLaunchIntentForPackage</code>は<code>null</code>を返す。仕方なく、<code>ShadowApplicationPackageManager</code>をextendsしてcustom PackageManagerを作ってみても、何を<code>@implements</code>したらいいのか。<code>PackageManager.class</code>では効かないし(抽象クラス?なのでそれは仕方ないのだろう)、<code>android.app.ApplicationPackageManager.class</code>では何故か名前解決に失敗してcompile出来ない。<a href="https://github.com/robolectric/robolectric/commit/5e082743821857f057ab45945e838d5ef6b69e37">RobolectricPackageManagerTest.java</a>を見ると、<code>notNullValue()</code>でassert出来そうなのだが、うまく行かなかった(Step Overしてやってみても、そもそも<code>ShadowApplicationPackageManager</code>ではなく<code>android.app.ApplicationPackageManager#getLaunchIntentForPackage</code>が何かにmethod callを取られて空で返している感じ)。色々探して結局諦めた。ホントは、↓というようにやりたかったのだが。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+</span><span class='line'>assertThat(shadowOf(activity).getNextStartedActivity().getAction(),
+</span><span class='line'>               is(&quot;jp.ideacross.allcardia.main.SplashActivity&quot;));
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<h2>Robospock -> ElectricSpock or Spock for Android</h2>
+<p>せめてresourceの場所なりと。</p>
+<ul>
+<li><a href="http://robospock.github.io/RoboSpock/">RoboSpock</a>ですがちょっと更新が鈍いということで<a href="https://github.com/hkhc/electricspock">ElectricSpock</a>。但し新しい分情報少なし</li>
+<li><a href="https://github.com/AndrewReitz/android-spock">Spock for Android</a>もあり</li>
+<li>どちらも、directory structureがstandardでないとならない様子(要するに<code>app/src/main/java/...</code>にsourceがあり<code>app/src/test/groovy/...</code>にSpock Testcodeがある)。<code>build.gradle</code>での<code>android.sourceSets.test.setRoot(...)</code>は効かないようだった</li>
+<li>要は、<code>buildscript.dependencies</code>で<code>classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.2.0'</code>を指定、<code>apply plugin: 'com.android.application'</code>と<code>apply plugin: 'groovyx.android'</code>を指定、<code>dependencies</code>に<code>testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'</code>を指定すれば素のSpock、<code>testCompile 'com.github.hkhc:electricspock:0.6'</code>ならElectricSpock、<code>androidTestCompile 'com.andrewreitz:spock-android:2.0'</code>ならSpock for Android(←これだけ<code>androidTestCompile</code>なのに注意)</li>
+</ul>
+<p>という感じでしょうか。</p>
+<h2>Robolectric3 + RxJava(RxAndroid)1 + Retrofit2</h2>
+<p>RxJava + Retrofitなんて鉄板だからRobolectricによるtestなんてすぐ見つかると思ってたんですが、意外に手こずりました。要は、</p>
+<ul>
+<li>Retrofit2に対しては<a href="https://github.com/square/okhttp/tree/master/mockwebserver">MockWebServer</a>(<a href="https://qiita.com/toastkidjp/items/4986caee5d776a4c9e6c">OkHttp3 の MockWebServer を使う</a>)</li>
+<li>RxJavaに対しては<code>RxJavaHooks</code>(<a href="http://hydrakecat.hatenablog.jp/entry/2016/12/14/RxJava_のテスト(2)%3A_RxJavaHooks%2C_RxAndroidPlugins">RxJava のテスト(2): RxJavaHooks, RxAndroidPlugins</a>)</li>
+<li><code>MockWebServer</code>は、例にあるように基本<code>new</code>して<code>MockResponse</code>を<code>enqueue</code>して<code>url(...)</code>すればstartしてreturn valueにURL(<code>http://localhost:XXXXX/</code>←random port number)が入っているのでそれをRetrofitに食わせればいいのだけれども、URLをsetする部分はShadowの中なので、test classから直接食わせられず。なので固定port番号を使いたく、その場合<code>server.url("/...");</code>は不要で、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>server.start(portNumber);
+</span></code></pre></td></tr></table></div></figure>
+でおk</li>
+<li>↑<code>http</code>になると<code>isCleartextTrafficPermitted()</code>まわりで失敗するようになった。これは、<a href="https://github.com/square/okhttp/issues/2533#issuecomment-223093100"><code>isCleartextTrafficPermitted()</code> fails on OpenJDK 8 + Robolectric #2533</a>にあるように、<code>NetworkSecurityPolicy</code>をShadowしてやればよい。</li>
+<li>RxJavaの<code>onNext</code>や<code>onCompleted</code>が実行されない問題は、<code>Robolectric.flushBackgroundThreadScheduler();</code>ではなく、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>RxJavaHooks.setOnNewThreadScheduler(s -&gt; Schedulers.immediate());
+</span></code></pre></td></tr></table></div></figure>
+によって別threadじゃなくmain threadで実行するようにすればおk</li>
+<li>上記の話は、<code>Retrofit2</code>のService interfaceで<code>Observable&lt;...&gt;</code>を返す場合のもの。<code>Call&lt;...&gt;</code>を返す形にして<code>enqueue()</code>して<code>Callback&lt;...&gt;</code>で<code>onResponse()</code>、<code>onFailure()</code>でhandleする場合には、こうは行かなかった(<code>onResponse()</code>も<code>onFailure()</code>も実行されない)。<code>ShadowLooper.runUiThreadTasks()</code>でうまく行くようなことを書いてある情報(<a href="https://stackoverflow.com/questions/37909276/testing-retrofit-2-with-robolectric-callbacks-not-being-called">Testing retrofit 2 with robolectric, callbacks not being called</a>)もあったが、症状変わらず。<a href="https://qiita.com/noboru_i/items/5eeb8b8d5684622aee95">OkHttpのMockWebServerとRobolectricでFragmentの動作をテストする</a>にRetrofit2内で使っている<code>OkHttpClient.Builder#newBuilder</code>をshadowしてうまく行く話があったので、試すと確かに<code>onResponse()</code>が呼ばれた! ただ、今回ぼくは実classの方で<code>new Retrofit().newBuilder().client(new OkHttpClient().newBuilder().build())</code>とかって<code>client</code>methodを使っておらずdefaultで裏でimplicitlyに生成される<code>OkHttpClient</code>そのまま使っており、それだと<code>newBuilder()</code>呼ばれないので、色々辿ってった挙句、<code>okhttp3.Dispatcher#executorService</code>をshadowして、前述のpageにあったようにすぐ<code>command.run()</code>する<code>execute</code>methodを持つ<code>AbstractExecutorService</code>classを返してやると、うまく行った。<code>Dispatcher#executorService</code>って<code>java.util.concurrent.ThreadPoolExecutor</code>をdefaultでは使っており、Androidのthreadとは違うから、uncontrollableだったんですね。考えてみるに、RxAndroidと違いRetrofitはAndroid専用ではないので、<code>java.util.concurrent</code>の<code>Executor</code>使ってるのも当然ですか。</li>
+</ul>
+<h2>AccountManager with Robolectric(というかMockito)</h2>
+<ul>
+<li><p>基本的には、<code>AccountManager.get(Context)</code>はJUnit Test内でもtarget class内でも同じobjectを返すので、そのままassertion可能</p>
+</li>
+<li><p>ただ、例えば<code>manager.blockingGetAuthToken(...)</code>でExceptionを起こさせたい時は、<code>AccountManager manager = spy(AccountManager.get(application));</code>した<code>manager</code>を<code>getSystemService(Context.ACCOUNT_SERVICE)</code>で<code>doReturn</code>するようにした<code>Application</code>を<code>spy</code>して、その<code>application</code>を<code>RuntimeEnvironment.application</code>の代わりにねじ込む必要がある(<a href="https://stackoverflow.com/questions/26937001/using-mockito-to-mock-accountmanager">Using mockito to mock AccountManager</a>)。具体的には、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Rule
+</span><span class='line'>public ExpectedException thrown = ExpectedException.none();
+</span><span class='line'>  :
+</span><span class='line'>Account account = new Account(&quot;any name&quot;, CarCloudAuthUtil.ACCOUNT_TYPE);
+</span><span class='line'>Application application = spy(RuntimeEnvironment.application);
+</span><span class='line'>util = new CarCloudAuthUtil(application);
+</span><span class='line'>AccountManager manager = spy(AccountManager.get(application));
+</span><span class='line'>doReturn(manager)
+</span><span class='line'>        .when(application)
+</span><span class='line'>        .getSystemService(Context.ACCOUNT_SERVICE);
+</span><span class='line'>manager.addAccountExplicitly(account, &quot;any key&quot;, new Bundle());
+</span><span class='line'>manager.setAuthToken(account, CarCloudAuthUtil.AUTH_TOKEN_TYPE, &quot;any string&quot;);
+</span><span class='line'>doThrow(AuthenticationException.class)
+</span><span class='line'>        .when(manager)
+</span><span class='line'>        .blockingGetAuthToken(eq(account), eq(CarCloudAuthUtil.AUTH_TOKEN_TYPE), eq(true));
+</span><span class='line'>thrown.expect(AuthenticationException.class);
+</span><span class='line'>thrown.expectMessage(new IsNull());
+</span></code></pre></td></tr></table></div></figure></p>
+</li>
+<li><p><code>Exception</code>のassertionは、<code>@Test(expected=...)</code>でも良いが、<code>@Rule</code>でも書ける(<a href="https://qiita.com/su-kun1899/items/5c9f0294a7de1986e542#ruleを使った書き方">JUnitでの例外テストの書き方</a>)。その場合、<code>Exception#message</code>が<code>null</code>の場合のassertionは<code>org.hamcrest.core.IsNull</code>を用いて<code>thrown.expectMessage(new IsNull());</code>とする(<a href="https://stackoverflow.com/questions/35199026/expectedexception-expectmessagestring-null-is-not-working">ExpectedException.expectMessage((String) null) is not working</a>)。</p>
+</li>
+<li><p>mocking method実行時に他のことをしたい時には、<code>when(mock.methodCall()).thenAnswer(m -&gt; {...});</code>とlambdaで書ける(<a href="https://qiita.com/kazurof/items/1171c7e038050453c6c9#mockitoでのサンプル">mockitoとJMockitについてのメモ</a>)。</p>
+</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
+試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p>
+<p>従いまして、「SqlCipherの<code>key</code>を64文字の16進数にすれば速くなる」が結論です。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥
+</span><span class='line'>09-27 16:25:59.010 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>09-27 16:25:59.400 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>
+</span><span class='line'>64å­key
+</span><span class='line'>09-27 16:24:26.060 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span><span class='line'>09-27 16:24:26.080 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span></code></pre></td></tr></table></div></figure>
+<p>そこで、実際にAllcaridaで<code>c.bin</code>,<code>r.bin</code>だけ64字key版を作って「履歴一覧」画面表示を比較してみると、従来約3.5秒のところ約0.2秒で開けることを確認しました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥ 3.46ç§(ç´0.6ç§Ã5+Î±)
+</span><span class='line'>09-27 17:53:03.670 9054-9054/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:53:03.680 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:04.360 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:04.380 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:05.010 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.050 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:05.710 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.720 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:06.370 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:06.390 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:07.030 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>
+</span><span class='line'>64å­key 0.21ç§(0.0+0.01+0.01+0.02+0.03+Î±)
+</span><span class='line'>09-27 17:50:57.350 4493-4493/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.400 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.410 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.460 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.470 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.480 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.500 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.530 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.560 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span></code></pre></td></tr></table></div></figure>
+<p>More concretely,</p>
+<p><code>SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, "x\'2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99\'", null);</code></p>
+<p>in Java.</p>
+<p>To get a rekeyed file,</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt install sqlcipher
+</span><span class='line'>$ sqlcipher /tmp/c.bin
+</span><span class='line'>SQLCipher version 3.15.2 2016-11-28 19:13:37
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &#39;7824&#39;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;c2.bin&#39; AS c KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;c&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE c;
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure>
+<p>You'll get <code>c2.bin</code> with the new 64bit key.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sqlcipher r.bin
+</span><span class='line'>SQLCipher version 3.8.6 2014-08-15 11:46:33
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &quot;7824&quot;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;r2.bin&#39; AS r KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;r&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE r;sqlite&gt; PRAGMA user_version;
+</span><span class='line'>0
+</span><span class='line'>sqlite&gt; PRAGMA user_version = 6;
+</span><span class='line'>sqlite&gt; PRAGMA user_version;
+</span><span class='line'>6
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure>
+<p>You'll get <code>r2.bin</code> with the new 64bit key and version 6.</p>
+<p><code>PRAGMA user_version</code> is needed because in SQLiteOpenHelper class judges whether it calls <code>onCreate</code>(table creation) by <code>db.getVersion()</code>.
+<a href="http://d.hatena.ne.jp/isher/20091108/1257684508">[Android]データベースをアップグレードする時</a></p>
+<p>そもそも画面遷移に4秒も掛かるようなAndroidアプリをリリースするなんていうのもunbelievableですが、そういう人達なので...</p>
+<p>まぁ、暗号化するにせよ自分なら<a href="https://realm.io/">Realm</a>使うので、こんな知識不要ですけど、SqlCipher使うなら最初から64字16進code使うべきなんですね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Test Failed on AndroidStudio]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/test-failed-on-androidstudio/"/><updated>2017-11-15T17:09:06+09:00</updated><id>/blog/2017/09/28/test-failed-on-androidstudio/</id><content type="html"><![CDATA[<p>Android Studio(2.3.1)で久し振りにtestを動かしてみると、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Caused by: java.lang.ClassNotFoundException: android.view.View$OnClickListener
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われて動かなくなりました。
+instrumentation testではなくフツーのtestですjunit4とmockitoの。
+<a href="https://stackoverflow.com/questions/14213219/java-lang-noclassdeffounderrorandroid-and-junit-test">java.lang.NoClassDefFoundError:android and junit test</a>を見付けて、えーとか思いつつもやってみたら、確かに直りました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ rm -rf .gradle
+</span></code></pre></td></tr></table></div></figure>
+<h3>追記</h3>
+<p>projectを<code>clean</code>した後、いくらbuildしても「<code>databinding</code> classが見つからない」と言われて困った時にも効きました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Current Project I'm working in]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/current-project-i-m-working-in/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/06/current-project-i-m-working-in/</id><content type="html"><![CDATA[<p>今、グループ内会社のAndroidアプリ開発に売られてるんですけど、そこのソフトの作りがひどくてひどくて泣けてきます。</p>
+<ol>
+<li>「結果が表示されなくなった」というので見てみたら、<code>toString()</code>が変わっていたのが原因。より根本的な原因は、<code>toString()</code>というdebug用途のmethodをoverrideしてmainのlogicに使っていること。まぁ、Activity跨ぐstructured dataを<code>Parcelable</code>にする時間が無かった、という事情は分かるんですけど、<code>StringBuilder#toString</code>ですら使わず<code>new String(StringBuilder)</code>とするくらいなのでぼくは。</li>
+<li>「途中で落ちる」というので見てみると、ヌルポが出てました。どうしてかなー、と見ていくと、途中でnullを代入しているmethodが呼ばれています。どうしてこれを呼ぶよう変えたのか聞いてみると、終了処理をちゃんとするようしてる時に、comment outしてあったこのfinishっぽいmethodをcomment inしたんだそう。それがどういう効果を持つのかわからぬまま、そうしたんだって。えーーーっ!?</li>
+<li>極めつけは、今日わかったんですが、<code>HashMap</code>を<code>List</code>にしてその0番目を使ってるんですね。えーーーっ! どうしてAndroid 4.4.2ではうまく動かないの? というのを探っていったら、そこに行き着きました。逆に、これまでよく動いていましたねぇ。素晴らしい!! 先月までいた派遣のフリー技術者が書いたcodeの一部でしたけど、わざと書いたならいざ知らず、もし意識せず書いたのなら、恐ろしいです。</li>
+</ol>
+]]></content></entry><entry><title type="html"><![CDATA[Illegal keysize]]></title><link href="http://u-ryo.github.io//blog/2017/09/04/illegal-keysize/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/04/illegal-keysize/</id><content type="html"><![CDATA[<p>Androidで<a href="https://github.com/NanoHttpd/nanohttpd">NanoHTTPD</a>を
+動かすprogramを開発しているんですが、
+WebRTCにするのに、TLSが必要じゃないですか。
+そのserver certを普通に作ると、<code>Illegal keysize</code>と言われて
+key load時に落ちるのでハマりました。
+<a href="https://github.com/NanoHttpd/nanohttpd#generating-an-self-signed-ssl-certificate">NanoHTTPDの解説</a>にあるように、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048 -ext SAN=DNS:localhost,IP:127.0.0.1  -validity 9999
+</span></code></pre></td></tr></table></div></figure>
+<p>と作ってもダメでした。
+色々調べると、AndroidにはBouncyCastle(BKS)でないとならないらしく、
+証明書は面倒なのでsnakeoilを流用して、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo openssl pkcs12 -export -in /etc/ssl/certs/ssl-cert-snakeoil.pem -inkey /etc/ssl/private/ssl-cert-snakeoil.key -out ~/AndroidStudioProjects/SharedEye/ssl-cert-snakeoil.p12 -name ssl-cert-snakeoil
+</span><span class='line'>$ /usr/lib/jvm/java-8-oracle/bin/keytool -importkeystore -deststorepass password -destkeypass password -destkeystore snakeoil.jks -srckeystore ssl-cert-snakeoil.p12 -srcstoretype PKCS12 -srcstorepass password -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath bcprov-jdk15-1.46.jar
+</span></code></pre></td></tr></table></div></figure>
+<p>とすると、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Problem importing entry for alias java.security.KeyStoreException: java.io.IOException: Error initialising store of key store: java.security.InvalidKeyException: Illegal key size.
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われてimport出来ませんでした(→jksが作れませんでした)。
+かなり悩んだのですが、結局<a href="http://qiita.com/mizuki_takahashi/items/cc26a7fd51aa04396e92">JavaでAES256を使用できるようにする</a>にあるように、
+JCE(Java Cryptography Extension)を落としてきて
+<code>local_policy.jar</code>を上書きしたら、
+jksも出来て、Android側でも何事もなくloadしてくれました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Recent bookmarks]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-bookmarks/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/recent-bookmarks/</id><content type="html"><![CDATA[<p>最近の、といってももう数ヵ月も前のものですが、
+bookmarkしかねてbrowserのtabを開きっぱなしなのを閉じる前に、
+メモしておきます。</p>
+<ul>
+<li><a href="http://antimatter15.com/ocrad.js/demo.html">Ocrad.js Optical Character Recognition in JS</a></li>
+<li><a href="https://cloudlatex.io/">Cloud LaTeX</a></li>
+<li><a href="https://deploygate.com/">DeployGate</a>(開発中のiOS/Androidアプリを簡単にテスターや開発チームメンバーと共有することでアプリのプロトタイピングを加速させることができる、アプリ開発＆テスト支援サービス)</li>
+<li><a href="https://github.com/mcfly-io/generator-mcfly">generator-mcfly</a>(A Yeoman generator for scaffolding an application using angular, browserify or webpack, ionic, angular-ui-bootstrap, angular-material...)<a href="https://github.com/mcfly-io/generator-mcfly/wiki/Quick-Start-First-application">Quick Start First application</a></li>
+<li><a href="http://qiita.com/tetsuya/items/a488b66a88369307a213">Yeomanを使ったAngularJSアプリをチームで共同開発して公開するまで</a></li>
+<li><a href="http://qiita.com/masato/items/b4fff7e885f78cd96edb">ES6で書くIsomorphicアプリ入門 - Part1: リソース</a></li>
+<li><a href="http://www.adobe.com/jp/devnet/phonegap/articles/phonegap_build_instructions.html">PhoneGap Buildの使い方</a>(「PhoneGap Build」とは、クラウド上でモバイルアプリをビルドできるサービスです)</li>
+<li><a href="https://angular.io/docs/ts/latest/">angular2 doc</a>(<a href="https://angular.io/docs/ts/latest/guide/template-syntax.html">ここ</a>まで読みました)</li>
+<li><a href="https://help.ubuntu.com/community/LiveCDCustomization">How to Customise the Ubuntu Desktop CD</a>(探せばすぐ見つかりますけども... Ubuntu remasteringのbaseです)</li>
+<li><a href="http://wada811.blogspot.com/2014/10/avoid-exposing-signing-config-using-gradle-properties.html">AndroidStudio で APK の署名の設定を gradle.properties に記述する</a></li>
+<li><a href="https://blog.techstars.jp/android-tuto/">どれで入門する？Androidアプリ開発入門に最適なチュートリアルサイト比較＆まとめ 2016.1.5</a></li>
+<li><a href="http://mixi-inc.github.io/AndroidTraining/">mixi-inc/AndroidTraining</a>(いいんですが、やっぱり本読んでちゃんと勉強しないといけないかなと思いました)</li>
+<li><a href="http://androidguide.nomaki.jp/html/">Androidアプリ開発入門</a>(実例を作りながらなのでためになるのですけれども、これだけでは足りない感じ、でした。実践編からは実例なくなってつらいですし)</li>
+</ul>
+<h3>Vuzix M100</h3>
+<ul>
+<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Driver_File_GestureSensorSDK_20160317210116857.pdf">Gesture Sensor SDK Vuzix M100 Developer SDK</a></li>
+<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Installing-the-Vuzix-M100-SDK.pdf">Installing the Vuzix M100 SDK (1.4+)</a>(Eclipse対象で古そうです)</li>
+<li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Driver_File_m100sdk_manual_jpn_20151226175838467.pdf">Vuzix M100 SDK インストールガイド</a></li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
+<p>最初、title間違えました。
+タイプミスです。
+Ergodox EZ(キー配列をカスタマイズ出来るキーボード)が必要かもしれません...</p>
+<p>Android開発を、というかIoTに乗ってSmart Glass(Vuzix M100)の
+アプリ開発を任命付けれられています。
+それはそれでありがたいのですが、
+今更ながらAndroid開発を学んでいます。
+素のAndroid Javaを使う、というのはあまりにもイケてなさそうなので、
+いちいち<code>on何々</code>なんてやってられませんよ、ということで、
+Kotlinを使ってイマドキのReactive Programmingを、
+と思っています。
+Kotlinやってると、Groovyでもいいんじゃないの?
+と思ってしまうのですが、
+殊Androidについては、同梱libが大きくなってしまうなど、
+やはり後発の強みもあってKotlinのようです。
+ただ、Android開発者がJava loveだそうで、
+今後のJava8の取り込みようによっては、
+Javaだけでも行けるのでは? という気も少しします。
+しかしそれは普及率を考えるとまだまだ遠いので、
+今はやはりKotlinかと。</p>
+<p>しっかし、Android開発って結構めんどいんですね。
+IDEがないと開発できないって、
+古いtypeの人間としてはそこから苦痛なんですが...</p>
+<p>最初は、<a href="http://www.sbcr.jp/products/4797384505.html">森洋之,基本からしっかり身につくAndroidアプリ開発入門 Android Studio 2.x対応 プロが本気で教えるアプリ作りの基本「技」 (ヤフー黒帯シリーズ),SBクリエイティブ,2016.7</a> を間違い直しながら写経することで
+Android開発を「Hello World」から卒業してから、
+<a href="http://taro.hatenablog.jp/entry/2016/06/16/203136">長澤太郎,Kotlinスタートブック,リックテレコム,2016.7</a> を写経しています。
+そこでハマったことを。</p>
+<ol>
+<li>実行しても、エラーメッセージを吐かずにemulatorが一瞬立ち上がった後終了 → Run対象を<code>MainActivityTest</code>にしていたから</li>
+<li>Dagger2でinjectionするようにしたらprofileImageUrlを取れなくなった → <code>.dagger.ClientModule#provideRetrofit</code>で<code>.addConverterFactory(GsonConverterFactory.create(gson))</code>の<code>gson</code>を抜かしてしまっていた</li>
+<li>Dagger2でinjectionしたtestでCastがこけてうまく行かない → <code>build.gradle</code>で<code>testInstrumentationRunner 'sample.qiitaclient.MockTestRunner'</code>に変更しないとならないのと、<code>Run</code> → <code>Edit Configurations</code> → <code>Android Tests</code> → <code>MainActivityTest</code> で<code>Specific instrumentation runner (optional):</code> を <code>〜.qiitaclient.MockTestRunner</code> に変更しないとならない</li>
+</ol>
+<p>IDEに慣れてないので、fileばっかり見比べてました。downloadしたお手本sampleではDagger2 Testがうまく行くのに、何で自分のはうまく行かないんだろう、ってずっと悩んでました。IDEでのproject settingに問題があったとは。
+<a href="http://stackoverflow.com/questions/24002212/test-running-failed-unable-to-find-instrumentation-info-for-componentinfo">stackoverflowのTest running failed: Unable to find instrumentation info for: ComponentInfo{} — error trying to test in IntelliJ with Gradle</a>で見付けました。
+こんなところに設定があるなんて、知りませんよー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Crosswalk]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/crosswalk/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/07/crosswalk/</id><content type="html"><![CDATA[<p>Crosswalk という、WebViewを独自に持つことでAndroid間の動作性を統一するlibraryを使ってみました。最近のAPI levelに対応するだけなら、敢えてこんなの使わなくてもいいのかも。</p>
+<p>わけあって、Crosswalk sample applicationの一つをcompileしてみました。</p>
+<p>how to installは、<a href="https://crosswalk-project.org/documentation/android/system_setup.html">official page</a>のまま。</p>
+<p><code>ANDROID_HOME</code>は、Sdk directoryを指す模様。</p>
+<p>それから、<code>android</code> commandを裏で動かすので、そこへのPATHが必要でした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ ANDROID_HOME=/home/u-ryo/Android/Sdk PATH=$PATH:/home/u-ryo/Android/SDK/tools crosswalk-app check android
+</span><span class='line'>$ ANDROID_HOME=/home/u-ryo/Android/Sdk PATH=$PATH:/home/u-ryo/Android/SDK/tools crosswalk-pkg -p android client
+</span></code></pre></td></tr></table></div></figure>
+<p><code>android</code> commandはGUIを要求するので、Cloud9のconsoleでは動かせませんでした。</p>
+<p><a href="https://www.sitepoint.com/android-video-calling-with-crosswalk-and-peerjs/">Android Video Calling with CrossWalk and PeerJS</a>
+見てやってみたんですが、ionic2からは<code>ionic browser list</code>というのがなくなって、<code>ionic plugin add cordova-plugin-crosswalk-webview</code>になったことと、その後<code>ionic platform add android</code>すると、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Installing &quot;cordova-plugin-crosswalk-webview&quot; for android
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        After much discussion and analysis of the market, we have decided to discontinue support for Android 4.0 (ICS) in Crosswalk starting with version 20.
+</span><span class='line'>
+</span><span class='line'>        So the minSdkVersion of Cordova project is configured to 16 by default.
+</span></code></pre></td></tr></table></div></figure>
+<p>と言われてしまいました...</p>
+<p>動かしたかったtargetは、Android 4.0.4なので、Crosswalkダメですね。
+実際、「CPU Mismatch」と言われて、x86のものでもarmのでも動きませんでした。
+あうー。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Zaim]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/zaim/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/27/zaim/</id><content type="html"><![CDATA[<p>最近、家計簿アプリ「<a href="http://zaim.net/">Zaim</a>」がマイブームです。</p>
+<p>銀行口座連携くらいでは驚かなかったんですけど、
+OCRによる「レシート読み取り」がここまで出来るとは、
+思っていませんでした。
+セブンイレブン、ローソン等のコンビニ系レシートなら、
+ほぼ一発で完璧に読み取ってくれます。
+日付、内訳は勿論、店名も「セブンイレブン○○店」まで。
+電話番号を読み取って、
+それをインターネットで検索してるんですね。
+なるほど。</p>
+<p>当初はMoney Forwardを使っていたんですが、
+レシートの内訳も管理したくて、
+より利用者の多いZaimに乗り換えました。</p>
+<p>zaimの銀行連携について、
+<a href="http://qiita.com/kyasbal_1994/items/9becc9048a9a37f9be2e">セキュリティの不安を提起する</a>尤もな向きもあるようです。
+そうですね、確かに。
+Zaim側が生パスワード、保持してないと出来ない仕組ですから、
+彼ら、持っちゃってますよね。
+でも、便利なのでつい...
+本当は、「自分でCSV落として食わせてね」だったと思いますけど、
+それじゃぁここまで広がらなかったのでしょう。</p>
+<p>それより、OCRがここまで進化していたとは。
+おかげで、溜まりに溜まっていたレシートを、
+うん百枚単位で片付けられました。
+でも、こういうのってスマホを持ってないと気付かないものですね。</p>
 ]]></content></entry></feed>

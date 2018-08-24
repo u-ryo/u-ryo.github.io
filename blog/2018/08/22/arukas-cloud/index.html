@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>Arukas Cloud - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various information for coding...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">Arukas Cloud</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2018-08-22T00:31:00+09:00" pubdate data-updated=true>
+      <span class="month">Aug</span>
+      <span class="day">22</span>,
+      <span class="year">2018</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
+docker hostingをやっていて、
+credit card登録は強制されますが1 containerなら無料というので、
+専用SSH machine作って<a href="https://jhipster.tech/">JHipster</a>の開発/buildに使おうと企みました。</p>
+<p>cf. <a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a>,
+<a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></p>
+<p>無料枠では<a href="https://hub.docker.com/">Docker Hub</a>にあるものしか使えないとはいえ、
+SSH serverの入ったdocker imageなんて色々あります。
+でも使ってみると、基本的にはrootでlogin、
+当然root loginをpermitしていて、
+securityを維持するにはrootのpasswordを変える、
+userを作って<code>.ssh/authorized_keys</code>を作る、
+なわけですが、けどroot loginのpermissionを切って
+sshdをrestartすると、docker終わっちゃうんですよね。
+何かもっとこう、最初からUser作ってrootは禁止して、
+とかっていうの無いかなー、
+と物色していると、どれだったか忘れましたがgithub.comから
+自分が登録したkeyを<code>ADD</code>してるものがあって、
+あーなるほどー、と思って。
+<code>ADD https://github.com/$GITHUB_USER.keys /home/$GITHUB_USER/.ssh/authorized_keys</code>ということですね。</p>
+<p>で、結局どうしても自分の欲しいものがなかったので、
+<code>Dockerfile</code>自作することにしました。
+元になるimageはDocker Hub上になければいけないので、
+<a href="https://simple-it-life.com/2016/03/27/dockerhub/">Docker Hubを使ってGitHubにあるDockerfileからimageを自動生成する</a>を参考に、
+Github → Docker Hub → Arukasという流れになるように、
+<a href="https://github.com/u-ryo/docker_alpine_sshd/">自分のGithub repository</a>
+→ <a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/">自分のDocker Hub repository</a>
+→ <a href="https://app.arukas.io/apps/e45aaaa5-df9d-474d-ad42-d3eff1702d76">自分のArukas App</a>
+と繋げて、
+回るようにします。</p>
+<p>Arukasでは変数定義が出来るというので<code>Dockerfile</code>でGithub user名を<code>ENV</code>定義して、
+でもそうするとDocker Hubではbuildにコケるので<code>ENV</code>には何かdefault値がないとダメで、
+でもdefault値を付けちゃうとそのdefault値がArukas Appまで残っちゃうんですよね。
+<a href="https://blog.amedama.jp/entry/2018/01/30/230221">Docker コンテナの動作に必要な設定を起動時に渡す</a>などを見て、
+え、shell script内じゃないとダメ?
+じゃぁっていうんで<code>entrypoint.sh</code>作って試してみたんですけど、
+Arukasで起動に失敗しました。Docker Hubではbuild通ったのに。
+起動時のmessageとかは出ないので、何が悪いのか分かりません。
+困り果ててArukasのchatで相談投げると、翌営業日にはすぐreplyをくれて、
+動作確認のためということでpull requestまで作ってくれました。
+まずは早速そのまま取り込んで起動してみたんですが、
+やはり起動に失敗しました。
+けれども、別のaccountの方でENVを編集することで再起動させてみたところ
+うまく行ったので、何だったんでしょう?
+要するにどちらでも上手く立ち上がるようになりました。
+ありがとうございました。</p>
+<p>他、Arukasでハマったのは、開放するPort、
+後で色々開けようと思って3000番とか8080番とか色々書いておいたら、
+Endpointが有効にならないんですね。
+これもArukasのchatで聞いて教えてもらったんですが、
+確かによく読むと、Docker image立ち上がった時点で
+書いたPortが全て開いてないとEndpointが有効にならない、
+と書いてありますね。
+「一番上に書いたPortだけEndpointに繋がる」というのは
+「アプリ編集」画面のEndpointのinfoに書いてあるからわかったんですが。</p>
+<p>baseとなるdistributionは、
+軽いという<a href="https://www.alpinelinux.org">Alpine Linux</a>に。
+アプリの管理も<code>apk add ...</code>コマンドで出来ますし、
+packageも<code>screen</code>やら<code>openjdk8</code>やら<code>gradle</code>やら
+結構色々あってびっくりです。
+何かubuntuじゃなくてalpineで十分な気がしてきました。</p>
+<p>目的としていたjhipster applicationのbuildは失敗しました。
+specがしょぼい(128MB memory)のか通信量に制限があるのか、
+<code>jhipster</code>コマンドの途中で止まり、
+applicationのscaffoldingが出来ません。
+まー、無料枠なのでmachine specについては文句言えませんから、
+しょーがないのかなーと。</p>
+<p>ただ、Endpointが<code>https</code>で手に入るので、
+<a href="https://qiita.com/schwarz471/items/9b44adfbec006eab60b0">Nginxによるリバースプロキシの設定方法</a>を参考に、
+nginxによるreverse proxyとして使おうかなー、
+と思っています。
+custom domainも使えるとのことですが、
+CDNと同じくDNSを自分でcontrol出来ねばならないので、
+dynamic DNSでは使えず、custom domainは諦めました。</p>
+<p>成果物(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!):
+<a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/">uryooo/docker<em>alpine</em>sshd</a></p>
+<p>Githubにkeyを登録してあれば、Arukas AppでImageにこれ↑を指定し、
+<code>ENV</code>で<code>GITHUB_USER</code>をGithubのuser名、
+<code>PROXY_PASS</code>をreverse proxyしたいURL、
+にして立ち上げると、
+当該hostにssh出来、
+またEndpointで指定したURLでreverse proxy出来ます。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ln -sf /dev/stdout /var/log/nginx/access.log
+</span><span class='line'>ln -sf /dev/stderr /var/log/nginx/error.log
+</span></code></pre></td></tr></table></div></figure>
+<p>こんな技があるんですねーなるほどー。</p>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2018-08-24T14:09:00+09:00" class="updated">
+       Updated
+       <span class="month">Aug</span>
+       <span class="day">24</span>,
+       <span class="year">2018</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/docker/">docker</a>
+  
+     <a class="category" href="/categories/sakura/">sakura</a>
+  
+     <a class="category" href="/categories/arukas/">arukas</a>
+  
+     <a class="category" href="/categories/alpine/">alpine</a>
+  
+     <a class="category" href="/categories/nginx/">nginx</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2018/08/22/arukas-cloud/" data-via="" data-counturl="/blog/2018/08/22/arukas-cloud/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/08/23/getting-the-first-in-spring-data-jpa/" title="Previous Post: Getting the first in Spring DATA JPA">&laquo; Getting the First in Spring DATA JPA</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2018/08/21/stubbing-in-spock/" title="Next Post: Stubbing in Spock">Stubbing in Spock &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/24/fluent-on-lombok/">Fluent on Lombok</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/24/returning-xml-from-spring-boot-rest/">Returning XML From Spring Boot REST</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/24/java8-datetime-api/">Java8 DateTime API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/23/getting-the-first-in-spring-data-jpa/">Getting the First in Spring DATA JPA</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A Java programmer in Tokyo.</p>
+</section>
+<section>
+  <h1><a href="privacy.html">Privacy Policy</a></h1>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/";
+    var disqus_url = "http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>

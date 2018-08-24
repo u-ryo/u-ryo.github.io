@@ -1,4 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T10:05:54+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
+methodのcall回数をassertする必要がありまして。
+<code>someClass = Spy(SomeClass)</code>でspyにすると、
+<code>3 * someClass.targetMethod(_, _)</code>といったようにassert出来るのですが、
+そのtargetMethodを呼ぶ大元のmethodのcallは、
+<code>then:</code>ではなく<code>when:</code>になければならなかった、という話です。</p>
+<p>即ち、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>when:
+</span><span class='line'>  ...
+</span><span class='line'>then:
+</span><span class='line'>  someClass.method() == &#39;answer&#39;
+</span><span class='line'>  3 * someClass.targetMethod(_, _)
+</span></code></pre></td></tr></table></div></figure>
+<p>ではダメで、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>when:
+</span><span class='line'>  ans = someClass.method()
+</span><span class='line'>then:
+</span><span class='line'>  ans == &#39;answer&#39;
+</span><span class='line'>  3 * someClass.targetMethod(_, _)
+</span></code></pre></td></tr></table></div></figure>
+<p>でないとなりませんでした、と。</p>
+<p>あと、
+<code>3 * someClass.targetMethod(_, _)</code>の部分には、
+変数とか入れられません。即ち、
+<code>(3 + n) * someClass.targetMethod(_, _)</code>とかはダメでした。</p>
+]]></content></entry><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T10:05:54+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
 Java9以上のGroovyでmoduleが足りない、
 具体的には、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

@@ -8,37 +8,23 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/03/17/gatling-instead-of-jmeter/">Gatling Instead of JMeter</a></h1> <p class="meta"> <time datetime="2016-03-17T00:33:00+09:00" pubdate data-updated=true> <span class="month">Mar</span> <span class="day">17</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/03/17/gatling-instead-of-jmeter/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>イマドキの負荷テストは、<a href="http://gatling.io/">Gatling</a>が良いそうです。 結果のvisualizationがとても魅力的。 Scala baseなれどfluentに書けるので敷居も低そう。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/03/16/geb-is-great/">Geb Is Great</a></h1> <p class="meta"> <time datetime="2016-03-16T02:13:00+09:00" pubdate data-updated=true> <span class="month">Mar</span> <span class="day">16</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。 要はSeleniumのwrapperなんですが、 Page Modelとか駆使すると、 GUI testもspockのSpec本体には具体的なtag名出さずにlogicalに書けますね。 frameなpageでは、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/">Local IP With Hostname Without an Inner DNS (Wildcard DNS)</a></h1> <p class="meta"> <time datetime="2016-09-07T21:45:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">07</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/09/07/local-ip-with-hostname-without-an-inner-dns-wildcard-dns/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>内部DNS建てなくても、hostname付けられるんだって。凄い。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.127.0.0.1.xip.io
+</span><span class='line'>some-project.127.0.0.1.xip.io has address 127.0.0.1
+</span></code></pre></td></tr></table></div></figure> <p><a href="http://qiita.com/tady/items/b7b46486fb3175dac0b1">ローカルDNSを立てずにホスト名をIPアドレスに解決する超絶簡単な方法</a></p> <p>nip.io でも全く同じことが出来るようです。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ host some-project.192.168.33.176.nip.io
+</span><span class='line'>some-project.192.168.33.176.nip.io has address 192.168.33.176
+</span></code></pre></td></tr></table></div></figure> <p>更に更に、<a href="https://sslip.io/">sslip.io</a>では正式なserver certも用意出来ちゃう、なんていう素晴らしいとこだった、ようですが、今はもうダメポです。自分でやるしかなさそうです。とはいっても、wildcard certificationはLet's Encryptでは扱ってないので、やるならお金かかっちゃいますかね...</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/">Trigger as 3 Times Service Down in a Row on Zabbix</a></h1> <p class="meta"> <time datetime="2016-08-03T17:33:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">03</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/08/03/trigger-as-3-times-service-down-in-a-row-on-zabbix/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Zabbixで「3回連続してservice downを観測したらalert、 且つ1回service upを観測したら復帰」とかって、 実は結構面倒なんですね。</p> <p>cf.<a href="http://www.zabbix.jp/node/2573">トリガーの条件式における記述方法について</a></p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>({TRIGGER.VALUE}=0<span class="err">&amp;</span>{hostå:http.max(#3)}=0)|({TRIGGER.VALUE}=1<span class="err">&amp;</span>{hostå:http.last(0)}=0)
+</span></code></pre></td></tr></table></div></figure> <p>→何か騙された感じです。色々試すと、単に<code>max(#3)</code>だけで良さげですよ。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;frameset&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;frame</span> <span class="na">id=</span><span class="s">&quot;head&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/frame&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;frame</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/frame&gt;</span>
-</span><span class='line'><span class="nt">&lt;/frameset&gt;</span>
-</span></code></pre></td></tr></table></div></figure> <p>とあったら、Page Objectに</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>static content = {
-</span><span class='line'>  header(page: HeaderPage) { $(&#39;#head&#39;) }
-</span><span class='line'>  main(page: MainPage) { $(&#39;#main&#39;) }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>と書いて、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>withFrame(main) {
-</span><span class='line'>  ...
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>と使えます。</p> <p>しかし、 そもそもイマドキframeなんか使う方がおかしいんですけどね。 html5ではaccessibilityの観点から廃止されてるのに。</p> <p>最近よくある、mouse overしてmenuをdrop downさせるものについては、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>interact {
-</span><span class='line'>  moveToElement(...)
-</span><span class='line'>  click(...)
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p><code>&lt;select&gt;</code>やradio buttonsといったform関係要素については、 以下のようにmoduleを使って簡単に操れます。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{hostå:http.max(#3)}=0
+</span><span class='line'>or
+</span><span class='line'>{hostå:http.max(#3)}=0|{hostå:https.max(#3)}=0
+</span></code></pre></td></tr></table></div></figure> <p>↑これだけで、「3回連続してservice downを観測したらalert、 且つ1回service upを観測したら復帰」を実現出来ました。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/08/02/date-fromat-validation-by-java/">Date Fromat Validation by Java</a></h1> <p class="meta"> <time datetime="2016-08-02T17:26:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">02</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/08/02/date-fromat-validation-by-java/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Javaで日付フォーマットの検証をしたいと言われました。 ぱっと思いつくのは、<code>SimpleDateFormat</code>で<code>setLenient(false)</code>にしてparseする、 ですが、これだとException投げるんですよね。 Exception catchをlogicに使うのは良くない、 ということで、他を探してみると意外となかなかないんですねこれが。 commons-langの<code>DateUtils.parseDateStrictly</code>もException返しますし。</p> <p>色々探してみると、Apacheの<a href="https://commons.apache.org/proper/commons-validator/">commons-validator</a>というのがありました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -46,49 +32,27 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>import geb.module.RadioButtons
-</span><span class='line'>import geb.module.Select
-</span><span class='line'>import geb.module.Textarea
-</span><span class='line'>$(&#39;select#...&#39;).module(Select).selected = &#39;some value&#39;
-</span><span class='line'>$(&#39;select#...&#39;).module(Select).selectedText == &#39;label text&#39;
-</span><span class='line'>$(&#39;select#...&#39;).module(RadioButtons) = &#39;some value&#39;
-</span><span class='line'>$(&#39;select#...&#39;).module(RadioButtons).checked == &#39;some value&#39;
-</span><span class='line'>$(&#39;select#...&#39;).module(Textarea).text = &#39;A sentence with\na new line.&#39;
-</span></code></pre></td></tr></table></div></figure> <p><code>withFrame</code>でのassertionは、末尾に<code>|| true</code>が必要でした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Grab(&#39;commons-validator:commons-validator&#39;)
+</span><span class='line'>import org.apache.commons.validator.routines.CalendarValidator
+</span><span class='line'>
+</span><span class='line'>pattern = &quot;yyyy/MM/dd&quot;
+</span><span class='line'>validator = CalendarValidator.getInstance()
+</span><span class='line'>
+</span><span class='line'>assert validator.isValid(&quot;2016/02/29&quot;, pattern)
+</span><span class='line'>assert !validator.isValid(&quot;2016/02/30&quot;, pattern)
+</span><span class='line'>
+</span><span class='line'>assert validator.isValid(&quot;2016/08/31&quot;, pattern)
+</span><span class='line'>assert !validator.isValid(&quot;2016/08/32&quot;, pattern)
+</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/08/02/let-s-encrypt/">Let's Encrypt</a></h1> <p class="meta"> <time datetime="2016-08-02T15:55:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">02</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/08/02/let-s-encrypt/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://letsencrypt.org/">Let's Encrypt</a>、 漸く使えるようになりました。 具体的にどうやって使ったらいいんだろう、 と思ってたんですが、結構簡単に使えますねこれ。 素晴らしい、です。 おかげでbotnetのC&amp;C server等でも広く使われるようになったとかってことですが。</p> <p>ともあれ、 日本語の要諦サイト<a href="https://letsencrypt.jp/">Let's Encrypt 総合ポータル</a>もあり、 だいぶわかりやすくなってます。</p> <p>基本的には、</p> <ol> <li><code>certbot-auto</code>を<code>git</code>又は<code>wget https://dl.eff.org/certbot-auto</code>で取得</li> <li>認証原理は、<ol> <li><code>certbot-auto</code>がLet's Encrypt側から指定された<code>http://.../.well-known/XXXXXX</code>にfileを作る</li> <li>Let's Encrypt側がそのfileを<code>GET</code>、認証</li> </ol> </li> <li>なので<code>standalone</code>(<code>certbot-auto</code>が臨時のhttp serverを建て、Let's Encryptからのrequestを受ける)が基本</li> <li>その間本来のWWW serverを止めねばならないが、止めたくない時は「<code>--webroot</code>」で<code>DocumentRoot</code>を指定し、<code>certbot-auto</code>にfileを作らせる</li> <li>初回の(というか最後に成功した)command optionsを<code>/etc/letsencrypt/</code>以下に保存しておき、次回以降「<code>renew</code>」commandでは省略可</li> <li><code>renew</code>を付けて走らせても、証明書期限が30日を切っていないと発動しない(無理やり更新するには<code>--force-renew</code> optionが必要)</li> <li><code>--post-hook</code>も指定して、apacheのreloadを自動化(これは<code>renew</code>が走らないと発動しない。単純に<code>renew</code>の終了status codeだと0になるので「&amp;&amp;」で繋ぐだけでは判別不能だった)</li> <li>証明書取得がうまく行くと、<code>/etc/letsencrypt/live/someserver.co.jp/</code>以下に各種cert filesのsymbolic linkが作成されるので、<code>/etc/apache2/site-enabled/default-ssl</code>中で<code>SSLCertificateFile</code>等の示す先をここの<code>cert.pem</code>等にする(Apache2.4以上やnginxなら証明書＋中間CA証明書に<code>fullchain.pem</code>が使える)</li> </ol> <p>こちとら、apache2 serverを止めたくない状況だったので、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cerbot-auto certonly --webroot -w /var/www/ -m support@company.co.jp -d someserver.co.jp --agree-tos
+</span></code></pre></td></tr></table></div></figure> <p>(<code>-w</code>: webroot-path, <code>-d</code>: domain, <code>-m</code>: mail address)</p> <p>更新は、<code>/etc/cron.daily/certbot</code>を作って、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>withFrame(main) {
-</span><span class='line'>  leaveRequest.approver.selectedText == &#39;è¥¿ãé¨é·&#39;
-</span><span class='line'>  leaveRequest.approvalDate.text == new Date().format(&#39;yyyy/MM/dd&#39;)
-</span><span class='line'>} || true
-</span></code></pre></td></tr></table></div></figure> <p>frame内の変化があるので、Page Module内要素は<code>required: false</code>つけまくりでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>static content = {
-</span><span class='line'>  requestType(wait: true, required: false) { $(&#39;input#rdo12&#39;).module(RadioButtons) }
-</span><span class='line'>  requester(required: false) { $(&#39;span#select2-chosen-1&#39;) }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>あと適宜<code>waitFor {...}</code>が必要ですね。</p> <p>browser alertの処理は厄介でした。 <code>driver.switchTo().alert().accept()</code>かと思ったら、<code>withAlert(wait: true){...}</code>でいいんですか。 普通の(javascriptによる)popup dialogに対しても。 「browser alertが出たら」ってどう書くんでしょう。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>withAlert(wait: true) {
-</span><span class='line'>  ...
-</span><span class='line'>} == &#39;modal dialog message&#39;
-</span></code></pre></td></tr></table></div></figure> <p>まぁ、<a href="http://www.gebish.org/manual/current/">geb manual</a>を読めってことですね。</p> <p>これはgroovyのことですが、日付のformatが簡単です。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>leaveRequest.approvalDate.text == new Date().format(&#39;yyyy/MM/dd&#39;)
-</span></code></pre></td></tr></table></div></figure> <p>http accessはHttpURLClientを用い、またcookieの取得も簡単です。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>@Grab(&#39;org.codehaus.groovy.modules.http-builder:http-builder&#39;)
-</span><span class='line'>import groovyx.net.http.HttpURLClient
-</span><span class='line'>def jsessionId = driver.manage().getCookieNamed(&quot;JSESSIONID&quot;).value
-</span><span class='line'>def http = new HttpURLClient(url: &#39;https://my-ocr.herokuapp.com/&#39;)
-</span><span class='line'>tryLogin(userId, password, http.request(path: jsessionId).data)
-</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/03/16/koding-has-changed/">Koding Has Changed</a></h1> <p class="meta"> <time datetime="2016-03-16T01:20:00+09:00" pubdate data-updated=true> <span class="month">Mar</span> <span class="day">16</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/03/16/koding-has-changed/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://koding.com">Koding</a>が、何かいきなりTeam codingとかいって、renewalしてました。 新しくなるのはいいんですけど、 <a href="https://github.com">github</a>のaccountで入れなくなったり、 AWSが必須だかlocalのLinuxにkdとかいうのをinstallするのが必須だか、 free and Web上で完結しなくなっているようだったり、 というのはやめて欲しいです。 今更ながら、<a href="https://nitrous.io">nitrous.io</a>に乗り換えます。 <a href="https://c9.io">Cloud9</a>だとGrainw compile出来ないので。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/02/20/security-check/">Security Check</a></h1> <p class="meta"> <time datetime="2016-02-20T20:12:00+09:00" pubdate data-updated=true> <span class="month">Feb</span> <span class="day">20</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/02/20/security-check/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、 標的型攻撃による情報流出が怖くなりました。 <a href="http://www.jipdec.or.jp">JIPDEC</a>とか、表面化してないだけで絶対やられてるんじゃないのかな、 とか思うんですが、それをみるために、 gatewayで宛先IPとportをcheckしたらいいんじゃないのかな、 と思いました。 まず自分のマシンでやってみようと思いました。 隗より始めよ、ですね。 iptablesでOUTPUTのACKなtcpのdportとIPをLOGすれば、 と思ったんですけど、 それだったらsnortの方がいいですか。 でもsnortでoutboundな通信のlogってどうやるんでしょう。 また、それでIPあげつらったとしても、 それをどう検証するのか。 blacklistでもないかなぁ、と思ったら、 カペルスキーとかセキュリティ専門会社は独自blacklist持ってるんですね。</p> <p>...と、この辺まで書いてたら、 Kodingに「週間使用量をexceedしている」とかいわれて止められちゃいました。 書こうとしてた時に勢いを止められるのはつらいです。 書いた文章もURLも消えちゃいましたし、何書こうとしてたか忘れちゃいました。</p> <p>blacklist、IP addressで検索していたら、 whatismyipaddressの<a href="http://whatismyipaddress.com/blacklist-check">Blacklist Check</a>、 でもこれは、接続元IPがspammerのblacklistに載っているか、 一括して調べるもの。どこかに載ってたら、 過去にspamを送っていたことがある、 何らかのmalwareに感染してた可能性がある、 ということです。</p> <p><a href="https://www.reddit.com/r/Malware/comments/3u8719/check_your_very_own_ip_for_any_botnet_infections/">check your very own IP for any botnet infections</a> というのがあって、これも同じようなserviceなんでしょうか。</p> <p>C&amp;C serverとのcommunicationは、 DNSのTXT recordでやるそうですね。 そんなのってdetect出来るんでしょうかね。出来そうですね。 何かtoolないのかな。</p> <p><a href="&quot;https://www.facebook.com/sec.testing.study.session">脆弱性診断研究会</a>には、 よさ気な情報が載ってます。 ↑に載ってましたが、 <a href="http://vaddy.net/ja/">VAddy</a>というJenkinsに組み込んでCIで脆弱性診断をしてくれる serviceがあるそうです。free planだとSQL injection、XSSしか見てくれないそうですが、 freeで何度も使えるならいいですね。</p> <h2>脆弱性検査tools</h2> <ul> <li>OWASP ZAP</li> <li>Vega(Java, included in Kali Linux)</li> </ul> <p>Bug hunterとして生計を立てている<a href="http://masatokinugawa.l0.cm/">Kinugawa masatoさんのページ</a>が とても勉強になります。<a href="http://blog.tokumaru.org/">徳丸先生の日記</a>は言わずもがな。 <a href="https://takagi-hiromitsu.jp/diary/">ヒロミチュ先生のところ</a>は、 最近技術的な話題少ないんですかね。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/02/19/minimal-set-for-sinatra-on-heroku/">Minimal Set for Sinatra on Heroku</a></h1> <p class="meta"> <time datetime="2016-02-19T09:18:00+09:00" pubdate data-updated=true> <span class="month">Feb</span> <span class="day">19</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/02/19/minimal-set-for-sinatra-on-heroku/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>heroku久しぶりだったので、やり方忘れちゃいましたよ。</p> <p>Cloud9上で、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
+</span><span class='line'>cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;
+</span></code></pre></td></tr></table></div></figure> <p>で良さそうです。<code>sudo chmod a+x /etc/cron.daily/certbot</code>を忘れずに。</p> <p><code>certbot-auto</code>は、実行するといきなり<code>apt-get update</code>してからpython2.7とか入れるのと幾つかのpackagesをupdateするので注意です。</p> <p>また、Let's Encryptにしてから<a href="https://www.ssllabs.com/ssltest/">SSL Server Test</a>をかけてみると、「Incorrect SNI alerts」というのが出るようになりました。 これは、<code>/etc/apache2/site-enabled/default-ssl</code>の<code>&lt;VirtualHost _default_:443&gt;</code>に<code>ServerName XXXXXX</code>とすることで解決しました。 cf. <a href="https://www.rootlinks.net/2016/02/09/sslテストでincorrect-SNI-alertsを解決する/">SSLテストで”Incorrect SNI alerts”を解決する</a></p> <h3>command log</h3> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -101,32 +65,30 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ cat Gemfile
-</span><span class='line'>source &#39;https://rubygems.org&#39;
-</span><span class='line'>gem &#39;sinatra&#39;
-</span><span class='line'>
-</span><span class='line'>$ cat Procfile
-</span><span class='line'>web: exec ruby app.rb -p $PORT
-</span><span class='line'>
-</span><span class='line'>$ cat app.rb
-</span><span class='line'>require &#39;sinatra&#39;
-</span><span class='line'>
-</span><span class='line'>get &#39;/&#39; do
-</span><span class='line'>  &#39;Hello World!&#39;
-</span><span class='line'>end
-</span></code></pre></td></tr></table></div></figure> <p>最低この3ファイル、なんですが、 gitにcommitしてherokuにdeployするのは あと自動生成される <code>Gemfile.lock</code> も必要になります。 <code>Gemfile.lock</code> は、一旦rubyを動かさないと出来ないのかな? <code>ruby app.rb</code> で試せます。</p> <p>herokuへは、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ heroku create my-application
-</span><span class='line'>$ git init
-</span><span class='line'>$ git add Gemfile Gemfile.lock Procfile app.rb
-</span><span class='line'>$ git commit -a
-</span><span class='line'>$ bundle install
-</span><span class='line'>$ git push heroku master
-</span></code></pre></td></tr></table></div></figure> <p>で上手く行く筈、なんですが、 git remoteを設定しないとダメかも。 その辺は適宜。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/17/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/19/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/07/30/android-petite-tips/">Android Petite Tips</a> </li> <li class="post"> <a href="/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/">How to Get the Result From DialogFragment</a> </li> <li class="post"> <a href="/blog/2018/07/18/caution-on-listview/">Caution on ListView</a> </li> <li class="post"> <a href="/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/">NullPointerException on Retrofit2 With Robolectric</a> </li> <li class="post"> <a href="/blog/2018/07/18/groovy-on-java9/">Groovy on Java9+</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>wget https://dl.eff.org/certbot-auto
+</span><span class='line'>chmod a+x certbot-auto
+</span><span class='line'>sudo chown root:root certbot-auto
+</span><span class='line'>sudo mv -i certbot-auto /usr/local/bin/
+</span><span class='line'>sudo certbot-auto certonly --webroot -w /var/lib/tomcat7/webapps/ROOT/ -m ls-support@jmtech.co.jp -d cx4.locationsupporter.info --agree-tos
+</span><span class='line'>sudo vi /etc/apache2/sites-enabled/default-ssl
+</span><span class='line'>================================================
+</span><span class='line'>	SSLCertificateFile /etc/letsencrypt/live/cx4.locationsupporter.info/cert.pem
+</span><span class='line'>	SSLCertificateKeyFile /etc/letsencrypt/live/cx4.locationsupporter.info/privkey.pem
+</span><span class='line'>	SSLCertificateChainFile /etc/letsencrypt/live/cx4.locationsupporter.info/chain.pem
+</span><span class='line'>================================================
+</span><span class='line'>echo &#39;#!/bin/sh&#39; &gt; certbot
+</span><span class='line'>echo &quot;cerbot-auto renew -q --post-hook &#39;service apache2 reload&#39;&quot; &gt;&gt; certbot
+</span><span class='line'>chmod a+x certbot
+</span><span class='line'>sudo chown root:root certbot
+</span><span class='line'>sudo mv -i certbot /etc/cron.daily/
+</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2016/07/04/lum-chan-urusei-yatsura/">Lum-chan(Urusei Yatsura)</a></h1> <p class="meta"> <time datetime="2016-07-04T01:39:00+09:00" pubdate data-updated=true> <span class="month">Jul</span> <span class="day">04</span>, <span class="year">2016</span> </time> | <a href="http://u-ryo.github.io//blog/2016/07/04/lum-chan-urusei-yatsura/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>古巣のJIPDECに派遣されて、 桂史郎くんから「またラム食べに行きましょう」 って言われて、 「ラムちゃん、行くんですね。 大丈夫だっちゃ、とか言うべきでしょうか」 って返したら、高嶋さんしか反応してくれなくて。 でも、それで調べてたら、 うる星やつら、 <a href="http://freeanimedougadesu.blog70.fc2.com/blog-entry-2809.html">全部見られる</a>んですね。 ルパン三世もそうでしたけど。 何か、今頃になって見ちゃいました。 リアルタイムだと、中学から高校の頃。 その頃って確かにこういうの、見てなかったです全然。 改めて見てみましたが、子供向けのドタバタですねー。 確かにこれならいつまでも続けられそうですね。 でも、なんて言うか、何か見ちゃうですね。 どうせ今見るなら、昔見といた方が良かったのかな。 これ、ラブコメでもあるから、今のぼくにはちょっとキュンときちゃいますね。</p> <p>というわけで、 command line 1行で見られるようになったので、 忘れないうちにメモ。</p> <h3>yourupload</h3> <p>youruploadのURL: <code>http://yourupload.com/watch/3OHj93</code> の最後の5文字を使って、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>export R=3OHj93;mpv --referrer=http://www.yourupload.com/jwplayer/jwplayer.flash.swf `wget -q -O - http://www.yourupload.com/embed/$R|grep og:video|sed &#39;s/.*content=&quot;\(.*\)\/video.mp4.*/\1\/video.mp4/g&#39;`
+</span></code></pre></td></tr></table></div></figure> <h3>mp4</h3> <p>mp4のURL: <code>http://mp4upload.com/embed-bbzw7vbui2r4-650x370.html</code> を利用します。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>export U=http://mp4upload.com/embed-bbzw7vbui2r4-650x370.html;mpv --referrer=http://www.mp4upload.com/player/J6/jwplayer.flash.swf `wget -q -O - $U|grep &#39;&quot;file&quot;: &quot;http:&#39;|awk -F\&quot; &#39;{print $4}&#39;`
+</span></code></pre></td></tr></table></div></figure> <p>どちらも、何故か一回で行かない時があります。 二度三度、retryすると、cacheにたまってうまく行くようになりました。 何ででしょう?</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/17/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/19/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a> </li> <li class="post"> <a href="/blog/2018/08/24/fluent-on-lombok/">Fluent on Lombok</a> </li> <li class="post"> <a href="/blog/2018/08/24/returning-xml-from-spring-boot-rest/">Returning XML From Spring Boot REST</a> </li> <li class="post"> <a href="/blog/2018/08/24/java8-datetime-api/">Java8 DateTime API</a> </li> <li class="post"> <a href="/blog/2018/08/23/getting-the-first-in-spring-data-jpa/">Getting the First in Spring DATA JPA</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.

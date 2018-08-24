@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/typescript/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Downloading a file on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/downloading-a-file-on-angular/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/downloading-a-file-on-angular/</id><content type="html"><![CDATA[<p>JHipsterのAngularでfileをdownloadするUIを作っていました。
+AタグlinkからserverのAPI叩いて、
+<code>Content-Disposition: attachment;filename=...</code>
+と返せば済むだろう、
+と思ってたんですが、そういえば認証通さねばなりません。
+となると一旦browserで全部受けてblobにしてから返さないとならなさそうです。
+認証header自体は、JHipsterならHTTPのinterceptorがあって、
+フツーに<code>this.http.get(...)</code>とかすれば勝手に付けてくれます。
+HTTP Headerの付け方は<a href="https://angular.io/guide/http#adding-headers">公式document</a>にある通りです。
+<a href="https://stackoverflow.com/questions/40966096/angular-2-download-csv-file-click-event-with-authentication?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">Angular 2 download .CSV file click event with authentication</a>を参考に、
+service化しました。
+<a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>を使うと楽そうですけど、
+そんなに互換性が重視されるわけではないことと大したcode量ではないことから、
+自分で書きました。
+最後、<code>window.open(url);</code>だとwindowが上がってきてしまうので、
+<a href="http://takasdev.hatenablog.com/entry/2017/06/15/211725">AngularでCSVをAPIからDLするときに色々したお話</a>にあるように、
+裏で自分で<code>&lt;a href="..."&gt;</code>作って自分で叩いて自分で消す、
+というように書いたら、うまく行きました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[new Map on Typescript]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/new-map-on-typescript/"/><updated>2018-08-17T16:23:20+09:00</updated><id>/blog/2018/08/17/new-map-on-typescript/</id><content type="html"><![CDATA[<p>Angular5で、といいますかTypescriptで、
+<code>Map</code>を一度にnewしたかったんですが、
+どうするのかなーって。</p>
+<p><code>new Map()</code>して<code>.set()</code>でmethod chainで繋いで行くのもありますが、
+一番簡単なのは、
+<code>new Map([['key1','val1'],['key2','val2'],['key3','val3']])</code>という
+ようなnested arrayでしょうか。
+cf. <a href="https://codecraft.tv/courses/angular/es6-typescript/mapset/">Map &amp; Set</a></p>
+<p>ただ、こうすると<code>map['key1']</code>や<code>delete(map['key2'])</code>は効かず、
+<code>map.get('key1')</code>や<code>map.delete('key2')</code>としないとならない、
+というのにハマりました。</p>
+]]></content></entry></feed>
