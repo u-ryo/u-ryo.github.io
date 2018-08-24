@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/sakura/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-24T14:09:00+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/sakura/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-24T14:43:11+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
 docker hostingをやっていて、
 credit card登録は強制されますが1 containerなら無料というので、
 専用SSH machine作って<a href="https://jhipster.tech/">JHipster</a>の開発/buildに使おうと企みました。</p>
-<p>cf. <a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a>,
-<a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></p>
+<p>cf.
+* <a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a>
+* <a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></p>
 <p>無料枠では<a href="https://hub.docker.com/">Docker Hub</a>にあるものしか使えないとはいえ、
 SSH serverの入ったdocker imageなんて色々あります。
 でも使ってみると、基本的にはrootでlogin、
 当然root loginをpermitしていて、
 securityを維持するにはrootのpasswordを変える、
 userを作って<code>.ssh/authorized_keys</code>を作る、
-なわけですが、けどroot loginのpermissionを切って
-sshdをrestartすると、docker終わっちゃうんですよね。
+とかなわけですが、けどroot loginのpermissionを切って
+sshdをrestartすると、docker終わっちゃうんですよね当たり前ですが。
 何かもっとこう、最初からUser作ってrootは禁止して、
 とかっていうの無いかなー、
 と物色していると、どれだったか忘れましたがgithub.comから
@@ -35,21 +36,21 @@ Github → Docker Hub → Arukasという流れになるように、
 え、shell script内じゃないとダメ?
 じゃぁっていうんで<code>entrypoint.sh</code>作って試してみたんですけど、
 Arukasで起動に失敗しました。Docker Hubではbuild通ったのに。
-起動時のmessageとかは出ないので、何が悪いのか分かりません。
+Arukasでは起動時のmessageとかは出ないので、何が悪いのか分かりません。
 困り果ててArukasのchatで相談投げると、翌営業日にはすぐreplyをくれて、
 動作確認のためということでpull requestまで作ってくれました。
 まずは早速そのまま取り込んで起動してみたんですが、
-やはり起動に失敗しました。
-けれども、別のaccountの方でENVを編集することで再起動させてみたところ
+やはり起動に失敗。
+けれども、別のaccountの方で<code>ENV</code>を編集することで再起動させてみたところ
 うまく行ったので、何だったんでしょう?
-要するにどちらでも上手く立ち上がるようになりました。
+結局今はどちらでも上手く立ち上がるようになりました。
 ありがとうございました。</p>
 <p>他、Arukasでハマったのは、開放するPort、
-後で色々開けようと思って3000番とか8080番とか色々書いておいたら、
+後で色々service立ち上げようと思って3000番とか8080番とか色々書いておいたら、
 Endpointが有効にならないんですね。
 これもArukasのchatで聞いて教えてもらったんですが、
-確かによく読むと、Docker image立ち上がった時点で
-書いたPortが全て開いてないとEndpointが有効にならない、
+確かによく読むと、「Docker image立ち上がった時点で
+書いたPortが全て開いてないとEndpointが有効にならない」
 と書いてありますね。
 「一番上に書いたPortだけEndpointに繋がる」というのは
 「アプリ編集」画面のEndpointのinfoに書いてあるからわかったんですが。</p>
@@ -73,7 +74,7 @@ custom domainも使えるとのことですが、
 CDNと同じくDNSを自分でcontrol出来ねばならないので、
 dynamic DNSでは使えず、custom domainは諦めました。</p>
 <p>成果物(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!):
-<a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/">uryooo/docker<em>alpine</em>sshd</a></p>
+<a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/"><code>uryooo/docker_alpine_sshd</code></a></p>
 <p>Githubにkeyを登録してあれば、Arukas AppでImageにこれ↑を指定し、
 <code>ENV</code>で<code>GITHUB_USER</code>をGithubのuser名、
 <code>PROXY_PASS</code>をreverse proxyしたいURL、
