@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/notification/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/notification/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Push Notification from command line by ntfy]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/push-notification-from-command-line-by-ntfy/"/><updated>2018-08-24T14:26:45+09:00</updated><id>/blog/2018/08/24/push-notification-from-command-line-by-ntfy/</id><content type="html"><![CDATA[<p>コマンドラインからPush通知が出来るというのでやってみました。
+(<a href="https://qiita.com/kjtanaka/items/8b0c90d28909e50e4a6d">Linuxのコマンドラインやスクリプトからスマホにプッシュ通知する。（ntfyというツールの紹介）</a>)
+<a href="https://www.pushbullet.com/">PushBullet</a>を使ってみました。
+ChromeやFirefoxだとextension、
+スマホだとアプリを入れます。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo apt install python-pip
+</span><span class='line'>pip install ntfy
+</span></code></pre></td></tr></table></div></figure>
+<p>で<code>ntfy</code>を入れ、<code>~/.ntfy.yml</code>にPushBulletのaccess_tokenを入れ、
+<code>~/.local/bin/ntfy -t 'Title' send 'notification contents'</code>
+とすると、送れました。
+スマホ側の音とか振動は、アプリでの設定にて調整可能です。</p>
+<p>最初よくわかってなかったのですが、
+PushBulletのアプリを入れると、
+電話帳やSMS(Short Messaging Service)もぶっこ抜いてくるんですね。
+それと知らずにSMS送ってしまい、相手に不審がられてしまいました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
 仕組みから考えて、WebSocketが必須なのかな?
 とかって勝手に思ってたんですが、違うんですね!
