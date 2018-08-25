@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T19:59:02+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T20:12:12+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
 <a href="http://jdk.java.net/11/">Java11</a>ではJava本体から削除され、
-<a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、</p>
-<!-- 何かむしろ本体に残されるAWT、Swingの方が、 -->
-<!-- スマホのソフトキーボード対応など進んでいるとか。 -->
-<p>でもGUI作るならJavaFXだろうなぁ、
+<a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、
+でもGUI作るならJavaFXだろうなぁ、
 簡単に描けるようにGroovyでないかなー、
 と思ったら、ありました<a href="http://groovyfx.org/">GroovyFX</a>。
 早速試してみると、
@@ -31,7 +29,8 @@
 </span><span class='line'>        at javafx.scene.control.Control.<span class="nt">&lt;clinit&gt;</span>(Control.java:87)
 </span><span class='line'>        ... 2 more
 </span></code></pre></td></tr></table></div></figure>
-<p>色々試すと、以下のような最低限のscriptでも同じように失敗するので、
+<p>色々試すと、以下のような最低限のscriptでもaaaを出力もせず
+全く同じerror messageを出すので、
 もうGrapeでgroovyfxを読み込んでいる時点でダメなんでしょう。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -48,10 +47,13 @@ Grapeに拘っていたので、
 して<code>new javafx.embed.swing.JFXPanel()</code>しておけば、
 <code>start{...}</code>が動くことがわかりversion落としてやってましたが、
 今改めて試してみると、
-Grapeじゃなくて<code>groovy -cp groovyfx-8.0.0.jar test.groovy</code>とすれば
+Grapeじゃなくて<code>groovy -cp groovyfx-8.0.0.jar test.groovy</code>と
+Class Pathを指定すれば、
 <code>new javafx.embed.swing.JFXPanel()</code>もなしに
 「Hello World」もその通り動くことが確認できました。
-そっかー、Grape諦めればよかったのかー。</p>
+そっかー、Grape諦めればよかったのかー。
+<code>-cp</code>を指定しても足りないところはGrapeも効くので、
+そぃでよかったでもんそ。</p>
 <p>あと、MySQLからdata読む必要があったので、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -72,13 +74,12 @@ Grapeじゃなくて<code>groovy -cp groovyfx-8.0.0.jar test.groovy</code>とす
 </span></code></pre></td></tr></table></div></figure>
 <p>とすればよいと。</p>
 <p>今回の目的は、画像を読み込んで、それにDBから読み込んだ値で四角形を描き、
-それを画像fileとして出力する、ちゅうもんじゃった。
+そぃを画像fileとして出力する、ちゅうもんじゃった。
 <code>scene.snapshot()</code>してから<code>SwingFXUtils.fromFXImage(scene, null)</code>で
 描画画像をbitmap化出来ます。
 それを<code>ImageIO.write()</code>で一発でfileに書けるがじゃっどん、
-そぃだと何か出来た画像が赤みがかっちゃってるんですよね。
-どうしたもんか、試行錯誤の挙句、
-ImageMagickのfrontend、
+そぃだと何か出来た画像が赤みがかっちゃっちょるんですよね。
+どげんしたもんか、試行錯誤の挙句、ImageMagickのfrontend、
 <a href="http://im4java.sourceforge.net/">im4java</a>を通すとうまく行きました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
