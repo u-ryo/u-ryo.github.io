@@ -1,4 +1,126 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T19:59:02+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
+<a href="http://jdk.java.net/11/">Java11</a>ではJava本体から削除され、
+<a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、</p>
+<!-- 何かむしろ本体に残されるAWT、Swingの方が、 -->
+<!-- スマホのソフトキーボード対応など進んでいるとか。 -->
+<p>でもGUI作るならJavaFXだろうなぁ、
+簡単に描けるようにGroovyでないかなー、
+と思ったら、ありました<a href="http://groovyfx.org/">GroovyFX</a>。
+早速試してみると、
+本家に書いてある「Hello, World」すら以下のように失敗しました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Caught: java.lang.ExceptionInInitializerError
+</span><span class='line'>java.lang.ExceptionInInitializerError
+</span><span class='line'>        at java_lang_Class$isAssignableFrom$1.call(Unknown Source)
+</span><span class='line'>        at com.sun.proxy.$Proxy8.onClassInfo(Unknown Source)
+</span><span class='line'>Caused by: java.lang.IllegalStateException: Toolkit not initialized
+</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.runLater(PlatformImpl.java:273)
+</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.runLater(PlatformImpl.java:268)
+</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.setPlatformUserAgentStylesheet(PlatformImpl.java:550)
+</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.setDefaultPlatformUserAgentStylesheet(PlatformImpl.java:512)
+</span><span class='line'>        at javafx.scene.control.Control.<span class="nt">&lt;clinit&gt;</span>(Control.java:87)
+</span><span class='line'>        ... 2 more
+</span></code></pre></td></tr></table></div></figure>
+<p>色々試すと、以下のような最低限のscriptでも同じように失敗するので、
+もうGrapeでgroovyfxを読み込んでいる時点でダメなんでしょう。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Grab(&#39;org.groovyfx:groovyfx:8.0.0&#39;)
+</span><span class='line'>import java.lang.*
+</span><span class='line'>println(&#39;aaa&#39;)
+</span></code></pre></td></tr></table></div></figure>
+<p>scriptに何を書いても無視される(そこまで到達しない)わけなので、
+事前に<code>new javafx.embed.swing.JFXPanel()</code>して
+JavaFX environmentを初期化する、ということも当然効きません。
+Grapeに拘っていたので、
+古いversion(<code>@Grab('org.codehaus.groovyfx:groovyfx:0.4.0')</code>)に
+して<code>new javafx.embed.swing.JFXPanel()</code>しておけば、
+<code>start{...}</code>が動くことがわかりversion落としてやってましたが、
+今改めて試してみると、
+Grapeじゃなくて<code>groovy -cp groovyfx-8.0.0.jar test.groovy</code>とすれば
+<code>new javafx.embed.swing.JFXPanel()</code>もなしに
+「Hello World」もその通り動くことが確認できました。
+そっかー、Grape諦めればよかったのかー。</p>
+<p>あと、MySQLからdata読む必要があったので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@GrabConfig(systemClassLoader=true)
+</span><span class='line'>@Grab(&#39;mysql:mysql-connector-java&#39;)
+</span><span class='line'>import groovy.sql.*
+</span><span class='line'>
+</span><span class='line'>def sql = Sql.newInstance(&#39;jdbc:mysql://localhost:3306/database?useSSL=false&#39;, &#39;user&#39;, &#39;password&#39;, &#39;com.mysql.cj.jdbc.Driver&#39;)
+</span><span class='line'>sql.eachRow(&#39;SELECT * FROM table WHERE filename LIKE ?&#39;, [&#39;%&#39; + filename]) { r -&gt;
+</span><span class='line'>  ...
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>とすればよいと。</p>
+<p>今回の目的は、画像を読み込んで、それにDBから読み込んだ値で四角形を描き、
+それを画像fileとして出力する、ちゅうもんじゃった。
+<code>scene.snapshot()</code>してから<code>SwingFXUtils.fromFXImage(scene, null)</code>で
+描画画像をbitmap化出来ます。
+それを<code>ImageIO.write()</code>で一発でfileに書けるがじゃっどん、
+そぃだと何か出来た画像が赤みがかっちゃってるんですよね。
+どうしたもんか、試行錯誤の挙句、
+ImageMagickのfrontend、
+<a href="http://im4java.sourceforge.net/">im4java</a>を通すとうまく行きました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import org.im4java.core.*
+</span><span class='line'>
+</span><span class='line'>color = new Color(0.753, 0.302, 0.314, 0.4)
+</span><span class='line'>op = new IMOperation().addImage().quality(100.0).strip().addImage()
+</span><span class='line'>convert = new ConvertCmd()
+</span><span class='line'>
+</span><span class='line'>start {
+</span><span class='line'>  st = stage(title: &#39;any words OK&#39;, visible: true) {
+</span><span class='line'>    s = scene(fill: BLACK, width: w, height: h) {
+</span><span class='line'>      imageView(new Image(Paths.get(imageFileName).toUri().toString()))
+</span><span class='line'>      rectangles.values().forEach { v -&gt;
+</span><span class='line'>        rectangle(x:v[0], y:v[1], width:v[2], height:v[3], fill:color)
+</span><span class='line'>      }
+</span><span class='line'>    }.snapshot(new WritableImage(w, h))
+</span><span class='line'>    convert.run(op, SwingFXUtils.fromFXImage(s, null), imageFileName.replace(&#39;.jpg&#39;, &#39;_.jpg&#39;))
+</span><span class='line'>    // ImageIO.write(SwingFXUtils.fromFXImage(s, null), &#39;jpg&#39;, new File(imageFileName.replace(&#39;.jpg&#39;, &#39;_.jpg&#39;)))
+</span><span class='line'>  }
+</span><span class='line'>  st.close()
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>最後、<code>stage.close()</code>すればwindowは開かずに済みます。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T00:08:47+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
 methodのcall回数をassertする必要がありまして。
 <code>someClass = Spy(SomeClass)</code>でspyにすると、
 <code>3 * someClass.targetMethod(_, _)</code>といったようにassert出来るのですが、
@@ -33,7 +155,7 @@ methodのcall回数をassertする必要がありまして。
 <code>3 * someClass.targetMethod(_, _)</code>の部分には、
 変数とか入れられません。即ち、
 <code>(3 + n) * someClass.targetMethod(_, _)</code>とかはダメでした。</p>
-]]></content></entry><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T10:05:54+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
+]]></content></entry><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T07:46:02+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
 Java9以上のGroovyでmoduleが足りない、
 具体的には、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -46,7 +168,7 @@ groovyではどうやって<code>--add-modules</code>すればいいのかなっ
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ JAVA_OPTS=&#39;--add-modules=ALL-SYSTEM&#39; groovy ...
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
 <p>最近のpackage管理は、便利になってるんですけど、用途によって色々と分かれてしまっているので、却って使いづらいというか。<code>apt-get install</code>でいいじゃん... ってのは、ダメなんですかねぇ。</p>
 <ul>
 <li><a href="http://sdkman.io/">SDKMAN!</a>(GVMの後継。Java系(Groovy,Ant,Kotlin,Maven,Scala,grails,JBoss Forge,...)のinstall、version管理に。installationは<code>curl -s api.sdkman.io|bash</code>)</li>
@@ -54,11 +176,11 @@ groovyではどうやって<code>--add-modules</code>すればいいのかなっ
 <li><a href="https://github.com/cask/cask">cask</a>(<a href="http://qiita.com/tadsan/items/6c658cc471be61cbc8f6">2015年Emacsパッケージ事情</a>)</li>
 <li><a href="https://github.com/dimitri/el-get">El-Get</a>(<a href="http://tarao.hatenablog.com/entry/20150221/1424518030">Caskはもう古い、これからはEl-Get - いまどきのEmacsパッケージ管理</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
+]]></content></entry><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
 <a href="http://kyon-mm.hatenablog.com/entry/2014/08/06/132327">Spockのテストレポートが想像以上に凄い件について</a></p>
 <p>Gradleで作成されるReportで満足してしまっていましたが、
 もっと綺麗に出来るんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
 method前段に書いた動作例documentをtestとして動かせるそうな。
 同じようなのがJavaにも無いかなと探してみると、
 <code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
@@ -120,9 +242,9 @@ method前段に書いた動作例documentをtestとして動かせるそうな�
 こんなのがあったなんてびっくりポンです。
 <a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
 Javascriptで記述するというのでGroovyの方がいいですよね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
+]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
 Objectの中身を見るのって<code>.dump()</code>より<code>.inspect()</code>なんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
+]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
 要はSeleniumのwrapperなんですが、
 Page Modelとか駆使すると、
 GUI testもspockのSpec本体には具体的なtag名出さずにlogicalに書けますね。
@@ -236,7 +358,7 @@ html5ではaccessibilityの観点から廃止されてるのに。</p>
 </span><span class='line'>def http = new HttpURLClient(url: &#39;https://my-ocr.herokuapp.com/&#39;)
 </span><span class='line'>tryLogin(userId, password, http.request(path: jsessionId).data)
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
 <h2>Example with line numbers:</h2>
 <h4>Code:</h4>
 <p>&#096;&#096;&#096;groovy HelloWorld.groovy<br>
@@ -254,7 +376,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <figure class='code'><figcaption><span>HelloWorld.groovy</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='groovy'><span class='line'><span class="n">println</span> <span class="s2">&quot;Hello, world!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/gist-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/gist-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -269,7 +391,7 @@ println "Hello, world!"<br>
 <div id="gistdc3bf4796acd6a1439bc">
   <script src="https://gist.github.com/dc3bf4796acd6a1439bc.js"></script>
 </div></p>
-]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/jsfiddle-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/jsfiddle-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='jsp'><span class='line'><span class="k">&lt;%=</span> <span class="n">jsfiddle</span> <span class="nl">shorttag:</span> <span class="err">&#39;</span><span class="mi">8</span><span class="n">wcwq</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">width:</span> <span class="err">&#39;</span><span class="mi">90</span><span class="o">%</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">skin:</span> <span class="err">&#39;</span><span class="n">light</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">tabs:</span> <span class="err">&#39;</span><span class="n">html</span><span class="o">,</span><span class="n">css</span><span class="o">,</span><span class="n">js</span><span class="o">,</span><span class="n">result</span><span class="err">&#39;</span> <span class="k">%&gt;</span>
@@ -280,7 +402,7 @@ println "Hello, world!"<br>
 <iframe style="width: 90%; height: 300px" frameborder="0" seamless="seamless"
         src="http://jsfiddle.net/8wcwq/embedded/html,css,js,result/light/"></iframe>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/image-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/image-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Note, that theme <code>img</code> tag can handle all the attributes of standard HTML 'img' tag, such as align, border, etc.</p>
 <h2>Link to the internal image:</h2>
 <h4>Code:</h4>
@@ -298,7 +420,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <p><img src='http://cdn1.sysgears.com/images/grain/logo-cacd6d0f221a8f8cab3c46db5b0e730a.png' height='100' width='200' >
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/html5-video-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/html5-video-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -331,7 +453,7 @@ println "Hello, world!"<br>
 </video>
 
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/raw-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/raw-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Raw tag is used here to prevent groovy code parsing.</p>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -339,7 +461,7 @@ println "Hello, world!"<br>
 </span></code></pre></td></tr></table></div></figure>
 <h4>Result:</h4>
 <p>${ 2 + 2 } = 4</p>
-]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/pullquote-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/pullquote-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
 <h2>Right-aligned Quote</h2>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -398,7 +520,7 @@ esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat n
 qui officia deserunt mollit anim id est laborum.
     </span>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/blockqoute-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/blockqoute-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

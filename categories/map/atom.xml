@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/map/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[List to Map in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/list-to-map-in-java/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/list-to-map-in-java/</id><content type="html"><![CDATA[<p>Javaで<code>List</code>を<code>Map</code>にしたかったんですね。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/map/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[List to Map in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/list-to-map-in-java/"/><updated>2018-08-21T02:21:40+09:00</updated><id>/blog/2018/08/21/list-to-map-in-java/</id><content type="html"><![CDATA[<p>Javaで<code>List</code>を<code>Map</code>にしたかったんですね。
 <a href="https://www.sejuku.net/blog/15900">【Java入門】List⇔Map変換でJava8のStreamを使う方法</a>を見ました。
 ここは、いいこと書いてあるんですけど能書きが長い、Java8以前の話は不要(at least for me)、広告が多い感じがする、のが...</p>
 <p>基本は単純に<code>Collectors.toMap(s-&gt;key, s-&gt;value)</code>でいけますと。
@@ -43,7 +43,7 @@
 </pre></td><td class='code'><pre><code class='html'><span class='line'>jshell&gt; Stream.of(&quot;A quick brown fox jumps over the lazy dog.&quot;.split(&quot; &quot;)).collect(Collectors.groupingBy(s-&gt;s.length()))
 </span><span class='line'>$12 ==&gt; {1=[A], 3=[fox, the], 4=[over, lazy, dog.], 5=[quick, brown, jumps]}
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[new Map on Typescript]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/new-map-on-typescript/"/><updated>2018-08-17T16:23:20+09:00</updated><id>/blog/2018/08/17/new-map-on-typescript/</id><content type="html"><![CDATA[<p>Angular5で、といいますかTypescriptで、
+]]></content></entry><entry><title type="html"><![CDATA[new Map on Typescript]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/new-map-on-typescript/"/><updated>2018-08-17T20:29:09+09:00</updated><id>/blog/2018/08/17/new-map-on-typescript/</id><content type="html"><![CDATA[<p>Angular5で、といいますかTypescriptで、
 <code>Map</code>を一度にnewしたかったんですが、
 どうするのかなーって。</p>
 <p><code>new Map()</code>して<code>.set()</code>でmethod chainで繋いで行くのもありますが、
