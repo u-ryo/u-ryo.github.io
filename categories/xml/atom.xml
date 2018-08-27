@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/xml/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/xml/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T11:13:28+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
 <a href="http://blog.rakugakibox.net/entry/2014/11/23/java_spring_boot_rest">Java: Spring Boot で REST なアプリを作ってみる</a>を見てみて、
 <code>@XmlRootElement</code>を付ければいい?
 ついでにtag名がclass名と違うので、
@@ -6,7 +6,7 @@
 <p>あと、<a href="https://projectlombok.org">Lombok</a>を使ったせいなのか、
 各fieldに<code>@XmlElement</code>を付けないと、出て来ませんでした。
 そういうもの?!</p>
-]]></content></entry><entry><title type="html"><![CDATA[XML marshaling in Spring Boot]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/xml-marshaling-in-spring-boot/"/><updated>2018-08-19T22:52:54+09:00</updated><id>/blog/2018/08/17/xml-marshaling-in-spring-boot/</id><content type="html"><![CDATA[<p>Spring Boot applicationで単一xml fileを返すREST作ってあって、
+]]></content></entry><entry><title type="html"><![CDATA[XML marshaling in Spring Boot]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/xml-marshaling-in-spring-boot/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/17/xml-marshaling-in-spring-boot/</id><content type="html"><![CDATA[<p>Spring Boot applicationで単一xml fileを返すREST作ってあって、
 そこではxmlと同じ構造のJava bean作って返すだけで、
 marshalingについてはframework側がよしなにやってくれました。
 client側がHTTP Request Headerに<code>Accept: application/xml</code>とすれば。

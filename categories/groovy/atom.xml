@@ -1,4 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T20:12:12+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:20:15+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[時々、「全く同じgroovy scriptなのにあるマシンでだけ
+起動に失敗する」ことがあります。
+error messageはcaseによりますが、例えば直近では以下のようなものでした。
+
+null
+$ groovy webpush.groovy
+org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+General error during conversion: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
+
+java.lang.RuntimeException: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
+        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+        at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+        at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+        at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:83)
+        at org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:77)
+        at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:84)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:59)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:238)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:250)
+        at groovy.grape.GrapeIvy.getDependencies(GrapeIvy.groovy:464)
+   :
+   :
+null
+
+要するに「guava-19.0.jarのdownloadに失敗した」と。
+`~/.groovy/grapes/com.google.guava/guava/`を見ると、
+確かに`jars` directoryがありません。
+じゃぁっていうんで、自分で`guava-19.0.jar`を落としてきて、
+`jars/`作ってその下に置いても、同じ結果です。
+Groovyが悪いのかJavaが悪いのかGrapeが悪いのか設定が悪いのか
+versionが悪いのか、何なのかが分かりません。
+普通に動くマシンでのJava/Groovyのversionを合わせてもダメ、
+各libraryのversionを上げてもダメ、
+Guava 19.0を`@Grab`に明示的に入れてもダメ、
+[Groovy - Grab - download failed](https://stackoverflow.com/questions/16871792/groovy-grab-download-failed)を見て`~/.groovy`以下や`~/.groovy/grapes`を削除してもダメ、
+と途方に暮れました。
+
+結局、以下のどちらかの方法で立ち上がるようになりました。
+
+1. `~/.groovy/grapes/com.google.guava/guava/jars`ではなく`~/.groovy/grapes/com.google.guava/guava/bundles`にして、その下に落としてきた`guava-19.0.jar`を置く
+1. 他の多くのlibrariesと同様に`~/.groovy/grapes/com.google.guava/guava/jars`に落としてきた`guava-19.0.jar`を置き、`~/.groovy/grapes/com.google.guava/guava/ivy-19.0.xml`の`<publications>`の`<artifact name="guava" type="bundle" ext="jar" conf="master"/>`の`type`を`bundle`から`jar`にする
+
+上手く行っていたマシンでは、
+`~/.groovy/grapes/com.google.guava/guava/bundles`が出来ており、
+その下に`guava-19.0.jar`もフツーにありました。
+上手く行かないマシンではなぜ`bundles`が出来ないのか、は未だ不明ですが、
+取り敢えず前に進める方法がわかったので記しています。
+]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:28:16+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
+起動に失敗する」ことがあります。
+error messageはcaseによりますが、例えば直近では以下のようなものでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ groovy webpush.groovy
+</span><span class='line'>org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+</span><span class='line'>General error during conversion: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
+</span><span class='line'>
+</span><span class='line'>java.lang.RuntimeException: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
+</span><span class='line'>        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+</span><span class='line'>        at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+</span><span class='line'>        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+</span><span class='line'>        at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+</span><span class='line'>        at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:83)
+</span><span class='line'>        at org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:77)
+</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:84)
+</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:59)
+</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:238)
+</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:250)
+</span><span class='line'>        at groovy.grape.GrapeIvy.getDependencies(GrapeIvy.groovy:464)
+</span><span class='line'>   :
+</span><span class='line'>   :
+</span></code></pre></td></tr></table></div></figure>
+<p>要するに「guava-19.0.jarのdownloadに失敗した」と。
+<code>~/.groovy/grapes/com.google.guava/guava/</code>を見ると、
+確かに他のlibrariesのように<code>jars</code> directoryがありませんし、
+当然jar fileもありません。
+じゃぁっていうんで、自分で<code>guava-19.0.jar</code>を落としてきて、
+<code>jars/</code>作ってその下に置いても、同じ結果です。
+Groovyが悪いのかJavaが悪いのかGrapeが悪いのか設定が悪いのか
+versionが悪いのか、何なのか全然分かりません。
+普通に動くマシンでのJava/Groovyとversionを合わせてもダメ、
+Grapeする各libraryのversionを上げてもダメ、
+Guava 19.0を明示的に<code>@Grab</code>に入れてもダメ、
+<a href="https://stackoverflow.com/questions/16871792/groovy-grab-download-failed">Groovy - Grab - download failed</a>を見て<code>~/.groovy</code>以下や<code>~/.groovy/grapes</code>を削除してもダメ、
+と途方に暮れました。
+いつもは面倒なので諦めて、
+その動くマシンでやっていつのですけれども、
+今回は粘って原因究明してみました。</p>
+<p>結局、以下のどちらかの方法で立ち上がるようになりました。</p>
+<ol>
+<li><code>~/.groovy/grapes/com.google.guava/guava/jars</code>ではなく<code>~/.groovy/grapes/com.google.guava/guava/bundles</code>にして、その下に落としてきた<code>guava-19.0.jar</code>を置く</li>
+<li>他の多くのlibrariesと同様に<code>~/.groovy/grapes/com.google.guava/guava/jars</code>に落としてきた<code>guava-19.0.jar</code>を置き、<code>~/.groovy/grapes/com.google.guava/guava/ivy-19.0.xml</code>の<code>&lt;publications&gt;</code>下の<code>&lt;artifact name="guava" type="bundle" ext="jar" conf="master"/&gt;</code>の<code>type</code> attributeを<code>bundle</code>から<code>jar</code>にする</li>
+</ol>
+<p>上手く行っていたマシンでは、
+<code>~/.groovy/grapes/com.google.guava/guava/bundles</code>が出来ており、
+その下に<code>guava-19.0.jar</code>もフツーにありました。
+上手く行かないマシンではなぜ<code>bundles</code>が出来ないのか、は未だ不明ですが、
+取り敢えず前に進める方法がわかったので記しています。</p>
+<p>あぁ、あと、このようにGrapeに失敗すると、
+<code>~/.groovy/grapes/</code>以下に<code>resolved-caller-all-caller-working73.properties</code>と<code>resolved-caller-all-caller-working73.xml</code>といったfilesが澱のように溜まっていくので、都度削除した方がいいです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-27T13:53:03+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
 <a href="http://jdk.java.net/11/">Java11</a>ではJava本体から削除され、
 <a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、
 でもGUI作るならJavaFXだろうなぁ、
@@ -121,7 +237,7 @@ Class Pathを指定すれば、
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
 <p>最後、<code>stage.close()</code>すればwindowは開かずに済みます。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T00:08:47+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
+]]></content></entry><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
 methodのcall回数をassertする必要がありまして。
 <code>someClass = Spy(SomeClass)</code>でspyにすると、
 <code>3 * someClass.targetMethod(_, _)</code>といったようにassert出来るのですが、
@@ -156,7 +272,7 @@ methodのcall回数をassertする必要がありまして。
 <code>3 * someClass.targetMethod(_, _)</code>の部分には、
 変数とか入れられません。即ち、
 <code>(3 + n) * someClass.targetMethod(_, _)</code>とかはダメでした。</p>
-]]></content></entry><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T07:46:02+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
+]]></content></entry><entry><title type="html"><![CDATA[groovy on Java9+]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/groovy-on-java9/"/><updated>2018-07-18T10:05:54+09:00</updated><id>/blog/2018/07/18/groovy-on-java9/</id><content type="html"><![CDATA[<p>いつも忘れちゃうので。
 Java9以上のGroovyでmoduleが足りない、
 具体的には、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -169,7 +285,7 @@ groovyではどうやって<code>--add-modules</code>すればいいのかなっ
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ JAVA_OPTS=&#39;--add-modules=ALL-SYSTEM&#39; groovy ...
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Recent package managements]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-package-managements/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/recent-package-managements/</id><content type="html"><![CDATA[<p>これも忘れないうちに。</p>
 <p>最近のpackage管理は、便利になってるんですけど、用途によって色々と分かれてしまっているので、却って使いづらいというか。<code>apt-get install</code>でいいじゃん... ってのは、ダメなんですかねぇ。</p>
 <ul>
 <li><a href="http://sdkman.io/">SDKMAN!</a>(GVMの後継。Java系(Groovy,Ant,Kotlin,Maven,Scala,grails,JBoss Forge,...)のinstall、version管理に。installationは<code>curl -s api.sdkman.io|bash</code>)</li>
@@ -177,11 +293,11 @@ groovyではどうやって<code>--add-modules</code>すればいいのかなっ
 <li><a href="https://github.com/cask/cask">cask</a>(<a href="http://qiita.com/tadsan/items/6c658cc471be61cbc8f6">2015年Emacsパッケージ事情</a>)</li>
 <li><a href="https://github.com/dimitri/el-get">El-Get</a>(<a href="http://tarao.hatenablog.com/entry/20150221/1424518030">Caskはもう古い、これからはEl-Get - いまどきのEmacsパッケージ管理</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
+]]></content></entry><entry><title type="html"><![CDATA[Spock-Reports]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/spock-reports/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/06/spock-reports/</id><content type="html"><![CDATA[<p>ちょっと古い記事ですが、
 <a href="http://kyon-mm.hatenablog.com/entry/2014/08/06/132327">Spockのテストレポートが想像以上に凄い件について</a></p>
 <p>Gradleで作成されるReportで満足してしまっていましたが、
 もっと綺麗に出来るんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
+]]></content></entry><entry><title type="html"><![CDATA[Testing code in Javadoc using Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/testing-code-in-javadoc-using-groovy/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/03/17/testing-code-in-javadoc-using-groovy/</id><content type="html"><![CDATA[<p>pythonには<a href="http://docs.python.jp/2/library/doctest.html">doctest</a>というのがあって、
 method前段に書いた動作例documentをtestとして動かせるそうな。
 同じようなのがJavaにも無いかなと探してみると、
 <code>groovy.util.JavadocAssertionTestSuite</code>を使ってJavadocにtesting codeを書けるんだそう。
@@ -243,9 +359,9 @@ method前段に書いた動作例documentをtestとして動かせるそうな�
 こんなのがあったなんてびっくりポンです。
 <a href="http://cscott.net/Projects/JDoctest/">JDoctest</a>というのもありますが、
 Javascriptで記述するというのでGroovyの方がいいですよね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
+]]></content></entry><entry><title type="html"><![CDATA[Debugging Groovy]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/debugging-groovy/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/03/17/debugging-groovy/</id><content type="html"><![CDATA[<p>基本<code>println</code>で頑張るんですが、
 Objectの中身を見るのって<code>.dump()</code>より<code>.inspect()</code>なんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
+]]></content></entry><entry><title type="html"><![CDATA[geb is great]]></title><link href="http://u-ryo.github.io//blog/2016/03/16/geb-is-great/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/03/16/geb-is-great/</id><content type="html"><![CDATA[<p><a href="http://www.gebish.org/">Geb</a>([jeb])が凄いです。
 要はSeleniumのwrapperなんですが、
 Page Modelとか駆使すると、
 GUI testもspockのSpec本体には具体的なtag名出さずにlogicalに書けますね。
@@ -359,7 +475,7 @@ html5ではaccessibilityの観点から廃止されてるのに。</p>
 </span><span class='line'>def http = new HttpURLClient(url: &#39;https://my-ocr.herokuapp.com/&#39;)
 </span><span class='line'>tryLogin(userId, password, http.request(path: jsessionId).data)
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Post sample with code]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/post-sample-with-code/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/10/post-sample-with-code/</id><content type="html"><![CDATA[<!--more-->
 <h2>Example with line numbers:</h2>
 <h4>Code:</h4>
 <p>&#096;&#096;&#096;groovy HelloWorld.groovy<br>
@@ -377,7 +493,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <figure class='code'><figcaption><span>HelloWorld.groovy</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='groovy'><span class='line'><span class="n">println</span> <span class="s2">&quot;Hello, world!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/gist-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Gist tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/gist-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/10/gist-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -392,7 +508,7 @@ println "Hello, world!"<br>
 <div id="gistdc3bf4796acd6a1439bc">
   <script src="https://gist.github.com/dc3bf4796acd6a1439bc.js"></script>
 </div></p>
-]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/jsfiddle-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[jsFiddle tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/10/jsfiddle-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/10/jsfiddle-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='jsp'><span class='line'><span class="k">&lt;%=</span> <span class="n">jsfiddle</span> <span class="nl">shorttag:</span> <span class="err">&#39;</span><span class="mi">8</span><span class="n">wcwq</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">width:</span> <span class="err">&#39;</span><span class="mi">90</span><span class="o">%</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">skin:</span> <span class="err">&#39;</span><span class="n">light</span><span class="err">&#39;</span><span class="o">,</span> <span class="nl">tabs:</span> <span class="err">&#39;</span><span class="n">html</span><span class="o">,</span><span class="n">css</span><span class="o">,</span><span class="n">js</span><span class="o">,</span><span class="n">result</span><span class="err">&#39;</span> <span class="k">%&gt;</span>
@@ -403,7 +519,7 @@ println "Hello, world!"<br>
 <iframe style="width: 90%; height: 300px" frameborder="0" seamless="seamless"
         src="http://jsfiddle.net/8wcwq/embedded/html,css,js,result/light/"></iframe>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/image-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Image tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/image-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/09/image-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Note, that theme <code>img</code> tag can handle all the attributes of standard HTML 'img' tag, such as align, border, etc.</p>
 <h2>Link to the internal image:</h2>
 <h4>Code:</h4>
@@ -421,7 +537,7 @@ println "Hello, world!"<br>
 <h4>Result:</h4>
 <p><img src='http://cdn1.sysgears.com/images/grain/logo-cacd6d0f221a8f8cab3c46db5b0e730a.png' height='100' width='200' >
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/html5-video-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[HTML5 Video tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/09/html5-video-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/09/html5-video-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -454,7 +570,7 @@ println "Hello, world!"<br>
 </video>
 
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/raw-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Raw tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/raw-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/08/raw-tag/</id><content type="html"><![CDATA[<!--more-->
 <p>Raw tag is used here to prevent groovy code parsing.</p>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -462,7 +578,7 @@ println "Hello, world!"<br>
 </span></code></pre></td></tr></table></div></figure>
 <h4>Result:</h4>
 <p>${ 2 + 2 } = 4</p>
-]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/pullquote-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Pullquote tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/pullquote-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/08/pullquote-tag/</id><content type="html"><![CDATA[<!--more-->
 <h2>Right-aligned Quote</h2>
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -521,7 +637,7 @@ esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat n
 qui officia deserunt mollit anim id est laborum.
     </span>
 </p>
-]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/blockqoute-tag/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
+]]></content></entry><entry><title type="html"><![CDATA[Blockqoute tag]]></title><link href="http://u-ryo.github.io//blog/2014/01/08/blockqoute-tag/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2014/01/08/blockqoute-tag/</id><content type="html"><![CDATA[<!--more-->
 <h4>Code:</h4>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

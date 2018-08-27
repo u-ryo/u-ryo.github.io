@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/machine-learning/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[RapidMiner]]></title><link href="http://u-ryo.github.io//blog/2018/05/11/rapidminer/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/05/11/rapidminer/</id><content type="html"><![CDATA[<p>今、会社の業務の一部(先月から0.75)でAI、機械学習をやっています。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/machine-learning/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[RapidMiner]]></title><link href="http://u-ryo.github.io//blog/2018/05/11/rapidminer/"/><updated>2018-05-11T18:01:35+09:00</updated><id>/blog/2018/05/11/rapidminer/</id><content type="html"><![CDATA[<p>今、会社の業務の一部(先月から0.75)でAI、機械学習をやっています。
 題材として<a href="http://signate.jp/">Signate</a>の
 <a href="https://signate.jp/competitions/1">【練習問題】銀行の顧客ターゲティング</a>
 をやっています。
@@ -63,7 +63,7 @@ Azure上のVM with GPUとか貰って試していたのですが、
 <p>これ以上AUCを上げるには、
 RapidMinerじゃない何か、RかPythonを使って、
 入力dataもone-hot vector化して、とかしないとならないような気がします。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Easy AI APIs]]></title><link href="http://u-ryo.github.io//blog/2017/08/23/easy-ai-apis/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/08/23/easy-ai-apis/</id><content type="html"><![CDATA[<p><a href="http://programming-study.com/trouble/ai5/">誰でも簡単に人工知能を使えるサービスがヤバすぎる！</a></p>
+]]></content></entry><entry><title type="html"><![CDATA[Easy AI APIs]]></title><link href="http://u-ryo.github.io//blog/2017/08/23/easy-ai-apis/"/><updated>2017-08-23T10:12:53+09:00</updated><id>/blog/2017/08/23/easy-ai-apis/</id><content type="html"><![CDATA[<p><a href="http://programming-study.com/trouble/ai5/">誰でも簡単に人工知能を使えるサービスがヤバすぎる！</a></p>
 <p>この辺の技術は、変化が激しいのでその時々で十分に調査する必要がありますね。
 それにしても、随分簡単に使えそうになっていますね。
 自分でやってみないと、何とも言えませんが...</p>

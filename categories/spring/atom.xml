@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Getting the first in Spring DATA JPA]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/getting-the-first-in-spring-data-jpa/"/><updated>2018-08-23T19:59:27+09:00</updated><id>/blog/2018/08/23/getting-the-first-in-spring-data-jpa/</id><content type="html"><![CDATA[<p>Spring DATA JPAで、「最新のもの一つ」を取得したかったんです。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Getting the first in Spring DATA JPA]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/getting-the-first-in-spring-data-jpa/"/><updated>2018-08-23T18:27:06+09:00</updated><id>/blog/2018/08/23/getting-the-first-in-spring-data-jpa/</id><content type="html"><![CDATA[<p>Spring DATA JPAで、「最新のもの一つ」を取得したかったんです。
 Spring DATA JPAは、<code>findFirstBy...</code>とかってmethodに命名すれば
 自動的にSQL作ってくれるらしいんですが(<a href="https://qiita.com/sndr/items/af7d12be264c2cc4b252">【Spring Data JPA】自動実装されるメソッドの命名ルール</a>)、
 目的のものではlogin userを自動的にparameterizeしたかったので、
@@ -14,7 +14,7 @@ SQL文にはMySQLでいうところの<code>limit=1</code>などはつけずに�
 <li><a href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></li>
 <li><a href="https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">setMaxResults for Spring-Data-JPA annotation?</a></li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Path Parameter for DateTime in Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/"/><updated>2018-08-21T21:58:33+09:00</updated><id>/blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootのRESTで、
+]]></content></entry><entry><title type="html"><![CDATA[Path Parameter for DateTime in Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootのRESTで、
 日付をPath Parameterで受け取りたかったんですね。
 <a href="https://qiita.com/Tsukuru/items/1c872f51d25c6d452fbc">GetMappingでURLパラメータからValueを取得する～LocalDate編～</a>に書いてある通りですけど、
 <code>@DateTimeFormat(pattern="yyyy-MM-dd")</code>なんて使えるんですね。</p>
@@ -23,7 +23,7 @@ SQL文にはMySQLでいうところの<code>limit=1</code>などはつけずに�
 </pre></td><td class='code'><pre><code class='html'><span class='line'>@GetMapping(value=&quot;/element/{since}&quot;)
 </span><span class='line'>public Element getElement(@DateTimeFormat(pattern=&quot;yyyyMMdd&quot;) @PathVariable LocalDate since) {...
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[XML marshaling in Spring Boot]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/xml-marshaling-in-spring-boot/"/><updated>2018-08-19T22:52:54+09:00</updated><id>/blog/2018/08/17/xml-marshaling-in-spring-boot/</id><content type="html"><![CDATA[<p>Spring Boot applicationで単一xml fileを返すREST作ってあって、
+]]></content></entry><entry><title type="html"><![CDATA[XML marshaling in Spring Boot]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/xml-marshaling-in-spring-boot/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/17/xml-marshaling-in-spring-boot/</id><content type="html"><![CDATA[<p>Spring Boot applicationで単一xml fileを返すREST作ってあって、
 そこではxmlと同じ構造のJava bean作って返すだけで、
 marshalingについてはframework側がよしなにやってくれました。
 client側がHTTP Request Headerに<code>Accept: application/xml</code>とすれば。
@@ -57,7 +57,7 @@ ZIP中でのXMLのmarshallingをJAXBのものでやるようにして
 <code>context = JAXBContext.newInstance(Bean.class)</code>して
 <code>marshaller = context.createMarshaller()</code>作って、
 <code>marshaller.marshal(bean, zipOutputStream)</code>すればいいんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
 <p>参考: <a href="https://dev.classmethod.jp/etc/wiremock-practice/">WireMockを使って通信に関するテストをやってみよう</a></p>
 <p>使う時は<code>build.gradle</code>で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -130,7 +130,7 @@ Test Class内で<code>@Autowired</code>してるservice classのmockが必要に
 特に<code>build.grade</code>に記述せずとも<code>import org.mockito.Mock;</code>して
 mockitoの<code>@Mock</code>が使えるんですね。
 そう言えば、元々<code>import org.mockito.MockitoAnnotations;</code>されてますね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
 <ul>
 <li><p>unit test実行は<code>gradle test</code></p>
 </li>
@@ -161,7 +161,7 @@ mockitoの<code>@Mock</code>が使えるんですね。
 <li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html">11. Testing Method Security</a>(Spring公式doc)</li>
 <li><a href="https://ishiis.net/2016/11/12/spring-boot-security-unit-test/">Spring Securityを使っているWebアプリのUnitテスト</a>(2016/11/12)</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
 仕組みから考えて、WebSocketが必須なのかな?
 とかって勝手に思ってたんですが、違うんですね!
@@ -198,7 +198,7 @@ PWAとWeb Push Notificationは別なんですね。</p>
 <p>実際に自分で真似して書いてみて、
 値やcodeを色々変えて試してみることで、
 大分わかってきました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T14:42:38+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、

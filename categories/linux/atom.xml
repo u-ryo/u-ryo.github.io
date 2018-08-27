@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/linux/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[hostapd after that...]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/hostapd-after-that/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/06/hostapd-after-that/</id><content type="html"><![CDATA[<p>何か、不安定ですhostapd。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/linux/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[hostapd after that...]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/hostapd-after-that/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/06/hostapd-after-that/</id><content type="html"><![CDATA[<p>何か、不安定ですhostapd。
 昨夜は、何故か出勤後の9:58に勝手に謎のrebootしてたし、
 今日も帰宅後、NotePCがWiFiで繋がらないから試行錯誤すると、
 一旦USB WiFiドングル抜き差ししてhostapdをstop/startしたら、漸く。
 でも、1秒毎にreconnectしたりして、もう何だか。
 やっぱり、何かWiFi station買ってこないとダメなのかなー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[revive hostapd]]></title><link href="http://u-ryo.github.io//blog/2017/09/03/revive-hostapd/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/03/revive-hostapd/</id><content type="html"><![CDATA[<p>家のオンプレミスサーバが最近五月蝿く、
+]]></content></entry><entry><title type="html"><![CDATA[revive hostapd]]></title><link href="http://u-ryo.github.io//blog/2017/09/03/revive-hostapd/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/03/revive-hostapd/</id><content type="html"><![CDATA[<p>家のオンプレミスサーバが最近五月蝿く、
 何か常に3.4GHz近くまでいっていて電気食ってるようなので、
 1年弱ぶりに止めてみました。
 すると、次、立ち上げた時、
@@ -120,7 +120,7 @@ dhcpまで出来て感動モノでした。
 確かにentropyは上がりましたが、
 Wireless LANがホントに早くなるのかどうか...
 (確かに遅い感じはしてました)。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
+]]></content></entry><entry><title type="html"><![CDATA[Parameters for FreeRDP]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/parameters-for-freerdp/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/30/parameters-for-freerdp/</id><content type="html"><![CDATA[<p>某所にFreeRDPのbootable USBを作って納入したのですが、
 「壁紙を変えたい」と言われました。
 デフォルト「wallpaperはon」と書いてありますけれども、
 明示的に「+wallpaper」としないと、効かないようです。</p>
@@ -133,7 +133,7 @@ Wireless LANがホントに早くなるのかどうか...
 ともあれ、「+heartbeat」を指定すると、
 頻繁なreconnectはおさまりました。
 「-heartbeat」でも効果あったんですが、なぜ?</p>
-]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/too-many-open-files/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
+]]></content></entry><entry><title type="html"><![CDATA[Too many open files]]></title><link href="http://u-ryo.github.io//blog/2015/10/30/too-many-open-files/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/30/too-many-open-files/</id><content type="html"><![CDATA[<p>tomcat7が止まっていて、catalina.outを見ると、
 <code>Too many open files</code>と言われていました。</p>
 <ul>
 <li>現状の確認 <code>$ ulimit -a</code></li>
