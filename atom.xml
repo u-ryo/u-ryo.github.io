@@ -1,51 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-08-27T14:28:16+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:20:15+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[時々、「全く同じgroovy scriptなのにあるマシンでだけ
-起動に失敗する」ことがあります。
-error messageはcaseによりますが、例えば直近では以下のようなものでした。
-
-null
-$ groovy webpush.groovy
-org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
-General error during conversion: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
-
-java.lang.RuntimeException: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
-        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-        at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-        at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-        at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:83)
-        at org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:77)
-        at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:84)
-        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:59)
-        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:238)
-        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:250)
-        at groovy.grape.GrapeIvy.getDependencies(GrapeIvy.groovy:464)
-   :
-   :
-null
-
-要するに「guava-19.0.jarのdownloadに失敗した」と。
-`~/.groovy/grapes/com.google.guava/guava/`を見ると、
-確かに`jars` directoryがありません。
-じゃぁっていうんで、自分で`guava-19.0.jar`を落としてきて、
-`jars/`作ってその下に置いても、同じ結果です。
-Groovyが悪いのかJavaが悪いのかGrapeが悪いのか設定が悪いのか
-versionが悪いのか、何なのかが分かりません。
-普通に動くマシンでのJava/Groovyのversionを合わせてもダメ、
-各libraryのversionを上げてもダメ、
-Guava 19.0を`@Grab`に明示的に入れてもダメ、
-[Groovy - Grab - download failed](https://stackoverflow.com/questions/16871792/groovy-grab-download-failed)を見て`~/.groovy`以下や`~/.groovy/grapes`を削除してもダメ、
-と途方に暮れました。
-
-結局、以下のどちらかの方法で立ち上がるようになりました。
-
-1. `~/.groovy/grapes/com.google.guava/guava/jars`ではなく`~/.groovy/grapes/com.google.guava/guava/bundles`にして、その下に落としてきた`guava-19.0.jar`を置く
-1. 他の多くのlibrariesと同様に`~/.groovy/grapes/com.google.guava/guava/jars`に落としてきた`guava-19.0.jar`を置き、`~/.groovy/grapes/com.google.guava/guava/ivy-19.0.xml`の`<publications>`の`<artifact name="guava" type="bundle" ext="jar" conf="master"/>`の`type`を`bundle`から`jar`にする
-
-上手く行っていたマシンでは、
-`~/.groovy/grapes/com.google.guava/guava/bundles`が出来ており、
-その下に`guava-19.0.jar`もフツーにありました。
-上手く行かないマシンではなぜ`bundles`が出来ないのか、は未だ不明ですが、
-取り敢えず前に進める方法がわかったので記しています。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-08-27T18:08:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-27T18:08:50+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
+httpsのreverse proxy(nginx)の後ろに置いて、
+GoogleのOAuth2でJWTな認証をしようとしました。
+当然、backend serverからはGoogle APIに自分のhost名でaccessするような
+URLを返してしまい、Google APIから戻ってきたところでJWT認証は弾かれます。
+backend serverはfrontend serverの名前を知らないんですから、
+そりゃあ当然です。
+こういうreverse proxyの後ろにbackend server置いてOAuth2 + JWTなんて
+そもそもダメなの? 何とかならないの?
+と調べてみると、
+<a href="https://stackoverflow.com/questions/31834278/spring-boot-and-oauth2-redirect-url-over-reverse-proxy">Spring Boot and OAuth2: redirect url over reverse proxy</a>に、
+reverse proxy側で<code>X-Forwarded-Port</code>とかのproxy用HTTP Response Headerを設定し、
+Spring application側で<code>server.use-forward-headers=true</code>にすればいいよ、
+とあったので、
+じゃぁnginxではどうやるのだろうと調べると、
+<a href="https://qiita.com/HeRo/items/7063b86b5e8a2efde0f4">Nginx のリバースプロキシ設定のメモ</a>にありました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
+</span><span class='line'>  listen 80;
+</span><span class='line'>  server_name hoge.com;
+</span><span class='line'>
+</span><span class='line'>  location / {
+</span><span class='line'>    proxy_set_header X-Real-IP $remote_addr;
+</span><span class='line'>    index index.html index.htm;
+</span><span class='line'>    proxy_set_header X-Forwarded-Proto $scheme;
+</span><span class='line'>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class='line'>    proxy_set_header Host $http_host;
+</span><span class='line'>    proxy_redirect off;
+</span><span class='line'>    proxy_pass http://127.0.0.1:3000;
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>この通りやってみると、
+何故かGoogle APIには<code>http://proxy-server/...</code>で渡っており、
+じゃぁっていうんで<code>proxy_set_header X-Forwarded-Proto https;</code>
+とベタ書きしてみてもダメで、
+うーんとか思っていると、
+<a href="https://blog.akagi.jp/archives/3883.html">nginx でリバースプロキシするときの Tips</a>に<code>off</code>じゃなくて<code>proxy_redirect http:// https://;</code>という記述があったので、
+試してみると、上手く行きました。
+あーちなみに、<code>proxy_set_header X-Forwarded-Proto https;</code>も
+ベタ書きじゃないとダメでした。
+結局うちの場合は、以下の通りになりました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
+</span><span class='line'>        listen 80 default_server;
+</span><span class='line'>        listen [::]:80 default_server;
+</span><span class='line'>
+</span><span class='line'>        # Everything is a 404
+</span><span class='line'>        location / {
+</span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
+</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;  
+</span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class='line'>                proxy_set_header Host $http_host;
+</span><span class='line'>                proxy_redirect http:// https://;
+</span><span class='line'>                proxy_pass http://walt.mydns.bz:10022/;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # You may need this to prevent return 404 recursion.
+</span><span class='line'>        location = /404.html {
+</span><span class='line'>                internal;
+</span><span class='line'>        }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、
+その後「No-providerで登録」になってしまい、
+まだ完成しません。
+ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:28:16+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
 起動に失敗する」ことがあります。
 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p>

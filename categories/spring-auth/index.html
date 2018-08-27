@@ -1,0 +1,110 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Spring auth - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/spring-auth/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Spring auth</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Spring auth category via RSS" href="/categories/spring-auth/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a></h1> <p class="meta"> <time datetime="2018-08-27T17:47:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">27</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>JHipsterのSpring Authなapplicationを httpsのreverse proxy(nginx)の後ろに置いて、 GoogleのOAuth2でJWTな認証をしようとしました。 当然、backend serverからはGoogle APIに自分のhost名でaccessするような URLを返してしまい、Google APIから戻ってきたところでJWT認証は弾かれます。 backend serverはfrontend serverの名前を知らないんですから、 そりゃあ当然です。 こういうreverse proxyの後ろにbackend server置いてOAuth2 + JWTなんて そもそもダメなの? 何とかならないの? と調べてみると、 <a href="https://stackoverflow.com/questions/31834278/spring-boot-and-oauth2-redirect-url-over-reverse-proxy">Spring Boot and OAuth2: redirect url over reverse proxy</a>に、 reverse proxy側で<code>X-Forwarded-Port</code>とかのproxy用HTTP Response Headerを設定し、 Spring application側で<code>server.use-forward-headers=true</code>にすればいいよ、 とあったので、 じゃぁnginxではどうやるのだろうと調べると、 <a href="https://qiita.com/HeRo/items/7063b86b5e8a2efde0f4">Nginx のリバースプロキシ設定のメモ</a>にありました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
+</span><span class='line'>  listen 80;
+</span><span class='line'>  server_name hoge.com;
+</span><span class='line'>
+</span><span class='line'>  location / {
+</span><span class='line'>    proxy_set_header X-Real-IP $remote_addr;
+</span><span class='line'>    index index.html index.htm;
+</span><span class='line'>    proxy_set_header X-Forwarded-Proto $scheme;
+</span><span class='line'>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class='line'>    proxy_set_header Host $http_host;
+</span><span class='line'>    proxy_redirect off;
+</span><span class='line'>    proxy_pass http://127.0.0.1:3000;
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure> <p>この通りやってみると、 何故かGoogle APIには<code>http://proxy-server/...</code>で渡っており、 じゃぁっていうんで<code>proxy_set_header X-Forwarded-Proto https;</code> とベタ書きしてみてもダメで、 うーんとか思っていると、 <a href="https://blog.akagi.jp/archives/3883.html">nginx でリバースプロキシするときの Tips</a>に<code>off</code>じゃなくて<code>proxy_redirect http:// https://;</code>という記述があったので、 試してみると、上手く行きました。 あーちなみに、<code>proxy_set_header X-Forwarded-Proto https;</code>も ベタ書きじゃないとダメでした。 結局うちの場合は、以下の通りになりました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
+</span><span class='line'>        listen 80 default_server;
+</span><span class='line'>        listen [::]:80 default_server;
+</span><span class='line'>
+</span><span class='line'>        # Everything is a 404
+</span><span class='line'>        location / {
+</span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
+</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;  
+</span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class='line'>                proxy_set_header Host $http_host;
+</span><span class='line'>                proxy_redirect http:// https://;
+</span><span class='line'>                proxy_pass http://walt.mydns.bz:10022/;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # You may need this to prevent return 404 recursion.
+</span><span class='line'>        location = /404.html {
+</span><span class='line'>                internal;
+</span><span class='line'>        }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure> <p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、 その後「No-providerで登録」になってしまい、 まだ完成しません。 ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a> </li> <li class="post"> <a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a> </li> <li class="post"> <a href="/blog/2018/08/24/push-notification-from-command-line-by-ntfy/">Push Notification From Command Line by Ntfy</a> </li> <li class="post"> <a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a> </li> <li class="post"> <a href="/blog/2018/08/24/fluent-on-lombok/">Fluent on Lombok</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>
