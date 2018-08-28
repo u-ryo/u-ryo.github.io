@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/oauth2/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-27T18:08:50+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/oauth2/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-28T10:08:27+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
 httpsのreverse proxy(nginx)の後ろに置いて、
 GoogleのOAuth2でJWTな認証をしようとしました。
 当然、backend serverからはGoogle APIに自分のhost名でaccessするような
@@ -79,7 +79,7 @@ Spring application側で<code>server.use-forward-headers=true</code>にすれば
 </span><span class='line'>        # Everything is a 404
 </span><span class='line'>        location / {
 </span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
-</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;  
+</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;
 </span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 </span><span class='line'>                proxy_set_header Host $http_host;
 </span><span class='line'>                proxy_redirect http:// https://;
@@ -92,8 +92,40 @@ Spring application側で<code>server.use-forward-headers=true</code>にすれば
 </span><span class='line'>        }
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
+<p>で、<code>sudo /usr/sbin/nginx -s reload</code>です。</p>
 <p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、
 その後「No-providerで登録」になってしまい、
 まだ完成しません。
 ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p>
+<p>↑その「No-providerで登録」になってしまうのは、
+backendで以下のようなerrorが出ていて。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>javax.validation.ConstraintViolationException: Validation failed for classes [bz.mydns.walt.canmatch.domain.User] during persist time for groups [javax.validation.groups.Default, ]
+</span><span class='line'>List of constraint violations:[
+</span><span class='line'>        ConstraintViolationImpl{interpolatedMessage=&#39;must match &quot;^[_&#39;.@A-Za-z0-9-]*$&quot;&#39;, propertyPath=login, rootBeanClass=class bz.mydns.walt.canmatch.domain.User, messageTemplate=&#39;{javax.validation.constraints.Pattern.message}&#39;}
+</span><span class='line'>]
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:140)
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:80)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:197)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
+</span><span class='line'>        at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:626)
+</span><span class='line'>   :
+</span><span class='line'>   :
+</span></code></pre></td></tr></table></div></figure>
+<p>何なんでしょうね。
+これは、account mail addressが「w.disney@somecompany.co.jp」みたいな
+「.」が入るものなんですが、それがいけないとかなのでしょうか。
+というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら
+全く同じcodeで何の問題もなく入れるのです。
+「must match」の対象が何なのか、よく分かりません。</p>
 ]]></content></entry></feed>

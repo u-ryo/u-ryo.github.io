@@ -62,7 +62,7 @@
 </span><span class='line'>        # Everything is a 404
 </span><span class='line'>        location / {
 </span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
-</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;  
+</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;
 </span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 </span><span class='line'>                proxy_set_header Host $http_host;
 </span><span class='line'>                proxy_redirect http:// https://;
@@ -74,7 +74,29 @@
 </span><span class='line'>                internal;
 </span><span class='line'>        }
 </span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、 その後「No-providerで登録」になってしまい、 まだ完成しません。 ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a> </li> <li class="post"> <a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a> </li> <li class="post"> <a href="/blog/2018/08/24/push-notification-from-command-line-by-ntfy/">Push Notification From Command Line by Ntfy</a> </li> <li class="post"> <a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a> </li> <li class="post"> <a href="/blog/2018/08/24/fluent-on-lombok/">Fluent on Lombok</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure> <p>で、<code>sudo /usr/sbin/nginx -s reload</code>です。</p> <p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、 その後「No-providerで登録」になってしまい、 まだ完成しません。 ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p> <p>↑その「No-providerで登録」になってしまうのは、 backendで以下のようなerrorが出ていて。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>javax.validation.ConstraintViolationException: Validation failed for classes [bz.mydns.walt.canmatch.domain.User] during persist time for groups [javax.validation.groups.Default, ]
+</span><span class='line'>List of constraint violations:[
+</span><span class='line'>        ConstraintViolationImpl{interpolatedMessage=&#39;must match &quot;^[_&#39;.@A-Za-z0-9-]*$&quot;&#39;, propertyPath=login, rootBeanClass=class bz.mydns.walt.canmatch.domain.User, messageTemplate=&#39;{javax.validation.constraints.Pattern.message}&#39;}
+</span><span class='line'>]
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:140)
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:80)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:197)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
+</span><span class='line'>        at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:626)
+</span><span class='line'>   :
+</span><span class='line'>   :
+</span></code></pre></td></tr></table></div></figure> <p>何なんでしょうね。 これは、account mail addressが「w.disney@somecompany.co.jp」みたいな 「.」が入るものなんですが、それがいけないとかなのでしょうか。 というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら 全く同じcodeで何の問題もなく入れるのです。 「must match」の対象が何なのか、よく分かりません。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/08/28/service-worker-on-jhipster/">Service Worker on JHipster</a> </li> <li class="post"> <a href="/blog/2018/08/28/service-worker-in-private-browsing-mode/">Service Worker in Private Browsing Mode</a> </li> <li class="post"> <a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a> </li> <li class="post"> <a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a> </li> <li class="post"> <a href="/blog/2018/08/24/push-notification-from-command-line-by-ntfy/">Push Notification From Command Line by Ntfy</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.

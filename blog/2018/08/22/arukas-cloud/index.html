@@ -119,9 +119,10 @@
 docker hostingをやっていて、
 credit card登録は強制されますが1 containerなら無料というので、
 専用SSH machine作って<a href="https://jhipster.tech/">JHipster</a>の開発/buildに使おうと企みました。</p>
-<p>cf.
-* <a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a>
-* <a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></p>
+<ul>
+<li><a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a></li>
+<li><a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></li>
+</ul>
 <p>無料枠では<a href="https://hub.docker.com/">Docker Hub</a>にあるものしか使えないとはいえ、
 SSH serverの入ったdocker imageなんて色々あります。
 でも使ってみると、基本的にはrootでlogin、
@@ -190,8 +191,9 @@ nginxによるreverse proxyとして使おうかなー、
 custom domainも使えるとのことですが、
 CDNと同じくDNSを自分でcontrol出来ねばならないので、
 dynamic DNSでは使えず、custom domainは諦めました。</p>
-<p>成果物(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!):
-<a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/"><code>uryooo/docker_alpine_sshd</code></a></p>
+<ul>
+<li><a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/">docker hubの成果物</a>(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!)</li>
+</ul>
 <p>Githubにkeyを登録してあれば、Arukas AppでImageにこれ↑を指定し、
 <code>ENV</code>で<code>GITHUB_USER</code>をGithubのuser名、
 <code>PROXY_PASS</code>をreverse proxyしたいURL、
@@ -220,10 +222,10 @@ dynamic DNSでは使えず、custom domainは諦めました。</p>
 
 
 
-     <time datetime="2018-08-24T14:43:11+09:00" class="updated">
+     <time datetime="2018-08-28T11:15:14+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
-       <span class="day">24</span>,
+       <span class="day">28</span>,
        <span class="year">2018</span>
      </time>
 
@@ -285,6 +287,14 @@ dynamic DNSでは使えず、custom domainは諦めました。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/08/28/service-worker-on-jhipster/">Service Worker on JHipster</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/28/service-worker-in-private-browsing-mode/">Service Worker in Private Browsing Mode</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a>
       </li>
     
@@ -294,14 +304,6 @@ dynamic DNSでは使えず、custom domainは諦めました。</p>
     
       <li class="post">
         <a href="/blog/2018/08/24/push-notification-from-command-line-by-ntfy/">Push Notification From Command Line by Ntfy</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/08/24/fluent-on-lombok/">Fluent on Lombok</a>
       </li>
     
   </ul>

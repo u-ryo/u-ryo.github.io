@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/sakura/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-24T14:43:11+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/sakura/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-28T11:15:14+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
 docker hostingをやっていて、
 credit card登録は強制されますが1 containerなら無料というので、
 専用SSH machine作って<a href="https://jhipster.tech/">JHipster</a>の開発/buildに使おうと企みました。</p>
-<p>cf.
-* <a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a>
-* <a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></p>
+<ul>
+<li><a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a></li>
+<li><a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></li>
+</ul>
 <p>無料枠では<a href="https://hub.docker.com/">Docker Hub</a>にあるものしか使えないとはいえ、
 SSH serverの入ったdocker imageなんて色々あります。
 でも使ってみると、基本的にはrootでlogin、
@@ -73,8 +74,9 @@ nginxによるreverse proxyとして使おうかなー、
 custom domainも使えるとのことですが、
 CDNと同じくDNSを自分でcontrol出来ねばならないので、
 dynamic DNSでは使えず、custom domainは諦めました。</p>
-<p>成果物(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!):
-<a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/"><code>uryooo/docker_alpine_sshd</code></a></p>
+<ul>
+<li><a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/">docker hubの成果物</a>(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!)</li>
+</ul>
 <p>Githubにkeyを登録してあれば、Arukas AppでImageにこれ↑を指定し、
 <code>ENV</code>で<code>GITHUB_USER</code>をGithubのuser名、
 <code>PROXY_PASS</code>をreverse proxyしたいURL、

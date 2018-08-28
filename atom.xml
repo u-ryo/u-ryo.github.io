@@ -1,4 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-08-27T18:08:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-27T18:08:50+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-08-28T12:20:04+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T12:20:04+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
+と思っていて、<a href="https://angular.io/">Angular</a>だから、
+[前やった]({% post_url push-notification-on-angular5 %})ように
+<code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
+って思ってたんですが、違うんですね。
+JHipsterでは<a href="https://developers.google.com/web/tools/workbox/">workbox</a>でService Worker使うようになってるんですね予め。
+確かに<code>index.html</code>で<code>service-worker.js</code>を有効にして挙動を見てると、
+cachingは綺麗に行っている様子です。
+えーでも調べてみると、workboxってWeb Pushはないじゃーないですかー。</p>
+<blockquote><p>特に私の知っている範囲ではworkboxはプッシュ通知のロジックを作ってくれないので、そこは自分で書いてやる必要があります。
+<a href="https://qiita.com/nazonohito51/items/32b61cabdac8b24769bd">ServiceWorkerを簡単に書けるworkbox-swの使い方</a></p>
+</blockquote>
+<p>しかも、自分のcodeとmergeする、
+即ち<code>workboxPlugin(...)</code>に<code>swSrc:</code>を追加すると、
+<code>generateSW</code>が使えず自分で書かないといけないの!? ですか?
+いやー、jhipsterで生成される<code>service-worker.js</code>とか見ると、
+色んなfilesにhash値が付与されているから、
+これを自分で作るというのはあり得ないでしょー。
+どーしたらいーのー?!</p>
+<p>と、途方に暮れました。</p>
+<p>workboxを捨ててAngularのSwPushにする?
+いやー、でもjhipsterでのbuildでは<code>ng</code>実行されないので、
+いくら<code>.angular-cli.json</code>に<code>"serviceWorker": true</code>と書いても効かないんですよー。
+Angularのservice workerは生成されないわけですね。</p>
+<p>jhipsterで生成された<code>build/www/service-worker.js</code>を見ていると、
+上部のコメントに、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'> * The rest of the code is auto-generated. Please don&#39;t update this file
+</span><span class='line'> * directly; instead, make changes to your Workbox build configuration
+</span><span class='line'> * and re-run your build process.
+</span><span class='line'> * See https://goo.gl/2aRDsh
+</span></code></pre></td></tr></table></div></figure>
+<p>とあります。言われるままにそのURLを見てみると、
+<code>importScripts</code>というoptionがあることがわかりました。
+これを指定するとどうなるのかなー、試してみます。
+指定する場所は、webpackでworkboxのservice worker生成をやっているので、
+<code>webpack/webpack.prod.js</code>になります。
+それの最下段、<code>new WorkboxPlugin.GenerateSW({...})</code>の中に
+<code>importScripts: ['push-notifications.js']</code>と書いてみると、
+自動生成された<code>build/www/service-worker.js</code>中に、
+<code>importScripts("push-notifications.js",...)</code>と出ます。
+なるほど。
+ではこの<code>push-notifications.js</code>というのを作ってwww root folderに置き、
+そこにpush notificationのlogicを書いておけばいいんじゃーん。
+でも、基本的には全てのfile名はhash化?されてしまいます。
+どうやって名前をhash化されないようにするの?!
+手探りで探し当てました。
+<code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に
+書いておけばいーんですね。なるほど。</p>
+<p>結局要するにworkboxの<code>importScripts</code>を使うということで、具体的には、</p>
+<ol>
+<li><code>src/main/webapp/push-notification.js</code>にWeb Push通知時の処理<code>addEventListener('push', function(event) {...});</code>と通知をclickした時の処理<code>addEventListener('notificationclick', function(event) {...});</code>を書いておく</li>
+<li><code>webpack/webpack.prod.js</code>の<code>new WorkboxPlugin.GenerateSW({...})</code>に<code>importScripts: ['push-notifications.js']</code>を書く</li>
+<li><code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に<code>{ from: './src/main/webapp/push-notifications.js', to: 'push-notifications.js' },</code>を書く</li>
+</ol>
+<p>で目出度くJHipster application上でのWeb Push通知が出来ました。</p>
+<p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、
+Angularの<code>SwPush</code>を使うことが出来ます。
+JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-08-28T10:23:45+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
+違うaccountでloginしてみようとprivate browsing mode用いると、
+何か出来ないんですねこれ。
+<code>https</code>か<code>localhost</code>じゃないとダメ、というのは知ってましたが。
+気を付けましょう。
+以上。</p>
+<blockquote><p>Firefox ではプライベートブラウジングモードでサービスワーカー API を利用することはできません。
+<a href="https://developer.mozilla.org/ja/docs/Web/API/ServiceWorker_API#Service_worker_concepts_and_usage">サービスワーカーの概念と使い方</a></p>
+</blockquote>
+<p>chromeはsecret mode(private window)でのService Workerも大丈夫、のようですか。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-28T10:08:27+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
 httpsのreverse proxy(nginx)の後ろに置いて、
 GoogleのOAuth2でJWTな認証をしようとしました。
 当然、backend serverからはGoogle APIに自分のhost名でaccessするような
@@ -79,7 +151,7 @@ Spring application側で<code>server.use-forward-headers=true</code>にすれば
 </span><span class='line'>        # Everything is a 404
 </span><span class='line'>        location / {
 </span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
-</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;  
+</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;
 </span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 </span><span class='line'>                proxy_set_header Host $http_host;
 </span><span class='line'>                proxy_redirect http:// https://;
@@ -92,10 +164,42 @@ Spring application側で<code>server.use-forward-headers=true</code>にすれば
 </span><span class='line'>        }
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
+<p>で、<code>sudo /usr/sbin/nginx -s reload</code>です。</p>
 <p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、
 その後「No-providerで登録」になってしまい、
 まだ完成しません。
 ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p>
+<p>↑その「No-providerで登録」になってしまうのは、
+backendで以下のようなerrorが出ていて。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>javax.validation.ConstraintViolationException: Validation failed for classes [bz.mydns.walt.canmatch.domain.User] during persist time for groups [javax.validation.groups.Default, ]
+</span><span class='line'>List of constraint violations:[
+</span><span class='line'>        ConstraintViolationImpl{interpolatedMessage=&#39;must match &quot;^[_&#39;.@A-Za-z0-9-]*$&quot;&#39;, propertyPath=login, rootBeanClass=class bz.mydns.walt.canmatch.domain.User, messageTemplate=&#39;{javax.validation.constraints.Pattern.message}&#39;}
+</span><span class='line'>]
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:140)
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:80)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:197)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
+</span><span class='line'>        at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:626)
+</span><span class='line'>   :
+</span><span class='line'>   :
+</span></code></pre></td></tr></table></div></figure>
+<p>何なんでしょうね。
+これは、account mail addressが「w.disney@somecompany.co.jp」みたいな
+「.」が入るものなんですが、それがいけないとかなのでしょうか。
+というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら
+全く同じcodeで何の問題もなく入れるのです。
+「must match」の対象が何なのか、よく分かりません。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:28:16+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
 起動に失敗する」ことがあります。
 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p>
@@ -351,13 +455,14 @@ SQL文にはMySQLでいうところの<code>limit=1</code>などはつけずに�
 <li><a href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></li>
 <li><a href="https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">setMaxResults for Spring-Data-JPA annotation?</a></li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-24T14:43:11+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
+]]></content></entry><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-28T11:15:14+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
 docker hostingをやっていて、
 credit card登録は強制されますが1 containerなら無料というので、
 専用SSH machine作って<a href="https://jhipster.tech/">JHipster</a>の開発/buildに使おうと企みました。</p>
-<p>cf.
-* <a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a>
-* <a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></p>
+<ul>
+<li><a href="https://blog.stormcat.io/post/entry/arukas-development/">arukas cloudとDockerでお手軽に開発環境をゲットする #Arukas</a></li>
+<li><a href="https://qiita.com/ProjectEuropa/items/3909bd51454fcf4ef16d">Arukas.ioを使ってWEBページを公開する</a></li>
+</ul>
 <p>無料枠では<a href="https://hub.docker.com/">Docker Hub</a>にあるものしか使えないとはいえ、
 SSH serverの入ったdocker imageなんて色々あります。
 でも使ってみると、基本的にはrootでlogin、
@@ -426,8 +531,9 @@ nginxによるreverse proxyとして使おうかなー、
 custom domainも使えるとのことですが、
 CDNと同じくDNSを自分でcontrol出来ねばならないので、
 dynamic DNSでは使えず、custom domainは諦めました。</p>
-<p>成果物(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!):
-<a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/"><code>uryooo/docker_alpine_sshd</code></a></p>
+<ul>
+<li><a href="https://hub.docker.com/r/uryooo/docker_alpine_sshd/builds/">docker hubの成果物</a>(といってもpull requestくれた山田さんのおかげモノですが。山田さんありがとうございます!)</li>
+</ul>
 <p>Githubにkeyを登録してあれば、Arukas AppでImageにこれ↑を指定し、
 <code>ENV</code>で<code>GITHUB_USER</code>をGithubのuser名、
 <code>PROXY_PASS</code>をreverse proxyしたいURL、
@@ -626,52 +732,4 @@ OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するよ�
 で、それを<code>/etc/init.d/</code>にsymlinkすればいいだけという。
 <code>-Pprod</code>を付けないとdevelopment versionになってしまいます。
 あとは、<code>update-rc.d appname defaults</code>で登録すれば良いです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Time/Date Display Format on GNOME Shell]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/time-date-display-format-on-gnome-shell/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/19/time-date-display-format-on-gnome-shell/</id><content type="html"><![CDATA[<p>Ubuntu 18.04使ってるんですが、
-Unityから変わったGNOME Shellの真ん中に出てるのが
-曜日と時分だけなので、不便でした。
-日付を確認したくなることもあるし、
-秒がないと動いているのか止まっているのかよくわからなかったりとかするんですよね。
-どうするのかなー、と思って調べたら、一発でした。
-<a href="https://linuxfan.info/gnome-shell-clock-show-date">GNOME Shellのパネルに日付を表示する方法</a></p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gsettings set org.gnome.desktop.interface clock-show-date true
-</span><span class='line'>$ gsettings set org.gnome.desktop.interface clock-show-seconds true
-</span></code></pre></td></tr></table></div></figure>
-<p>tabによる補完で調べると、他には<code>clock-show-weekday</code>があり、
-それは既に<code>true</code>になってるんでしょうね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[XML marshaling in Spring Boot]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/xml-marshaling-in-spring-boot/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/17/xml-marshaling-in-spring-boot/</id><content type="html"><![CDATA[<p>Spring Boot applicationで単一xml fileを返すREST作ってあって、
-そこではxmlと同じ構造のJava bean作って返すだけで、
-marshalingについてはframework側がよしなにやってくれました。
-client側がHTTP Request Headerに<code>Accept: application/xml</code>とすれば。
-そうでないとjsonになります。まぁそれはそれでいいんです。いいと思いました。</p>
-<p>その後、複数xmlをまとめてZIPにして返すRESTを求められました。
-そうすると、自分でXMLにmarshalingしなければなりません。
-と、Gson?
-でも<code>build.gradle</code>見ると折角jackson読み込んでいるようなので、
-jacksonでmarshalしました。<code>new ObjectMapper()</code>して、
-<code>mapper.write(ZipOutputStream)</code>みたいなことすると、
-一回(=one file)書いただけでstreamを勝手に? closeするようなので、
-一旦<code>String</code>にしてから<code>zos.write()</code>しました。
-また、<code>build.gradle</code>に<code>compile "...jackson-dataformat-xml"</code>も必要でした。</p>
-<p>しかしそうすると、今度はXMLを返すRESTの方で、
-返されるXMLの形が微妙に違っていました。具体的には、</p>
-<ol>
-<li><code>@XmlRootElement(name=...)</code>で指定した名前が効かない</li>
-<li>XML Object中で<code>List</code>要素がnestされる
-(<code>&lt;object&gt;&lt;/object&gt;&lt;object&gt;&lt;/object&gt;...</code>だったのが
-<code>&lt;object&gt;&lt;object&gt;&lt;/object&gt;&lt;object&gt;&lt;/object&gt;...&lt;/object&gt;</code>に)</li>
-</ol>
-<p><code>@XmlRootElement</code>はJAXBのannotation
-(<code>javax.xml.bind.annotation.XmlRootElement</code>)で、
-これが効かないというのだからJAXBが効いてないのだろうと思い、
-そういえば<code>build.gradle</code>に<code>jackson-dataformat-xml</code>って書いたな、
-というのを思い出し、
-ZIP中でのXMLのmarshallingをJAXBのものでやるようにして
-<code>build.gradle</code>から<code>jackson-dataformat-xml</code>を追い出したら、
-元に戻りました。</p>
-<p>JAXBでのmarshalling、ちょこっと面倒ですが、
-<code>context = JAXBContext.newInstance(Bean.class)</code>して
-<code>marshaller = context.createMarshaller()</code>作って、
-<code>marshaller.marshal(bean, zipOutputStream)</code>すればいいんですね。</p>
 ]]></content></entry></feed>
