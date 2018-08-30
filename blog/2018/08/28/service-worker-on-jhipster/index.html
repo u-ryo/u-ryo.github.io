@@ -117,7 +117,7 @@
 
 <div class="entry-content"><p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
 と思っていて、<a href="https://angular.io/">Angular</a>だから、
-[前やった]({% post_url push-notification-on-angular5 %})ように
+<a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
 <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
 って思ってたんですが、違うんですね。
 JHipsterでは<a href="https://developers.google.com/web/tools/workbox/">workbox</a>でService Worker使うようになってるんですね予め。
@@ -131,7 +131,7 @@ cachingは綺麗に行っている様子です。
 即ち<code>workboxPlugin(...)</code>に<code>swSrc:</code>を追加すると、
 <code>generateSW</code>が使えず自分で書かないといけないの!? ですか?
 いやー、jhipsterで生成される<code>service-worker.js</code>とか見ると、
-色んなfilesにhash値が付与されているから、
+色んなfilesにhash値?が付与されているから、
 これを自分で作るというのはあり得ないでしょー。
 どーしたらいーのー?!</p>
 <p>と、途方に暮れました。</p>
@@ -150,7 +150,7 @@ Angularのservice workerは生成されないわけですね。</p>
 </span><span class='line'> * and re-run your build process.
 </span><span class='line'> * See https://goo.gl/2aRDsh
 </span></code></pre></td></tr></table></div></figure>
-<p>とあります。言われるままにそのURLを見てみると、
+<p>とあります。言われるままに<a href="https://goo.gl/2aRDsh">そのURL</a>を見てみると、
 <code>importScripts</code>というoptionがあることがわかりました。
 これを指定するとどうなるのかなー、試してみます。
 指定する場所は、webpackでworkboxのservice worker生成をやっているので、
@@ -164,7 +164,7 @@ Angularのservice workerは生成されないわけですね。</p>
 そこにpush notificationのlogicを書いておけばいいんじゃーん。
 でも、基本的には全てのfile名はhash化?されてしまいます。
 どうやって名前をhash化されないようにするの?!
-手探りで探し当てました。
+<code>favicon.ico</code>等の例から手探りで探し当てました。
 <code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に
 書いておけばいーんですね。なるほど。</p>
 <p>結局要するにworkboxの<code>importScripts</code>を使うということで、具体的には、</p>
@@ -193,7 +193,7 @@ JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription
 
 
 
-     <time datetime="2018-08-28T12:20:04+09:00" class="updated">
+     <time datetime="2018-08-28T14:16:41+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
        <span class="day">28</span>,
@@ -240,6 +240,8 @@ JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2018/08/30/illegal-forward-reference/" title="Previous Post: illegal forward reference">&laquo; Illegal Forward Reference</a>
+      
       
         <a class="basic-alignment right" href="/blog/2018/08/28/service-worker-in-private-browsing-mode/" title="Next Post: service worker in private browsing mode">Service Worker in Private Browsing Mode &raquo;</a>
       
@@ -262,6 +264,10 @@ JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/08/30/illegal-forward-reference/">Illegal Forward Reference</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/08/28/service-worker-on-jhipster/">Service Worker on JHipster</a>
       </li>
     
@@ -275,10 +281,6 @@ JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription
     
       <li class="post">
         <a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/08/24/push-notification-from-command-line-by-ntfy/">Push Notification From Command Line by Ntfy</a>
       </li>
     
   </ul>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>illegal forward reference - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various information for coding...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">Illegal Forward Reference</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2018-08-30T10:02:00+09:00" pubdate data-updated=true>
+      <span class="month">Aug</span>
+      <span class="day">30</span>,
+      <span class="year">2018</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Javaの珍しいcompile error messageに、
+<code>illegal forward reference</code>というのがあります。
+これを題材に、後輩氏に課題を出しました。</p>
+<p>最も単純な形にして挙例すると、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import java.util.function.Function;
+</span><span class='line'>class Test {
+</span><span class='line'>    Function f = new Function() {
+</span><span class='line'>            @Override
+</span><span class='line'>            public Object apply(Object t) {
+</span><span class='line'>                return o;
+</span><span class='line'>            }
+</span><span class='line'>        };
+</span><span class='line'>    Object o;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>↑これをlambda式に直しなさい、といったようなものです。</p>
+<p>実はこれ、単純にlambda式にすると、compile errorになります。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
+</span><span class='line'>    java.util.function.Function f = t -&gt; o;
+</span><span class='line'>    Object o;
+</span><span class='line'>}
+</span><span class='line'>$ javac /tmp/Test.java
+</span><span class='line'>/tmp/Test.java:2: error: illegal forward reference
+</span><span class='line'>    java.util.function.Function f = t -&gt; o;
+</span><span class='line'>                                         ^
+</span><span class='line'>1 error
+</span></code></pre></td></tr></table></div></figure>
+<p>error messageからしてどう直せばいいかは自明かと思ったんですが、
+英語が不自由な後輩氏の1日弱かけた答えはこうでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
+</span><span class='line'>    java.util.function.Function f = t -&gt; o;
+</span><span class='line'>    static Object o;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>流石に「何でもかんでも<code>static</code>にすればいいってもんじゃない」
+ってことはわかってて、「これがFA」とまでは言ってませんでしたけど、
+<a href="https://stackoverflow.com/questions/1746758/illegal-forward-reference-in-java">ここ</a>をみて、
+「<code>static</code>にすればいいんじゃね、って書いてある」と思ったんだそう。
+そうは書いてないんだけどなー。</p>
+<p>でも、こういう回答は想像してなくて、新鮮でした。</p>
+<p>そもそもdeclarationが後ろに書いてあったこと自体がおかしい、とは思いますけどね。
+そういう「色々おかしい」ソフトを直しています。</p>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2018-08-30T10:20:35+09:00" class="updated">
+       Updated
+       <span class="month">Aug</span>
+       <span class="day">30</span>,
+       <span class="year">2018</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/java/">java</a>
+  
+     <a class="category" href="/categories/lambda/">lambda</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2018/08/30/illegal-forward-reference/" data-via="" data-counturl="/blog/2018/08/30/illegal-forward-reference/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2018/08/28/service-worker-on-jhipster/" title="Next Post: service worker on JHipster">Service Worker on JHipster &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/08/30/illegal-forward-reference/">Illegal Forward Reference</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/28/service-worker-on-jhipster/">Service Worker on JHipster</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/28/service-worker-in-private-browsing-mode/">Service Worker in Private Browsing Mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A Java programmer in Tokyo.</p>
+</section>
+<section>
+  <h1><a href="privacy.html">Privacy Policy</a></h1>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/";
+    var disqus_url = "http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>

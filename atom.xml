@@ -1,6 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-08-28T12:20:04+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T12:20:04+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-08-30T10:20:35+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-08-30T10:20:35+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
+<code>illegal forward reference</code>というのがあります。
+これを題材に、後輩氏に課題を出しました。</p>
+<p>最も単純な形にして挙例すると、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>import java.util.function.Function;
+</span><span class='line'>class Test {
+</span><span class='line'>    Function f = new Function() {
+</span><span class='line'>            @Override
+</span><span class='line'>            public Object apply(Object t) {
+</span><span class='line'>                return o;
+</span><span class='line'>            }
+</span><span class='line'>        };
+</span><span class='line'>    Object o;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>↑これをlambda式に直しなさい、といったようなものです。</p>
+<p>実はこれ、単純にlambda式にすると、compile errorになります。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
+</span><span class='line'>    java.util.function.Function f = t -&gt; o;
+</span><span class='line'>    Object o;
+</span><span class='line'>}
+</span><span class='line'>$ javac /tmp/Test.java
+</span><span class='line'>/tmp/Test.java:2: error: illegal forward reference
+</span><span class='line'>    java.util.function.Function f = t -&gt; o;
+</span><span class='line'>                                         ^
+</span><span class='line'>1 error
+</span></code></pre></td></tr></table></div></figure>
+<p>error messageからしてどう直せばいいかは自明かと思ったんですが、
+英語が不自由な後輩氏の1日弱かけた答えはこうでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
+</span><span class='line'>    java.util.function.Function f = t -&gt; o;
+</span><span class='line'>    static Object o;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<p>流石に「何でもかんでも<code>static</code>にすればいいってもんじゃない」
+ってことはわかってて、「これがFA」とまでは言ってませんでしたけど、
+<a href="https://stackoverflow.com/questions/1746758/illegal-forward-reference-in-java">ここ</a>をみて、
+「<code>static</code>にすればいいんじゃね、って書いてある」と思ったんだそう。
+そうは書いてないんだけどなー。</p>
+<p>でも、こういう回答は想像してなくて、新鮮でした。</p>
+<p>そもそもdeclarationが後ろに書いてあったこと自体がおかしい、とは思いますけどね。
+そういう「色々おかしい」ソフトを直しています。</p>
+]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T14:16:41+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
 と思っていて、<a href="https://angular.io/">Angular</a>だから、
-[前やった]({% post_url push-notification-on-angular5 %})ように
+<a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
 <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
 って思ってたんですが、違うんですね。
 JHipsterでは<a href="https://developers.google.com/web/tools/workbox/">workbox</a>でService Worker使うようになってるんですね予め。
@@ -14,7 +79,7 @@ cachingは綺麗に行っている様子です。
 即ち<code>workboxPlugin(...)</code>に<code>swSrc:</code>を追加すると、
 <code>generateSW</code>が使えず自分で書かないといけないの!? ですか?
 いやー、jhipsterで生成される<code>service-worker.js</code>とか見ると、
-色んなfilesにhash値が付与されているから、
+色んなfilesにhash値?が付与されているから、
 これを自分で作るというのはあり得ないでしょー。
 どーしたらいーのー?!</p>
 <p>と、途方に暮れました。</p>
@@ -33,7 +98,7 @@ Angularのservice workerは生成されないわけですね。</p>
 </span><span class='line'> * and re-run your build process.
 </span><span class='line'> * See https://goo.gl/2aRDsh
 </span></code></pre></td></tr></table></div></figure>
-<p>とあります。言われるままにそのURLを見てみると、
+<p>とあります。言われるままに<a href="https://goo.gl/2aRDsh">そのURL</a>を見てみると、
 <code>importScripts</code>というoptionがあることがわかりました。
 これを指定するとどうなるのかなー、試してみます。
 指定する場所は、webpackでworkboxのservice worker生成をやっているので、
@@ -47,7 +112,7 @@ Angularのservice workerは生成されないわけですね。</p>
 そこにpush notificationのlogicを書いておけばいいんじゃーん。
 でも、基本的には全てのfile名はhash化?されてしまいます。
 どうやって名前をhash化されないようにするの?!
-手探りで探し当てました。
+<code>favicon.ico</code>等の例から手探りで探し当てました。
 <code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に
 書いておけばいーんですね。なるほど。</p>
 <p>結局要するにworkboxの<code>importScripts</code>を使うということで、具体的には、</p>
@@ -693,43 +758,4 @@ classを超えて<code>Comparable</code>でもいっか、
 クラス間の比較をサポートしません。</p>
 </blockquote>
 <p><a href="http://tatsuyamuku.hatenablog.com/entry/2015/06/14/164803">【Effective Java】項目12 Comparableの実装を検討する</a></p>
-]]></content></entry><entry><title type="html"><![CDATA[daemonizing jhipster application]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/19/daemonizing-jhipster-application/</id><content type="html"><![CDATA[<p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、
-OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するようにするには。</p>
-<p>きっとSpring Bootでdaemonizeする方法を探ればいいと思って、
-<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html">61. Installing Spring Boot Applications</a>にあるように、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>bootJar {
-</span><span class='line'>	launchScript()
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>でもこれ、Spring Boot 2での話で、
-こちとらまだJHipster 4.14.4、Spring Bootは1.5です。
-そんなものはない、と当然失敗します。
-なのでもうちょっと古い記事を探しました。</p>
-<p><a href="https://ishiis.net/2016/09/27/spring-boot-init-script/">spring bootアプリの起動スクリプトを作る</a>を見て、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>apply plugin: &#39;spring-boot&#39;
-</span><span class='line'>
-</span><span class='line'>springBoot {
-</span><span class='line'>    executable = true
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>としたんですが、<code>plugin 'spring-boot'</code>はないと言われ、
-<code>executable = true</code>は<code>build.gradle</code>に既に書いてありました。</p>
-<p>そもそもそんなことしなくても、
-<a href="https://www.jhipster.tech/production/">Using in Production</a>
-にあるように、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gradle -Pprod bootWar
-</span></code></pre></td></tr></table></div></figure>
-<p>でexecutable war作れるんですね。
-で、それを<code>/etc/init.d/</code>にsymlinkすればいいだけという。
-<code>-Pprod</code>を付けないとdevelopment versionになってしまいます。
-あとは、<code>update-rc.d appname defaults</code>で登録すれば良いです。</p>
 ]]></content></entry></feed>
