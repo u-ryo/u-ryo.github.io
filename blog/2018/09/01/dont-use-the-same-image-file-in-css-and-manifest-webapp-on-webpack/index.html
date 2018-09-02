@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>Dont use the same image file in css and manifest.webapp on webpack - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various information for coding...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">Dont Use the Same Image File in Css and Manifest.webapp on Webpack</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2018-09-01T20:26:00+09:00" pubdate data-updated=true>
+      <span class="month">Sep</span>
+      <span class="day">01</span>,
+      <span class="year">2018</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>notificationに使っていたlogicを変えたいと思って、
+アプリとしてinstallしていたPWAを一旦uninstallしてから
+browserでそのpageを読んでも、「ホーム画面に追加」が現れなかったんですね。
+何でんだろー、一旦uninstallしちゃうとダメなのかな?
+いやそんなことないだろうな、とは思いつつも
+明確に「uninstallしても大丈夫」だと書いてあるところもなく、
+心配だったんです。
+「ホーム画面に追加」が出ないのは何が悪いのか、わからないんですよね。</p>
+<p>「ホーム画面に追加」が出る条件、というのがあって、
+<a href="https://developers.google.com/web/fundamentals/app-install-banners/?hl=ja">公式ページ(ウェブアプリのインストール バナー)</a>によると、</p>
+<ol>
+<li><code>short_name</code>(ホーム画面で使用)</li>
+<li><code>name</code>(バナーで使用)</li>
+<li>192x192のpngアイコン(アイコンの宣言にはMIMEタイプ<code>image/png</code>の指定が必要)</li>
+<li>読み込み先の<code>start_url</code></li>
+</ol>
+<p>というんですが、
+<a href="https://qiita.com/narikei/items/4240f03542f29e313989">「ホーム画面に追加」からはじめる『PWA(Service Worker)』</a>には192のpngの話はなく、
+また<a href="https://amymd.hatenablog.com/entry/2017/10/12/001612">【3ステップではじめる】PWAによる「ホーム画面に追加」バナーの実装</a>では<code>fetch</code> eventの定義が必要だとあります。
+こちとら、一度は出来たわけだし、実際には
+<a href="https://www.bunkei-programmer.net/entry/2018/04/09/125015">PWAで「ホーム画面に追加」が表示されない時に確認する事</a>にある「manifest.json内のアイコン画像が404である」といったところが一番多いんじゃないでしょうか。
+この人もそうだったといいますし、ぼくもそうでした。</p>
+<p>ただ、その原因は困ったものでした。
+webpackでhash化された名前の付いたpng fileが壊れていたからです。
+とても悩みました。調べてもそんな事例、出てきません。
+色々試行錯誤した挙句わかったのは、
+<code>css</code>内と<code>manifest.webapp</code>(<code>manifest.json</code>)内で
+指定しているpngが同じだと、
+webpackがpng fileをhash名化する時にバッティングするようで、
+生成後のpng fileはviewerで見えないし、
+<code>file</code>コマンドで見ると「data」とか出るし。
+<code>css</code>でのpng fileを<code>../../../../../../webpack/logo-jhipster.png</code>
+といったようにして<code>manifest.webpack</code>と別物にすると、うまく行きました。
+<code>./src/...</code>以下でなくてもいいんですね!</p>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2018-09-02T15:44:19+09:00" class="updated">
+       Updated
+       <span class="month">Sep</span>
+       <span class="day">02</span>,
+       <span class="year">2018</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/webpack/">webpack</a>
+  
+     <a class="category" href="/categories/angular/">angular</a>
+  
+     <a class="category" href="/categories/jhipster/">jhipster</a>
+  
+     <a class="category" href="/categories/pwa/">pwa</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/" data-via="" data-counturl="/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2018/08/30/illegal-forward-reference/" title="Next Post: illegal forward reference">Illegal Forward Reference &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/">Dont Use the Same Image File in Css and Manifest.webapp on Webpack</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/30/illegal-forward-reference/">Illegal Forward Reference</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/28/service-worker-on-jhipster/">Service Worker on JHipster</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/28/service-worker-in-private-browsing-mode/">Service Worker in Private Browsing Mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A Java programmer in Tokyo.</p>
+</section>
+<section>
+  <h1><a href="privacy.html">Privacy Policy</a></h1>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/";
+    var disqus_url = "http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>

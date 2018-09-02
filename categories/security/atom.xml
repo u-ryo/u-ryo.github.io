@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/security/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Security Links]]></title><link href="http://u-ryo.github.io//blog/2017/10/21/security-links/"/><updated>2017-12-14T10:41:36+09:00</updated><id>/blog/2017/10/21/security-links/</id><content type="html"><![CDATA[<p>Security関係のLinkをまとめました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/security/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Security Links]]></title><link href="http://u-ryo.github.io//blog/2017/10/21/security-links/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/10/21/security-links/</id><content type="html"><![CDATA[<p>Security関係のLinkをまとめました。
 はてぶにすればいいのに > 自分</p>
 <ul>
 <li><a href="https://takagi-hiromitsu.jp/diary/">高木浩光＠自宅の日記</a></li>
@@ -11,7 +11,7 @@
 <li><a href="http://blog.macnica.net/">マクニカネットワークスセキュリティ研究センターブログ</a></li>
 </ul>
 <p>あー、勉強しないと。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Tomcat vulnerability CVE-2017-12617]]></title><link href="http://u-ryo.github.io//blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/"/><updated>2017-10-13T12:13:30+09:00</updated><id>/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/</id><content type="html"><![CDATA[<p><a href="https://oss.sios.com/security/tomcat-security-vulnerabiltiy-20170920">Tomcatの複数の脆弱性(CVE-2017-12617, CVE-2017-12615 , CVE-2017-12616)</a>が、範囲が広がって出てました。
+]]></content></entry><entry><title type="html"><![CDATA[Tomcat vulnerability CVE-2017-12617]]></title><link href="http://u-ryo.github.io//blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/10/13/tomcat-vulnerability-cve-2017-12617/</id><content type="html"><![CDATA[<p><a href="https://oss.sios.com/security/tomcat-security-vulnerabiltiy-20170920">Tomcatの複数の脆弱性(CVE-2017-12617, CVE-2017-12615 , CVE-2017-12616)</a>が、範囲が広がって出てました。
 <code>readonly initialization parameter</code>を<code>false</code>にして<code>PUT</code>を有効化している時にaffectする(任意のjsp fileを不正に<code>PUT</code>してから好き放題する)、とのことなので、きょうびはRESTで<code>PUT</code>多用するから影響範囲広いんでしょうか? 否、「default servletのinitialization parameter(具体的には<code>web.xml</code>の<code>servlet</code>tagの<code>init-param</code>)で<code>false</code>を明示した時(defaultは<code>true</code>)なので、殆どのところはそんなことしてないから大丈夫なんじゃないでしょうか。
 実際、<a href="https://github.com/cyberheartmi9/CVE-2017-12617">POC</a>で試してみたところ、うちのsiteは(version的には範囲内ですが)<code>Not Vulnerable to CVE-2017-12617</code>と出ました。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -49,7 +49,7 @@
 </span><span class='line'>Poc Filename  Poc.jsp
 </span><span class='line'>Not Vulnerable to CVE-2017-12617
 </span></code></pre></td></tr></table></div></figure></p>
-]]></content></entry><entry><title type="html"><![CDATA[Vulnerability POC site]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/vulnerability-poc-site/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/05/vulnerability-poc-site/</id><content type="html"><![CDATA[<p>各種POCがありました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Vulnerability POC site]]></title><link href="http://u-ryo.github.io//blog/2017/10/05/vulnerability-poc-site/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/10/05/vulnerability-poc-site/</id><content type="html"><![CDATA[<p>各種POCがありました。</p>
 <ul>
 <li><a href="https://github.com/coffeehb/Some-PoC-oR-ExP">各漏洞poc、Exp的收集或写</a></li>
 </ul>
@@ -68,7 +68,7 @@ bannerは信じちゃダメですよね。ぼくも対策を求められて面�
 <li><p><a href="http://mkt-eva.hateblo.jp/entry/2017/09/11/020530">Apache Struts 2の脆弱性(S2-052)や(S2-053)についてのまとめてみた。</a> POCへのlinkがありました。</p>
 </li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Personal Information Leak Incident]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/personal-information-leak-incident/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/16/personal-information-leak-incident/</id><content type="html"><![CDATA[<p>先日派遣先で、5万数千件にのぼる個人情報漏洩を見付けてしまいました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Personal Information Leak Incident]]></title><link href="http://u-ryo.github.io//blog/2017/09/16/personal-information-leak-incident/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/16/personal-information-leak-incident/</id><content type="html"><![CDATA[<p>先日派遣先で、5万数千件にのぼる個人情報漏洩を見付けてしまいました。</p>
 <p>その会社ではチンケなECサイトをやってるんですけど、
 といっても再販の再販までされてて何百人にも使われちゃってますが、
 中身は2000年代前半〜中盤のcode。未だにJSP(一部Java)。
@@ -134,7 +134,7 @@ serverのlogic追ってったら「これ認証無いですよ」
 西宮冷蔵社長の例を鑑みても告発者が報われない社会なのは明らかなので、
 黙っているしか無いのかと悲しい思いをしています。</p>
 <p>早くこんなとこから抜け出さないと、イケマセン。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Expired Root Cert]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/expired-root-cert/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/06/06/expired-root-cert/</id><content type="html"><![CDATA[<p>Fortigateの認証proxy(且つSSLも検閲できるよう間に独自Certをかます)を有効にしたら、
+]]></content></entry><entry><title type="html"><![CDATA[Expired Root Cert]]></title><link href="http://u-ryo.github.io//blog/2016/06/06/expired-root-cert/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/06/06/expired-root-cert/</id><content type="html"><![CDATA[<p>Fortigateの認証proxy(且つSSLも検閲できるよう間に独自Certをかます)を有効にしたら、
 突然見られなくなったサイトが。
 <a href="https://duns-number-jp.dnb.com/search/jpn/login.asp">DUNS Number検索</a>っていうところなんですけど、
 なんでだろー、って調べてったら、とんでもないことが判明。</p>
@@ -163,10 +163,10 @@ serverのlogic追ってったら「これ認証無いですよ」
 自分で作ったcertは期限気にしますが、
 間に含めたcertsまではあんまり気にしないんですよね確かに。</p>
 <p>気持ちは、わかります。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Assessing Outbound Traffic to Uncover Advanced Persistent Threat]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/</id><content type="html"><![CDATA[<p>きょうび、APT(標的型攻撃)は、外向き通信から解析する必要があるでしょうと。
+]]></content></entry><entry><title type="html"><![CDATA[Assessing Outbound Traffic to Uncover Advanced Persistent Threat]]></title><link href="http://u-ryo.github.io//blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/03/17/assessing-outbound-traffic-to-uncover-advanced-persistent-threat/</id><content type="html"><![CDATA[<p>きょうび、APT(標的型攻撃)は、外向き通信から解析する必要があるでしょうと。
 後で読むために。
 <a href="https://www.sans.edu/student-files/projects/JWP-Binde-McRee-OConnor.pdf">Assessing Outbound Traffic to Uncover Advanced Persistent Threat</a></p>
-]]></content></entry><entry><title type="html"><![CDATA[Security Check]]></title><link href="http://u-ryo.github.io//blog/2016/02/20/security-check/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/02/20/security-check/</id><content type="html"><![CDATA[<p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、
+]]></content></entry><entry><title type="html"><![CDATA[Security Check]]></title><link href="http://u-ryo.github.io//blog/2016/02/20/security-check/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/02/20/security-check/</id><content type="html"><![CDATA[<p>NHK Specialの<a href="http://www.nhk.or.jp/docudocu/program/46/2586764/">CYBER SHOCK 狙われる日本の機密情報</a>見てたら、
 標的型攻撃による情報流出が怖くなりました。
 <a href="http://www.jipdec.or.jp">JIPDEC</a>とか、表面化してないだけで絶対やられてるんじゃないのかな、
 とか思うんですが、それをみるために、

@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-08-30T10:20:35+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-08-30T10:20:35+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-09-02T15:44:19+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-02T15:44:19+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
+アプリとしてinstallしていたPWAを一旦uninstallしてから
+browserでそのpageを読んでも、「ホーム画面に追加」が現れなかったんですね。
+何でんだろー、一旦uninstallしちゃうとダメなのかな?
+いやそんなことないだろうな、とは思いつつも
+明確に「uninstallしても大丈夫」だと書いてあるところもなく、
+心配だったんです。
+「ホーム画面に追加」が出ないのは何が悪いのか、わからないんですよね。</p>
+<p>「ホーム画面に追加」が出る条件、というのがあって、
+<a href="https://developers.google.com/web/fundamentals/app-install-banners/?hl=ja">公式ページ(ウェブアプリのインストール バナー)</a>によると、</p>
+<ol>
+<li><code>short_name</code>(ホーム画面で使用)</li>
+<li><code>name</code>(バナーで使用)</li>
+<li>192x192のpngアイコン(アイコンの宣言にはMIMEタイプ<code>image/png</code>の指定が必要)</li>
+<li>読み込み先の<code>start_url</code></li>
+</ol>
+<p>というんですが、
+<a href="https://qiita.com/narikei/items/4240f03542f29e313989">「ホーム画面に追加」からはじめる『PWA(Service Worker)』</a>には192のpngの話はなく、
+また<a href="https://amymd.hatenablog.com/entry/2017/10/12/001612">【3ステップではじめる】PWAによる「ホーム画面に追加」バナーの実装</a>では<code>fetch</code> eventの定義が必要だとあります。
+こちとら、一度は出来たわけだし、実際には
+<a href="https://www.bunkei-programmer.net/entry/2018/04/09/125015">PWAで「ホーム画面に追加」が表示されない時に確認する事</a>にある「manifest.json内のアイコン画像が404である」といったところが一番多いんじゃないでしょうか。
+この人もそうだったといいますし、ぼくもそうでした。</p>
+<p>ただ、その原因は困ったものでした。
+webpackでhash化された名前の付いたpng fileが壊れていたからです。
+とても悩みました。調べてもそんな事例、出てきません。
+色々試行錯誤した挙句わかったのは、
+<code>css</code>内と<code>manifest.webapp</code>(<code>manifest.json</code>)内で
+指定しているpngが同じだと、
+webpackがpng fileをhash名化する時にバッティングするようで、
+生成後のpng fileはviewerで見えないし、
+<code>file</code>コマンドで見ると「data」とか出るし。
+<code>css</code>でのpng fileを<code>../../../../../../webpack/logo-jhipster.png</code>
+といったようにして<code>manifest.webpack</code>と別物にすると、うまく行きました。
+<code>./src/...</code>以下でなくてもいいんですね!</p>
+]]></content></entry><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
 <code>illegal forward reference</code>というのがあります。
 これを題材に、後輩氏に課題を出しました。</p>
 <p>最も単純な形にして挙例すると、</p>
@@ -63,7 +97,7 @@
 <p>でも、こういう回答は想像してなくて、新鮮でした。</p>
 <p>そもそもdeclarationが後ろに書いてあったこと自体がおかしい、とは思いますけどね。
 そういう「色々おかしい」ソフトを直しています。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T14:16:41+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
+]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
 と思っていて、<a href="https://angular.io/">Angular</a>だから、
 <a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
 <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
@@ -125,7 +159,7 @@ Angularのservice workerは生成されないわけですね。</p>
 <p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、
 Angularの<code>SwPush</code>を使うことが出来ます。
 JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-08-28T10:23:45+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
+]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
 違うaccountでloginしてみようとprivate browsing mode用いると、
 何か出来ないんですねこれ。
 <code>https</code>か<code>localhost</code>じゃないとダメ、というのは知ってましたが。
@@ -135,7 +169,7 @@ JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription
 <a href="https://developer.mozilla.org/ja/docs/Web/API/ServiceWorker_API#Service_worker_concepts_and_usage">サービスワーカーの概念と使い方</a></p>
 </blockquote>
 <p>chromeはsecret mode(private window)でのService Workerも大丈夫、のようですか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-28T10:08:27+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
+]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
 httpsのreverse proxy(nginx)の後ろに置いて、
 GoogleのOAuth2でJWTな認証をしようとしました。
 当然、backend serverからはGoogle APIに自分のhost名でaccessするような
@@ -265,7 +299,7 @@ backendで以下のようなerrorが出ていて。</p>
 というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら
 全く同じcodeで何の問題もなく入れるのです。
 「must match」の対象が何なのか、よく分かりません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:28:16+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
+]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T21:04:34+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
 起動に失敗する」ことがあります。
 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -333,7 +367,7 @@ Guava 19.0を明示的に<code>@Grab</code>に入れてもダメ、
 取り敢えず前に進める方法がわかったので記しています。</p>
 <p>あぁ、あと、このようにGrapeに失敗すると、
 <code>~/.groovy/grapes/</code>以下に<code>resolved-caller-all-caller-working73.properties</code>と<code>resolved-caller-all-caller-working73.xml</code>といったfilesが澱のように溜まっていくので、都度削除した方がいいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Push Notification from command line by ntfy]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/push-notification-from-command-line-by-ntfy/"/><updated>2018-08-24T14:30:43+09:00</updated><id>/blog/2018/08/24/push-notification-from-command-line-by-ntfy/</id><content type="html"><![CDATA[<p>コマンドラインからPush通知が出来るというのでやってみました。
+]]></content></entry><entry><title type="html"><![CDATA[Push Notification from command line by ntfy]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/push-notification-from-command-line-by-ntfy/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/push-notification-from-command-line-by-ntfy/</id><content type="html"><![CDATA[<p>コマンドラインからPush通知が出来るというのでやってみました。
 (<a href="https://qiita.com/kjtanaka/items/8b0c90d28909e50e4a6d">Linuxのコマンドラインやスクリプトからスマホにプッシュ通知する。（ntfyというツールの紹介）</a>)
 <a href="https://www.pushbullet.com/">PushBullet</a>を使ってみました。
 ChromeやFirefoxだとextension、
@@ -351,7 +385,7 @@ ChromeやFirefoxだとextension、
 PushBulletのアプリを入れると、
 電話帳やSMS(Short Message Service)もぶっこ抜いてくるんですね。
 それと知らずにSMS送ってしまい、相手に不審がられてしまいました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T14:00:35+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
+]]></content></entry><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
 <a href="https://qiita.com/yo1000/items/050c5c47daabf7a10e10">Spring MVC で CSV をダウンロードさせる</a>を参考にしました。
 要するに、</p>
 <ul>
@@ -361,10 +395,10 @@ PushBulletのアプリを入れると、
 <li><code>CsvMapper mapper = new CsvMapper();</code>して<code>CsvSchema schema = mapper.schemaFor(SomeBean.class).withHeader();</code>して<code>return mapper.writer(schema).writeValueAsString(beans);</code></li>
 <li><code>compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"</code>を入れて<code>@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")</code>して<code>mapper.registerModule(new JavaTimeModule());</code>すると、<code>ZonedDateTime</code>を如意に表示できる?<a href="http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/">Formatting Java Time with Spring Boot using JSON</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[fluent on Lombok]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/fluent-on-lombok/"/><updated>2018-08-24T11:23:29+09:00</updated><id>/blog/2018/08/24/fluent-on-lombok/</id><content type="html"><![CDATA[<p><a href="https://projectlombok.org">Lombok</a>で<code>@Accessors(fluent=true)</code>にしたら、
+]]></content></entry><entry><title type="html"><![CDATA[fluent on Lombok]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/fluent-on-lombok/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/fluent-on-lombok/</id><content type="html"><![CDATA[<p><a href="https://projectlombok.org">Lombok</a>で<code>@Accessors(fluent=true)</code>にしたら、
 setterのみならず<a href="https://projectlombok.org/features/experimental/Accessors">getterもfluentになる</a>んですね。
 <code>getXxx()</code>がないと言われて焦りました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T11:13:28+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
+]]></content></entry><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
 <a href="http://blog.rakugakibox.net/entry/2014/11/23/java_spring_boot_rest">Java: Spring Boot で REST なアプリを作ってみる</a>を見てみて、
 <code>@XmlRootElement</code>を付ければいい?
 ついでにtag名がclass名と違うので、
@@ -372,7 +406,7 @@ setterのみならず<a href="https://projectlombok.org/features/experimental/Ac
 <p>あと、<a href="https://projectlombok.org">Lombok</a>を使ったせいなのか、
 各fieldに<code>@XmlElement</code>を付けないと、出て来ませんでした。
 そういうもの?!</p>
-]]></content></entry><entry><title type="html"><![CDATA[Java8 DateTime API]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/java8-datetime-api/"/><updated>2018-08-24T12:00:05+09:00</updated><id>/blog/2018/08/24/java8-datetime-api/</id><content type="html"><![CDATA[<p>Java8から入ったDateTime API(<code>java.time</code> package)では、
+]]></content></entry><entry><title type="html"><![CDATA[Java8 DateTime API]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/java8-datetime-api/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/java8-datetime-api/</id><content type="html"><![CDATA[<p>Java8から入ったDateTime API(<code>java.time</code> package)では、
 <code>a.plusMinutes(3).isBefore(now)</code>
 なんていう感じで日付時刻計算や比較が出来ます、
 という話です。現在時刻は<code>ZonedDateTime.now(ZoneId.of("Asia/Tokyo"))</code>。
@@ -381,7 +415,7 @@ setterのみならず<a href="https://projectlombok.org/features/experimental/Ac
 <li><a href="https://qiita.com/kurukurupapa@github/items/f55395758eba03d749c9">Javaで日時を扱う（Java8）</a></li>
 <li><a href="http://www.atmarkit.co.jp/ait/articles/1501/29/news016_2.html">Java 8日時APIの主なメソッドとフォーマット用のパターン文字の使い方 (2/6)</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-27T13:53:03+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
+]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T20:12:12+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
 <a href="http://jdk.java.net/11/">Java11</a>ではJava本体から削除され、
 <a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、
 でもGUI作るならJavaFXだろうなぁ、
@@ -504,7 +538,7 @@ Class Pathを指定すれば、
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
 <p>最後、<code>stage.close()</code>すればwindowは開かずに済みます。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Getting the first in Spring DATA JPA]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/getting-the-first-in-spring-data-jpa/"/><updated>2018-08-23T18:27:06+09:00</updated><id>/blog/2018/08/23/getting-the-first-in-spring-data-jpa/</id><content type="html"><![CDATA[<p>Spring DATA JPAで、「最新のもの一つ」を取得したかったんです。
+]]></content></entry><entry><title type="html"><![CDATA[Getting the first in Spring DATA JPA]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/getting-the-first-in-spring-data-jpa/"/><updated>2018-08-23T19:59:27+09:00</updated><id>/blog/2018/08/23/getting-the-first-in-spring-data-jpa/</id><content type="html"><![CDATA[<p>Spring DATA JPAで、「最新のもの一つ」を取得したかったんです。
 Spring DATA JPAは、<code>findFirstBy...</code>とかってmethodに命名すれば
 自動的にSQL作ってくれるらしいんですが(<a href="https://qiita.com/sndr/items/af7d12be264c2cc4b252">【Spring Data JPA】自動実装されるメソッドの命名ルール</a>)、
 目的のものではlogin userを自動的にparameterizeしたかったので、
@@ -520,7 +554,7 @@ SQL文にはMySQLでいうところの<code>limit=1</code>などはつけずに�
 <li><a href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></li>
 <li><a href="https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">setMaxResults for Spring-Data-JPA annotation?</a></li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-28T11:15:14+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
+]]></content></entry><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
 docker hostingをやっていて、
 credit card登録は強制されますが1 containerなら無料というので、
 専用SSH machine作って<a href="https://jhipster.tech/">JHipster</a>の開発/buildに使おうと企みました。</p>
@@ -611,7 +645,7 @@ dynamic DNSでは使えず、custom domainは諦めました。</p>
 </span><span class='line'>ln -sf /dev/stderr /var/log/nginx/error.log
 </span></code></pre></td></tr></table></div></figure>
 <p>こんな技があるんですねーなるほどー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
+]]></content></entry><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T00:08:47+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
 methodのcall回数をassertする必要がありまして。
 <code>someClass = Spy(SomeClass)</code>でspyにすると、
 <code>3 * someClass.targetMethod(_, _)</code>といったようにassert出来るのですが、
@@ -646,7 +680,7 @@ methodのcall回数をassertする必要がありまして。
 <code>3 * someClass.targetMethod(_, _)</code>の部分には、
 変数とか入れられません。即ち、
 <code>(3 + n) * someClass.targetMethod(_, _)</code>とかはダメでした。</p>
-]]></content></entry><entry><title type="html"><![CDATA[ZipOutputStream in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/zipoutputstream-in-java/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/zipoutputstream-in-java/</id><content type="html"><![CDATA[<p>Javaで複数filesをまとめてzipにして出力する(=downloadさせる)必要があり、
+]]></content></entry><entry><title type="html"><![CDATA[ZipOutputStream in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/zipoutputstream-in-java/"/><updated>2018-08-21T23:46:50+09:00</updated><id>/blog/2018/08/21/zipoutputstream-in-java/</id><content type="html"><![CDATA[<p>Javaで複数filesをまとめてzipにして出力する(=downloadさせる)必要があり、
 何かlibraryないかなーと探したところ、あまりなくて。
 ということは、標準的な手法でもさほど手間はかからないということですね。
 確かに、<code>new ZipOutputStream(response.getOutputStream())</code>してから
@@ -656,7 +690,7 @@ methodのcall回数をassertする必要がありまして。
 <code>new ZipOutputStream(new BufferedOutputStream(...))</code>というように
 <code>new BufferedOutputStream()</code>でくくった方が3.6倍速い(110ms→30ms)とのこと。
 ホント?!</p>
-]]></content></entry><entry><title type="html"><![CDATA[Downloading a file on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/downloading-a-file-on-angular/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/downloading-a-file-on-angular/</id><content type="html"><![CDATA[<p>JHipsterのAngularでfileをdownloadするUIを作っていました。
+]]></content></entry><entry><title type="html"><![CDATA[Downloading a file on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/downloading-a-file-on-angular/"/><updated>2018-08-21T22:56:39+09:00</updated><id>/blog/2018/08/21/downloading-a-file-on-angular/</id><content type="html"><![CDATA[<p>JHipsterのAngularでfileをdownloadするUIを作っていました。
 AタグlinkからserverのAPI叩いて、
 <code>Content-Disposition: attachment;filename=...</code>
 と返せば済むだろう、
@@ -674,7 +708,7 @@ service化しました。
 <a href="http://takasdev.hatenablog.com/entry/2017/06/15/211725">AngularでCSVをAPIからDLするときに色々したお話</a>にあるように、
 裏で自分で<code>&lt;a href="..."&gt;</code>作って自分で叩いて自分で消す、
 というように書いたら、うまく行きました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Path Parameter for DateTime in Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootのRESTで、
+]]></content></entry><entry><title type="html"><![CDATA[Path Parameter for DateTime in Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/"/><updated>2018-08-21T21:58:33+09:00</updated><id>/blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootのRESTで、
 日付をPath Parameterで受け取りたかったんですね。
 <a href="https://qiita.com/Tsukuru/items/1c872f51d25c6d452fbc">GetMappingでURLパラメータからValueを取得する～LocalDate編～</a>に書いてある通りですけど、
 <code>@DateTimeFormat(pattern="yyyy-MM-dd")</code>なんて使えるんですね。</p>
@@ -683,7 +717,7 @@ service化しました。
 </pre></td><td class='code'><pre><code class='html'><span class='line'>@GetMapping(value=&quot;/element/{since}&quot;)
 </span><span class='line'>public Element getElement(@DateTimeFormat(pattern=&quot;yyyyMMdd&quot;) @PathVariable LocalDate since) {...
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[List to Map in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/list-to-map-in-java/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/list-to-map-in-java/</id><content type="html"><![CDATA[<p>Javaで<code>List</code>を<code>Map</code>にしたかったんですね。
+]]></content></entry><entry><title type="html"><![CDATA[List to Map in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/list-to-map-in-java/"/><updated>2018-08-21T02:21:40+09:00</updated><id>/blog/2018/08/21/list-to-map-in-java/</id><content type="html"><![CDATA[<p>Javaで<code>List</code>を<code>Map</code>にしたかったんですね。
 <a href="https://www.sejuku.net/blog/15900">【Java入門】List⇔Map変換でJava8のStreamを使う方法</a>を見ました。
 ここは、いいこと書いてあるんですけど能書きが長い、Java8以前の話は不要(at least for me)、広告が多い感じがする、のが...</p>
 <p>基本は単純に<code>Collectors.toMap(s-&gt;key, s-&gt;value)</code>でいけますと。
@@ -728,7 +762,7 @@ service化しました。
 </pre></td><td class='code'><pre><code class='html'><span class='line'>jshell&gt; Stream.of(&quot;A quick brown fox jumps over the lazy dog.&quot;.split(&quot; &quot;)).collect(Collectors.groupingBy(s-&gt;s.length()))
 </span><span class='line'>$12 ==&gt; {1=[A], 3=[fox, the], 4=[over, lazy, dog.], 5=[quick, brown, jumps]}
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Flatten lists in a list in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/flatten-lists-in-a-list-in-java/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/flatten-lists-in-a-list-in-java/</id><content type="html"><![CDATA[<p>Javaでlistの中にlistが複数あるものを、
+]]></content></entry><entry><title type="html"><![CDATA[Flatten lists in a list in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/flatten-lists-in-a-list-in-java/"/><updated>2018-08-21T01:47:56+09:00</updated><id>/blog/2018/08/21/flatten-lists-in-a-list-in-java/</id><content type="html"><![CDATA[<p>Javaでlistの中にlistが複数あるものを、
 一つのflatなlistにしたい時、どうするのかなー、と。
 <a href="https://qiita.com/macoshita/items/4d4aaf5cea9848ff9dbf">Java 8 で ruby の flatten</a>に書いてありました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -738,24 +772,4 @@ service化しました。
 </span></code></pre></td></tr></table></div></figure>
 <p><code>flatMap(Collection::stream)</code>がキモですね。
 こんなの思い付かないですよ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Comparable of Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/comparable-of-java/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/comparable-of-java/</id><content type="html"><![CDATA[<p>小数と分数を表すclassなど似たような役割なら、
-classを超えて<code>Comparable</code>でもいっか、
-とか思ってしまって反省しています。</p>
-<p>Effective Javaにあるんですね、
-<a href="https://www.thekingsmuseum.info/entry/2015/09/04/003117">【Effective Java】項目１２：Comparable の実装を検討する</a>って。
-<code>compareTo</code>を定義するなら<code>equals</code>と<code>hashCode</code>も定義すべきだし、
-<code>a.compareTo(b)==0</code>と<code>a.equals(b)==true</code>が違うなら、
-<code>compareTo</code>で比較する<code>TreeSet</code>と<code>equals</code>で比較する<code>HashSet</code>で
-結果が違っちゃうんですね。
-<code>compareTo</code>が違うclassの比較を許すなら、
-<code>equals</code>でも許さねばならず、
-流石にそれはおかしいだろう、
-ということでしょうか。
-実際、</p>
-<blockquote><p>クラスが適切にパラメータ化されていれば、ClassCastExceptionがスローされます。
-契約は、クラス間の比較を排除してはいませんが、
-リリース1.6では、Javaプラットフォームライブラリーのどのクラスも、
-クラス間の比較をサポートしません。</p>
-</blockquote>
-<p><a href="http://tatsuyamuku.hatenablog.com/entry/2015/06/14/164803">【Effective Java】項目12 Comparableの実装を検討する</a></p>
 ]]></content></entry></feed>

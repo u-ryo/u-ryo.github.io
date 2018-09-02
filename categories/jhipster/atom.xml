@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T14:16:41+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-02T15:44:19+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
+アプリとしてinstallしていたPWAを一旦uninstallしてから
+browserでそのpageを読んでも、「ホーム画面に追加」が現れなかったんですね。
+何でんだろー、一旦uninstallしちゃうとダメなのかな?
+いやそんなことないだろうな、とは思いつつも
+明確に「uninstallしても大丈夫」だと書いてあるところもなく、
+心配だったんです。
+「ホーム画面に追加」が出ないのは何が悪いのか、わからないんですよね。</p>
+<p>「ホーム画面に追加」が出る条件、というのがあって、
+<a href="https://developers.google.com/web/fundamentals/app-install-banners/?hl=ja">公式ページ(ウェブアプリのインストール バナー)</a>によると、</p>
+<ol>
+<li><code>short_name</code>(ホーム画面で使用)</li>
+<li><code>name</code>(バナーで使用)</li>
+<li>192x192のpngアイコン(アイコンの宣言にはMIMEタイプ<code>image/png</code>の指定が必要)</li>
+<li>読み込み先の<code>start_url</code></li>
+</ol>
+<p>というんですが、
+<a href="https://qiita.com/narikei/items/4240f03542f29e313989">「ホーム画面に追加」からはじめる『PWA(Service Worker)』</a>には192のpngの話はなく、
+また<a href="https://amymd.hatenablog.com/entry/2017/10/12/001612">【3ステップではじめる】PWAによる「ホーム画面に追加」バナーの実装</a>では<code>fetch</code> eventの定義が必要だとあります。
+こちとら、一度は出来たわけだし、実際には
+<a href="https://www.bunkei-programmer.net/entry/2018/04/09/125015">PWAで「ホーム画面に追加」が表示されない時に確認する事</a>にある「manifest.json内のアイコン画像が404である」といったところが一番多いんじゃないでしょうか。
+この人もそうだったといいますし、ぼくもそうでした。</p>
+<p>ただ、その原因は困ったものでした。
+webpackでhash化された名前の付いたpng fileが壊れていたからです。
+とても悩みました。調べてもそんな事例、出てきません。
+色々試行錯誤した挙句わかったのは、
+<code>css</code>内と<code>manifest.webapp</code>(<code>manifest.json</code>)内で
+指定しているpngが同じだと、
+webpackがpng fileをhash名化する時にバッティングするようで、
+生成後のpng fileはviewerで見えないし、
+<code>file</code>コマンドで見ると「data」とか出るし。
+<code>css</code>でのpng fileを<code>../../../../../../webpack/logo-jhipster.png</code>
+といったようにして<code>manifest.webpack</code>と別物にすると、うまく行きました。
+<code>./src/...</code>以下でなくてもいいんですね!</p>
+]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
 と思っていて、<a href="https://angular.io/">Angular</a>だから、
 <a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
 <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
@@ -60,7 +94,7 @@ Angularのservice workerは生成されないわけですね。</p>
 <p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、
 Angularの<code>SwPush</code>を使うことが出来ます。
 JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[daemonizing jhipster application]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/19/daemonizing-jhipster-application/</id><content type="html"><![CDATA[<p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、
+]]></content></entry><entry><title type="html"><![CDATA[daemonizing jhipster application]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/"/><updated>2018-08-21T01:20:16+09:00</updated><id>/blog/2018/08/19/daemonizing-jhipster-application/</id><content type="html"><![CDATA[<p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、
 OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するようにするには。</p>
 <p>きっとSpring Bootでdaemonizeする方法を探ればいいと思って、
 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html">61. Installing Spring Boot Applications</a>にあるように、</p>
@@ -99,7 +133,7 @@ OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するよ�
 で、それを<code>/etc/init.d/</code>にsymlinkすればいいだけという。
 <code>-Pprod</code>を付けないとdevelopment versionになってしまいます。
 あとは、<code>update-rc.d appname defaults</code>で登録すれば良いです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
 <p>参考: <a href="https://dev.classmethod.jp/etc/wiremock-practice/">WireMockを使って通信に関するテストをやってみよう</a></p>
 <p>使う時は<code>build.gradle</code>で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -172,7 +206,7 @@ Test Class内で<code>@Autowired</code>してるservice classのmockが必要に
 特に<code>build.grade</code>に記述せずとも<code>import org.mockito.Mock;</code>して
 mockitoの<code>@Mock</code>が使えるんですね。
 そう言えば、元々<code>import org.mockito.MockitoAnnotations;</code>されてますね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
 <ul>
 <li><p>unit test実行は<code>gradle test</code></p>
 </li>
@@ -203,7 +237,7 @@ mockitoの<code>@Mock</code>が使えるんですね。
 <li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html">11. Testing Method Security</a>(Spring公式doc)</li>
 <li><a href="https://ishiis.net/2016/11/12/spring-boot-security-unit-test/">Spring Securityを使っているWebアプリのUnitテスト</a>(2016/11/12)</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-01-31T14:42:38+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
+]]></content></entry><entry><title type="html"><![CDATA[JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/01/30/jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/01/30/jhipster/</id><content type="html"><![CDATA[<p>ここんとこPWA(Progressive Web Application)作ろうとしていて、
 ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
 それと今ならSPAでぼくはAngular派なので、
 それに今時認証は自分でやりたくないよねとOAuth2で、
