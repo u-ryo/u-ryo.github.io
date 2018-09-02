@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/logging/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Logging on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/logging-on-angular/"/><updated>2018-09-02T17:10:00+09:00</updated><id>/blog/2018/09/02/logging-on-angular/</id><content type="html"><![CDATA[<p>Angularでloggingをしようと思いました。
+<a href="https://www.slf4j.org/">slf4j(Simple Logging Facade 4 Java)</a>みたいなのないかなー、って思って<a href="https://www.npmjs.com/package/ng2-logger">ng2-logger</a>使いました。
+まぁ良かったんですけど、
+logのlevel指定が、
+指定level以下、とかではなく、
+それぞれ指定しなくてはならないというのがちょっと不便です。
+何でそんな設計にしたのかなー。
+例えば、<code>Log.create('books', Level.WARN)</code>とすれば<code>Level.ERROR</code>も
+出てくるというわけではなく、明示的にそれぞれ
+<code>Log.create('books', Level.ERROR, Level.WARN)</code>と指定しなくてはならない、
+というわけです。
+<code>Log.setProductionMode()</code>で全てのlogは出て来なくなります。
+これは、階層関係なくどこかに1箇所書いてあれば効くようです。
+使う時はフツーに<code>log.d('object',obj)</code>と<code>i</code>、<code>w</code>ですが、
+errorだけは<code>log.er('object',obj)</code>なので注意です。
+あと出てくるlogの見た目はcolorfulできれいです。</p>
+]]></content></entry></feed>
