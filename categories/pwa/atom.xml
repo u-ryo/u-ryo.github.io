@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/pwa/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-02T15:44:19+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/pwa/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
 アプリとしてinstallしていたPWAを一旦uninstallしてから
 browserでそのpageを読んでも、「ホーム画面に追加」が現れなかったんですね。
 何でんだろー、一旦uninstallしちゃうとダメなのかな?
@@ -32,7 +32,7 @@ webpackがpng fileをhash名化する時にバッティングするようで、
 <code>css</code>でのpng fileを<code>../../../../../../webpack/logo-jhipster.png</code>
 といったようにして<code>manifest.webpack</code>と別物にすると、うまく行きました。
 <code>./src/...</code>以下でなくてもいいんですね!</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
+]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T14:16:41+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
 と思っていて、<a href="https://angular.io/">Angular</a>だから、
 <a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
 <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
@@ -94,7 +94,7 @@ Angularのservice workerは生成されないわけですね。</p>
 <p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、
 Angularの<code>SwPush</code>を使うことが出来ます。
 JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
+]]></content></entry><entry><title type="html"><![CDATA[Web Push Notification for PWA]]></title><link href="http://u-ryo.github.io//blog/2018/02/18/web-push-notification-for-pwa/"/><updated>2018-02-27T10:31:43+09:00</updated><id>/blog/2018/02/18/web-push-notification-for-pwa/</id><content type="html"><![CDATA[<p>PWAの売りとしてWeb Push Notificationが出来るのはつとに聞いていましたが、
 具体的にどうやるんだろう? と思ってました。
 仕組みから考えて、WebSocketが必須なのかな?
 とかって勝手に思ってたんですが、違うんですね!

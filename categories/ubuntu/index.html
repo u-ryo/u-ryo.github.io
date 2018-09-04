@@ -8,7 +8,95 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Ubuntu</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Ubuntu category via RSS" href="/categories/ubuntu/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/19/daemonizing-jhipster-application/">Daemonizing Jhipster Application</a></h1> <p class="meta"> <time datetime="2018-08-19T23:51:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">19</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、 OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するようにするには。</p> <p>きっとSpring Bootでdaemonizeする方法を探ればいいと思って、 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html">61. Installing Spring Boot Applications</a>にあるように、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Ubuntu</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Ubuntu category via RSS" href="/categories/ubuntu/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/04/extract-recent-initramfs/">Extract Recent Initramfs</a></h1> <p class="meta"> <time datetime="2018-09-04T11:19:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">04</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/04/extract-recent-initramfs/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>よその会社に用意して貰ったLinux(ubuntu)のSSDがあって、 ちょっとhappy hackingしてみようと。 <code>initramfs</code>を展開しようと<code>zcat initrd.img|cpio -di</code>とかってやってみたところ、 「not in gzip format」と。 <code>file initrd.img</code>とすると「ASCII cpio archive (SVR4 with no CRC)」です。 圧縮fileじゃないのかとそのまま<code>cpio -id</code>しても、 何か<code>kernel/x86/microcode/AuthenticAMD.bin</code>しか出て来ません。 えー!? どうなってんのー?! 調べてみると、<code>lsinitramfs</code>というのでlistは出るらしい、です。 試してみると、確かに色々入ってそうです。 なのに出て来ません。えー。 <a href="http://neocat.hatenablog.com/entry/20150730/1438273548">FedoraやCentOS 6/7、RHEL 6/7のinitramfsを展開する</a>や<a href="http://nopipi.hatenablog.com/entry/2015/05/06/235615">RHEL7 initramfsの展開方法</a>を見ると、 きょうびの<code>initramfs</code>は違うんですねー。 びっくりです。</p> <p>ちなみに、<code>skipcpio</code>は<code>apt install dracut</code>で入ります。 使うには、<code>/usr/lib/dracut/skipcpio</code>とfull path指定が必要です。 <code>binwalk</code>は<code>apt install binwalk</code>でした。</p> <p>早速試したところ、上手く行くもの(<code>/boot/initrd.img-4.15.0-33-generic</code>)もありましたが、 下記のように上手く行かないものもありました。 そして、目的のものは上手く行かない方のものでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ /usr/lib/dracut/skipcpio ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: ASCII cpio archive (SVR4 with no CRC)
+</span></code></pre></td></tr></table></div></figure> <p><code>binwalk</code>で見てみると、全く同じ位置にあるのに。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ binwalk ~/initrd.img-4.15.0-33-generic
+</span><span class='line'>
+</span><span class='line'>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span><span class='line'>--------------------------------------------------------------------------------
+</span><span class='line'>0             0x0             ASCII cpio archive (SVR4 with no CRC), file name: &quot;.&quot;, file name length: &quot;0x00000002&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>112           0x70            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>232           0xE8            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>356           0x164           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>488           0x1E8           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/AuthenticAMD.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00006B2A&quot;
+</span><span class='line'>28072         0x6DA8          ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28672         0x7000          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28792         0x7078          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28916         0x70F4          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29048         0x7178          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/.enuineIntel.align.0123456789abc&quot;, file name length: &quot;0x00000036&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29212         0x721C          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/GenuineIntel.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00180C00&quot;
+</span><span class='line'>1605296       0x187EB0        ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>1605632       0x188000        gzip compressed data, from Unix, last modified: 2018-08-30 06:15:36
+</span><span class='line'>
+</span><span class='line'>$ binwalk /boot/initrd.img-4.15.0-33-generic
+</span><span class='line'>
+</span><span class='line'>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span><span class='line'>--------------------------------------------------------------------------------
+</span><span class='line'>0             0x0             ASCII cpio archive (SVR4 with no CRC), file name: &quot;.&quot;, file name length: &quot;0x00000002&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>112           0x70            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>232           0xE8            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>356           0x164           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>488           0x1E8           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/AuthenticAMD.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00006B2A&quot;
+</span><span class='line'>28072         0x6DA8          ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28672         0x7000          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28792         0x7078          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28916         0x70F4          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29048         0x7178          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/.enuineIntel.align.0123456789abc&quot;, file name length: &quot;0x00000036&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29212         0x721C          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/GenuineIntel.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00180C00&quot;
+</span><span class='line'>1605296       0x187EB0        ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>1605632       0x188000        gzip compressed data, from Unix, last modified: 2018-08-28 05:01:31
+</span></code></pre></td></tr></table></div></figure> <p><code>TRAILER</code>が2つあるので、<code>skipcpio</code>を2回かけてみてもダメでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ /usr/lib/dracut/skipcpio ~/initrd.img-4.15.0-33-generic|/usr/lib/dracut/skipcpio /dev/stdin|file -
+</span><span class='line'>/dev/stdin: data
+</span></code></pre></td></tr></table></div></figure> <p>仕方ないので、<code>binwalk</code>で得られたbyte数を自分でskipしてやる手法で試すと、上手く解凍されました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ tail -c +1605632 ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: data
+</span><span class='line'>$ tail -c +1605633 ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: gzip compressed data, last modified: Thu Aug 30 06:15:36 2018, from Unix
+</span><span class='line'>$ tail -c +1605633 ~/initrd.img-4.15.0-33-generic|zcat|cpio -id
+</span></code></pre></td></tr></table></div></figure> <p><code>binwalk</code>で得られた1605632ではダメで、1605633でOKでした。 上記サイトには「得られたbyte数以降を<code>dd</code>で書き出せ」とかありましたが、 別にそんなことしなくても<code>tail -c +NNN</code>で十分です。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/19/daemonizing-jhipster-application/">Daemonizing Jhipster Application</a></h1> <p class="meta"> <time datetime="2018-08-19T23:51:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">19</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、 OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するようにするには。</p> <p>きっとSpring Bootでdaemonizeする方法を探ればいいと思って、 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html">61. Installing Spring Boot Applications</a>にあるように、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>bootJar {
@@ -58,7 +146,7 @@
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount &quot;&#39;false&#39;&quot;
 </span><span class='line'>$ dconf write /org/gnome/desktop/media-handling/automount-open &quot;&#39;false&#39;&quot;
-</span></code></pre></td></tr></table></div></figure> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/09/02/mysql-on-jhipster/">MySQL on JHipster</a> </li> <li class="post"> <a href="/blog/2018/09/02/communication-between-components-on-angular/">Communication Between Components on Angular</a> </li> <li class="post"> <a href="/blog/2018/09/02/logging-on-angular/">Logging on Angular</a> </li> <li class="post"> <a href="/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/">Dont Use the Same Image File in Css and Manifest.webapp on Webpack</a> </li> <li class="post"> <a href="/blog/2018/08/30/illegal-forward-reference/">Illegal Forward Reference</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/09/04/how-secure-is-my-password/">How Secure Is My Password</a> </li> <li class="post"> <a href="/blog/2018/09/04/extract-recent-initramfs/">Extract Recent Initramfs</a> </li> <li class="post"> <a href="/blog/2018/09/02/mysql-on-jhipster/">MySQL on JHipster</a> </li> <li class="post"> <a href="/blog/2018/09/02/communication-between-components-on-angular/">Communication Between Components on Angular</a> </li> <li class="post"> <a href="/blog/2018/09/02/logging-on-angular/">Logging on Angular</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.

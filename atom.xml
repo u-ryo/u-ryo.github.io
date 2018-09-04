@@ -1,4 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-09-03T02:48:45+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-03T02:48:45+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-09-04T14:29:05+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[How Secure Is My Password]]></title><link href="http://u-ryo.github.io//blog/2018/09/04/how-secure-is-my-password/"/><updated>2018-09-04T14:29:05+09:00</updated><id>/blog/2018/09/04/how-secure-is-my-password/</id><content type="html"><![CDATA[<p><a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186</a>に載ってたものなので、何を今更、ですが。</p>
+<p><a href="http://howsecureismypassword.net/">How Secure Is My Password?</a>、
+自分の常用passwordは1 Dayでした。
+色々試してみると、
+「長いことはいいことだ(10文字以上はないと)」
+「最後に大文字アルファベットでも足すと劇的に良くなる」
+みたいです。
+でも多分これ、localにhashか何かがあってbrute forceを試せる、
+という前提での解読時間かなと思います。
+今はjs fileはugrifyされてて具体的にどう計算しているのかlogic(簡単には)追えないです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Extract recent initramfs]]></title><link href="http://u-ryo.github.io//blog/2018/09/04/extract-recent-initramfs/"/><updated>2018-09-04T12:01:55+09:00</updated><id>/blog/2018/09/04/extract-recent-initramfs/</id><content type="html"><![CDATA[<p>よその会社に用意して貰ったLinux(ubuntu)のSSDがあって、
+ちょっとhappy hackingしてみようと。
+<code>initramfs</code>を展開しようと<code>zcat initrd.img|cpio -di</code>とかってやってみたところ、
+「not in gzip format」と。
+<code>file initrd.img</code>とすると「ASCII cpio archive (SVR4 with no CRC)」です。
+圧縮fileじゃないのかとそのまま<code>cpio -id</code>しても、
+何か<code>kernel/x86/microcode/AuthenticAMD.bin</code>しか出て来ません。
+えー!? どうなってんのー?!
+調べてみると、<code>lsinitramfs</code>というのでlistは出るらしい、です。
+試してみると、確かに色々入ってそうです。
+なのに出て来ません。えー。
+<a href="http://neocat.hatenablog.com/entry/20150730/1438273548">FedoraやCentOS 6/7、RHEL 6/7のinitramfsを展開する</a>や<a href="http://nopipi.hatenablog.com/entry/2015/05/06/235615">RHEL7 initramfsの展開方法</a>を見ると、
+きょうびの<code>initramfs</code>は違うんですねー。
+びっくりです。</p>
+<p>ちなみに、<code>skipcpio</code>は<code>apt install dracut</code>で入ります。
+使うには、<code>/usr/lib/dracut/skipcpio</code>とfull path指定が必要です。
+<code>binwalk</code>は<code>apt install binwalk</code>でした。</p>
+<p>早速試したところ、上手く行くもの(<code>/boot/initrd.img-4.15.0-33-generic</code>)もありましたが、
+下記のように上手く行かないものもありました。
+そして、目的のものは上手く行かない方のものでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ /usr/lib/dracut/skipcpio ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: ASCII cpio archive (SVR4 with no CRC)
+</span></code></pre></td></tr></table></div></figure>
+<p><code>binwalk</code>で見てみると、全く同じ位置にあるのに。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ binwalk ~/initrd.img-4.15.0-33-generic
+</span><span class='line'>
+</span><span class='line'>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span><span class='line'>--------------------------------------------------------------------------------
+</span><span class='line'>0             0x0             ASCII cpio archive (SVR4 with no CRC), file name: &quot;.&quot;, file name length: &quot;0x00000002&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>112           0x70            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>232           0xE8            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>356           0x164           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>488           0x1E8           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/AuthenticAMD.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00006B2A&quot;
+</span><span class='line'>28072         0x6DA8          ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28672         0x7000          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28792         0x7078          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28916         0x70F4          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29048         0x7178          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/.enuineIntel.align.0123456789abc&quot;, file name length: &quot;0x00000036&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29212         0x721C          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/GenuineIntel.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00180C00&quot;
+</span><span class='line'>1605296       0x187EB0        ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>1605632       0x188000        gzip compressed data, from Unix, last modified: 2018-08-30 06:15:36
+</span><span class='line'>
+</span><span class='line'>$ binwalk /boot/initrd.img-4.15.0-33-generic
+</span><span class='line'>
+</span><span class='line'>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span><span class='line'>--------------------------------------------------------------------------------
+</span><span class='line'>0             0x0             ASCII cpio archive (SVR4 with no CRC), file name: &quot;.&quot;, file name length: &quot;0x00000002&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>112           0x70            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>232           0xE8            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>356           0x164           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>488           0x1E8           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/AuthenticAMD.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00006B2A&quot;
+</span><span class='line'>28072         0x6DA8          ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28672         0x7000          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28792         0x7078          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28916         0x70F4          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29048         0x7178          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/.enuineIntel.align.0123456789abc&quot;, file name length: &quot;0x00000036&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29212         0x721C          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/GenuineIntel.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00180C00&quot;
+</span><span class='line'>1605296       0x187EB0        ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>1605632       0x188000        gzip compressed data, from Unix, last modified: 2018-08-28 05:01:31
+</span></code></pre></td></tr></table></div></figure>
+<p><code>TRAILER</code>が2つあるので、<code>skipcpio</code>を2回かけてみてもダメでした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ /usr/lib/dracut/skipcpio ~/initrd.img-4.15.0-33-generic|/usr/lib/dracut/skipcpio /dev/stdin|file -
+</span><span class='line'>/dev/stdin: data
+</span></code></pre></td></tr></table></div></figure>
+<p>仕方ないので、<code>binwalk</code>で得られたbyte数を自分でskipしてやる手法で試すと、上手く解凍されました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ tail -c +1605632 ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: data
+</span><span class='line'>$ tail -c +1605633 ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: gzip compressed data, last modified: Thu Aug 30 06:15:36 2018, from Unix
+</span><span class='line'>$ tail -c +1605633 ~/initrd.img-4.15.0-33-generic|zcat|cpio -id
+</span></code></pre></td></tr></table></div></figure>
+<p><code>binwalk</code>で得られた1605632ではダメで、1605633でOKでした。
+上記サイトには「得られたbyte数以降を<code>dd</code>で書き出せ」とかありましたが、
+別にそんなことしなくても<code>tail -c +NNN</code>で十分です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
 実際、これまでdevだったのをprod環境にして、
 Timastampを含むTableのあるMySQLをbackendに据えてみると、
 <code>-Pdev</code>環境ではうまく立ち上がっていたのに、
@@ -14,7 +142,7 @@ Timastampを含むTableのあるMySQLをbackendに据えてみると、
 </pre></td><td class='code'><pre><code class='html'><span class='line'>character-set-server=utf8
 </span><span class='line'>explicit_defaults_for_timestamp=on
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Communication between components on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/communication-between-components-on-angular/"/><updated>2018-09-02T20:19:43+09:00</updated><id>/blog/2018/09/02/communication-between-components-on-angular/</id><content type="html"><![CDATA[<p><a href="https://angular.io/">Angular</a>でcomponent間通信しようと思いました。
+]]></content></entry><entry><title type="html"><![CDATA[Communication between components on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/communication-between-components-on-angular/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/02/communication-between-components-on-angular/</id><content type="html"><![CDATA[<p><a href="https://angular.io/">Angular</a>でcomponent間通信しようと思いました。
 これまで一つにしていたcontrol formとそれをはんえいするimage viewを
 別componentにして、その間で情報伝達したり、
 あるtimingで他方のfunctionを叩いたり、
@@ -36,7 +164,7 @@ Local Storageにも保存できますし、ってそれはどちらも同じで�
 意識しなくても変数に<code>@SharedStorage</code>とか<code>@LocalStorage</code>とすれば
 他のcomponentでも変更された値がそのまま参照できるというスグレモノです。
 全部これ使えばいーんですよ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Logging on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/logging-on-angular/"/><updated>2018-09-02T17:10:00+09:00</updated><id>/blog/2018/09/02/logging-on-angular/</id><content type="html"><![CDATA[<p>Angularでloggingをしようと思いました。
+]]></content></entry><entry><title type="html"><![CDATA[Logging on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/logging-on-angular/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/02/logging-on-angular/</id><content type="html"><![CDATA[<p>Angularでloggingをしようと思いました。
 <a href="https://www.slf4j.org/">slf4j(Simple Logging Facade 4 Java)</a>みたいなのないかなー、って思って<a href="https://www.npmjs.com/package/ng2-logger">ng2-logger</a>使いました。
 まぁ良かったんですけど、
 logのlevel指定が、
@@ -52,7 +180,7 @@ logのlevel指定が、
 使う時はフツーに<code>log.d('object',obj)</code>と<code>i</code>、<code>w</code>ですが、
 errorだけは<code>log.er('object',obj)</code>なので注意です。
 あと出てくるlogの見た目はcolorfulできれいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-02T15:44:19+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
+]]></content></entry><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
 アプリとしてinstallしていたPWAを一旦uninstallしてから
 browserでそのpageを読んでも、「ホーム画面に追加」が現れなかったんですね。
 何でんだろー、一旦uninstallしちゃうとダメなのかな?
@@ -86,7 +214,7 @@ webpackがpng fileをhash名化する時にバッティングするようで、
 <code>css</code>でのpng fileを<code>../../../../../../webpack/logo-jhipster.png</code>
 といったようにして<code>manifest.webpack</code>と別物にすると、うまく行きました。
 <code>./src/...</code>以下でなくてもいいんですね!</p>
-]]></content></entry><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
+]]></content></entry><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-08-30T10:20:35+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
 <code>illegal forward reference</code>というのがあります。
 これを題材に、後輩氏に課題を出しました。</p>
 <p>最も単純な形にして挙例すると、</p>
@@ -151,7 +279,7 @@ webpackがpng fileをhash名化する時にバッティングするようで、
 <p>でも、こういう回答は想像してなくて、新鮮でした。</p>
 <p>そもそもdeclarationが後ろに書いてあったこと自体がおかしい、とは思いますけどね。
 そういう「色々おかしい」ソフトを直しています。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
+]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T14:16:41+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
 と思っていて、<a href="https://angular.io/">Angular</a>だから、
 <a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
 <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
@@ -213,7 +341,7 @@ Angularのservice workerは生成されないわけですね。</p>
 <p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、
 Angularの<code>SwPush</code>を使うことが出来ます。
 JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
+]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-08-28T10:23:45+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
 違うaccountでloginしてみようとprivate browsing mode用いると、
 何か出来ないんですねこれ。
 <code>https</code>か<code>localhost</code>じゃないとダメ、というのは知ってましたが。
@@ -223,7 +351,7 @@ JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription
 <a href="https://developer.mozilla.org/ja/docs/Web/API/ServiceWorker_API#Service_worker_concepts_and_usage">サービスワーカーの概念と使い方</a></p>
 </blockquote>
 <p>chromeはsecret mode(private window)でのService Workerも大丈夫、のようですか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
+]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-28T10:08:27+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
 httpsのreverse proxy(nginx)の後ろに置いて、
 GoogleのOAuth2でJWTな認証をしようとしました。
 当然、backend serverからはGoogle APIに自分のhost名でaccessするような
@@ -353,7 +481,7 @@ backendで以下のようなerrorが出ていて。</p>
 というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら
 全く同じcodeで何の問題もなく入れるのです。
 「must match」の対象が何なのか、よく分かりません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T21:04:34+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
+]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:28:16+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
 起動に失敗する」ことがあります。
 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -421,7 +549,7 @@ Guava 19.0を明示的に<code>@Grab</code>に入れてもダメ、
 取り敢えず前に進める方法がわかったので記しています。</p>
 <p>あぁ、あと、このようにGrapeに失敗すると、
 <code>~/.groovy/grapes/</code>以下に<code>resolved-caller-all-caller-working73.properties</code>と<code>resolved-caller-all-caller-working73.xml</code>といったfilesが澱のように溜まっていくので、都度削除した方がいいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Push Notification from command line by ntfy]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/push-notification-from-command-line-by-ntfy/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/push-notification-from-command-line-by-ntfy/</id><content type="html"><![CDATA[<p>コマンドラインからPush通知が出来るというのでやってみました。
+]]></content></entry><entry><title type="html"><![CDATA[Push Notification from command line by ntfy]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/push-notification-from-command-line-by-ntfy/"/><updated>2018-08-24T14:30:43+09:00</updated><id>/blog/2018/08/24/push-notification-from-command-line-by-ntfy/</id><content type="html"><![CDATA[<p>コマンドラインからPush通知が出来るというのでやってみました。
 (<a href="https://qiita.com/kjtanaka/items/8b0c90d28909e50e4a6d">Linuxのコマンドラインやスクリプトからスマホにプッシュ通知する。（ntfyというツールの紹介）</a>)
 <a href="https://www.pushbullet.com/">PushBullet</a>を使ってみました。
 ChromeやFirefoxだとextension、
@@ -439,7 +567,7 @@ ChromeやFirefoxだとextension、
 PushBulletのアプリを入れると、
 電話帳やSMS(Short Message Service)もぶっこ抜いてくるんですね。
 それと知らずにSMS送ってしまい、相手に不審がられてしまいました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
+]]></content></entry><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T14:00:35+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
 <a href="https://qiita.com/yo1000/items/050c5c47daabf7a10e10">Spring MVC で CSV をダウンロードさせる</a>を参考にしました。
 要するに、</p>
 <ul>
@@ -449,10 +577,10 @@ PushBulletのアプリを入れると、
 <li><code>CsvMapper mapper = new CsvMapper();</code>して<code>CsvSchema schema = mapper.schemaFor(SomeBean.class).withHeader();</code>して<code>return mapper.writer(schema).writeValueAsString(beans);</code></li>
 <li><code>compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"</code>を入れて<code>@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")</code>して<code>mapper.registerModule(new JavaTimeModule());</code>すると、<code>ZonedDateTime</code>を如意に表示できる?<a href="http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/">Formatting Java Time with Spring Boot using JSON</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[fluent on Lombok]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/fluent-on-lombok/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/fluent-on-lombok/</id><content type="html"><![CDATA[<p><a href="https://projectlombok.org">Lombok</a>で<code>@Accessors(fluent=true)</code>にしたら、
+]]></content></entry><entry><title type="html"><![CDATA[fluent on Lombok]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/fluent-on-lombok/"/><updated>2018-08-24T11:23:29+09:00</updated><id>/blog/2018/08/24/fluent-on-lombok/</id><content type="html"><![CDATA[<p><a href="https://projectlombok.org">Lombok</a>で<code>@Accessors(fluent=true)</code>にしたら、
 setterのみならず<a href="https://projectlombok.org/features/experimental/Accessors">getterもfluentになる</a>んですね。
 <code>getXxx()</code>がないと言われて焦りました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
+]]></content></entry><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T11:13:28+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
 <a href="http://blog.rakugakibox.net/entry/2014/11/23/java_spring_boot_rest">Java: Spring Boot で REST なアプリを作ってみる</a>を見てみて、
 <code>@XmlRootElement</code>を付ければいい?
 ついでにtag名がclass名と違うので、
@@ -460,7 +588,7 @@ setterのみならず<a href="https://projectlombok.org/features/experimental/Ac
 <p>あと、<a href="https://projectlombok.org">Lombok</a>を使ったせいなのか、
 各fieldに<code>@XmlElement</code>を付けないと、出て来ませんでした。
 そういうもの?!</p>
-]]></content></entry><entry><title type="html"><![CDATA[Java8 DateTime API]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/java8-datetime-api/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/java8-datetime-api/</id><content type="html"><![CDATA[<p>Java8から入ったDateTime API(<code>java.time</code> package)では、
+]]></content></entry><entry><title type="html"><![CDATA[Java8 DateTime API]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/java8-datetime-api/"/><updated>2018-08-24T12:00:05+09:00</updated><id>/blog/2018/08/24/java8-datetime-api/</id><content type="html"><![CDATA[<p>Java8から入ったDateTime API(<code>java.time</code> package)では、
 <code>a.plusMinutes(3).isBefore(now)</code>
 なんていう感じで日付時刻計算や比較が出来ます、
 という話です。現在時刻は<code>ZonedDateTime.now(ZoneId.of("Asia/Tokyo"))</code>。
@@ -469,7 +597,7 @@ setterのみならず<a href="https://projectlombok.org/features/experimental/Ac
 <li><a href="https://qiita.com/kurukurupapa@github/items/f55395758eba03d749c9">Javaで日時を扱う（Java8）</a></li>
 <li><a href="http://www.atmarkit.co.jp/ait/articles/1501/29/news016_2.html">Java 8日時APIの主なメソッドとフォーマット用のパターン文字の使い方 (2/6)</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T20:12:12+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
+]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-27T13:53:03+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
 <a href="http://jdk.java.net/11/">Java11</a>ではJava本体から削除され、
 <a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、
 でもGUI作るならJavaFXだろうなぁ、
@@ -592,7 +720,7 @@ Class Pathを指定すれば、
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
 <p>最後、<code>stage.close()</code>すればwindowは開かずに済みます。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Getting the first in Spring DATA JPA]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/getting-the-first-in-spring-data-jpa/"/><updated>2018-08-23T19:59:27+09:00</updated><id>/blog/2018/08/23/getting-the-first-in-spring-data-jpa/</id><content type="html"><![CDATA[<p>Spring DATA JPAで、「最新のもの一つ」を取得したかったんです。
+]]></content></entry><entry><title type="html"><![CDATA[Getting the first in Spring DATA JPA]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/getting-the-first-in-spring-data-jpa/"/><updated>2018-08-23T18:27:06+09:00</updated><id>/blog/2018/08/23/getting-the-first-in-spring-data-jpa/</id><content type="html"><![CDATA[<p>Spring DATA JPAで、「最新のもの一つ」を取得したかったんです。
 Spring DATA JPAは、<code>findFirstBy...</code>とかってmethodに命名すれば
 自動的にSQL作ってくれるらしいんですが(<a href="https://qiita.com/sndr/items/af7d12be264c2cc4b252">【Spring Data JPA】自動実装されるメソッドの命名ルール</a>)、
 目的のものではlogin userを自動的にparameterizeしたかったので、
@@ -608,7 +736,7 @@ SQL文にはMySQLでいうところの<code>limit=1</code>などはつけずに�
 <li><a href="https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-seven-pagination/">Spring Data JPA Tutorial: Pagination</a></li>
 <li><a href="https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">setMaxResults for Spring-Data-JPA annotation?</a></li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
+]]></content></entry><entry><title type="html"><![CDATA[Arukas Cloud]]></title><link href="http://u-ryo.github.io//blog/2018/08/22/arukas-cloud/"/><updated>2018-08-28T11:15:14+09:00</updated><id>/blog/2018/08/22/arukas-cloud/</id><content type="html"><![CDATA[<p><a href="https://www.sakura.ad.jp/">Sakura</a>がやっているからそのreverse spellingだという<a href="https://arukas.io/">Arukas</a>、
 docker hostingをやっていて、
 credit card登録は強制されますが1 containerなら無料というので、
 専用SSH machine作って<a href="https://jhipster.tech/">JHipster</a>の開発/buildに使おうと企みました。</p>
@@ -699,7 +827,7 @@ dynamic DNSでは使えず、custom domainは諦めました。</p>
 </span><span class='line'>ln -sf /dev/stderr /var/log/nginx/error.log
 </span></code></pre></td></tr></table></div></figure>
 <p>こんな技があるんですねーなるほどー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T00:08:47+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
+]]></content></entry><entry><title type="html"><![CDATA[Stubbing in Spock]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/stubbing-in-spock/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/stubbing-in-spock/</id><content type="html"><![CDATA[<p><a href="http://spockframework.org/">Spock</a>でstubbingして
 methodのcall回数をassertする必要がありまして。
 <code>someClass = Spy(SomeClass)</code>でspyにすると、
 <code>3 * someClass.targetMethod(_, _)</code>といったようにassert出来るのですが、
@@ -734,32 +862,4 @@ methodのcall回数をassertする必要がありまして。
 <code>3 * someClass.targetMethod(_, _)</code>の部分には、
 変数とか入れられません。即ち、
 <code>(3 + n) * someClass.targetMethod(_, _)</code>とかはダメでした。</p>
-]]></content></entry><entry><title type="html"><![CDATA[ZipOutputStream in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/zipoutputstream-in-java/"/><updated>2018-08-21T23:46:50+09:00</updated><id>/blog/2018/08/21/zipoutputstream-in-java/</id><content type="html"><![CDATA[<p>Javaで複数filesをまとめてzipにして出力する(=downloadさせる)必要があり、
-何かlibraryないかなーと探したところ、あまりなくて。
-ということは、標準的な手法でもさほど手間はかからないということですね。
-確かに、<code>new ZipOutputStream(response.getOutputStream())</code>してから
-<code>new ZipEntry("file/name")</code>して<code>zos.putNextEntry(entry)</code>して
-<code>zos.write(...)</code>していけばいいだけですもんね。
-<a href="http://www.ne.jp/asahi/hishidama/home/tech/java/zip.html">Zipファイル</a>によりますと、
-<code>new ZipOutputStream(new BufferedOutputStream(...))</code>というように
-<code>new BufferedOutputStream()</code>でくくった方が3.6倍速い(110ms→30ms)とのこと。
-ホント?!</p>
-]]></content></entry><entry><title type="html"><![CDATA[Downloading a file on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/downloading-a-file-on-angular/"/><updated>2018-08-21T22:56:39+09:00</updated><id>/blog/2018/08/21/downloading-a-file-on-angular/</id><content type="html"><![CDATA[<p>JHipsterのAngularでfileをdownloadするUIを作っていました。
-AタグlinkからserverのAPI叩いて、
-<code>Content-Disposition: attachment;filename=...</code>
-と返せば済むだろう、
-と思ってたんですが、そういえば認証通さねばなりません。
-となると一旦browserで全部受けてblobにしてから返さないとならなさそうです。
-認証header自体は、JHipsterならHTTPのinterceptorがあって、
-フツーに<code>this.http.get(...)</code>とかすれば勝手に付けてくれます。
-HTTP Headerの付け方は<a href="https://angular.io/guide/http#adding-headers">公式document</a>にある通りです。
-<a href="https://stackoverflow.com/questions/40966096/angular-2-download-csv-file-click-event-with-authentication?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa">Angular 2 download .CSV file click event with authentication</a>を参考に、
-service化しました。
-<a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>を使うと楽そうですけど、
-そんなに互換性が重視されるわけではないことと大したcode量ではないことから、
-自分で書きました。
-最後、<code>window.open(url);</code>だとwindowが上がってきてしまうので、
-<a href="http://takasdev.hatenablog.com/entry/2017/06/15/211725">AngularでCSVをAPIからDLするときに色々したお話</a>にあるように、
-裏で自分で<code>&lt;a href="..."&gt;</code>作って自分で叩いて自分で消す、
-というように書いたら、うまく行きました。</p>
 ]]></content></entry></feed>
