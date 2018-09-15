@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/keras/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Python Basic Web Server for Applying keras Model]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/</id><content type="html"><![CDATA[<p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが
+NotePC程度で動くことを証明したく、
+PythonのBaseHTTPServerで1日でちゃちゃっと作りました。</p>
+<p>といっても「PythonのBaseHTTPServer」なんて触るの初めてです。
+<a href="https://gist.github.com/bradmontgomery/2219997">bradmontgomery/dummy-web-server.py</a>を参考にしました。
+なるほど、classを定義して、<code>BaseHTTPRequestHandler</code>を引数にして、
+<code>do_GET</code>や<code>do_POST</code>を書くわけですね。
+routingは自分でやれと。面倒なのでmethodで分けました。
+このsystem自体をone fileで済ませたかったので、
+<code>GET</code>で<code>index.html</code>を返したいと思い、
+そのためにはhere documentを書きたいな、
+と思ったので、
+<a href="https://qiita.com/ykhirao/items/c7cba73a3a563be5eac6">Pythonのヒアドキュメント</a>を参考に、
+あぁ、普通に<code>'''</code>(single quote 3つ)でいいのね、とわかりました。
+single quoteでも中で変数展開されるんですね。へー。
+<a href="http://d.hatena.ne.jp/matasaburou/20151003/1443882557">PythonでJSONを受けて処理をする</a>を参考に、
+<code>POST</code>時のparameter(=request body)の受け取り方を。
+HTTP Request Headerの<code>Content-Length</code>を<code>int</code>として記憶し、
+<code>self.rfile.read()</code>でそのbyte分読んで、
+<code>decode()</code>でstringにすると。
+parameterizedされるわけではなく、bodyがまるっと読まれるので、
+parameterで分けるのは自分でやれということですね。</p>
+<p>あと、base64として来た文字列をdecodeして<code>Image</code>化するには、
+先頭の<code>image/jpeg;base64,</code>を除去し(<code>replace()</code>)て純粋にBase64文字列だけにし、
+<code>base64.b64decode(content)</code>したものを<code>io.BytesIO()</code>し、
+それを<code>Image.open()</code>すると。</p>
+<p><code>predict()</code>したものは2次元配列になっているので、
+0番目の<code>argmax()</code>したものが答えの添字、なのですね。</p>
+<p>ともあれ、このpython predict server script 1つと
+keras model fileの2 filesだけでサクッと動くものを、
+<a href="https://github.com/u-ryo/python_prediction_server">github</a>に置きました。</p>
+]]></content></entry></feed>

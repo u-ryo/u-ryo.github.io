@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/stream/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[List to Map in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/list-to-map-in-java/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/list-to-map-in-java/</id><content type="html"><![CDATA[<p>Javaで<code>List</code>を<code>Map</code>にしたかったんですね。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/stream/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[List to Map in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/list-to-map-in-java/"/><updated>2018-08-21T02:21:40+09:00</updated><id>/blog/2018/08/21/list-to-map-in-java/</id><content type="html"><![CDATA[<p>Javaで<code>List</code>を<code>Map</code>にしたかったんですね。
 <a href="https://www.sejuku.net/blog/15900">【Java入門】List⇔Map変換でJava8のStreamを使う方法</a>を見ました。
 ここは、いいこと書いてあるんですけど能書きが長い、Java8以前の話は不要(at least for me)、広告が多い感じがする、のが...</p>
 <p>基本は単純に<code>Collectors.toMap(s-&gt;key, s-&gt;value)</code>でいけますと。
@@ -43,7 +43,7 @@
 </pre></td><td class='code'><pre><code class='html'><span class='line'>jshell&gt; Stream.of(&quot;A quick brown fox jumps over the lazy dog.&quot;.split(&quot; &quot;)).collect(Collectors.groupingBy(s-&gt;s.length()))
 </span><span class='line'>$12 ==&gt; {1=[A], 3=[fox, the], 4=[over, lazy, dog.], 5=[quick, brown, jumps]}
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Flatten lists in a list in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/flatten-lists-in-a-list-in-java/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/flatten-lists-in-a-list-in-java/</id><content type="html"><![CDATA[<p>Javaでlistの中にlistが複数あるものを、
+]]></content></entry><entry><title type="html"><![CDATA[Flatten lists in a list in Java]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/flatten-lists-in-a-list-in-java/"/><updated>2018-08-21T01:47:56+09:00</updated><id>/blog/2018/08/21/flatten-lists-in-a-list-in-java/</id><content type="html"><![CDATA[<p>Javaでlistの中にlistが複数あるものを、
 一つのflatなlistにしたい時、どうするのかなー、と。
 <a href="https://qiita.com/macoshita/items/4d4aaf5cea9848ff9dbf">Java 8 で ruby の flatten</a>に書いてありました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -53,7 +53,7 @@
 </span></code></pre></td></tr></table></div></figure>
 <p><code>flatMap(Collection::stream)</code>がキモですね。
 こんなの思い付かないですよ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Negate Method Reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/negate-method-reference/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/17/negate-method-reference/</id><content type="html"><![CDATA[<p>Javaのstreamで、<code>filter(s -&gt; !s.isEmpty())</code>を
+]]></content></entry><entry><title type="html"><![CDATA[Negate Method Reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/negate-method-reference/"/><updated>2018-08-17T08:20:44+09:00</updated><id>/blog/2018/08/17/negate-method-reference/</id><content type="html"><![CDATA[<p>Javaのstreamで、<code>filter(s -&gt; !s.isEmpty())</code>を
 method referenceに出来ないかなー、と思ったんですが、
 <code>java.util.function.Predicate</code>を使って、</p>
 <ol>
@@ -70,7 +70,7 @@ method referenceに出来ないかなー、と思ったんですが、
 </span></code></pre></td></tr></table></div></figure>
 <p>cf. <a href="https://stackoverflow.com/questions/21488056/how-to-negate-a-method-reference-predicate">stack overflow: How to negate a method reference predicate</a></p>
 <p>現状では長くなるので、やめました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2017-12-01T17:41:42+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
+]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
 Stream APIのようにCollectionsを扱えません。
 折角Java8で覚えたのに。
 ですが、RxJavaを使うとほぼStream APIのように書けるんですねーへーーー。

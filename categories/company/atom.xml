@@ -1,4 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/company/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/company/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Battle against Fool]]></title><link href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/07/battle-against-fool/</id><content type="html"><![CDATA[<p>いゃぁ、びっくりしました。
+今日会社でいきなり会議に招集されたんですけど、
+その内容が、今後AI外観検査案件で使うPCの標準specを決めます、というもの。
+そもそも外観検査、出来るかどうか、とかどういう撮像でどういうalgorithmで、
+とかじゃなくて、えー、まずはそんなところから入るんだー、と驚きです。
+営業とかマネージャーとか、技術全くわかんない(わかろうともしない)人達って、
+そういうこと考えてるんですね。
+確かに、そういうところなら彼らでも議論が出来る、から?</p>
+<p>丁度、<a href="https://www.amazon.co.jp/%E9%A0%AD%E3%81%AB%E6%9D%A5%E3%81%A6%E3%82%82%E3%82%A2%E3%83%9B%E3%81%A8%E3%81%AF%E6%88%A6%E3%81%86%E3%81%AA-%E4%BA%BA%E9%96%93%E9%96%A2%E4%BF%82%E3%82%92%E6%80%9D%E3%81%84%E9%80%9A%E3%82%8A%E3%81%AB%E3%81%97%E3%80%81%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%82%92%E5%AE%9F%E7%8F%BE%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-%E7%94%B0%E6%9D%91%E8%80%95%E5%A4%AA%E9%83%8E/dp/4022511982/ref=cm_cr_arp_d_product_top?ie=UTF8">頭に来てもアホとは戦うな!</a>をちょっと立ち読みしたので、
+もう受け流すことにしました。</p>
+<p>「そうですよねー、Nさん目の付け所が違いますねー」</p>
+<p>『目の付け所が違う』のは確かでしょう。
+真面目に議論しちゃうと、精神衛生上よくない気がしました。
+しかしこの本、カスタマーレビューでは結構叩かれてますね。
+尤もだと思います。</p>
+<p>ちょっぴりアホと戦ってしまいました。
+やっぱりまだまだですねーぼくも。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Pro-do by Ukkyo-san]]></title><link href="http://u-ryo.github.io//blog/2017/10/06/pro-do-by-ukkyo-san/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/10/06/pro-do-by-ukkyo-san/</id><content type="html"><![CDATA[<p>もう閉鎖されるというのに何を今更ですが、
 ひょんなことから<a href="http://ukkyo.sakura.ne.jp/">未経験２７歳プログラマーへの道（イバラ）</a>を見付けて、一気に読んでしまいました。
 最初の企業の話は、まさに今のぼくのと符合するところが多く。
 でもこの人、人類みな京大なんですね頭いいんだ... というより、数学的で要領がいいんですね(ってご自分でも書いてますね)。
