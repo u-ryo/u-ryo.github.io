@@ -430,6 +430,7 @@ EditorのCodeで見られるbytecodeならいじれるので、
 <a href="https://hackernoon.com/learning-keras-by-implementing-vgg16-from-scratch-d036733f2d5">Reading the VGG Network Paper and Implementing It From Scratch with Keras</a>
 <code>"same"</code>が0と解釈された??
 いやいや、DL4Jのsourceを見ると、<code>"same"</code>はきちんと扱っているようです。
+あー、<code>SAME</code>ってこういう意味だったんですね(<a href="http://ni4muraano.hatenablog.com/entry/2017/02/02/195505">【Python】 KerasのConv2Dの引数paddingについて</a>)。
 今回のExceptionは、具体的には
 <code>deeplearning4j/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/InputTypeUtil.java</code>の以下で出ていることがわかりました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -557,7 +558,7 @@ classpathの指定が大変でした。
 
 
 
-     <time datetime="2018-09-15T17:33:33+09:00" class="updated">
+     <time datetime="2018-09-15T17:37:47+09:00" class="updated">
        Updated
        <span class="month">Sep</span>
        <span class="day">15</span>,

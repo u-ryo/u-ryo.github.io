@@ -29,7 +29,7 @@ parameterで分けるのは自分でやれということですね。</p>
 <p>ともあれ、このpython predict server script 1つと
 keras model fileの2 filesだけでサクッと動くものを、
 <a href="https://github.com/u-ryo/python_prediction_server">github</a>に置きました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-09-15T17:33:33+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
+]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-09-15T17:37:47+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
 やむなく<a href="https://colab.research.google.com/">Google Colaboratory</a>上で<a href="https://keras.io/ja/">keras</a>でVGG16 with ImageNetをfine tuningしたmodelを、
 GPUのないNotePCでpredictしようとしました。
 NotePCには容量が小さいためpythonも本気では入れてないので、
@@ -344,6 +344,7 @@ EditorのCodeで見られるbytecodeならいじれるので、
 <a href="https://hackernoon.com/learning-keras-by-implementing-vgg16-from-scratch-d036733f2d5">Reading the VGG Network Paper and Implementing It From Scratch with Keras</a>
 <code>"same"</code>が0と解釈された??
 いやいや、DL4Jのsourceを見ると、<code>"same"</code>はきちんと扱っているようです。
+あー、<code>SAME</code>ってこういう意味だったんですね(<a href="http://ni4muraano.hatenablog.com/entry/2017/02/02/195505">【Python】 KerasのConv2Dの引数paddingについて</a>)。
 今回のExceptionは、具体的には
 <code>deeplearning4j/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/InputTypeUtil.java</code>の以下で出ていることがわかりました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
