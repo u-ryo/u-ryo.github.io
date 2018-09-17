@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/ffmpeg/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Viewing/Recording TV (Hiden no Tare)]]></title><link href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/"/><updated>2018-09-17T22:09:47+09:00</updated><id>/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/</id><content type="html"><![CDATA[<p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。
+3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。
+画像と音声は別々だしsizeも320x240と凄く小さいんですけど、
+1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、
+いっかなぁと。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>echo &#39;ffmpeg -s 320x240 -r 12 -vd /dev/video -ad /dev/dsp -y -t 0:15:00 ~/avi/hanbun_aoi_146.avi <span class="err">&amp;</span>&gt; /dev/null&#39; |at 8:00
+</span><span class='line'>
+</span><span class='line'>vlc --color -I dummy v4l:/dev/video:norm=ntsc:size=640x480:adev=/dev/dsp:audio=0:channel=0:fps=12 --sout &quot;#transcode{vcodec=mp4v,acodec=mpga,vb=3000,ab=256,venc=ffmpeg{keyint=80,vt=800000},deinterlace}:std{access=http,mux=asf,url=0.0.0.0:8080}&quot; --ttl 2
+</span><span class='line'>
+</span><span class='line'>echo &#39;(sleep 45;pkill -f ffmpeg) <span class="err">&amp;</span>&gt; /dev/null&#39;|at 7:59
+</span></code></pre></td></tr></table></div></figure>
+<p>vlcのこんなparameter、もう探し当てられません。
+vlcのversionは古い(0.8.2)ので注意です。
+上記USB Boxに適合するkernel drvierのため、Debian sarge限定です。
+最後のは、朝ドラ始まる前まで安心してTVを見ていられるように、です。</p>
+<h3>instal sarge</h3>
+<p>ついでに、いつもsargeをinstallしている手順です。
+自分用のメモです。</p>
+<h3><code>/etc/rc.local</code></h3>
+<p>``<code>
+kernel2.6なら</code>tuner.o`は出来ないので不要。</p>
+<h3>INSTALL sarge</h3>
+<ol>
+<li><code>unetbootin</code>でUSB作成可</li>
+<li>boot直後、<code>linux26</code>を選択</li>
+<li>cdrom mountに失敗するのでmountは手で。<code>mount /dev/disks/scsi/disk0/lun0/part0 /cdrom</code>とか何とか</li>
+<li>symlink張れないので、自分で<code>rm /cdrom/dists/stable;cp -rp /cdrom/dists/sarge /cdrom/dists/stable</code></li>
+<li>source URLは、<code>deb http://ftp.riken.jp/Linux/debian/debian-archive/debian sarge main contrib non-free</code>を自分でedit</li>
+</ol>
+<h3>/etc/apt/sources.list</h3>
+<p>backportを付加。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
+</span><span class='line'>modprobe tda7313
+</span><span class='line'>modprobe saa7111-new
+</span><span class='line'>#insmod ~u-ryo/ov511-2.31/tuner.o
+</span><span class='line'>sleep 3
+</span><span class='line'>#v4lctl setchannel 1
+</span><span class='line'>#v4lctl setinput CVBS-0
+</span><span class='line'>v4lctl setinput S-Video-0
+</span><span class='line'>v4lctl volume 50000
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>deb http://ftp.riken.jp/Linux/debian/debian-archive/debian sarge main contrib non-free
+</span><span class='line'>deb http://archive.debian.org/backports.org/ sarge-backports main contrib non-free
+</span></code></pre></td></tr></table></div></figure>
+<p><code>ffmpeg</code>は<code>sarge-backports</code>のに上げるとVideo4Linux2(V4L2)を入力に要求するようになるのでダメポ。</p>
+<h3>alsa</h3>
+<p>alsaでないと声が割れる。
+後から入れても有効にならないので、
+<code>sudo /sbin/modprobe -r i810_audio</code>
+そうすると<code>/dev/audio</code>が無くなるので、sndを入れ直し。
+<code>for i in snd_mpu_401 snd_rawmidi snd_seq_device snd_intel8x0 snd_intel8x0m snd_ac97_codec snd_pcm_oss snd_mixer_oss snd_pcm snd_timer snd snd_page_alloc;do sudo /sbin/modprobe -r $i;done</code>
+再度<code>snd</code>を<code>modprobe</code>
+<code>sudo /sbin/modprobe snd</code></p>
+<h3>for wpa_supplicant</h3>
+<p>cf. http://near-unix.blogspot.jp/2010/09/thinkpad-535x-debian-sarge-lan_29.html</p>
+<h3><code>/etc/default/wpasupplicant</code></h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt-get install -t sarge-backports debhelper dh-make build-essential
+</span><span class='line'>$ sudo m-a a-i madwifi
+</span><span class='line'>$ sudo apt-get install alsa-tools ntp ntpdate ntp-server screen sudo ffmpeg vlc bzip2 wpasupplicant
+</span><span class='line'>$ sudo m-a a-i alsa
+</span><span class='line'>$ sudo m-a a-i thinkpad
+</span><span class='line'>$ sudo /sbin/modprobe thinkpad
+</span><span class='line'>$ sudo /sbin/modprobe thinkpadpm
+</span><span class='line'>$ sudo /sbin/modprobe rtcmosram
+</span><span class='line'>$ sudo /sbin/modprobe smapi
+</span></code></pre></td></tr></table></div></figure>
+<h3><code>/etc/wpa_supplicant.conf</code></h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ENABLED=1
+</span><span class='line'>OPTIONS=&quot;-w -i ath0 -D madwifi -c /etc/wpa_supplicant.conf -dd&quot;
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ctrl_interface=/var/run/wpa_supplicant
+</span><span class='line'>ctrl_interface_group=0
+</span><span class='line'>eapol_version=1
+</span><span class='line'>ap_scan=1
+</span><span class='line'>fast_reauth=1
+</span><span class='line'>
+</span><span class='line'>network={
+</span><span class='line'>        ssid=&quot;YOUR_SSID&quot;
+</span><span class='line'>        psk=&quot;YOUR_PreSharedKey&quot;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<h3><code>/etc/network/interfaces</code></h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo apt-get install -t sarge-backports wpasupplicant
+</span><span class='line'>sudo mv /etc/init.d/wpasupplicant.dpkg-bak /etc/init.d/wpasupplicant
+</span><span class='line'>sudo mv /etc/default/wpasupplicant.dpkg-bak /etc/default/wpasupplicant
+</span><span class='line'>sudo mv /etc/wpa_supplicant.conf.dpkg-bak /etc/wpa_supplicant.conf
+</span><span class='line'>sudo ln -s /sbin/wpa_supplicant /usr/sbin/wpa_supplicant
+</span><span class='line'>sudo /usr/sbin/update-rc.d wpasupplicant defaults
+</span></code></pre></td></tr></table></div></figure>
+<p><code>wpa-driver</code>と<code>wpa-conf</code>が無いとダメだった。</p>
+<h3>for mosh</h3>
+<p>色々試したがmoshはダメだった。諦めた。</p>
+]]></content></entry></feed>

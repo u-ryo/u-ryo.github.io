@@ -1,4 +1,139 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-09-15T17:37:47+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Python Basic Web Server for Applying keras Model]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/</id><content type="html"><![CDATA[<p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-09-17T22:09:47+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Viewing/Recording TV (Hiden no Tare)]]></title><link href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/"/><updated>2018-09-17T22:09:47+09:00</updated><id>/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/</id><content type="html"><![CDATA[<p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。
+3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。
+画像と音声は別々だしsizeも320x240と凄く小さいんですけど、
+1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、
+いっかなぁと。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>echo &#39;ffmpeg -s 320x240 -r 12 -vd /dev/video -ad /dev/dsp -y -t 0:15:00 ~/avi/hanbun_aoi_146.avi <span class="err">&amp;</span>&gt; /dev/null&#39; |at 8:00
+</span><span class='line'>
+</span><span class='line'>vlc --color -I dummy v4l:/dev/video:norm=ntsc:size=640x480:adev=/dev/dsp:audio=0:channel=0:fps=12 --sout &quot;#transcode{vcodec=mp4v,acodec=mpga,vb=3000,ab=256,venc=ffmpeg{keyint=80,vt=800000},deinterlace}:std{access=http,mux=asf,url=0.0.0.0:8080}&quot; --ttl 2
+</span><span class='line'>
+</span><span class='line'>echo &#39;(sleep 45;pkill -f ffmpeg) <span class="err">&amp;</span>&gt; /dev/null&#39;|at 7:59
+</span></code></pre></td></tr></table></div></figure>
+<p>vlcのこんなparameter、もう探し当てられません。
+vlcのversionは古い(0.8.2)ので注意です。
+上記USB Boxに適合するkernel drvierのため、Debian sarge限定です。
+最後のは、朝ドラ始まる前まで安心してTVを見ていられるように、です。</p>
+<h3>instal sarge</h3>
+<p>ついでに、いつもsargeをinstallしている手順です。
+自分用のメモです。</p>
+<h3><code>/etc/rc.local</code></h3>
+<p>``<code>
+kernel2.6なら</code>tuner.o`は出来ないので不要。</p>
+<h3>INSTALL sarge</h3>
+<ol>
+<li><code>unetbootin</code>でUSB作成可</li>
+<li>boot直後、<code>linux26</code>を選択</li>
+<li>cdrom mountに失敗するのでmountは手で。<code>mount /dev/disks/scsi/disk0/lun0/part0 /cdrom</code>とか何とか</li>
+<li>symlink張れないので、自分で<code>rm /cdrom/dists/stable;cp -rp /cdrom/dists/sarge /cdrom/dists/stable</code></li>
+<li>source URLは、<code>deb http://ftp.riken.jp/Linux/debian/debian-archive/debian sarge main contrib non-free</code>を自分でedit</li>
+</ol>
+<h3>/etc/apt/sources.list</h3>
+<p>backportを付加。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
+</span><span class='line'>modprobe tda7313
+</span><span class='line'>modprobe saa7111-new
+</span><span class='line'>#insmod ~u-ryo/ov511-2.31/tuner.o
+</span><span class='line'>sleep 3
+</span><span class='line'>#v4lctl setchannel 1
+</span><span class='line'>#v4lctl setinput CVBS-0
+</span><span class='line'>v4lctl setinput S-Video-0
+</span><span class='line'>v4lctl volume 50000
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>deb http://ftp.riken.jp/Linux/debian/debian-archive/debian sarge main contrib non-free
+</span><span class='line'>deb http://archive.debian.org/backports.org/ sarge-backports main contrib non-free
+</span></code></pre></td></tr></table></div></figure>
+<p><code>ffmpeg</code>は<code>sarge-backports</code>のに上げるとVideo4Linux2(V4L2)を入力に要求するようになるのでダメポ。</p>
+<h3>alsa</h3>
+<p>alsaでないと声が割れる。
+後から入れても有効にならないので、
+<code>sudo /sbin/modprobe -r i810_audio</code>
+そうすると<code>/dev/audio</code>が無くなるので、sndを入れ直し。
+<code>for i in snd_mpu_401 snd_rawmidi snd_seq_device snd_intel8x0 snd_intel8x0m snd_ac97_codec snd_pcm_oss snd_mixer_oss snd_pcm snd_timer snd snd_page_alloc;do sudo /sbin/modprobe -r $i;done</code>
+再度<code>snd</code>を<code>modprobe</code>
+<code>sudo /sbin/modprobe snd</code></p>
+<h3>for wpa_supplicant</h3>
+<p>cf. http://near-unix.blogspot.jp/2010/09/thinkpad-535x-debian-sarge-lan_29.html</p>
+<h3><code>/etc/default/wpasupplicant</code></h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt-get install -t sarge-backports debhelper dh-make build-essential
+</span><span class='line'>$ sudo m-a a-i madwifi
+</span><span class='line'>$ sudo apt-get install alsa-tools ntp ntpdate ntp-server screen sudo ffmpeg vlc bzip2 wpasupplicant
+</span><span class='line'>$ sudo m-a a-i alsa
+</span><span class='line'>$ sudo m-a a-i thinkpad
+</span><span class='line'>$ sudo /sbin/modprobe thinkpad
+</span><span class='line'>$ sudo /sbin/modprobe thinkpadpm
+</span><span class='line'>$ sudo /sbin/modprobe rtcmosram
+</span><span class='line'>$ sudo /sbin/modprobe smapi
+</span></code></pre></td></tr></table></div></figure>
+<h3><code>/etc/wpa_supplicant.conf</code></h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ENABLED=1
+</span><span class='line'>OPTIONS=&quot;-w -i ath0 -D madwifi -c /etc/wpa_supplicant.conf -dd&quot;
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ctrl_interface=/var/run/wpa_supplicant
+</span><span class='line'>ctrl_interface_group=0
+</span><span class='line'>eapol_version=1
+</span><span class='line'>ap_scan=1
+</span><span class='line'>fast_reauth=1
+</span><span class='line'>
+</span><span class='line'>network={
+</span><span class='line'>        ssid=&quot;YOUR_SSID&quot;
+</span><span class='line'>        psk=&quot;YOUR_PreSharedKey&quot;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+<h3><code>/etc/network/interfaces</code></h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo apt-get install -t sarge-backports wpasupplicant
+</span><span class='line'>sudo mv /etc/init.d/wpasupplicant.dpkg-bak /etc/init.d/wpasupplicant
+</span><span class='line'>sudo mv /etc/default/wpasupplicant.dpkg-bak /etc/default/wpasupplicant
+</span><span class='line'>sudo mv /etc/wpa_supplicant.conf.dpkg-bak /etc/wpa_supplicant.conf
+</span><span class='line'>sudo ln -s /sbin/wpa_supplicant /usr/sbin/wpa_supplicant
+</span><span class='line'>sudo /usr/sbin/update-rc.d wpasupplicant defaults
+</span></code></pre></td></tr></table></div></figure>
+<p><code>wpa-driver</code>と<code>wpa-conf</code>が無いとダメだった。</p>
+<h3>for mosh</h3>
+<p>色々試したがmoshはダメだった。諦めた。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Python Basic Web Server for Applying keras Model]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/</id><content type="html"><![CDATA[<p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが
 NotePC程度で動くことを証明したく、
 PythonのBaseHTTPServerで1日でちゃちゃっと作りました。</p>
 <p>といっても「PythonのBaseHTTPServer」なんて触るの初めてです。
@@ -29,10 +164,10 @@ parameterで分けるのは自分でやれということですね。</p>
 <p>ともあれ、このpython predict server script 1つと
 keras model fileの2 filesだけでサクッと動くものを、
 <a href="https://github.com/u-ryo/python_prediction_server">github</a>に置きました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-09-15T17:37:47+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
+]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-09-17T20:47:26+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
 やむなく<a href="https://colab.research.google.com/">Google Colaboratory</a>上で<a href="https://keras.io/ja/">keras</a>でVGG16 with ImageNetをfine tuningしたmodelを、
 GPUのないNotePCでpredictしようとしました。
-NotePCには容量が小さいためpythonも本気では入れてないので、
+NotePCはDisk/Memory容量が小さいためpythonも本気では入れてないので、
 <a href="http://groovy-lang.org/">Groovy</a>+<a href="https://deeplearning4j.org/">DeepLearning4J</a>で何とかならないかなー、
 とあがきました。
 単純にGrapeでの指定だけだと失敗するんです。</p>
@@ -334,14 +469,14 @@ EditorのCodeで見られるbytecodeならいじれるので、
 <p><code>Require 0 &lt; kW &lt;= inWidth + 2*padW; got (kW=3, inWidth=1, padW=0)</code>ということからすると、多分keras modelの方の<code>block2_conv1</code>の<code>padW</code>が1でないとダメ?
 何をどうすればいいんでしょう?</p>
 <p>心が折れそうになりましたが、もう少し頑張ってみます。</p>
-<p>まずVGG16の<code>block2_conv1</code>のpadding(<code>padW</code>って恐らくこれでしょう?)は<code>"same"</code>のようです。<a href="http://blog.neko-ni-naritai.com/entry/2018/04/07/115504">VGG16をkerasで実装した</a>
+<p>まずVGG16の<code>block2_conv1</code>のpadding(<code>padW</code>って恐らくこれでしょう?)は<code>"same"</code>のようです(<a href="http://blog.neko-ni-naritai.com/entry/2018/04/07/115504">VGG16をkerasで実装した</a>)。
 実際、途中のlogでは下のように<code>"padding": "same"</code>とあります。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>{&quot;name&quot;: &quot;block2_conv1&quot;, &quot;config&quot;: {&quot;kernel_regularizer&quot;: null, &quot;activation&quot;: &quot;relu&quot;, &quot;dilation_rate&quot;: [1, 1], &quot;name&quot;: &quot;block2_conv1&quot;, &quot;data_format&quot;: &quot;channels_last&quot;, &quot;kernel_size&quot;: [3, 3], &quot;bias_constraint&quot;: null, &quot;filters&quot;: 128, &quot;kernel_initializer&quot;: {&quot;config&quot;: {&quot;scale&quot;: 1.0, &quot;mode&quot;: &quot;fan_avg&quot;, &quot;distribution&quot;: &quot;uniform&quot;, &quot;seed&quot;: null}, &quot;class_name&quot;: &quot;VarianceScaling&quot;}, &quot;use_bias&quot;: true, &quot;kernel_constraint&quot;: null, &quot;activity_regularizer&quot;: null, &quot;trainable&quot;: false, &quot;padding&quot;: &quot;same&quot;, ...
 </span></code></pre></td></tr></table></div></figure>
-<p>色々見ると、VGG16では<code>padding=[1,1]</code>みたいです。<a href="https://jp.mathworks.com/help/deeplearning/ref/vgg16.html">事前学習済み VGG-16 畳み込みニューラル ネットワーク</a>
-<a href="http://agnesmustar.com/2017/05/25/build-vgg16-scratch-part-ii/">Build VGG16 from scratch : part II</a>
-<a href="https://hackernoon.com/learning-keras-by-implementing-vgg16-from-scratch-d036733f2d5">Reading the VGG Network Paper and Implementing It From Scratch with Keras</a>
+<p>色々見ると、VGG16では<code>padding=[1,1]</code>みたいです(<a href="https://jp.mathworks.com/help/deeplearning/ref/vgg16.html">事前学習済み VGG-16 畳み込みニューラル ネットワーク</a>)
+(<a href="http://agnesmustar.com/2017/05/25/build-vgg16-scratch-part-ii/">Build VGG16 from scratch : part II</a>)
+(<a href="https://hackernoon.com/learning-keras-by-implementing-vgg16-from-scratch-d036733f2d5">Reading the VGG Network Paper and Implementing It From Scratch with Keras</a>)。
 <code>"same"</code>が0と解釈された??
 いやいや、DL4Jのsourceを見ると、<code>"same"</code>はきちんと扱っているようです。
 あー、<code>SAME</code>ってこういう意味だったんですね(<a href="http://ni4muraano.hatenablog.com/entry/2017/02/02/195505">【Python】 KerasのConv2Dの引数paddingについて</a>)。
@@ -456,7 +591,7 @@ classpathの指定が大変でした。
 </span><span class='line'>$ javac -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar DL4J.java
 </span><span class='line'>$ java -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar:/usr/share/java/slf4j-api.jar:.:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-jackson/jars/nd4j-jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/jackson/jars/jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-common/jars/nd4j-common-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-api/jars/nd4j-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-context/jars/nd4j-context-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-buffer/jars/nd4j-buffer-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-platform/jars/nd4j-native-platform-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-api/jars/nd4j-native-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.apache.commons/commons-math3/jars/commons-math3-3.5.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2.jar DL4J
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Battle against Fool]]></title><link href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/07/battle-against-fool/</id><content type="html"><![CDATA[<p>いゃぁ、びっくりしました。
+]]></content></entry><entry><title type="html"><![CDATA[Battle against Fool]]></title><link href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/"/><updated>2018-09-16T22:09:50+09:00</updated><id>/blog/2018/09/07/battle-against-fool/</id><content type="html"><![CDATA[<p>いゃぁ、びっくりしました。
 今日会社でいきなり会議に招集されたんですけど、
 その内容が、今後AI外観検査案件で使うPCの標準specを決めます、というもの。
 そもそも外観検査、出来るかどうか、とかどういう撮像でどういうalgorithmで、
@@ -473,6 +608,16 @@ classpathの指定が大変でした。
 尤もだと思います。</p>
 <p>ちょっぴりアホと戦ってしまいました。
 やっぱりまだまだですねーぼくも。</p>
+<h3>社内用語集</h3>
+<ul>
+<li>勉強させている → 放置プレイ</li>
+<li>マネジメント → 「どう? 出来た?」/日程調整</li>
+<li>PM → Project Messenger</li>
+<li>高コミュ力 → イエスマン</li>
+<li>ワンストップ・トータルコーディネート → 客からの中間搾取(=BPへの丸投げ)</li>
+<li>客先常駐・SES → 偽装派遣</li>
+<li>BP派遣 → 多重派遣</li>
+</ul>
 ]]></content></entry><entry><title type="html"><![CDATA[How Secure Is My Password]]></title><link href="http://u-ryo.github.io//blog/2018/09/04/how-secure-is-my-password/"/><updated>2018-09-09T15:44:45+09:00</updated><id>/blog/2018/09/04/how-secure-is-my-password/</id><content type="html"><![CDATA[<p><a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186</a>に載ってたものなので、何を今更、ですが。</p>
 <p><a href="http://howsecureismypassword.net/">How Secure Is My Password?</a>、
 自分の常用passwordは1 Dayでした。
@@ -1072,127 +1217,4 @@ setterのみならず<a href="https://projectlombok.org/features/experimental/Ac
 <li><a href="https://qiita.com/kurukurupapa@github/items/f55395758eba03d749c9">Javaで日時を扱う（Java8）</a></li>
 <li><a href="http://www.atmarkit.co.jp/ait/articles/1501/29/news016_2.html">Java 8日時APIの主なメソッドとフォーマット用のパターン文字の使い方 (2/6)</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T20:12:12+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
-<a href="http://jdk.java.net/11/">Java11</a>ではJava本体から削除され、
-<a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、
-でもGUI作るならJavaFXだろうなぁ、
-簡単に描けるようにGroovyでないかなー、
-と思ったら、ありました<a href="http://groovyfx.org/">GroovyFX</a>。
-早速試してみると、
-本家に書いてある「Hello, World」すら以下のように失敗しました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>Caught: java.lang.ExceptionInInitializerError
-</span><span class='line'>java.lang.ExceptionInInitializerError
-</span><span class='line'>        at java_lang_Class$isAssignableFrom$1.call(Unknown Source)
-</span><span class='line'>        at com.sun.proxy.$Proxy8.onClassInfo(Unknown Source)
-</span><span class='line'>Caused by: java.lang.IllegalStateException: Toolkit not initialized
-</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.runLater(PlatformImpl.java:273)
-</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.runLater(PlatformImpl.java:268)
-</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.setPlatformUserAgentStylesheet(PlatformImpl.java:550)
-</span><span class='line'>        at com.sun.javafx.application.PlatformImpl.setDefaultPlatformUserAgentStylesheet(PlatformImpl.java:512)
-</span><span class='line'>        at javafx.scene.control.Control.<span class="nt">&lt;clinit&gt;</span>(Control.java:87)
-</span><span class='line'>        ... 2 more
-</span></code></pre></td></tr></table></div></figure>
-<p>色々試すと、以下のような最低限のscriptでもaaaを出力もせず
-全く同じerror messageを出すので、
-もうGrapeでgroovyfxを読み込んでいる時点でダメなんでしょう。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>@Grab(&#39;org.groovyfx:groovyfx:8.0.0&#39;)
-</span><span class='line'>import java.lang.*
-</span><span class='line'>println(&#39;aaa&#39;)
-</span></code></pre></td></tr></table></div></figure>
-<p>scriptに何を書いても無視される(そこまで到達しない)わけなので、
-事前に<code>new javafx.embed.swing.JFXPanel()</code>して
-JavaFX environmentを初期化する、ということも当然効きません。
-Grapeに拘っていたので、
-古いversion(<code>@Grab('org.codehaus.groovyfx:groovyfx:0.4.0')</code>)に
-して<code>new javafx.embed.swing.JFXPanel()</code>しておけば、
-<code>start{...}</code>が動くことがわかりversion落としてやってましたが、
-今改めて試してみると、
-Grapeじゃなくて<code>groovy -cp groovyfx-8.0.0.jar test.groovy</code>と
-Class Pathを指定すれば、
-<code>new javafx.embed.swing.JFXPanel()</code>もなしに
-「Hello World」もその通り動くことが確認できました。
-そっかー、Grape諦めればよかったのかー。
-<code>-cp</code>を指定しても足りないところはGrapeも効くので、
-そぃでよかったでもんそ。</p>
-<p>あと、MySQLからdata読む必要があったので、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>@GrabConfig(systemClassLoader=true)
-</span><span class='line'>@Grab(&#39;mysql:mysql-connector-java&#39;)
-</span><span class='line'>import groovy.sql.*
-</span><span class='line'>
-</span><span class='line'>def sql = Sql.newInstance(&#39;jdbc:mysql://localhost:3306/database?useSSL=false&#39;, &#39;user&#39;, &#39;password&#39;, &#39;com.mysql.cj.jdbc.Driver&#39;)
-</span><span class='line'>sql.eachRow(&#39;SELECT * FROM table WHERE filename LIKE ?&#39;, [&#39;%&#39; + filename]) { r -&gt;
-</span><span class='line'>  ...
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>とすればよいと。</p>
-<p>今回の目的は、画像を読み込んで、それにDBから読み込んだ値で四角形を描き、
-そぃを画像fileとして出力する、ちゅうもんじゃった。
-<code>scene.snapshot()</code>してから<code>SwingFXUtils.fromFXImage(scene, null)</code>で
-描画画像をbitmap化出来ます。
-それを<code>ImageIO.write()</code>で一発でfileに書けるがじゃっどん、
-そぃだと何か出来た画像が赤みがかっちゃっちょるんですよね。
-どげんしたもんか、試行錯誤の挙句、ImageMagickのfrontend、
-<a href="http://im4java.sourceforge.net/">im4java</a>を通すとうまく行きました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>import org.im4java.core.*
-</span><span class='line'>
-</span><span class='line'>color = new Color(0.753, 0.302, 0.314, 0.4)
-</span><span class='line'>op = new IMOperation().addImage().quality(100.0).strip().addImage()
-</span><span class='line'>convert = new ConvertCmd()
-</span><span class='line'>
-</span><span class='line'>start {
-</span><span class='line'>  st = stage(title: &#39;any words OK&#39;, visible: true) {
-</span><span class='line'>    s = scene(fill: BLACK, width: w, height: h) {
-</span><span class='line'>      imageView(new Image(Paths.get(imageFileName).toUri().toString()))
-</span><span class='line'>      rectangles.values().forEach { v -&gt;
-</span><span class='line'>        rectangle(x:v[0], y:v[1], width:v[2], height:v[3], fill:color)
-</span><span class='line'>      }
-</span><span class='line'>    }.snapshot(new WritableImage(w, h))
-</span><span class='line'>    convert.run(op, SwingFXUtils.fromFXImage(s, null), imageFileName.replace(&#39;.jpg&#39;, &#39;_.jpg&#39;))
-</span><span class='line'>    // ImageIO.write(SwingFXUtils.fromFXImage(s, null), &#39;jpg&#39;, new File(imageFileName.replace(&#39;.jpg&#39;, &#39;_.jpg&#39;)))
-</span><span class='line'>  }
-</span><span class='line'>  st.close()
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>最後、<code>stage.close()</code>すればwindowは開かずに済みます。</p>
 ]]></content></entry></feed>

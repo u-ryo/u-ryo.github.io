@@ -1,0 +1,130 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Vlc - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/vlc/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Vlc</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Vlc category via RSS" href="/categories/vlc/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a></h1> <p class="meta"> <time datetime="2018-09-17T20:57:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">17</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。 3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。 画像と音声は別々だしsizeも320x240と凄く小さいんですけど、 1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、 いっかなぁと。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>echo &#39;ffmpeg -s 320x240 -r 12 -vd /dev/video -ad /dev/dsp -y -t 0:15:00 ~/avi/hanbun_aoi_146.avi <span class="err">&amp;</span>&gt; /dev/null&#39; |at 8:00
+</span><span class='line'>
+</span><span class='line'>vlc --color -I dummy v4l:/dev/video:norm=ntsc:size=640x480:adev=/dev/dsp:audio=0:channel=0:fps=12 --sout &quot;#transcode{vcodec=mp4v,acodec=mpga,vb=3000,ab=256,venc=ffmpeg{keyint=80,vt=800000},deinterlace}:std{access=http,mux=asf,url=0.0.0.0:8080}&quot; --ttl 2
+</span><span class='line'>
+</span><span class='line'>echo &#39;(sleep 45;pkill -f ffmpeg) <span class="err">&amp;</span>&gt; /dev/null&#39;|at 7:59
+</span></code></pre></td></tr></table></div></figure> <p>vlcのこんなparameter、もう探し当てられません。 vlcのversionは古い(0.8.2)ので注意です。 上記USB Boxに適合するkernel drvierのため、Debian sarge限定です。 最後のは、朝ドラ始まる前まで安心してTVを見ていられるように、です。</p> <h3>instal sarge</h3> <p>ついでに、いつもsargeをinstallしている手順です。 自分用のメモです。</p> <h3><code>/etc/rc.local</code></h3> <p>``<code> kernel2.6なら</code>tuner.o`は出来ないので不要。</p> <h3>INSTALL sarge</h3> <ol> <li><code>unetbootin</code>でUSB作成可</li> <li>boot直後、<code>linux26</code>を選択</li> <li>cdrom mountに失敗するのでmountは手で。<code>mount /dev/disks/scsi/disk0/lun0/part0 /cdrom</code>とか何とか</li> <li>symlink張れないので、自分で<code>rm /cdrom/dists/stable;cp -rp /cdrom/dists/sarge /cdrom/dists/stable</code></li> <li>source URLは、<code>deb http://ftp.riken.jp/Linux/debian/debian-archive/debian sarge main contrib non-free</code>を自分でedit</li> </ol> <h3>/etc/apt/sources.list</h3> <p>backportを付加。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>#!/bin/sh
+</span><span class='line'>modprobe tda7313
+</span><span class='line'>modprobe saa7111-new
+</span><span class='line'>#insmod ~u-ryo/ov511-2.31/tuner.o
+</span><span class='line'>sleep 3
+</span><span class='line'>#v4lctl setchannel 1
+</span><span class='line'>#v4lctl setinput CVBS-0
+</span><span class='line'>v4lctl setinput S-Video-0
+</span><span class='line'>v4lctl volume 50000
+</span></code></pre></td></tr></table></div></figure> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>deb http://ftp.riken.jp/Linux/debian/debian-archive/debian sarge main contrib non-free
+</span><span class='line'>deb http://archive.debian.org/backports.org/ sarge-backports main contrib non-free
+</span></code></pre></td></tr></table></div></figure> <p><code>ffmpeg</code>は<code>sarge-backports</code>のに上げるとVideo4Linux2(V4L2)を入力に要求するようになるのでダメポ。</p> <h3>alsa</h3> <p>alsaでないと声が割れる。 後から入れても有効にならないので、 <code>sudo /sbin/modprobe -r i810_audio</code> そうすると<code>/dev/audio</code>が無くなるので、sndを入れ直し。 <code>for i in snd_mpu_401 snd_rawmidi snd_seq_device snd_intel8x0 snd_intel8x0m snd_ac97_codec snd_pcm_oss snd_mixer_oss snd_pcm snd_timer snd snd_page_alloc;do sudo /sbin/modprobe -r $i;done</code> 再度<code>snd</code>を<code>modprobe</code> <code>sudo /sbin/modprobe snd</code></p> <h3>for wpa_supplicant</h3> <p>cf. http://near-unix.blogspot.jp/2010/09/thinkpad-535x-debian-sarge-lan_29.html</p> <h3><code>/etc/default/wpasupplicant</code></h3> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt-get install -t sarge-backports debhelper dh-make build-essential
+</span><span class='line'>$ sudo m-a a-i madwifi
+</span><span class='line'>$ sudo apt-get install alsa-tools ntp ntpdate ntp-server screen sudo ffmpeg vlc bzip2 wpasupplicant
+</span><span class='line'>$ sudo m-a a-i alsa
+</span><span class='line'>$ sudo m-a a-i thinkpad
+</span><span class='line'>$ sudo /sbin/modprobe thinkpad
+</span><span class='line'>$ sudo /sbin/modprobe thinkpadpm
+</span><span class='line'>$ sudo /sbin/modprobe rtcmosram
+</span><span class='line'>$ sudo /sbin/modprobe smapi
+</span></code></pre></td></tr></table></div></figure> <h3><code>/etc/wpa_supplicant.conf</code></h3> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ENABLED=1
+</span><span class='line'>OPTIONS=&quot;-w -i ath0 -D madwifi -c /etc/wpa_supplicant.conf -dd&quot;
+</span></code></pre></td></tr></table></div></figure> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ctrl_interface=/var/run/wpa_supplicant
+</span><span class='line'>ctrl_interface_group=0
+</span><span class='line'>eapol_version=1
+</span><span class='line'>ap_scan=1
+</span><span class='line'>fast_reauth=1
+</span><span class='line'>
+</span><span class='line'>network={
+</span><span class='line'>        ssid=&quot;YOUR_SSID&quot;
+</span><span class='line'>        psk=&quot;YOUR_PreSharedKey&quot;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure> <h3><code>/etc/network/interfaces</code></h3> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>sudo apt-get install -t sarge-backports wpasupplicant
+</span><span class='line'>sudo mv /etc/init.d/wpasupplicant.dpkg-bak /etc/init.d/wpasupplicant
+</span><span class='line'>sudo mv /etc/default/wpasupplicant.dpkg-bak /etc/default/wpasupplicant
+</span><span class='line'>sudo mv /etc/wpa_supplicant.conf.dpkg-bak /etc/wpa_supplicant.conf
+</span><span class='line'>sudo ln -s /sbin/wpa_supplicant /usr/sbin/wpa_supplicant
+</span><span class='line'>sudo /usr/sbin/update-rc.d wpasupplicant defaults
+</span></code></pre></td></tr></table></div></figure> <p><code>wpa-driver</code>と<code>wpa-conf</code>が無いとダメだった。</p> <h3>for mosh</h3> <p>色々試したがmoshはダメだった。諦めた。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a> </li> <li class="post"> <a href="/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/">Python Basic Web Server for Applying Keras Model</a> </li> <li class="post"> <a href="/blog/2018/09/14/deeplearning-for-java-dl4j/">DeepLearning for Java DL4J</a> </li> <li class="post"> <a href="/blog/2018/09/07/battle-against-fool/">Battle Against Fool</a> </li> <li class="post"> <a href="/blog/2018/09/04/how-secure-is-my-password/">How Secure Is My Password</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>
