@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring-boot/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spring-boot/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T14:00:35+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
 <a href="https://qiita.com/yo1000/items/050c5c47daabf7a10e10">Spring MVC で CSV をダウンロードさせる</a>を参考にしました。
 要するに、</p>
 <ul>
@@ -8,7 +8,7 @@
 <li><code>CsvMapper mapper = new CsvMapper();</code>して<code>CsvSchema schema = mapper.schemaFor(SomeBean.class).withHeader();</code>して<code>return mapper.writer(schema).writeValueAsString(beans);</code></li>
 <li><code>compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"</code>を入れて<code>@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")</code>して<code>mapper.registerModule(new JavaTimeModule());</code>すると、<code>ZonedDateTime</code>を如意に表示できる?<a href="http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/">Formatting Java Time with Spring Boot using JSON</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
+]]></content></entry><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T11:13:28+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
 <a href="http://blog.rakugakibox.net/entry/2014/11/23/java_spring_boot_rest">Java: Spring Boot で REST なアプリを作ってみる</a>を見てみて、
 <code>@XmlRootElement</code>を付ければいい?
 ついでにtag名がclass名と違うので、
@@ -16,7 +16,7 @@
 <p>あと、<a href="https://projectlombok.org">Lombok</a>を使ったせいなのか、
 各fieldに<code>@XmlElement</code>を付けないと、出て来ませんでした。
 そういうもの?!</p>
-]]></content></entry><entry><title type="html"><![CDATA[Path Parameter for DateTime in Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/"/><updated>2018-08-21T21:58:33+09:00</updated><id>/blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootのRESTで、
+]]></content></entry><entry><title type="html"><![CDATA[Path Parameter for DateTime in Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/21/path-parameter-for-datetime-in-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootのRESTで、
 日付をPath Parameterで受け取りたかったんですね。
 <a href="https://qiita.com/Tsukuru/items/1c872f51d25c6d452fbc">GetMappingでURLパラメータからValueを取得する～LocalDate編～</a>に書いてある通りですけど、
 <code>@DateTimeFormat(pattern="yyyy-MM-dd")</code>なんて使えるんですね。</p>
@@ -25,7 +25,7 @@
 </pre></td><td class='code'><pre><code class='html'><span class='line'>@GetMapping(value=&quot;/element/{since}&quot;)
 </span><span class='line'>public Element getElement(@DateTimeFormat(pattern=&quot;yyyyMMdd&quot;) @PathVariable LocalDate since) {...
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[daemonizing jhipster application]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/"/><updated>2018-09-11T01:55:21+09:00</updated><id>/blog/2018/08/19/daemonizing-jhipster-application/</id><content type="html"><![CDATA[<p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、
+]]></content></entry><entry><title type="html"><![CDATA[daemonizing jhipster application]]></title><link href="http://u-ryo.github.io//blog/2018/08/19/daemonizing-jhipster-application/"/><updated>2018-09-14T16:48:54+09:00</updated><id>/blog/2018/08/19/daemonizing-jhipster-application/</id><content type="html"><![CDATA[<p><a href="https://www.jhipster.tech/">JHipster</a>のapplicationで、
 OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するようにするには。</p>
 <p>きっとSpring Bootでdaemonizeする方法を探ればいいと思って、
 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html">61. Installing Spring Boot Applications</a>にあるように、</p>
@@ -64,7 +64,7 @@ OS(Ubuntu 18.04)起動時にapplicationもdaemonとして自動起動するよ�
 で、それを<code>/etc/init.d/</code>にsymlinkすればいいだけという。
 <code>-Pprod</code>を付けないとdevelopment versionになってしまいます。
 あとは、<code>update-rc.d appname defaults</code>で登録すれば良いです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[XML marshaling in Spring Boot]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/xml-marshaling-in-spring-boot/"/><updated>2018-08-19T22:52:54+09:00</updated><id>/blog/2018/08/17/xml-marshaling-in-spring-boot/</id><content type="html"><![CDATA[<p>Spring Boot applicationで単一xml fileを返すREST作ってあって、
+]]></content></entry><entry><title type="html"><![CDATA[XML marshaling in Spring Boot]]></title><link href="http://u-ryo.github.io//blog/2018/08/17/xml-marshaling-in-spring-boot/"/><updated>2018-08-22T15:57:11+09:00</updated><id>/blog/2018/08/17/xml-marshaling-in-spring-boot/</id><content type="html"><![CDATA[<p>Spring Boot applicationで単一xml fileを返すREST作ってあって、
 そこではxmlと同じ構造のJava bean作って返すだけで、
 marshalingについてはframework側がよしなにやってくれました。
 client側がHTTP Request Headerに<code>Accept: application/xml</code>とすれば。
@@ -98,7 +98,7 @@ ZIP中でのXMLのmarshallingをJAXBのものでやるようにして
 <code>context = JAXBContext.newInstance(Bean.class)</code>して
 <code>marshaller = context.createMarshaller()</code>作って、
 <code>marshaller.marshal(bean, zipOutputStream)</code>すればいいんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[mock web server by WireMock on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/26/mock-web-server-by-wiremock-on-jhipster/</id><content type="html"><![CDATA[<p>外部web siteのresponseのtestに<a href="http://wiremock.org/">WireMock</a>を使ったのでメモ。</p>
 <p>参考: <a href="https://dev.classmethod.jp/etc/wiremock-practice/">WireMockを使って通信に関するテストをやってみよう</a></p>
 <p>使う時は<code>build.gradle</code>で、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -171,7 +171,7 @@ Test Class内で<code>@Autowired</code>してるservice classのmockが必要に
 特に<code>build.grade</code>に記述せずとも<code>import org.mockito.Mock;</code>して
 mockitoの<code>@Mock</code>が使えるんですね。
 そう言えば、元々<code>import org.mockito.MockitoAnnotations;</code>されてますね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[unit test on jhipster]]></title><link href="http://u-ryo.github.io//blog/2018/03/23/unit-test-on-jhipster/"/><updated>2018-04-09T15:24:10+09:00</updated><id>/blog/2018/03/23/unit-test-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでのunit testでいくつかハマったのでメモ。</p>
 <ul>
 <li><p>unit test実行は<code>gradle test</code></p>
 </li>

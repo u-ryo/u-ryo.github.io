@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/android/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-17T20:29:09+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/android/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Schedulers.newThread() or Schedulers.io()]]></title><link href="http://u-ryo.github.io//blog/2018/10/10/schedulers-newthread-or-schedulers-io/"/><updated>2018-10-10T10:21:47+09:00</updated><id>/blog/2018/10/10/schedulers-newthread-or-schedulers-io/</id><content type="html"><![CDATA[<p>Robolectricでtestを書いていて、
+どうも上手く行かないところがありました。
+「上手く行かない」というのは「Test class内で(RxJava1系なので)<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>しているにも関わらず、
+test対象classで<code>subscriber</code>が動いてしまう」というものです。</p>
+<p>どうしてかなぁ、<code>.subscribe(...)</code>の中で<code>.subscribe(...)</code>してるからかなぁ、
+<a href="https://hydrakecat.hatenablog.jp/entry/2016/12/12/RxJava_のテスト(1):_TestSubscriber,_test(),_TestScheduler">RxJava のテスト(1): TestSubscriber, test(), TestScheduler</a>を見て、
+じゃぁっていうんで<code>TestScheduler scheduler = Schedulers.test();</code>して何度か<code>scheduler.triggerActions();</code>しても現象変わらずでした。</p>
+<p>悩んだ末、わかったのは、
+test対象classでは<code>.subscribeOn(Schedulers.newThread())</code>していた、
+ということでした。
+なぁんだ。</p>
+<p>そういえばちょっと前に書いたところだったので、
+まだ<code>Schedulers.newThread()</code>にしちゃってたんですね。
+今回<code>Schedulers.io()</code>に変えました。
+Androidでも効くんでしょうか。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Android petite tips]]></title><link href="http://u-ryo.github.io//blog/2018/07/30/android-petite-tips/"/><updated>2018-08-17T18:34:45+09:00</updated><id>/blog/2018/07/30/android-petite-tips/</id><content type="html"><![CDATA[<p>お仕事で極悪Androidアプリを改修していて、
 今日得た知見をば。</p>
 <h3>getTextSize/setTextSize</h3>
 <p>あるActivityの画面で、
@@ -123,7 +138,7 @@ sample applicationを作って色々と試してみました。</p>
 <li>機種によっては挙動が違う(Huaweiでは、アプリが起動していない時/Sleep時にAlarmを発動させるには「保護されたアプリ」でないとならない、等)</li>
 <li>長いtextは全文出ないで端折られる。出したいなら、<code>.setStyle(new NotificationCompat.BigTextStyle().bigText("..."))</code>する。但し<code>.setBigContentTitle(intent.getStringExtra("..."))</code>も同時に加えるとダメっぽい。</li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[How to get the result from DialogFragment]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/how-to-get-the-result-from-dialogfragment/"/><updated>2018-07-18T23:40:14+09:00</updated><id>/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/</id><content type="html"><![CDATA[<p><code>DialogFragment</code>をnewしてdialogを表示させ、
+]]></content></entry><entry><title type="html"><![CDATA[How to get the result from DialogFragment]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/how-to-get-the-result-from-dialogfragment/"/><updated>2018-07-18T16:54:40+09:00</updated><id>/blog/2018/07/18/how-to-get-the-result-from-dialogfragment/</id><content type="html"><![CDATA[<p><code>DialogFragment</code>をnewしてdialogを表示させ、
 そこでのbutton tapによって、元のActivity上で処理をさせたい時、
 どうやってfeedbackしたら良いのかなと。
 呼び出し元は<code>Fragment</code>ではなく<code>Activity</code>なので、
@@ -146,7 +161,7 @@ button押したら<code>callback.call();</code>とし、
 今回のぼくの場合では、
 引数を引き回すか、再度SQLで取得するかして<code>onActivityResult()</code>でkickするか、
 callbackを作るか、ということだったでしょうか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Caution on ListView]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/caution-on-listview/"/><updated>2018-07-18T23:40:14+09:00</updated><id>/blog/2018/07/18/caution-on-listview/</id><content type="html"><![CDATA[<p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
+]]></content></entry><entry><title type="html"><![CDATA[Caution on ListView]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/caution-on-listview/"/><updated>2018-07-18T16:19:39+09:00</updated><id>/blog/2018/07/18/caution-on-listview/</id><content type="html"><![CDATA[<p>今時<code>ListView</code>なんてあんまり使わないと思いますが、
 <code>ListView</code>のviewの使い回しでbugがあったのでメモです。
 ぼくがやったんじゃないです。</p>
 <p><code>public View getView(int position, View convertView, ViewGroup parent)</code>
@@ -171,7 +186,7 @@ objectの一部が<code>null</code>のままで次に進むと<code>NullPointerE
 このsoftwareについては。
 色々アホなのはホントやる気無くします。</p>
 <p>参考: <a href="https://dev.classmethod.jp/smartphone/gridview-performanceup-1/">Android GridViewのパフォーマンスを上げよう(1/2)</a>←そうですよね普通気を付けますよね、<a href="https://kokufu.blogspot.com/2012/03/listview-graphical-layout.html">ListView は Graphical Layout で作ったまま使ってはいけない</a>←そうなんですよ最初、頭の1つだけ<code>null</code>で呼ばれた後画面に見える分だけ<code>not null</code>で呼ばれ、その後改めて<code>null</code>で呼ばれるので、何でかなーと思ったものです。ただもぅ今は<code>RecyclerView</code>だからこんなtipsはもう不要かなーと。</p>
-]]></content></entry><entry><title type="html"><![CDATA[NullPointerException on Retrofit2 with Robolectric]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/"/><updated>2018-07-18T23:40:14+09:00</updated><id>/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/</id><content type="html"><![CDATA[<p>Android ApplicationをRobolectricでtestしていて、
+]]></content></entry><entry><title type="html"><![CDATA[NullPointerException on Retrofit2 with Robolectric]]></title><link href="http://u-ryo.github.io//blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/"/><updated>2018-07-18T14:37:35+09:00</updated><id>/blog/2018/07/18/nullpointerexception-on-retrofit2-with-robolectric/</id><content type="html"><![CDATA[<p>Android ApplicationをRobolectricでtestしていて、
 どうにも困ったのでメモです。</p>
 <p>状況は、Android Applicationで、
 Robolectricを使っていて、
@@ -241,7 +256,7 @@ SecurityPolicy絡みのExceptionが裏で出ているようで、
 <p>勿論、<code>.subscribeOn(Schedulers.io())</code>に対しては
 <code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>
 した上で、です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Unbelievable Coding]]></title><link href="http://u-ryo.github.io//blog/2018/01/16/unbelievable-coding/"/><updated>2018-01-16T14:42:29+09:00</updated><id>/blog/2018/01/16/unbelievable-coding/</id><content type="html"><![CDATA[<p>Androidのお仕事で、あるclassのcodeを読んでいて。</p>
 <ul>
 <li>onTouchListenerの上にonClickListenerを上書き<br  />
 あるbuttonを<code>setOnTouchListener(this);</code>してて。
@@ -289,7 +304,7 @@ state patternとかなんて知らないんだろうなぁと。</li>
 </ul>
 <p>...というように。
 こういうcodeと共に仕事するのは、嫌で嫌で仕方ありません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
+]]></content></entry><entry><title type="html"><![CDATA[Rx as Stream API]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/rx-as-stream-api/"/><updated>2017-12-01T17:41:42+09:00</updated><id>/blog/2017/12/01/rx-as-stream-api/</id><content type="html"><![CDATA[<p>周知のように、Androidではlambdaは書けるようになりましたが
 Stream APIのようにCollectionsを扱えません。
 折角Java8で覚えたのに。
 ですが、RxJavaを使うとほぼStream APIのように書けるんですねーへーーー。
@@ -298,7 +313,7 @@ Stream APIのようにCollectionsを扱えません。
 ifの条件節に直接書けるようになりました。
 <code>Optional</code>も出来るんですね。
 書いてありますが、キモは<code>toBlocking().single()</code>でしょうか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox.checked drawable not shown]]></title><link href="http://u-ryo.github.io//blog/2017/12/01/checkbox-checked-drawable-not-shown/"/><updated>2017-12-01T17:04:47+09:00</updated><id>/blog/2017/12/01/checkbox-checked-drawable-not-shown/</id><content type="html"><![CDATA[<p><code>ListView</code>で、各行にcheckboxを表示させるような話があって。
 暗い背景なので、defaultのdesignだと見にくいんですね。
 なのでcustomの白っぽいのに差し替えようとしたんですが、
 なかなかうまく行かなかったのです。
@@ -356,7 +371,7 @@ stackoverflowの<a href="https://stackoverflow.com/questions/34508164/cant-creat
 なるほどと思ってそうすると、
 結構色んな箇所で出るべきものが出なくなるんですよね。
 気を付けないとなりません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
+]]></content></entry><entry><title type="html"><![CDATA[CheckBox on ListView]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/checkbox-on-listview/"/><updated>2017-11-24T18:33:21+09:00</updated><id>/blog/2017/11/24/checkbox-on-listview/</id><content type="html"><![CDATA[<p>Androidでのお話です。
 <code>ListView</code>のそれぞれに<code>CheckBox</code>をつけたら、
 checkboxはcheck出来るものの、項目選択が出来なくなりました。
 どうやら<code>onItemClick</code>が呼ばれてない様子。
@@ -372,7 +387,7 @@ checkboxはcheck出来るものの、項目選択が出来なくなりました�
 background処理後、<code>Adapter</code>の値を変えただけでは<code>CheckBox</code>の見た目に変化はないんですね。
 explicitに<code>setChecked(false)</code>して回らないとなりません。
 その際、<code>listView.getChildCount()</code>で取れるcountは、<code>ListView</code>の全てではなく、見える範囲のListのobjectなんですね! 確かにscrollすればredrawかかってadapterの値が反映されるからいいんですけど、何かしない限りredrawされないから自分で描画しないとならないんですねー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[OnClickListener with ProgressDialog by RxAndroid]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/</id><content type="html"><![CDATA[<p>「clickしたらbackgroundで処理して
+]]></content></entry><entry><title type="html"><![CDATA[OnClickListener with ProgressDialog by RxAndroid]]></title><link href="http://u-ryo.github.io//blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/"/><updated>2017-11-24T18:25:09+09:00</updated><id>/blog/2017/11/24/onclicklistener-with-progressdialog-by-rxandroid/</id><content type="html"><![CDATA[<p>「clickしたらbackgroundで処理して
 その間ProgressDialog出して
 終わったらProgressDialog消して
 終了/失敗dialogを表示する」のを
@@ -627,7 +642,7 @@ retrofit2を使うともうちょっと違うかも。</p>
 </span><span class='line'>    }
 </span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Robolectric + PowerMock]]></title><link href="http://u-ryo.github.io//blog/2017/10/17/robolectric-powermock/"/><updated>2017-11-29T15:50:42+09:00</updated><id>/blog/2017/10/17/robolectric-powermock/</id><content type="html"><![CDATA[<p><a href="https://robolectric.org">Robolectric</a>のquick startは、<a href="http://robolectric.org/writing-a-test/">本家</a>が詳しい。</p>
 <ul>
 <li><code>build.gradle</code>に、以下が必要(Android Studio 2系の場合)。
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -764,7 +779,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <li><p>mocking method実行時に他のことをしたい時には、<code>when(mock.methodCall()).thenAnswer(m -&gt; {...});</code>とlambdaで書ける(<a href="https://qiita.com/kazurof/items/1171c7e038050453c6c9#mockitoでのサンプル">mockitoとJMockitについてのメモ</a>)。</p>
 </li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
+]]></content></entry><entry><title type="html"><![CDATA[Make SqlCipher Faster]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/"/><updated>2017-10-13T11:58:21+09:00</updated><id>/blog/2017/09/28/make-sqlcipher-faster/</id><content type="html"><![CDATA[<p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。
 試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p>
 <p>従いまして、「SqlCipherの<code>key</code>を64文字の16進数にすれば速くなる」が結論です。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -896,7 +911,7 @@ cf. <a href="https://groups.google.com/forum/#!topic/powermock/YJYPgBLpkqk">Powe
 <a href="http://d.hatena.ne.jp/isher/20091108/1257684508">[Android]データベースをアップグレードする時</a></p>
 <p>そもそも画面遷移に4秒も掛かるようなAndroidアプリをリリースするなんていうのもunbelievableですが、そういう人達なので...</p>
 <p>まぁ、暗号化するにせよ自分なら<a href="https://realm.io/">Realm</a>使うので、こんな知識不要ですけど、SqlCipher使うなら最初から64字16進code使うべきなんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Test Failed on AndroidStudio]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/test-failed-on-androidstudio/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/28/test-failed-on-androidstudio/</id><content type="html"><![CDATA[<p>Android Studio(2.3.1)で久し振りにtestを動かしてみると、</p>
+]]></content></entry><entry><title type="html"><![CDATA[Test Failed on AndroidStudio]]></title><link href="http://u-ryo.github.io//blog/2017/09/28/test-failed-on-androidstudio/"/><updated>2017-11-15T17:09:06+09:00</updated><id>/blog/2017/09/28/test-failed-on-androidstudio/</id><content type="html"><![CDATA[<p>Android Studio(2.3.1)で久し振りにtestを動かしてみると、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>Caused by: java.lang.ClassNotFoundException: android.view.View$OnClickListener
 </span></code></pre></td></tr></table></div></figure>
@@ -908,13 +923,13 @@ instrumentation testではなくフツーのtestですjunit4とmockitoの。
 </span></code></pre></td></tr></table></div></figure>
 <h3>追記</h3>
 <p>projectを<code>clean</code>した後、いくらbuildしても「<code>databinding</code> classが見つからない」と言われて困った時にも効きました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Current Project I'm working in]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/current-project-i-m-working-in/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/06/current-project-i-m-working-in/</id><content type="html"><![CDATA[<p>今、グループ内会社のAndroidアプリ開発に売られてるんですけど、そこのソフトの作りがひどくてひどくて泣けてきます。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Current Project I'm working in]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/current-project-i-m-working-in/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/06/current-project-i-m-working-in/</id><content type="html"><![CDATA[<p>今、グループ内会社のAndroidアプリ開発に売られてるんですけど、そこのソフトの作りがひどくてひどくて泣けてきます。</p>
 <ol>
 <li>「結果が表示されなくなった」というので見てみたら、<code>toString()</code>が変わっていたのが原因。より根本的な原因は、<code>toString()</code>というdebug用途のmethodをoverrideしてmainのlogicに使っていること。まぁ、Activity跨ぐstructured dataを<code>Parcelable</code>にする時間が無かった、という事情は分かるんですけど、<code>StringBuilder#toString</code>ですら使わず<code>new String(StringBuilder)</code>とするくらいなのでぼくは。</li>
 <li>「途中で落ちる」というので見てみると、ヌルポが出てました。どうしてかなー、と見ていくと、途中でnullを代入しているmethodが呼ばれています。どうしてこれを呼ぶよう変えたのか聞いてみると、終了処理をちゃんとするようしてる時に、comment outしてあったこのfinishっぽいmethodをcomment inしたんだそう。それがどういう効果を持つのかわからぬまま、そうしたんだって。えーーーっ!?</li>
 <li>極めつけは、今日わかったんですが、<code>HashMap</code>を<code>List</code>にしてその0番目を使ってるんですね。えーーーっ! どうしてAndroid 4.4.2ではうまく動かないの? というのを探っていったら、そこに行き着きました。逆に、これまでよく動いていましたねぇ。素晴らしい!! 先月までいた派遣のフリー技術者が書いたcodeの一部でしたけど、わざと書いたならいざ知らず、もし意識せず書いたのなら、恐ろしいです。</li>
 </ol>
-]]></content></entry><entry><title type="html"><![CDATA[Illegal keysize]]></title><link href="http://u-ryo.github.io//blog/2017/09/04/illegal-keysize/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/04/illegal-keysize/</id><content type="html"><![CDATA[<p>Androidで<a href="https://github.com/NanoHttpd/nanohttpd">NanoHTTPD</a>を
+]]></content></entry><entry><title type="html"><![CDATA[Illegal keysize]]></title><link href="http://u-ryo.github.io//blog/2017/09/04/illegal-keysize/"/><updated>2017-09-28T14:11:37+09:00</updated><id>/blog/2017/09/04/illegal-keysize/</id><content type="html"><![CDATA[<p>Androidで<a href="https://github.com/NanoHttpd/nanohttpd">NanoHTTPD</a>を
 動かすprogramを開発しているんですが、
 WebRTCにするのに、TLSが必要じゃないですか。
 そのserver certを普通に作ると、<code>Illegal keysize</code>と言われて
@@ -940,7 +955,7 @@ key load時に落ちるのでハマりました。
 JCE(Java Cryptography Extension)を落としてきて
 <code>local_policy.jar</code>を上書きしたら、
 jksも出来て、Android側でも何事もなくloadしてくれました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Recent bookmarks]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-bookmarks/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/09/20/recent-bookmarks/</id><content type="html"><![CDATA[<p>最近の、といってももう数ヵ月も前のものですが、
+]]></content></entry><entry><title type="html"><![CDATA[Recent bookmarks]]></title><link href="http://u-ryo.github.io//blog/2016/09/20/recent-bookmarks/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/20/recent-bookmarks/</id><content type="html"><![CDATA[<p>最近の、といってももう数ヵ月も前のものですが、
 bookmarkしかねてbrowserのtabを開きっぱなしなのを閉じる前に、
 メモしておきます。</p>
 <ul>
@@ -964,7 +979,7 @@ bookmarkしかねてbrowserのtabを開きっぱなしなのを閉じる前に�
 <li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Installing-the-Vuzix-M100-SDK.pdf">Installing the Vuzix M100 SDK (1.4+)</a>(Eclipse対象で古そうです)</li>
 <li><a href="https://d2iankuf53zudv.cloudfront.net/Content/Upload/Driver_File_m100sdk_manual_jpn_20151226175838467.pdf">Vuzix M100 SDK インストールガイド</a></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
+]]></content></entry><entry><title type="html"><![CDATA[Kotlin KOTOHAJIME]]></title><link href="http://u-ryo.github.io//blog/2016/09/16/kotlin-kotohajime/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/16/kotlin-kotohajime/</id><content type="html"><![CDATA[<h2>Kotlin事始め</h2>
 <p>最初、title間違えました。
 タイプミスです。
 Ergodox EZ(キー配列をカスタマイズ出来るキーボード)が必要かもしれません...</p>
@@ -1000,7 +1015,7 @@ Android開発を「Hello World」から卒業してから、
 <p>IDEに慣れてないので、fileばっかり見比べてました。downloadしたお手本sampleではDagger2 Testがうまく行くのに、何で自分のはうまく行かないんだろう、ってずっと悩んでました。IDEでのproject settingに問題があったとは。
 <a href="http://stackoverflow.com/questions/24002212/test-running-failed-unable-to-find-instrumentation-info-for-componentinfo">stackoverflowのTest running failed: Unable to find instrumentation info for: ComponentInfo{} — error trying to test in IntelliJ with Gradle</a>で見付けました。
 こんなところに設定があるなんて、知りませんよー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Crosswalk]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/crosswalk/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2016/09/07/crosswalk/</id><content type="html"><![CDATA[<p>Crosswalk という、WebViewを独自に持つことでAndroid間の動作性を統一するlibraryを使ってみました。最近のAPI levelに対応するだけなら、敢えてこんなの使わなくてもいいのかも。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Crosswalk]]></title><link href="http://u-ryo.github.io//blog/2016/09/07/crosswalk/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2016/09/07/crosswalk/</id><content type="html"><![CDATA[<p>Crosswalk という、WebViewを独自に持つことでAndroid間の動作性を統一するlibraryを使ってみました。最近のAPI levelに対応するだけなら、敢えてこんなの使わなくてもいいのかも。</p>
 <p>わけあって、Crosswalk sample applicationの一つをcompileしてみました。</p>
 <p>how to installは、<a href="https://crosswalk-project.org/documentation/android/system_setup.html">official page</a>のまま。</p>
 <p><code>ANDROID_HOME</code>は、Sdk directoryを指す模様。</p>
@@ -1030,7 +1045,7 @@ Android開発を「Hello World」から卒業してから、
 <p>動かしたかったtargetは、Android 4.0.4なので、Crosswalkダメですね。
 実際、「CPU Mismatch」と言われて、x86のものでもarmのでも動きませんでした。
 あうー。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Zaim]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/zaim/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2015/10/27/zaim/</id><content type="html"><![CDATA[<p>最近、家計簿アプリ「<a href="http://zaim.net/">Zaim</a>」がマイブームです。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Zaim]]></title><link href="http://u-ryo.github.io//blog/2015/10/27/zaim/"/><updated>2017-08-22T10:04:50+09:00</updated><id>/blog/2015/10/27/zaim/</id><content type="html"><![CDATA[<p>最近、家計簿アプリ「<a href="http://zaim.net/">Zaim</a>」がマイブームです。</p>
 <p>銀行口座連携くらいでは驚かなかったんですけど、
 OCRによる「レシート読み取り」がここまで出来るとは、
 思っていませんでした。
