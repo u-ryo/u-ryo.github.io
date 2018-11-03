@@ -1,20 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-10-10T10:30:58+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[ssh with empty password]]></title><link href="http://u-ryo.github.io//blog/2018/10/10/ssh-with-empty-password/"/><updated>2018-10-10T10:30:58+09:00</updated><id>/blog/2018/10/10/ssh-with-empty-password/</id><content type="html"><![CDATA[<p>某ubuntu起動diskをmountして<code>/etc/passwd</code>のpasswordを潰して、
-console login出来るようにはなったんですけれども、
-sshでは入れません。
-あーそっか、と思って、いい機会だからと後輩氏に課題として与えてみました。</p>
-<p>新規user作って乗り越えてくれまして、それはそれで良い解だと思いますが、
-<code>/etc/ssh/sshd_config</code>の<code>PermitEmptyPasswords yes</code>でも行けるよー
-(このhostを繋ぐのは内部networkだし)、
-と垂れて、試したところ、ものの見事に失敗。</p>
-<p>あれー、なんでー?!</p>
-<p>更に調べてみると、もう一つ施策が必要でした。</p>
-<p><a href="https://qiita.com/FGtatsuro/items/4893dfb138f70d972904">公開鍵なし/パスワードなしでSSHログインする設定</a>にあるように<code>UsePAM no</code>にするか、
-PAMを使っているということなのでならばPAMでempty passwordを許容するように
-<code>/etc/pam.d/common-auth</code>の
-<code>auth   [success=1 default=ignore]  pam_unix.so nullok_secure</code>の
-<code>nullok_secure</code>を消す(<a href="https://www.redhat.com/archives/pam-list/2005-September/msg00001.html">Re: nullok_secure option</a>)か、
-ですがPAMいじるのは怖いですよねぇ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Schedulers.newThread() or Schedulers.io()]]></title><link href="http://u-ryo.github.io//blog/2018/10/10/schedulers-newthread-or-schedulers-io/"/><updated>2018-10-10T10:21:47+09:00</updated><id>/blog/2018/10/10/schedulers-newthread-or-schedulers-io/</id><content type="html"><![CDATA[<p>Robolectricでtestを書いていて、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-10-10T20:35:28+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Schedulers.newThread() or Schedulers.io()]]></title><link href="http://u-ryo.github.io//blog/2018/10/10/schedulers-newthread-or-schedulers-io/"/><updated>2018-10-10T20:35:28+09:00</updated><id>/blog/2018/10/10/schedulers-newthread-or-schedulers-io/</id><content type="html"><![CDATA[<p>Robolectricでtestを書いていて、
 どうも上手く行かないところがありました。
 「上手く行かない」というのは「Test class内で(RxJava1系なので)<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>しているにも関わらず、
 test対象classで<code>subscriber</code>が動いてしまう」というものです。</p>
@@ -29,182 +13,7 @@ test対象classでは<code>.subscribeOn(Schedulers.newThread())</code>してい�
 まだ<code>Schedulers.newThread()</code>にしちゃってたんですね。
 今回<code>Schedulers.io()</code>に変えました。
 Androidでも効くんでしょうか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[peeking an encrypted luks lvm]]></title><link href="http://u-ryo.github.io//blog/2018/09/19/peeking-an-encrypted-luks-lvm/"/><updated>2018-10-10T09:55:32+09:00</updated><id>/blog/2018/09/19/peeking-an-encrypted-luks-lvm/</id><content type="html"><![CDATA[<p>純粋に知的好奇心から、
-とある暗号化diskをmountして中身を見てみたくなりまして。
-targetはubuntuで、立ち上がる時にdisk復号化keyを入力して
-立ち上がるような代物です。
-それを<code>dd</code>でcopyして(最後の方50GBくらいは何かI/Oエラーで
-copyがうまく行きませんでしたがそれはそもそもそうなのか、
-直前にちょっと蹴っ躓いてコードに少し足が引っかかったせいなのか、
-よくわかりません)、
-copyした方に対してmountをかけるといきなりpassword聞かれて、
-答えると難なくmount出来たもののそれはgrubとかkernelとか
-置かれているboot領域。
-root領域本体はsdb5の中。
-<a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186 暗号化ファイルシステムを使ってみる ～ LUKS 編</a>を参考に、
-<code>sudo apt install cryptsetup</code>して、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cryptsetup luksOpen /dev/sdb5 luks
-</span><span class='line'>Enter passphrase for /dev/sdb5: *******
-</span></code></pre></td></tr></table></div></figure>
-<p>とすると、<code>/dev/mapper/luks</code>が出来ます。
-それをmountすればいいようなんですが、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo mount /dev/mapper/luks /tmp/luks/
-</span><span class='line'>mount: /tmp/luks: unknown filesystem type &#39;LVM2_member&#39;.
-</span></code></pre></td></tr></table></div></figure>
-<p>と言われて出来ません。
-<a href="http://a5.hatenablog.jp/entry/2011/11/01/000000">HDDからのデータサルベージ</a>を参考に、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgscan
-</span><span class='line'>  Reading volume groups from cache.
-</span><span class='line'>  Found volume group &quot;ubuntu-vg&quot; using metadata type lvm2
-</span></code></pre></td></tr></table></div></figure>
-<p>確かに何かあるようです。
-<a href="http://d.hatena.ne.jp/kt_hiro/20120117/1326764520">LVMの使い方</a>を参考に、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo pvscan
-</span><span class='line'>  PV /dev/mapper/luks
-</span><span class='line'>  Total: 1 [<span class="nt">&lt;232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">]</span> <span class="err">/</span> <span class="na">in</span> <span class="na">use:</span> <span class="na">0</span> <span class="err">[</span><span class="na">0</span>   <span class="err">]</span> <span class="err">/</span> <span class="na">in</span> <span class="na">no</span> <span class="na">VG:</span> <span class="na">1</span> <span class="err">[&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">]</span>
-</span><span class='line'><span class="err">$</span> <span class="na">sudo</span> <span class="na">pvdisplay</span> <span class="na">-v</span>
-</span><span class='line'>    <span class="na">Wiping</span> <span class="na">internal</span> <span class="na">VG</span> <span class="na">cache</span>
-</span><span class='line'>    <span class="na">Wiping</span> <span class="na">cache</span> <span class="na">of</span> <span class="na">LVM-capable</span> <span class="na">devices</span>
-</span><span class='line'>  <span class="err">&quot;/</span><span class="na">dev</span><span class="err">/</span><span class="na">mapper</span><span class="err">/</span><span class="na">luks</span><span class="err">&quot;</span> <span class="na">is</span> <span class="na">a</span> <span class="na">new</span> <span class="na">physical</span> <span class="na">volume</span> <span class="na">of</span> <span class="err">&quot;&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">&quot;</span>
-</span><span class='line'>  <span class="na">---</span> <span class="na">NEW</span> <span class="na">Physical</span> <span class="na">volume</span> <span class="na">---</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">Name</span>               <span class="err">/</span><span class="na">dev</span><span class="err">/</span><span class="na">mapper</span><span class="err">/</span><span class="na">luks</span>
-</span><span class='line'>  <span class="na">VG</span> <span class="na">Name</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">Size</span>               <span class="err">&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span>
-</span><span class='line'>  <span class="na">Allocatable</span>           <span class="na">NO</span>
-</span><span class='line'>  <span class="na">PE</span> <span class="na">Size</span>               <span class="na">0</span>
-</span><span class='line'>  <span class="na">Total</span> <span class="na">PE</span>              <span class="na">0</span>
-</span><span class='line'>  <span class="na">Free</span> <span class="na">PE</span>               <span class="na">0</span>
-</span><span class='line'>  <span class="na">Allocated</span> <span class="na">PE</span>          <span class="na">0</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">UUID</span>               <span class="na">w34D6Y-8iVC-zIWW-0WHB-ltuf-FADa-sPMT7k</span>
-</span></code></pre></td></tr></table></div></figure>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgchange -ay
-</span><span class='line'>  2 logical volume(s) in volume group &quot;ubuntu-vg&quot; now active
-</span></code></pre></td></tr></table></div></figure>
-<p>これで、<code>/dev/ubuntu-vg/</code>が出来ます。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ ls -alrt /dev/ubuntu-vg/
-</span><span class='line'>total 0
-</span><span class='line'>lrwxrwxrwx  1 root root    7  9æ 19 04:44 root -&gt; ../dm-1
-</span><span class='line'>drwxr-xr-x 22 root root 4760  9æ 19 04:44 ..
-</span><span class='line'>lrwxrwxrwx  1 root root    7  9æ 19 04:44 swap_1 -&gt; ../dm-2
-</span><span class='line'>drwxr-xr-x  2 root root   80  9æ 19 04:44 .
-</span></code></pre></td></tr></table></div></figure>
-<p>これをmountすればよいですね。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo mount /dev/ubuntu-vg/root /tmp/luks
-</span></code></pre></td></tr></table></div></figure>
-<h3>unmount / detach</h3>
-<p>これを外すのに右往左往してしまいました。
-<code>sudo vgremove ubuntu-vg</code>とかってやってしまいました。
-これは、volume groupを消してしまう行為でした。
-やってはいけません。</p>
-<p>結局、外す時はこれでいいわけですね。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo umount /tmp/luks
-</span><span class='line'>$ sudo vgchange -an ubuntu-vg
-</span><span class='line'>  0 logical volume(s) in volume group &quot;ubuntu-vg&quot; now active
-</span><span class='line'>$ sudo cryptsetup luksClose luks
-</span></code></pre></td></tr></table></div></figure>
-<p>これで<code>/dev/ubuntu-vg/</code>も<code>/dev/mapper/luks</code>もなくなり、
-deviceを外せます。</p>
-<p><code>vgremove</code>しちゃったからもうダメかな、と思ったら、戻せるんですね。
-<a href="https://www.thegeekdiary.com/centos-rhel-how-to-restore-recover-a-delete-volume-group-on-lvm/">CentOS / RHEL : How to restore/recover a deleted volume group in LVM</a>を参考に、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgcfgrestore --list ubuntu-vg
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/archive/ubuntu-vg_00000-434080001.vg
-</span><span class='line'>  Couldn&#39;t find device with uuid w34D6Y-8iVC-zIWW-0WHB-ltuf-FADa-sPMT7k.
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *before* executing &#39;vgremove ubuntu-vg&#39;
-</span><span class='line'>  Backup Time:  Tue Sep 18 21:04:48 2018
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/archive/ubuntu-vg_00001-841595159.vg
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *before* executing &#39;vgcreate ubuntu-vg /dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a&#39;
-</span><span class='line'>  Backup Time:  Wed Sep 19 04:31:30 2018
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/backup/ubuntu-vg
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *after* executing &#39;vgcreate ubuntu-vg /dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a&#39;
-</span><span class='line'>  Backup Time:  Wed Sep 19 04:31:30 2018
-</span></code></pre></td></tr></table></div></figure>
-<p>このように出て来るので、
-身に覚えのあるものを選んで、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgcfgrestore -f /etc/lvm/archive/ubuntu-vg_00000-434080001.vg ubuntu-vg
-</span><span class='line'>  Restored volume group ubuntu-vg
-</span></code></pre></td></tr></table></div></figure>
-<p>とするとVolume Groupが戻るんですね。すごいー。
-助かりました。</p>
-<p>あと、<code>cryptsetup</code>と<code>lvm</code>が予め入っていると、
-encrypted diskをUSBで繋げた時点でkeyを聞かれて、
-<code>luksOpen</code>まで裏でやっちゃうんですね。
-自分で<code>luksOpen</code>しようとして、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cryptsetup luksOpen /dev/sdb5 luks2
-</span><span class='line'>Enter passphrase for /dev/sdb5: 
-</span><span class='line'>Cannot use device /dev/sdb5 which is in use (already mapped or mounted).
-</span></code></pre></td></tr></table></div></figure>
-<p>といわれて「?!」とか思ってしまいました。
-この時点で<code>/dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a</code>が出来ています。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Viewing/Recording TV (Hiden no Tare)]]></title><link href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/"/><updated>2018-10-10T09:55:32+09:00</updated><id>/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/</id><content type="html"><![CDATA[<p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。
+]]></content></entry><entry><title type="html"><![CDATA[Viewing/Recording TV (Hiden no Tare)]]></title><link href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/"/><updated>2018-09-19T20:01:57+09:00</updated><id>/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/</id><content type="html"><![CDATA[<p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。
 3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。
 画像と音声は別々だしsizeも320x240と凄く小さいんですけど、
 1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、
@@ -372,7 +181,7 @@ vlcのversionは古い(0.8.2)ので注意です。
 <p><code>wpa-driver</code>と<code>wpa-conf</code>が無いとダメだった。</p>
 <h3>for mosh</h3>
 <p>色々試したがmoshはダメだった。諦めた。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Python Basic Web Server for Applying keras Model]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/"/><updated>2018-09-14T18:06:00+09:00</updated><id>/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/</id><content type="html"><![CDATA[<p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが
+]]></content></entry><entry><title type="html"><![CDATA[Python Basic Web Server for Applying keras Model]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/</id><content type="html"><![CDATA[<p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが
 NotePC程度で動くことを証明したく、
 PythonのBaseHTTPServerで1日でちゃちゃっと作りました。</p>
 <p>といっても「PythonのBaseHTTPServer」なんて触るの初めてです。
@@ -403,7 +212,7 @@ parameterで分けるのは自分でやれということですね。</p>
 <p>ともあれ、このpython predict server script 1つと
 keras model fileの2 filesだけでサクッと動くものを、
 <a href="https://github.com/u-ryo/python_prediction_server">github</a>に置きました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-09-18T08:50:27+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
+]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-09-17T20:47:26+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
 やむなく<a href="https://colab.research.google.com/">Google Colaboratory</a>上で<a href="https://keras.io/ja/">keras</a>でVGG16 with ImageNetをfine tuningしたmodelを、
 GPUのないNotePCでpredictしようとしました。
 NotePCはDisk/Memory容量が小さいためpythonも本気では入れてないので、
@@ -830,7 +639,7 @@ classpathの指定が大変でした。
 </span><span class='line'>$ javac -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar DL4J.java
 </span><span class='line'>$ java -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar:/usr/share/java/slf4j-api.jar:.:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-jackson/jars/nd4j-jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/jackson/jars/jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-common/jars/nd4j-common-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-api/jars/nd4j-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-context/jars/nd4j-context-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-buffer/jars/nd4j-buffer-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-platform/jars/nd4j-native-platform-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-api/jars/nd4j-native-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.apache.commons/commons-math3/jars/commons-math3-3.5.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2.jar DL4J
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Battle against Fool]]></title><link href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/"/><updated>2018-09-18T08:50:27+09:00</updated><id>/blog/2018/09/07/battle-against-fool/</id><content type="html"><![CDATA[<p>いゃぁ、びっくりしました。
+]]></content></entry><entry><title type="html"><![CDATA[Battle against Fool]]></title><link href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/"/><updated>2018-09-16T22:09:50+09:00</updated><id>/blog/2018/09/07/battle-against-fool/</id><content type="html"><![CDATA[<p>いゃぁ、びっくりしました。
 今日会社でいきなり会議に招集されたんですけど、
 その内容が、今後AI外観検査案件で使うPCの標準specを決めます、というもの。
 そもそも外観検査、出来るかどうか、とかどういう撮像でどういうalgorithmで、
@@ -857,7 +666,7 @@ classpathの指定が大変でした。
 <li>客先常駐・SES → 偽装派遣</li>
 <li>BP派遣 → 多重派遣</li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[How Secure Is My Password]]></title><link href="http://u-ryo.github.io//blog/2018/09/04/how-secure-is-my-password/"/><updated>2018-09-04T14:29:05+09:00</updated><id>/blog/2018/09/04/how-secure-is-my-password/</id><content type="html"><![CDATA[<p><a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186</a>に載ってたものなので、何を今更、ですが。</p>
+]]></content></entry><entry><title type="html"><![CDATA[How Secure Is My Password]]></title><link href="http://u-ryo.github.io//blog/2018/09/04/how-secure-is-my-password/"/><updated>2018-09-09T15:44:45+09:00</updated><id>/blog/2018/09/04/how-secure-is-my-password/</id><content type="html"><![CDATA[<p><a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186</a>に載ってたものなので、何を今更、ですが。</p>
 <p><a href="http://howsecureismypassword.net/">How Secure Is My Password?</a>、
 自分の常用passwordは1 Dayでした。
 色々試してみると、
@@ -867,7 +676,7 @@ classpathの指定が大変でした。
 でも多分これ、localにhashか何かがあってbrute forceを試せる、
 という前提での解読時間かなと思います。
 今はjs fileはugrifyされてて具体的にどう計算しているのかlogic(簡単には)追えないです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Extract recent initramfs]]></title><link href="http://u-ryo.github.io//blog/2018/09/04/extract-recent-initramfs/"/><updated>2018-09-04T12:01:55+09:00</updated><id>/blog/2018/09/04/extract-recent-initramfs/</id><content type="html"><![CDATA[<p>よその会社に用意して貰ったLinux(ubuntu)のSSDがあって、
+]]></content></entry><entry><title type="html"><![CDATA[Extract recent initramfs]]></title><link href="http://u-ryo.github.io//blog/2018/09/04/extract-recent-initramfs/"/><updated>2018-09-09T15:44:45+09:00</updated><id>/blog/2018/09/04/extract-recent-initramfs/</id><content type="html"><![CDATA[<p>よその会社に用意して貰ったLinux(ubuntu)のSSDがあって、
 ちょっとhappy hackingしてみようと。
 <code>initramfs</code>を展開しようと<code>zcat initrd.img|cpio -di</code>とかってやってみたところ、
 「not in gzip format」と。
@@ -985,7 +794,7 @@ classpathの指定が大変でした。
 <p><code>binwalk</code>で得られた1605632ではダメで、1605633でOKでした。
 上記サイトには「得られたbyte数以降を<code>dd</code>で書き出せ」とかありましたが、
 別にそんなことしなくても<code>tail -c +NNN</code>で十分です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
+]]></content></entry><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-03T02:48:45+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
 実際、これまでdevだったのをprod環境にして、
 Timastampを含むTableのあるMySQLをbackendに据えてみると、
 <code>-Pdev</code>環境ではうまく立ち上がっていたのに、
@@ -1001,7 +810,7 @@ Timastampを含むTableのあるMySQLをbackendに据えてみると、
 </pre></td><td class='code'><pre><code class='html'><span class='line'>character-set-server=utf8
 </span><span class='line'>explicit_defaults_for_timestamp=on
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[Communication between components on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/communication-between-components-on-angular/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/02/communication-between-components-on-angular/</id><content type="html"><![CDATA[<p><a href="https://angular.io/">Angular</a>でcomponent間通信しようと思いました。
+]]></content></entry><entry><title type="html"><![CDATA[Communication between components on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/communication-between-components-on-angular/"/><updated>2018-09-02T20:19:43+09:00</updated><id>/blog/2018/09/02/communication-between-components-on-angular/</id><content type="html"><![CDATA[<p><a href="https://angular.io/">Angular</a>でcomponent間通信しようと思いました。
 これまで一つにしていたcontrol formとそれをはんえいするimage viewを
 別componentにして、その間で情報伝達したり、
 あるtimingで他方のfunctionを叩いたり、
@@ -1023,7 +832,7 @@ Local Storageにも保存できますし、ってそれはどちらも同じで�
 意識しなくても変数に<code>@SharedStorage</code>とか<code>@LocalStorage</code>とすれば
 他のcomponentでも変更された値がそのまま参照できるというスグレモノです。
 全部これ使えばいーんですよ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Logging on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/logging-on-angular/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/02/logging-on-angular/</id><content type="html"><![CDATA[<p>Angularでloggingをしようと思いました。
+]]></content></entry><entry><title type="html"><![CDATA[Logging on Angular]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/logging-on-angular/"/><updated>2018-09-02T17:10:00+09:00</updated><id>/blog/2018/09/02/logging-on-angular/</id><content type="html"><![CDATA[<p>Angularでloggingをしようと思いました。
 <a href="https://www.slf4j.org/">slf4j(Simple Logging Facade 4 Java)</a>みたいなのないかなー、って思って<a href="https://www.npmjs.com/package/ng2-logger">ng2-logger</a>使いました。
 まぁ良かったんですけど、
 logのlevel指定が、
@@ -1039,7 +848,7 @@ logのlevel指定が、
 使う時はフツーに<code>log.d('object',obj)</code>と<code>i</code>、<code>w</code>ですが、
 errorだけは<code>log.er('object',obj)</code>なので注意です。
 あと出てくるlogの見た目はcolorfulできれいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
+]]></content></entry><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-02T15:44:19+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
 アプリとしてinstallしていたPWAを一旦uninstallしてから
 browserでそのpageを読んでも、「ホーム画面に追加」が現れなかったんですね。
 何でんだろー、一旦uninstallしちゃうとダメなのかな?
@@ -1073,7 +882,7 @@ webpackがpng fileをhash名化する時にバッティングするようで、
 <code>css</code>でのpng fileを<code>../../../../../../webpack/logo-jhipster.png</code>
 といったようにして<code>manifest.webpack</code>と別物にすると、うまく行きました。
 <code>./src/...</code>以下でなくてもいいんですね!</p>
-]]></content></entry><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-08-30T10:20:35+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
+]]></content></entry><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
 <code>illegal forward reference</code>というのがあります。
 これを題材に、後輩氏に課題を出しました。</p>
 <p>最も単純な形にして挙例すると、</p>
@@ -1138,7 +947,7 @@ webpackがpng fileをhash名化する時にバッティングするようで、
 <p>でも、こういう回答は想像してなくて、新鮮でした。</p>
 <p>そもそもdeclarationが後ろに書いてあったこと自体がおかしい、とは思いますけどね。
 そういう「色々おかしい」ソフトを直しています。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-08-28T14:16:41+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
+]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
 と思っていて、<a href="https://angular.io/">Angular</a>だから、
 <a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
 <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
@@ -1200,7 +1009,7 @@ Angularのservice workerは生成されないわけですね。</p>
 <p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、
 Angularの<code>SwPush</code>を使うことが出来ます。
 JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-08-28T10:23:45+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
+]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
 違うaccountでloginしてみようとprivate browsing mode用いると、
 何か出来ないんですねこれ。
 <code>https</code>か<code>localhost</code>じゃないとダメ、というのは知ってましたが。
@@ -1210,7 +1019,7 @@ JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription
 <a href="https://developer.mozilla.org/ja/docs/Web/API/ServiceWorker_API#Service_worker_concepts_and_usage">サービスワーカーの概念と使い方</a></p>
 </blockquote>
 <p>chromeはsecret mode(private window)でのService Workerも大丈夫、のようですか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-08-28T10:08:27+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
+]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
 httpsのreverse proxy(nginx)の後ろに置いて、
 GoogleのOAuth2でJWTな認証をしようとしました。
 当然、backend serverからはGoogle APIに自分のhost名でaccessするような
@@ -1340,7 +1149,7 @@ backendで以下のようなerrorが出ていて。</p>
 というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら
 全く同じcodeで何の問題もなく入れるのです。
 「must match」の対象が何なのか、よく分かりません。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T14:28:16+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
+]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T21:04:34+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
 起動に失敗する」ことがあります。
 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1408,7 +1217,7 @@ Guava 19.0を明示的に<code>@Grab</code>に入れてもダメ、
 取り敢えず前に進める方法がわかったので記しています。</p>
 <p>あぁ、あと、このようにGrapeに失敗すると、
 <code>~/.groovy/grapes/</code>以下に<code>resolved-caller-all-caller-working73.properties</code>と<code>resolved-caller-all-caller-working73.xml</code>といったfilesが澱のように溜まっていくので、都度削除した方がいいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Push Notification from command line by ntfy]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/push-notification-from-command-line-by-ntfy/"/><updated>2018-08-24T14:30:43+09:00</updated><id>/blog/2018/08/24/push-notification-from-command-line-by-ntfy/</id><content type="html"><![CDATA[<p>コマンドラインからPush通知が出来るというのでやってみました。
+]]></content></entry><entry><title type="html"><![CDATA[Push Notification from command line by ntfy]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/push-notification-from-command-line-by-ntfy/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/push-notification-from-command-line-by-ntfy/</id><content type="html"><![CDATA[<p>コマンドラインからPush通知が出来るというのでやってみました。
 (<a href="https://qiita.com/kjtanaka/items/8b0c90d28909e50e4a6d">Linuxのコマンドラインやスクリプトからスマホにプッシュ通知する。（ntfyというツールの紹介）</a>)
 <a href="https://www.pushbullet.com/">PushBullet</a>を使ってみました。
 ChromeやFirefoxだとextension、
@@ -1426,7 +1235,7 @@ ChromeやFirefoxだとextension、
 PushBulletのアプリを入れると、
 電話帳やSMS(Short Message Service)もぶっこ抜いてくるんですね。
 それと知らずにSMS送ってしまい、相手に不審がられてしまいました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T14:00:35+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
+]]></content></entry><entry><title type="html"><![CDATA[CSV download on Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/csv-download-on-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでCSV downloadを実現するのに、
 <a href="https://qiita.com/yo1000/items/050c5c47daabf7a10e10">Spring MVC で CSV をダウンロードさせる</a>を参考にしました。
 要するに、</p>
 <ul>
@@ -1436,4 +1245,15 @@ PushBulletのアプリを入れると、
 <li><code>CsvMapper mapper = new CsvMapper();</code>して<code>CsvSchema schema = mapper.schemaFor(SomeBean.class).withHeader();</code>して<code>return mapper.writer(schema).writeValueAsString(beans);</code></li>
 <li><code>compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"</code>を入れて<code>@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")</code>して<code>mapper.registerModule(new JavaTimeModule());</code>すると、<code>ZonedDateTime</code>を如意に表示できる?<a href="http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/">Formatting Java Time with Spring Boot using JSON</a></li>
 </ul>
+]]></content></entry><entry><title type="html"><![CDATA[fluent on Lombok]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/fluent-on-lombok/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/fluent-on-lombok/</id><content type="html"><![CDATA[<p><a href="https://projectlombok.org">Lombok</a>で<code>@Accessors(fluent=true)</code>にしたら、
+setterのみならず<a href="https://projectlombok.org/features/experimental/Accessors">getterもfluentになる</a>んですね。
+<code>getXxx()</code>がないと言われて焦りました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Returning XML from Spring Boot REST]]></title><link href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/"/><updated>2018-08-24T21:29:23+09:00</updated><id>/blog/2018/08/24/returning-xml-from-spring-boot-rest/</id><content type="html"><![CDATA[<p>Spring BootでRESTやってて、XMLでdataを返したいと。
+<a href="http://blog.rakugakibox.net/entry/2014/11/23/java_spring_boot_rest">Java: Spring Boot で REST なアプリを作ってみる</a>を見てみて、
+<code>@XmlRootElement</code>を付ければいい?
+ついでにtag名がclass名と違うので、
+<code>@XmlRootElement(name="annotation")</code>としました。</p>
+<p>あと、<a href="https://projectlombok.org">Lombok</a>を使ったせいなのか、
+各fieldに<code>@XmlElement</code>を付けないと、出て来ませんでした。
+そういうもの?!</p>
 ]]></content></entry></feed>

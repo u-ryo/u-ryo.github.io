@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2017-08-22T10:04:50+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-04T11:17:10+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-03T02:48:45+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
 実際、これまでdevだったのをprod環境にして、
 Timastampを含むTableのあるMySQLをbackendに据えてみると、
 <code>-Pdev</code>環境ではうまく立ち上がっていたのに、
@@ -14,7 +14,7 @@ Timastampを含むTableのあるMySQLをbackendに据えてみると、
 </pre></td><td class='code'><pre><code class='html'><span class='line'>character-set-server=utf8
 </span><span class='line'>explicit_defaults_for_timestamp=on
 </span></code></pre></td></tr></table></div></figure>
-]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-27T13:53:03+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
+]]></content></entry><entry><title type="html"><![CDATA[GroovyFX]]></title><link href="http://u-ryo.github.io//blog/2018/08/23/groovyfx/"/><updated>2018-08-25T20:12:12+09:00</updated><id>/blog/2018/08/23/groovyfx/</id><content type="html"><![CDATA[<p>SwingからJavaのGUIの座を引き継いだとはいえ、
 <a href="http://jdk.java.net/11/">Java11</a>ではJava本体から削除され、
 <a href="http://jdk.java.net/openjfx/">OpenJFX</a>となるJavaFX、
 でもGUI作るならJavaFXだろうなぁ、

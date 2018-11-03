@@ -8,129 +8,7 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Author: U-ryo</h1> <article> <header> <h1 class="entry-title"><a href="/blog/2018/10/10/ssh-with-empty-password/">Ssh With Empty Password</a></h1> <p class="meta"> <time datetime="2018-10-10T10:22:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">10</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/10/10/ssh-with-empty-password/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>某ubuntu起動diskをmountして<code>/etc/passwd</code>のpasswordを潰して、 console login出来るようにはなったんですけれども、 sshでは入れません。 あーそっか、と思って、いい機会だからと後輩氏に課題として与えてみました。</p> <p>新規user作って乗り越えてくれまして、それはそれで良い解だと思いますが、 <code>/etc/ssh/sshd_config</code>の<code>PermitEmptyPasswords yes</code>でも行けるよー (このhostを繋ぐのは内部networkだし)、 と垂れて、試したところ、ものの見事に失敗。</p> <p>あれー、なんでー?!</p> <p>更に調べてみると、もう一つ施策が必要でした。</p> <p><a href="https://qiita.com/FGtatsuro/items/4893dfb138f70d972904">公開鍵なし/パスワードなしでSSHログインする設定</a>にあるように<code>UsePAM no</code>にするか、 PAMを使っているということなのでならばPAMでempty passwordを許容するように <code>/etc/pam.d/common-auth</code>の <code>auth [success=1 default=ignore] pam_unix.so nullok_secure</code>の <code>nullok_secure</code>を消す(<a href="https://www.redhat.com/archives/pam-list/2005-September/msg00001.html">Re: nullok_secure option</a>)か、 ですがPAMいじるのは怖いですよねぇ。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/10/10/schedulers-newthread-or-schedulers-io/">Schedulers.newThread() or Schedulers.io()</a></h1> <p class="meta"> <time datetime="2018-10-10T09:57:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">10</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/10/10/schedulers-newthread-or-schedulers-io/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Robolectricでtestを書いていて、 どうも上手く行かないところがありました。 「上手く行かない」というのは「Test class内で(RxJava1系なので)<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>しているにも関わらず、 test対象classで<code>subscriber</code>が動いてしまう」というものです。</p> <p>どうしてかなぁ、<code>.subscribe(...)</code>の中で<code>.subscribe(...)</code>してるからかなぁ、 <a href="https://hydrakecat.hatenablog.jp/entry/2016/12/12/RxJava_のテスト(1):_TestSubscriber,_test(),_TestScheduler">RxJava のテスト(1): TestSubscriber, test(), TestScheduler</a>を見て、 じゃぁっていうんで<code>TestScheduler scheduler = Schedulers.test();</code>して何度か<code>scheduler.triggerActions();</code>しても現象変わらずでした。</p> <p>悩んだ末、わかったのは、 test対象classでは<code>.subscribeOn(Schedulers.newThread())</code>していた、 ということでした。 なぁんだ。</p> <p>そういえばちょっと前に書いたところだったので、 まだ<code>Schedulers.newThread()</code>にしちゃってたんですね。 今回<code>Schedulers.io()</code>に変えました。 Androidでも効くんでしょうか。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/19/peeking-an-encrypted-luks-lvm/">Peeking an Encrypted Luks Lvm</a></h1> <p class="meta"> <time datetime="2018-09-19T20:09:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">19</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/19/peeking-an-encrypted-luks-lvm/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>純粋に知的好奇心から、 とある暗号化diskをmountして中身を見てみたくなりまして。 targetはubuntuで、立ち上がる時にdisk復号化keyを入力して 立ち上がるような代物です。 それを<code>dd</code>でcopyして(最後の方50GBくらいは何かI/Oエラーで copyがうまく行きませんでしたがそれはそもそもそうなのか、 直前にちょっと蹴っ躓いてコードに少し足が引っかかったせいなのか、 よくわかりません)、 copyした方に対してmountをかけるといきなりpassword聞かれて、 答えると難なくmount出来たもののそれはgrubとかkernelとか 置かれているboot領域。 root領域本体はsdb5の中。 <a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186 暗号化ファイルシステムを使ってみる ～ LUKS 編</a>を参考に、 <code>sudo apt install cryptsetup</code>して、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cryptsetup luksOpen /dev/sdb5 luks
-</span><span class='line'>Enter passphrase for /dev/sdb5: *******
-</span></code></pre></td></tr></table></div></figure> <p>とすると、<code>/dev/mapper/luks</code>が出来ます。 それをmountすればいいようなんですが、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo mount /dev/mapper/luks /tmp/luks/
-</span><span class='line'>mount: /tmp/luks: unknown filesystem type &#39;LVM2_member&#39;.
-</span></code></pre></td></tr></table></div></figure> <p>と言われて出来ません。 <a href="http://a5.hatenablog.jp/entry/2011/11/01/000000">HDDからのデータサルベージ</a>を参考に、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgscan
-</span><span class='line'>  Reading volume groups from cache.
-</span><span class='line'>  Found volume group &quot;ubuntu-vg&quot; using metadata type lvm2
-</span></code></pre></td></tr></table></div></figure> <p>確かに何かあるようです。 <a href="http://d.hatena.ne.jp/kt_hiro/20120117/1326764520">LVMの使い方</a>を参考に、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo pvscan
-</span><span class='line'>  PV /dev/mapper/luks
-</span><span class='line'>  Total: 1 [<span class="nt">&lt;232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">]</span> <span class="err">/</span> <span class="na">in</span> <span class="na">use:</span> <span class="na">0</span> <span class="err">[</span><span class="na">0</span>   <span class="err">]</span> <span class="err">/</span> <span class="na">in</span> <span class="na">no</span> <span class="na">VG:</span> <span class="na">1</span> <span class="err">[&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">]</span>
-</span><span class='line'><span class="err">$</span> <span class="na">sudo</span> <span class="na">pvdisplay</span> <span class="na">-v</span>
-</span><span class='line'>    <span class="na">Wiping</span> <span class="na">internal</span> <span class="na">VG</span> <span class="na">cache</span>
-</span><span class='line'>    <span class="na">Wiping</span> <span class="na">cache</span> <span class="na">of</span> <span class="na">LVM-capable</span> <span class="na">devices</span>
-</span><span class='line'>  <span class="err">&quot;/</span><span class="na">dev</span><span class="err">/</span><span class="na">mapper</span><span class="err">/</span><span class="na">luks</span><span class="err">&quot;</span> <span class="na">is</span> <span class="na">a</span> <span class="na">new</span> <span class="na">physical</span> <span class="na">volume</span> <span class="na">of</span> <span class="err">&quot;&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">&quot;</span>
-</span><span class='line'>  <span class="na">---</span> <span class="na">NEW</span> <span class="na">Physical</span> <span class="na">volume</span> <span class="na">---</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">Name</span>               <span class="err">/</span><span class="na">dev</span><span class="err">/</span><span class="na">mapper</span><span class="err">/</span><span class="na">luks</span>
-</span><span class='line'>  <span class="na">VG</span> <span class="na">Name</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">Size</span>               <span class="err">&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span>
-</span><span class='line'>  <span class="na">Allocatable</span>           <span class="na">NO</span>
-</span><span class='line'>  <span class="na">PE</span> <span class="na">Size</span>               <span class="na">0</span>
-</span><span class='line'>  <span class="na">Total</span> <span class="na">PE</span>              <span class="na">0</span>
-</span><span class='line'>  <span class="na">Free</span> <span class="na">PE</span>               <span class="na">0</span>
-</span><span class='line'>  <span class="na">Allocated</span> <span class="na">PE</span>          <span class="na">0</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">UUID</span>               <span class="na">w34D6Y-8iVC-zIWW-0WHB-ltuf-FADa-sPMT7k</span>
-</span></code></pre></td></tr></table></div></figure> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgchange -ay
-</span><span class='line'>  2 logical volume(s) in volume group &quot;ubuntu-vg&quot; now active
-</span></code></pre></td></tr></table></div></figure> <p>これで、<code>/dev/ubuntu-vg/</code>が出来ます。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ ls -alrt /dev/ubuntu-vg/
-</span><span class='line'>total 0
-</span><span class='line'>lrwxrwxrwx  1 root root    7  9æ 19 04:44 root -&gt; ../dm-1
-</span><span class='line'>drwxr-xr-x 22 root root 4760  9æ 19 04:44 ..
-</span><span class='line'>lrwxrwxrwx  1 root root    7  9æ 19 04:44 swap_1 -&gt; ../dm-2
-</span><span class='line'>drwxr-xr-x  2 root root   80  9æ 19 04:44 .
-</span></code></pre></td></tr></table></div></figure> <p>これをmountすればよいですね。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo mount /dev/ubuntu-vg/root /tmp/luks
-</span></code></pre></td></tr></table></div></figure> <h3>unmount / detach</h3> <p>これを外すのに右往左往してしまいました。 <code>sudo vgremove ubuntu-vg</code>とかってやってしまいました。 これは、volume groupを消してしまう行為でした。 やってはいけません。</p> <p>結局、外す時はこれでいいわけですね。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo umount /tmp/luks
-</span><span class='line'>$ sudo vgchange -an ubuntu-vg
-</span><span class='line'>  0 logical volume(s) in volume group &quot;ubuntu-vg&quot; now active
-</span><span class='line'>$ sudo cryptsetup luksClose luks
-</span></code></pre></td></tr></table></div></figure> <p>これで<code>/dev/ubuntu-vg/</code>も<code>/dev/mapper/luks</code>もなくなり、 deviceを外せます。</p> <p><code>vgremove</code>しちゃったからもうダメかな、と思ったら、戻せるんですね。 <a href="https://www.thegeekdiary.com/centos-rhel-how-to-restore-recover-a-delete-volume-group-on-lvm/">CentOS / RHEL : How to restore/recover a deleted volume group in LVM</a>を参考に、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgcfgrestore --list ubuntu-vg
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/archive/ubuntu-vg_00000-434080001.vg
-</span><span class='line'>  Couldn&#39;t find device with uuid w34D6Y-8iVC-zIWW-0WHB-ltuf-FADa-sPMT7k.
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *before* executing &#39;vgremove ubuntu-vg&#39;
-</span><span class='line'>  Backup Time:  Tue Sep 18 21:04:48 2018
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/archive/ubuntu-vg_00001-841595159.vg
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *before* executing &#39;vgcreate ubuntu-vg /dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a&#39;
-</span><span class='line'>  Backup Time:  Wed Sep 19 04:31:30 2018
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/backup/ubuntu-vg
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *after* executing &#39;vgcreate ubuntu-vg /dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a&#39;
-</span><span class='line'>  Backup Time:  Wed Sep 19 04:31:30 2018
-</span></code></pre></td></tr></table></div></figure> <p>このように出て来るので、 身に覚えのあるものを選んで、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgcfgrestore -f /etc/lvm/archive/ubuntu-vg_00000-434080001.vg ubuntu-vg
-</span><span class='line'>  Restored volume group ubuntu-vg
-</span></code></pre></td></tr></table></div></figure> <p>とするとVolume Groupが戻るんですね。すごいー。 助かりました。</p> <p>あと、<code>cryptsetup</code>と<code>lvm</code>が予め入っていると、 encrypted diskをUSBで繋げた時点でkeyを聞かれて、 <code>luksOpen</code>まで裏でやっちゃうんですね。 自分で<code>luksOpen</code>しようとして、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cryptsetup luksOpen /dev/sdb5 luks2
-</span><span class='line'>Enter passphrase for /dev/sdb5: 
-</span><span class='line'>Cannot use device /dev/sdb5 which is in use (already mapped or mounted).
-</span></code></pre></td></tr></table></div></figure> <p>といわれて「?!」とか思ってしまいました。 この時点で<code>/dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a</code>が出来ています。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a></h1> <p class="meta"> <time datetime="2018-09-17T20:57:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">17</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。 3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。 画像と音声は別々だしsizeも320x240と凄く小さいんですけど、 1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、 いっかなぁと。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Author: U-ryo</h1> <article> <header> <h1 class="entry-title"><a href="/blog/2018/10/10/schedulers-newthread-or-schedulers-io/">Schedulers.newThread() or Schedulers.io()</a></h1> <p class="meta"> <time datetime="2018-10-10T09:57:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">10</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/10/10/schedulers-newthread-or-schedulers-io/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Robolectricでtestを書いていて、 どうも上手く行かないところがありました。 「上手く行かない」というのは「Test class内で(RxJava1系なので)<code>RxJavaHooks.setOnIOScheduler(s -&gt; Schedulers.immediate());</code>しているにも関わらず、 test対象classで<code>subscriber</code>が動いてしまう」というものです。</p> <p>どうしてかなぁ、<code>.subscribe(...)</code>の中で<code>.subscribe(...)</code>してるからかなぁ、 <a href="https://hydrakecat.hatenablog.jp/entry/2016/12/12/RxJava_のテスト(1):_TestSubscriber,_test(),_TestScheduler">RxJava のテスト(1): TestSubscriber, test(), TestScheduler</a>を見て、 じゃぁっていうんで<code>TestScheduler scheduler = Schedulers.test();</code>して何度か<code>scheduler.triggerActions();</code>しても現象変わらずでした。</p> <p>悩んだ末、わかったのは、 test対象classでは<code>.subscribeOn(Schedulers.newThread())</code>していた、 ということでした。 なぁんだ。</p> <p>そういえばちょっと前に書いたところだったので、 まだ<code>Schedulers.newThread()</code>にしちゃってたんですね。 今回<code>Schedulers.io()</code>に変えました。 Androidでも効くんでしょうか。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a></h1> <p class="meta"> <time datetime="2018-09-17T20:57:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">17</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。 3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。 画像と音声は別々だしsizeも320x240と凄く小さいんですけど、 1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、 いっかなぁと。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -250,7 +128,347 @@
 </span><span class='line'>  wpa-key-mgmt WPA-PSK
 </span><span class='line'>  wpa-ssid Disney
 </span><span class='line'>  wpa-psk ru011415
-</span></code></pre></td></tr></table></div></figure> <p><code>wpa-driver</code>と<code>wpa-conf</code>が無いとダメだった。</p> <h3>for mosh</h3> <p>色々試したがmoshはダメだった。諦めた。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/">Python Basic Web Server for Applying Keras Model</a></h1> <p class="meta"> <time datetime="2018-09-14T16:56:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">14</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが NotePC程度で動くことを証明したく、 PythonのBaseHTTPServerで1日でちゃちゃっと作りました。</p> <p>といっても「PythonのBaseHTTPServer」なんて触るの初めてです。 <a href="https://gist.github.com/bradmontgomery/2219997">bradmontgomery/dummy-web-server.py</a>を参考にしました。 なるほど、classを定義して、<code>BaseHTTPRequestHandler</code>を引数にして、 <code>do_GET</code>や<code>do_POST</code>を書くわけですね。 routingは自分でやれと。面倒なのでmethodで分けました。 このsystem自体をone fileで済ませたかったので、 <code>GET</code>で<code>index.html</code>を返したいと思い、 そのためにはhere documentを書きたいな、 と思ったので、 <a href="https://qiita.com/ykhirao/items/c7cba73a3a563be5eac6">Pythonのヒアドキュメント</a>を参考に、 あぁ、普通に<code>'''</code>(single quote 3つ)でいいのね、とわかりました。 single quoteでも中で変数展開されるんですね。へー。 <a href="http://d.hatena.ne.jp/matasaburou/20151003/1443882557">PythonでJSONを受けて処理をする</a>を参考に、 <code>POST</code>時のparameter(=request body)の受け取り方を。 HTTP Request Headerの<code>Content-Length</code>を<code>int</code>として記憶し、 <code>self.rfile.read()</code>でそのbyte分読んで、 <code>decode()</code>でstringにすると。 parameterizedされるわけではなく、bodyがまるっと読まれるので、 parameterで分けるのは自分でやれということですね。</p> <p>あと、base64として来た文字列をdecodeして<code>Image</code>化するには、 先頭の<code>image/jpeg;base64,</code>を除去し(<code>replace()</code>)て純粋にBase64文字列だけにし、 <code>base64.b64decode(content)</code>したものを<code>io.BytesIO()</code>し、 それを<code>Image.open()</code>すると。</p> <p><code>predict()</code>したものは2次元配列になっているので、 0番目の<code>argmax()</code>したものが答えの添字、なのですね。</p> <p>ともあれ、このpython predict server script 1つと keras model fileの2 filesだけでサクッと動くものを、 <a href="https://github.com/u-ryo/python_prediction_server">github</a>に置きました。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="next" href="/authors/u-ryo/page/2/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/10/10/ssh-with-empty-password/">Ssh With Empty Password</a> </li> <li class="post"> <a href="/blog/2018/10/10/schedulers-newthread-or-schedulers-io/">Schedulers.newThread() or Schedulers.io()</a> </li> <li class="post"> <a href="/blog/2018/09/19/peeking-an-encrypted-luks-lvm/">Peeking an Encrypted Luks Lvm</a> </li> <li class="post"> <a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a> </li> <li class="post"> <a href="/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/">Python Basic Web Server for Applying Keras Model</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure> <p><code>wpa-driver</code>と<code>wpa-conf</code>が無いとダメだった。</p> <h3>for mosh</h3> <p>色々試したがmoshはダメだった。諦めた。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/">Python Basic Web Server for Applying Keras Model</a></h1> <p class="meta"> <time datetime="2018-09-14T16:56:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">14</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが NotePC程度で動くことを証明したく、 PythonのBaseHTTPServerで1日でちゃちゃっと作りました。</p> <p>といっても「PythonのBaseHTTPServer」なんて触るの初めてです。 <a href="https://gist.github.com/bradmontgomery/2219997">bradmontgomery/dummy-web-server.py</a>を参考にしました。 なるほど、classを定義して、<code>BaseHTTPRequestHandler</code>を引数にして、 <code>do_GET</code>や<code>do_POST</code>を書くわけですね。 routingは自分でやれと。面倒なのでmethodで分けました。 このsystem自体をone fileで済ませたかったので、 <code>GET</code>で<code>index.html</code>を返したいと思い、 そのためにはhere documentを書きたいな、 と思ったので、 <a href="https://qiita.com/ykhirao/items/c7cba73a3a563be5eac6">Pythonのヒアドキュメント</a>を参考に、 あぁ、普通に<code>'''</code>(single quote 3つ)でいいのね、とわかりました。 single quoteでも中で変数展開されるんですね。へー。 <a href="http://d.hatena.ne.jp/matasaburou/20151003/1443882557">PythonでJSONを受けて処理をする</a>を参考に、 <code>POST</code>時のparameter(=request body)の受け取り方を。 HTTP Request Headerの<code>Content-Length</code>を<code>int</code>として記憶し、 <code>self.rfile.read()</code>でそのbyte分読んで、 <code>decode()</code>でstringにすると。 parameterizedされるわけではなく、bodyがまるっと読まれるので、 parameterで分けるのは自分でやれということですね。</p> <p>あと、base64として来た文字列をdecodeして<code>Image</code>化するには、 先頭の<code>image/jpeg;base64,</code>を除去し(<code>replace()</code>)て純粋にBase64文字列だけにし、 <code>base64.b64decode(content)</code>したものを<code>io.BytesIO()</code>し、 それを<code>Image.open()</code>すると。</p> <p><code>predict()</code>したものは2次元配列になっているので、 0番目の<code>argmax()</code>したものが答えの添字、なのですね。</p> <p>ともあれ、このpython predict server script 1つと keras model fileの2 filesだけでサクッと動くものを、 <a href="https://github.com/u-ryo/python_prediction_server">github</a>に置きました。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/14/deeplearning-for-java-dl4j/">DeepLearning for Java DL4J</a></h1> <p class="meta"> <time datetime="2018-09-14T00:13:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">14</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、 やむなく<a href="https://colab.research.google.com/">Google Colaboratory</a>上で<a href="https://keras.io/ja/">keras</a>でVGG16 with ImageNetをfine tuningしたmodelを、 GPUのないNotePCでpredictしようとしました。 NotePCはDisk/Memory容量が小さいためpythonも本気では入れてないので、 <a href="http://groovy-lang.org/">Groovy</a>+<a href="https://deeplearning4j.org/">DeepLearning4J</a>で何とかならないかなー、 とあがきました。 単純にGrapeでの指定だけだと失敗するんです。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ groovy dl4j.groovy
+</span><span class='line'>Caught: java.lang.NoClassDefFoundError: org/bytedeco/javacpp/hdf5$Group
+</span><span class='line'>java.lang.NoClassDefFoundError: org/bytedeco/javacpp/hdf5$Group
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasModelBuilder.modelHdf5Filename(KerasModelBuilder.java:226)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport.importKerasSequentialModelAndWeights(KerasModelImport.java:194)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport$importKerasSequentialModelAndWeights.call(Unknown Source)
+</span><span class='line'>        at dl4j.run(dl4j.groovy:17)
+</span><span class='line'>Caused by: java.lang.ClassNotFoundException: org.bytedeco.javacpp.hdf5$Group
+</span><span class='line'>        ... 4 more
+</span></code></pre></td></tr></table></div></figure> <p>これは、何も指定しないと<code>~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-windows-x86_64.jar</code>が落ちてきて、Windows用native libraryで動こうとするからっぽい?んですね。 なので、<code>hdf5-1.10.2-1.4.2-linux-x86_64.jar</code>を落としてきて、<code>-cp</code>で明示的に指定しないとダメでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ groovy -cp ~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar dl4j.groovy
+</span><span class='line'>[main] INFO org.deeplearning4j.nn.modelimport.keras.Hdf5Archive - Unexpected end-of-input: was expecting closing quote for a string value at [Source: {&quot;config&quot;: {&quot;name&quot;: &quot;model_1&quot;, &quot;input_layers&quot;: ......, &quot;name; line: 1, column: 20001]
+</span><span class='line'>Caught: org.deeplearning4j.nn.modelimport.keras.exceptions.InvalidKerasConfigurationException: Model class name must be Sequential (found Model). For more information, see http://deeplearning4j.org/model-import-keras.
+</span><span class='line'>org.deeplearning4j.nn.modelimport.keras.exceptions.InvalidKerasConfigurationException: Model class name must be Sequential (found Model). For more information, see http://deeplearning4j.org/model-import-keras.
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasSequentialModel.<span class="nt">&lt;init&gt;</span>(KerasSequentialModel.java:94)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasSequentialModel.<span class="nt">&lt;init&gt;</span>(KerasSequentialModel.java:61)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasModelBuilder.buildSequential(KerasModelBuilder.java:320)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport.importKerasSequentialModelAndWeights(KerasModelImport.java:195)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport$importKerasSequentialModelAndWeights.call(Unknown Source)
+</span><span class='line'>        at dl4j.run(dl4j.groovy:18)
+</span></code></pre></td></tr></table></div></figure> <p>VGG16はSequential Modelじゃないからダメでした。 ...ってこれ、<code>importKerasSequentialModelAndWeights</code>でやってるからですよね。 そりゃそうですか。<code>importKerasModelAndWeights</code>に変えて試してみます。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ groovy -cp ~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar dl4j.groovy
+</span><span class='line'>[main] INFO org.deeplearning4j.nn.modelimport.keras.Hdf5Archive - Unexpected end-of-input: was expecting closing quote for a string value at [Source: {&quot;config&quot;: {&quot;name&quot;: &quot;model_1&quot;, ......, &quot;name; line: 1, column: 20001]
+</span><span class='line'>Caught: java.lang.ExceptionInInitializerError
+</span><span class='line'>java.lang.ExceptionInInitializerError
+</span><span class='line'>        at org.deeplearning4j.nn.conf.dropout.Dropout.initializeHelper(Dropout.java:107)
+</span><span class='line'>        at org.deeplearning4j.nn.conf.dropout.Dropout.<span class="nt">&lt;init&gt;</span>(Dropout.java:100)
+</span><span class='line'>        at org.deeplearning4j.nn.conf.dropout.Dropout.<span class="nt">&lt;init&gt;</span>(Dropout.java:80)
+</span><span class='line'>        at org.deeplearning4j.nn.conf.layers.Layer$Builder.dropOut(Layer.java:257)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.layers.convolutional.KerasConvolution2D.<span class="nt">&lt;init&gt;</span>(KerasConvolution2D.java:101)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasLayerUtils.getKerasLayerFromConfig(KerasLayerUtils.java:226)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.prepareLayers(KerasModel.java:220)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.<span class="nt">&lt;init&gt;</span>(KerasModel.java:166)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.<span class="nt">&lt;init&gt;</span>(KerasModel.java:98)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasModelBuilder.buildModel(KerasModelBuilder.java:305)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport.importKerasModelAndWeights(KerasModelImport.java:144)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport$importKerasModelAndWeights.call(Unknown Source)
+</span><span class='line'>        at dl4j.run(dl4j.groovy:18)
+</span><span class='line'>Caused by: java.lang.RuntimeException: org.nd4j.linalg.factory.Nd4jBackend$NoAvailableBackendException: Please ensure that you have an nd4j backend on your classpath. Please see: http://nd4j.org/getstarted.html
+</span><span class='line'>        at org.nd4j.linalg.factory.Nd4j.initContext(Nd4j.java:5449)
+</span><span class='line'>        at org.nd4j.linalg.factory.Nd4j.<span class="nt">&lt;clinit&gt;</span>(Nd4j.java:213)
+</span><span class='line'>        ... 13 more
+</span><span class='line'>Caused by: org.nd4j.linalg.factory.Nd4jBackend$NoAvailableBackendException: Please ensure that you have an nd4j backend on your classpath. Please see: http://nd4j.org/getstarted.html
+</span><span class='line'>        at org.nd4j.linalg.factory.Nd4jBackend.load(Nd4jBackend.java:213)
+</span><span class='line'>        at org.nd4j.linalg.factory.Nd4j.initContext(Nd4j.java:5446)
+</span><span class='line'>        ... 14 more
+</span></code></pre></td></tr></table></div></figure> <p>何でしょう。今度は<a href="https://deeplearning4j.org/docs/latest/nd4j-overview">Nd4j</a>のようなので、同じように<code>~/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar</code>を落としてきて入れて明示的に指定して試してみても同じだったので、色々試行錯誤の結果、Grapeで指定するのは<code>nd4j-native-platform</code>ではなく<code>nd4j-native</code>の方だった、ということで一歩進みました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ groovy -cp ~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar dl4j.groovy
+</span><span class='line'>[main] INFO org.deeplearning4j.nn.modelimport.keras.Hdf5Archive - Unexpected end-of-input: was expecting closing quote for a string value at [Source: {&quot;config&quot;: {&quot;name&quot;: &quot;model_1&quot;, ......, &quot;name; line: 1, column: 20001]
+</span><span class='line'>[main] INFO org.nd4j.linalg.factory.Nd4jBackend - Loaded [CpuBackend] backend
+</span><span class='line'>[main] INFO org.nd4j.nativeblas.NativeOpsHolder - Number of threads used for NativeOps: 2
+</span><span class='line'>Caught: java.lang.UnsatisfiedLinkError: no jniopenblas_nolapack in java.library.path
+</span><span class='line'>java.lang.UnsatisfiedLinkError: no jniopenblas_nolapack in java.library.path
+</span><span class='line'>        at org.bytedeco.javacpp.Loader.loadLibrary(Loader.java:1225)
+</span><span class='line'>        at org.bytedeco.javacpp.Loader.load(Loader.java:983)
+</span><span class='line'>        at org.bytedeco.javacpp.Loader.load(Loader.java:882)
+</span><span class='line'>        at org.bytedeco.javacpp.openblas_nolapack.<span class="nt">&lt;clinit&gt;</span>(openblas_nolapack.java:10)
+</span><span class='line'>        at org.bytedeco.javacpp.Loader.load(Loader.java:941)
+</span><span class='line'>        at org.bytedeco.javacpp.Loader.load(Loader.java:898)
+</span><span class='line'>        at org.bytedeco.javacpp.presets.openblas_nolapack.blas_set_num_threads(openblas_nolapack.java:189)
+</span><span class='line'>        at org.nd4j.linalg.cpu.nativecpu.blas.CpuBlas.setMaxThreads(CpuBlas.java:136)
+</span><span class='line'>        at org.nd4j.nativeblas.Nd4jBlas.<span class="nt">&lt;init&gt;</span>(Nd4jBlas.java:52)
+</span><span class='line'>        at org.nd4j.linalg.cpu.nativecpu.blas.CpuBlas.<span class="nt">&lt;init&gt;</span>(CpuBlas.java:31)
+</span><span class='line'>        at org.nd4j.linalg.cpu.nativecpu.CpuNDArrayFactory.createBlas(CpuNDArrayFactory.java:91)
+</span><span class='line'>        at org.nd4j.linalg.factory.BaseNDArrayFactory.blas(BaseNDArrayFactory.java:72)
+</span><span class='line'>        at org.nd4j.linalg.cpu.nativecpu.ops.NativeOpExecutioner.getEnvironmentInformation(NativeOpExecutioner.java:1236)
+</span><span class='line'>        at org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner.printEnvironmentInformation(DefaultOpExecutioner.java:649)
+</span><span class='line'>        at org.nd4j.linalg.factory.Nd4j.initWithBackend(Nd4j.java:5575)
+</span><span class='line'>        at org.nd4j.linalg.factory.Nd4j.initContext(Nd4j.java:5447)
+</span><span class='line'>        at org.nd4j.linalg.factory.Nd4j.<span class="nt">&lt;clinit&gt;</span>(Nd4j.java:213)
+</span><span class='line'>        at org.deeplearning4j.nn.conf.dropout.Dropout.initializeHelper(Dropout.java:107)
+</span><span class='line'>        at org.deeplearning4j.nn.conf.dropout.Dropout.<span class="nt">&lt;init&gt;</span>(Dropout.java:100)
+</span><span class='line'>        at org.deeplearning4j.nn.conf.dropout.Dropout.<span class="nt">&lt;init&gt;</span>(Dropout.java:80)
+</span><span class='line'>        at org.deeplearning4j.nn.conf.layers.Layer$Builder.dropOut(Layer.java:257)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.layers.convolutional.KerasConvolution2D.<span class="nt">&lt;init&gt;</span>(KerasConvolution2D.java:101)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasLayerUtils.getKerasLayerFromConfig(KerasLayerUtils.java:226)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.prepareLayers(KerasModel.java:220)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.<span class="nt">&lt;init&gt;</span>(KerasModel.java:166)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.<span class="nt">&lt;init&gt;</span>(KerasModel.java:98)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasModelBuilder.buildModel(KerasModelBuilder.java:305)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport.importKerasModelAndWeights(KerasModelImport.java:144)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport$importKerasModelAndWeights.call(Unknown Source)
+</span><span class='line'>        at dl4j.run(dl4j.groovy:19)
+</span><span class='line'>Caused by: java.lang.UnsatisfiedLinkError: no openblas_nolapack in java.library.path
+</span><span class='line'>        at org.bytedeco.javacpp.Loader.loadLibrary(Loader.java:1225)
+</span><span class='line'>        at org.bytedeco.javacpp.Loader.load(Loader.java:968)
+</span><span class='line'>        ... 28 more
+</span></code></pre></td></tr></table></div></figure> <p>openblasがない? <code>sudo apt install libopenblas-base libopenblas-dev</code>しても変わりません。 うーん。 色々探すと、<a href="https://github.com/deeplearning4j/deeplearning4j/issues/6132">libopenblas_nolapack.so.0: cannot open shared object file: No such file or directory #6132</a>という記事があり、 「nd4j-backends」から「mkl-dnn」をexcludeしろ、とあります。 えー! nd4j-backendsはpomだけでjarないんですけど。 <code>org.bytedeco.javacpp-presets:mkl-dnn</code>を見てみると、 windowsのjar<code>mkl-dnn-0.15-1.4.2-windows-x86_64.jar</code>が落ちてきていました。 それならっていうんで、linux-x86 64版を持ってきて<code>-cp</code>で指定します。 ついでに、<code>org.bytedeco.javacpp-presets:openblas</code>というのもあって こっちにもwindows-x86 64版のjarだったので、これについてもlinux-x86 64版を 持ってきてClassPathに入れます。 するとどうでしょう、漸く動き出しました。 けれども、ヌルポで落ちます。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ groovy -cp ~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/mkl-dnn/jars/mkl-dnn-0.15-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2-linux-x86_64.jar dl4j.groovy
+</span><span class='line'>[main] INFO org.deeplearning4j.nn.modelimport.keras.Hdf5Archive - Unexpected end-of-input: was expecting closing quote for a string value at [Source: {&quot;config&quot;: {&quot;name&quot;: &quot;model_1&quot;,......, &quot;name; line: 1, column: 20001]
+</span><span class='line'>[main] INFO org.nd4j.linalg.factory.Nd4jBackend - Loaded [CpuBackend] backend
+</span><span class='line'>[main] INFO org.nd4j.nativeblas.NativeOpsHolder - Number of threads used for NativeOps: 2
+</span><span class='line'>[main] INFO org.nd4j.nativeblas.Nd4jBlas - Number of threads used for BLAS: 2
+</span><span class='line'>[main] INFO org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner - Backend used: [CPU]; OS: [Linux]
+</span><span class='line'>[main] INFO org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner - Cores: [4]; Memory: [4.3GB];
+</span><span class='line'>[main] INFO org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner - Blas vendor: [MKL]
+</span><span class='line'>{config={lr=9.999999747378752E-5, decay=0.0, momentum=0.8999999761581421, nesterov=false}, class_name=SGD}
+</span><span class='line'>Caught: java.lang.NullPointerException
+</span><span class='line'>java.lang.NullPointerException
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasOptimizerUtils.mapOptimizer(KerasOptimizerUtils.java:119)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.importTrainingConfiguration(KerasModel.java:253)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.<span class="nt">&lt;init&gt;</span>(KerasModel.java:173)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.<span class="nt">&lt;init&gt;</span>(KerasModel.java:98)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasModelBuilder.buildModel(KerasModelBuilder.java:305)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport.importKerasModelAndWeights(KerasModelImport.java:144)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport$importKerasModelAndWeights.call(Unknown Source)
+</span><span class='line'>        at dl4j.run(dl4j.groovy:19)
+</span></code></pre></td></tr></table></div></figure> <p>これ、119行目って、<code>KerasOptimizerUtils.java</code>の<a href="https://github.com/deeplearning4j/deeplearning4j/commit/2fbc5b757a49c183a7cb7912b5b5e16644c9b798#diff-603a0324b05908c959af3f5cfd04bf44">この修正</a>の前のこれですね。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>119: double momentum = (double) optimizerParameters.get(&quot;epsilon&quot;);
+</span></code></pre></td></tr></table></div></figure> <p><code>epsilon</code>じゃねーよ<code>momentum</code>だよー今は。 ここは8.17.2018に<code>try-catch</code>で囲まれて、現在のversionには反映されてないので、 うー、<a href="https://github.com/deeplearning4j/deeplearning4j/issues/6385#issuecomment-421356713">commentしました</a>。 でもまー、keras変わっちゃうと、DL4Jがついていくのも大変なのかもですね。 けどこれで現状、kerasのmodelのimportは、 optimizerにSGDを使ったものについては全滅です。 実に下らない理由(=parameter nameの間違い)で。</p> <p>あまりにも悔しいので、<a href="https://grax.info/">Java Bytecode Editor: JByteMod</a>を使ってbytecodeを書き換えてみました(正確には<a href="https://github.com/Col-E/Recaf">Col-E/Recaf</a>、<a href="http://set.ee/jbe/">JBE - Java Bytecode Editor</a>と3つ試してみて、JByteModだけでうまく書き換えられました)。 <code>deeplearning4j-modelimport-1.0.0-beta2.jar</code>をjarごと読み込めて、 <code>org.deeplearning4j.nn.modelimport.keras.utils.KerasOptimizerUtils</code>に 降りていって、 EditorのDecompilerで見事にsource codeが出て来ます。 こちらで変えたくなりますが、ここはview onlyの模様。 EditorのCodeで見られるbytecodeならいじれるので、 <code>line 119</code>近辺の<code>ldc String "epsilon"</code>に当たりをつけ、 それを<code>momentum</code>に変えて保存すると... うまく行きました!→次のエラーに進みました。orz</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>[main] INFO org.nd4j.linalg.factory.Nd4jBackend - Loaded [CpuBackend] backend
+</span><span class='line'>[main] INFO org.nd4j.nativeblas.NativeOpsHolder - Number of threads used for NativeOps: 2
+</span><span class='line'>[main] INFO org.nd4j.nativeblas.Nd4jBlas - Number of threads used for BLAS: 2
+</span><span class='line'>[main] INFO org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner - Backend used: [CPU]; OS: [Linux]
+</span><span class='line'>[main] INFO org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner - Cores: [4]; Memory: [4.3GB];
+</span><span class='line'>[main] INFO org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner - Blas vendor: [MKL]
+</span><span class='line'>{config={lr=9.999999747378752E-5, decay=0.0, momentum=0.8999999761581421, nesterov=false}, class_name=SGD}
+</span><span class='line'>Caught: org.deeplearning4j.exception.DL4JInvalidConfigException: Invalid configuration for layer (idx=-1, name=block2_conv1, type=ConvolutionLayer) for width dimension:  Invalid input configuration for kernel width. Require 0 <span class="nt">&lt; kW</span> <span class="err">&lt;=</span> <span class="na">inWidth</span> <span class="err">+</span> <span class="na">2</span><span class="err">*</span><span class="na">padW</span><span class="err">;</span> <span class="na">got</span> <span class="err">(</span><span class="na">kW=</span><span class="s">3,</span> <span class="na">inWidth=</span><span class="s">1,</span> <span class="na">padW=</span><span class="s">0)</span>
+</span><span class='line'><span class="na">Input</span> <span class="na">type =</span><span class="err"> </span><span class="s">InputTypeConvolutional(h=112,w=1,c=64),</span> <span class="na">kernel =</span><span class="err"> </span><span class="s">[3,</span> <span class="na">3</span><span class="err">],</span> <span class="na">strides =</span><span class="err"> </span><span class="s">[1,</span> <span class="na">1</span><span class="err">],</span> <span class="na">padding =</span><span class="err"> </span><span class="s">[0,</span> <span class="na">0</span><span class="err">],</span> <span class="na">layer</span> <span class="na">size</span> <span class="err">(</span><span class="na">output</span> <span class="na">channels</span><span class="err">)</span> <span class="err">=</span> <span class="na">128</span><span class="err">,</span> <span class="na">convolution</span> <span class="na">mode =</span><span class="err"> </span><span class="s">Same</span>
+</span><span class='line'><span class="na">org</span><span class="err">.</span><span class="na">deeplearning4j</span><span class="err">.</span><span class="na">exception</span><span class="err">.</span><span class="na">DL4JInvalidConfigException:</span> <span class="na">Invalid</span> <span class="na">configuration</span> <span class="na">for</span> <span class="na">layer</span> <span class="err">(</span><span class="na">idx=</span><span class="s">-1,</span> <span class="na">name=</span><span class="s">block2_conv1,</span> <span class="na">type=</span><span class="s">ConvolutionLayer)</span> <span class="na">for</span> <span class="na">width</span> <span class="na">dimension:</span>  <span class="na">Invalid</span> <span class="na">input</span> <span class="na">configuration</span> <span class="na">for</span> <span class="na">kernel</span> <span class="na">width</span><span class="err">.</span> <span class="na">Require</span> <span class="na">0</span> <span class="err">&lt;</span> <span class="na">kW</span> <span class="err">&lt;=</span> <span class="na">inWidth</span> <span class="err">+</span> <span class="na">2</span><span class="err">*</span><span class="na">padW</span><span class="err">;</span> <span class="na">got</span> <span class="err">(</span><span class="na">kW=</span><span class="s">3,</span> <span class="na">inWidth=</span><span class="s">1,</span> <span class="na">padW=</span><span class="s">0)</span>
+</span><span class='line'><span class="na">Input</span> <span class="na">type =</span><span class="err"> </span><span class="s">InputTypeConvolutional(h=112,w=1,c=64),</span> <span class="na">kernel =</span><span class="err"> </span><span class="s">[3,</span> <span class="na">3</span><span class="err">],</span> <span class="na">strides =</span><span class="err"> </span><span class="s">[1,</span> <span class="na">1</span><span class="err">],</span> <span class="na">padding =</span><span class="err"> </span><span class="s">[0,</span> <span class="na">0</span><span class="err">],</span> <span class="na">layer</span> <span class="na">size</span> <span class="err">(</span><span class="na">output</span> <span class="na">channels</span><span class="err">)</span> <span class="err">=</span> <span class="na">128</span><span class="err">,</span> <span class="na">convolution</span> <span class="na">mode =</span><span class="err"> </span><span class="s">Same</span>
+</span><span class='line'>        <span class="na">at</span> <span class="na">org</span><span class="err">.</span><span class="na">deeplearning4j</span><span class="err">.</span><span class="na">nn</span><span class="err">.</span><span class="na">conf</span><span class="err">.</span><span class="na">layers</span><span class="err">.</span><span class="na">InputTypeUtil</span><span class="err">.</span><span class="na">getOutputTypeCnnLayers</span><span class="err">(</span><span class="na">InputTypeUtil</span><span class="err">.</span><span class="na">java:349</span><span class="err">)</span>
+</span><span class='line'>        <span class="na">at</span> <span class="na">org</span><span class="err">.</span><span class="na">deeplearning4j</span><span class="err">.</span><span class="na">nn</span><span class="err">.</span><span class="na">conf</span><span class="err">.</span><span class="na">layers</span><span class="err">.</span><span class="na">ConvolutionLayer</span><span class="err">.</span><span class="na">getOutputType</span><span class="err">(</span><span class="na">ConvolutionLayer</span><span class="err">.</span><span class="na">java:181</span><span class="err">)</span>
+</span><span class='line'>        <span class="na">at</span> <span class="na">org</span><span class="err">.</span><span class="na">deeplearning4j</span><span class="err">.</span><span class="na">nn</span><span class="err">.</span><span class="na">modelimport</span><span class="err">.</span><span class="na">keras</span><span class="err">.</span><span class="na">layers</span><span class="err">.</span><span class="na">convolutional</span><span class="err">.</span><span class="na">KerasConvolution2D</span><span class="err">.</span><span class="na">getOutputType</span><span class="err">(</span><span class="na">KerasConvolution2D</span><span class="err">.</span><span class="na">java:150</span><span class="err">)</span>
+</span><span class='line'>        <span class="na">at</span> <span class="na">org</span><span class="err">.</span><span class="na">deeplearning4j</span><span class="err">.</span><span class="na">nn</span><span class="err">.</span><span class="na">modelimport</span><span class="err">.</span><span class="na">keras</span><span class="err">.</span><span class="na">KerasModel</span><span class="err">.</span><span class="na">inferOutputTypes</span><span class="err">(</span><span class="na">KerasModel</span><span class="err">.</span><span class="na">java:306</span><span class="err">)</span>
+</span><span class='line'>        <span class="na">at</span> <span class="na">org</span><span class="err">.</span><span class="na">deeplearning4j</span><span class="err">.</span><span class="na">nn</span><span class="err">.</span><span class="na">modelimport</span><span class="err">.</span><span class="na">keras</span><span class="err">.</span><span class="na">KerasModel</span><span class="err">.&lt;</span><span class="na">init</span><span class="nt">&gt;</span>(KerasModel.java:181)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModel.<span class="nt">&lt;init&gt;</span>(KerasModel.java:98)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.utils.KerasModelBuilder.buildModel(KerasModelBuilder.java:305)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport.importKerasModelAndWeights(KerasModelImport.java:144)
+</span><span class='line'>        at org.deeplearning4j.nn.modelimport.keras.KerasModelImport$importKerasModelAndWeights.call(Unknown Source)
+</span><span class='line'>        at tt.run(tt.groovy:19)
+</span></code></pre></td></tr></table></div></figure> <p><code>Require 0 &lt; kW &lt;= inWidth + 2*padW; got (kW=3, inWidth=1, padW=0)</code>ということからすると、多分keras modelの方の<code>block2_conv1</code>の<code>padW</code>が1でないとダメ? 何をどうすればいいんでしょう?</p> <p>心が折れそうになりましたが、もう少し頑張ってみます。</p> <p>まずVGG16の<code>block2_conv1</code>のpadding(<code>padW</code>って恐らくこれでしょう?)は<code>"same"</code>のようです(<a href="http://blog.neko-ni-naritai.com/entry/2018/04/07/115504">VGG16をkerasで実装した</a>)。 実際、途中のlogでは下のように<code>"padding": "same"</code>とあります。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{&quot;name&quot;: &quot;block2_conv1&quot;, &quot;config&quot;: {&quot;kernel_regularizer&quot;: null, &quot;activation&quot;: &quot;relu&quot;, &quot;dilation_rate&quot;: [1, 1], &quot;name&quot;: &quot;block2_conv1&quot;, &quot;data_format&quot;: &quot;channels_last&quot;, &quot;kernel_size&quot;: [3, 3], &quot;bias_constraint&quot;: null, &quot;filters&quot;: 128, &quot;kernel_initializer&quot;: {&quot;config&quot;: {&quot;scale&quot;: 1.0, &quot;mode&quot;: &quot;fan_avg&quot;, &quot;distribution&quot;: &quot;uniform&quot;, &quot;seed&quot;: null}, &quot;class_name&quot;: &quot;VarianceScaling&quot;}, &quot;use_bias&quot;: true, &quot;kernel_constraint&quot;: null, &quot;activity_regularizer&quot;: null, &quot;trainable&quot;: false, &quot;padding&quot;: &quot;same&quot;, ...
+</span></code></pre></td></tr></table></div></figure> <p>色々見ると、VGG16では<code>padding=[1,1]</code>みたいです(<a href="https://jp.mathworks.com/help/deeplearning/ref/vgg16.html">事前学習済み VGG-16 畳み込みニューラル ネットワーク</a>) (<a href="http://agnesmustar.com/2017/05/25/build-vgg16-scratch-part-ii/">Build VGG16 from scratch : part II</a>) (<a href="https://hackernoon.com/learning-keras-by-implementing-vgg16-from-scratch-d036733f2d5">Reading the VGG Network Paper and Implementing It From Scratch with Keras</a>)。 <code>"same"</code>が0と解釈された?? いやいや、DL4Jのsourceを見ると、<code>"same"</code>はきちんと扱っているようです。 あー、<code>SAME</code>ってこういう意味だったんですね(<a href="http://ni4muraano.hatenablog.com/entry/2017/02/02/195505">【Python】 KerasのConv2Dの引数paddingについて</a>)。 今回のExceptionは、具体的には <code>deeplearning4j/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/InputTypeUtil.java</code>の以下で出ていることがわかりました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>if (kW <span class="err">&lt;</span>= 0 || kW &gt; inWidth + 2 * padW) {
+</span><span class='line'>    throw new DL4JInvalidConfigException(getConfigErrorCommonLine(layerIdx, layerName, layerClass, false)
+</span><span class='line'>                    + &quot; Invalid input configuration for kernel width. Require 0 <span class="nt">&lt; kW</span> <span class="err">&lt;=</span> <span class="na">inWidth</span> <span class="err">+</span> <span class="na">2</span><span class="err">*</span><span class="na">padW</span><span class="err">;</span> <span class="na">got</span> <span class="err">(</span><span class="na">kW=</span><span class="s">&quot;</span>
+</span><span class='line'><span class="s">                    + kW + &quot;</span><span class="err">,</span> <span class="na">inWidth=</span><span class="s">&quot; + inWidth + &quot;</span><span class="err">,</span> <span class="na">padW=</span><span class="s">&quot; + padW + &quot;</span><span class="err">)\</span><span class="na">n</span><span class="err">&quot;</span> <span class="err">+</span> <span class="na">getConfigErrorCommonLastLine</span><span class="err">(</span>
+</span><span class='line'>                                    <span class="na">inputType</span><span class="err">,</span> <span class="na">kernelSize</span><span class="err">,</span> <span class="na">stride</span><span class="err">,</span> <span class="na">padding</span><span class="err">,</span> <span class="na">outputDepth</span><span class="err">,</span> <span class="na">convolutionMode</span><span class="err">));</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure> <p><code>padW</code>って何?</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>int padH = (padding == null ? 0 : padding[0]); //May be null for ConvolutionMode.Same
+</span><span class='line'>int padW = (padding == null ? 0 : padding[1]);
+</span></code></pre></td></tr></table></div></figure> <p><code>padding</code>は<code>getOutputTypeCnnLayers</code>の引数です。 その元は<code>deeplearning4j/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/ConvolutionLayer.java</code>の↓から来ていて、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Override
+</span><span class='line'>public InputType getOutputType(int layerIndex, InputType inputType) {
+</span><span class='line'>    if (inputType == null || inputType.getType() != InputType.Type.CNN) {
+</span><span class='line'>        throw new IllegalStateException(&quot;Invalid input for Convolution layer (layer name=\&quot;&quot; + getLayerName()
+</span><span class='line'>                + &quot;\&quot;): Expected CNN input, got &quot; + inputType);
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    return InputTypeUtil.getOutputTypeCnnLayers(inputType, kernelSize, stride, padding, dilation,
+</span><span class='line'>            convolutionMode, nOut, layerIndex, getLayerName(), ConvolutionLayer.class);
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure> <p>この<code>padding</code>はconstructorから来ていて。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>this.padding = builder.padding;
+</span></code></pre></td></tr></table></div></figure> <p><code>builder</code>はinner classでその<code>padding</code>は外から来ているか 又はdefaultなら<code>new int[]{0, 0}</code>と。 うーーー。 似ている<a href="https://github.com/deeplearning4j/deeplearning4j/issues/6218">issue</a>もありましたが、input shapeの明示的指定では解決しなかったので、 もう<a href="https://github.com/deeplearning4j/deeplearning4j/issues/6444">issue</a>上げました。</p> <p>試すのは、Groovyだと↓で済むんですけど、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ cat dl4j.groovy
+</span><span class='line'>@Grab(&#39;org.deeplearning4j:deeplearning4j-core:1.0.0-beta2&#39;)
+</span><span class='line'>@Grab(&#39;org.deeplearning4j:deeplearning4j-modelimport:1.0.0-beta2&#39;)
+</span><span class='line'>@Grab(&#39;org.nd4j:nd4j-native:1.0.0-beta2&#39;)
+</span><span class='line'>@Grab(&#39;org.slf4j:slf4j-simple&#39;)
+</span><span class='line'>@Grab(&#39;org.bytedeco.javacpp-presets:hdf5:1.10.2-1.4.2&#39;)
+</span><span class='line'>@Grab(&#39;org.bytedeco:javacpp:1.4.2&#39;)
+</span><span class='line'>
+</span><span class='line'>import org.deeplearning4j.nn.modelimport.keras.KerasModelImport
+</span><span class='line'>
+</span><span class='line'>// model = KerasModelImport.importKerasModelAndWeights(&#39;my_model.hdf5&#39;, [224, 224, 3] as int[], false)
+</span><span class='line'>model = KerasModelImport.importKerasModelAndWeights(&#39;my_model.hdf5&#39;)
+</span><span class='line'>
+</span><span class='line'>$ groovy -cp ~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar dl4j.groovy
+</span></code></pre></td></tr></table></div></figure> <p><a href="https://github.com/deeplearning4j/deeplearning4j/issues">本家のissue</a>で聞くからには、 Groovyだからダメなんじゃないの? とか言われそうだったので、 Javaにしました。 classpathの指定が大変でした。 不要なjarも入っているかもです。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ cat DL4J.java
+</span><span class='line'>class DL4J {
+</span><span class='line'>    public static void main(String... args) throws Exception {
+</span><span class='line'>        org.deeplearning4j.nn.modelimport.keras.KerasModelImport
+</span><span class='line'>            .importKerasModelAndWeights(&quot;my_model.hdf5&quot;,
+</span><span class='line'>                                        new int[]{224, 224, 3}, false);
+</span><span class='line'>            // .importKerasModelAndWeights(&quot;my_model.hdf5&quot;); // failed too
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>$ javac -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar DL4J.java
+</span><span class='line'>$ java -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar:/usr/share/java/slf4j-api.jar:.:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-jackson/jars/nd4j-jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/jackson/jars/jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-common/jars/nd4j-common-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-api/jars/nd4j-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-context/jars/nd4j-context-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-buffer/jars/nd4j-buffer-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-platform/jars/nd4j-native-platform-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-api/jars/nd4j-native-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.apache.commons/commons-math3/jars/commons-math3-3.5.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2.jar DL4J
+</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/07/battle-against-fool/">Battle Against Fool</a></h1> <p class="meta"> <time datetime="2018-09-07T18:26:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">07</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>いゃぁ、びっくりしました。 今日会社でいきなり会議に招集されたんですけど、 その内容が、今後AI外観検査案件で使うPCの標準specを決めます、というもの。 そもそも外観検査、出来るかどうか、とかどういう撮像でどういうalgorithmで、 とかじゃなくて、えー、まずはそんなところから入るんだー、と驚きです。 営業とかマネージャーとか、技術全くわかんない(わかろうともしない)人達って、 そういうこと考えてるんですね。 確かに、そういうところなら彼らでも議論が出来る、から?</p> <p>丁度、<a href="https://www.amazon.co.jp/%E9%A0%AD%E3%81%AB%E6%9D%A5%E3%81%A6%E3%82%82%E3%82%A2%E3%83%9B%E3%81%A8%E3%81%AF%E6%88%A6%E3%81%86%E3%81%AA-%E4%BA%BA%E9%96%93%E9%96%A2%E4%BF%82%E3%82%92%E6%80%9D%E3%81%84%E9%80%9A%E3%82%8A%E3%81%AB%E3%81%97%E3%80%81%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%82%92%E5%AE%9F%E7%8F%BE%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-%E7%94%B0%E6%9D%91%E8%80%95%E5%A4%AA%E9%83%8E/dp/4022511982/ref=cm_cr_arp_d_product_top?ie=UTF8">頭に来てもアホとは戦うな!</a>をちょっと立ち読みしたので、 もう受け流すことにしました。</p> <p>「そうですよねー、Nさん目の付け所が違いますねー」</p> <p>『目の付け所が違う』のは確かでしょう。 真面目に議論しちゃうと、精神衛生上よくない気がしました。 しかしこの本、カスタマーレビューでは結構叩かれてますね。 尤もだと思います。</p> <p>ちょっぴりアホと戦ってしまいました。 やっぱりまだまだですねーぼくも。</p> <h3>社内用語集</h3> <ul> <li>勉強させている → 放置プレイ</li> <li>マネジメント → 「どう? 出来た?」/日程調整</li> <li>PM → Project Messenger</li> <li>高コミュ力 → イエスマン</li> <li>ワンストップ・トータルコーディネート → 客からの中間搾取(=BPへの丸投げ)</li> <li>客先常駐・SES → 偽装派遣</li> <li>BP派遣 → 多重派遣</li> </ul> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="next" href="/authors/u-ryo/page/2/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/10/10/schedulers-newthread-or-schedulers-io/">Schedulers.newThread() or Schedulers.io()</a> </li> <li class="post"> <a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a> </li> <li class="post"> <a href="/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/">Python Basic Web Server for Applying Keras Model</a> </li> <li class="post"> <a href="/blog/2018/09/14/deeplearning-for-java-dl4j/">DeepLearning for Java DL4J</a> </li> <li class="post"> <a href="/blog/2018/09/07/battle-against-fool/">Battle Against Fool</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.
