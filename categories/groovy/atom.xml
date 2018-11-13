@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T21:04:34+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/groovy/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[grape on groovysh]]></title><link href="http://u-ryo.github.io//blog/2018/11/13/grape-on-groovysh/"/><updated>2018-11-13T12:35:59+09:00</updated><id>/blog/2018/11/13/grape-on-groovysh/</id><content type="html"><![CDATA[<p>groovyshでgrapeを使ってlibraryを使いたい時がありました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>groovy:000&gt; :i groovy.grape.*
+</span><span class='line'>===&gt; groovy.grape.*
+</span><span class='line'>groovy:000&gt; Grape.grab(group:&#39;mysql&#39;,module:&#39;mysql-connector-java&#39;,version:&#39;8.0.11&#39;)
+</span><span class='line'>===&gt; null
+</span><span class='line'>groovy:000&gt; Grape.grab(&#39;mysql:mysql-connector-java:8.0.11&#39;)
+</span><span class='line'>ERROR java.lang.RuntimeException:
+</span><span class='line'>Error grabbing Grapes -- [unresolved dependency: groovy.endorsed#mysql:mysql-connector-java:8.0.11;2.5.0: not found]
+</span></code></pre></td></tr></table></div></figure>
+<p>versionも文字列でないとならないのに気を付けます。
+いつもの<code>'mysql:mysql-connector-java:8.0.11'</code>の形式はダメでした。</p>
+<p><code>@GrabConfig(systemClassLoader=true)</code>はどうやってもダメっぽいので、
+結局groovyshからのMySQL accessは諦めましたが。</p>
+<p>参考: <a href="https://qiita.com/yukung/items/6e1f62e7c2d0aae95bee">groovysh で Maven リポジトリにあるライブラリを使う</a></p>
+]]></content></entry><entry><title type="html"><![CDATA[drawing rectangles on an image for groovy]]></title><link href="http://u-ryo.github.io//blog/2018/11/13/drawing-rectangles-on-an-image-for-groovy/"/><updated>2018-11-13T12:27:15+09:00</updated><id>/blog/2018/11/13/drawing-rectangles-on-an-image-for-groovy/</id><content type="html"><![CDATA[<p>今まで、「画像を読み込んで線や図形を描く」というのはGroovyFXでやってたんですが、
+JavaFXってheadlessで出来ないんですね!?
+びっくりポンです。
+<code>java.awt.headless=true</code>もそういやAWTなんですね。
+うーむ、流石は廃止されるJavaFX、と思ったんですが、
+どうせ<code>im4java</code>使ってるなら、なんだImageMagickだけで出来るじゃーん、
+ということに遅ればせながら気付きました。
+ImageMagickってdrawも出来るんですね。</p>
+<p>大体、以下の要領です。</p>
+<ol>
+<li><code>import org.im4java.core.*</code></li>
+<li><code>op = new IMOperation()</code></li>
+<li><code>op.addImage(...)</code>で画像fileを読み込む</li>
+<li><code>op.fill('rgba(255,100,0,0.5)')</code>等と塗り潰す色を指定</li>
+<li><code>op.stroke('white')</code>等と線の色を指定</li>
+<li><code>op.draw('rectangle 0,10,30,30')</code>で長方形を描画</li>
+<li><code>op.draw('text 0,10 ABCD')</code>で文字を描画</li>
+<li><code>op.quality(80)</code>で圧縮率(品質)指定</li>
+<li>もう一度<code>op.addImage(...)</code>で出力画像の名前と形式を指定</li>
+<li><code>new ConvertCmd().run(op)</code>で実行</li>
+</ol>
+<p><a href="http://im4java.sourceforge.net/docs/dev-guide.html">公式page</a>にありますけどね。</p>
+]]></content></entry><entry><title type="html"><![CDATA[chomp for groovy]]></title><link href="http://u-ryo.github.io//blog/2018/11/13/chomp-for-groovy/"/><updated>2018-11-13T12:27:08+09:00</updated><id>/blog/2018/11/13/chomp-for-groovy/</id><content type="html"><![CDATA[<p>groovyでcommand executionの結果を拾った(<code>'command args'.execute().text</code>)ところ改行がついてたので、除去しようと<code>.replace('\n', '')</code>としてたんですが、そっか、<code>.trim()</code>でいいんですね。勿論目的にもよりますが。</p>
+<p>cf. <a href="http://orangeclover.hatenablog.com/entry/20110524/1306164109">Groovyで文字列の先頭・末尾から空白を取り除く</a></p>
+]]></content></entry><entry><title type="html"><![CDATA[Groovy Grape fails]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/"/><updated>2018-08-27T21:04:34+09:00</updated><id>/blog/2018/08/27/groovy-grape-fails/</id><content type="html"><![CDATA[<p>時々、「全く同じgroovy scriptなのにあるマシンでだけ
 起動に失敗する」ことがあります。
 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
