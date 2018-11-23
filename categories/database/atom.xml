@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/database/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Adding a new column on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/adding-a-new-column-on-jhipster/"/><updated>2018-11-24T05:56:26+09:00</updated><id>/blog/2018/11/24/adding-a-new-column-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでdatabaseのtableに新しいcolumnを足したいと思いました。
+Liquibaseで管理されているので、直接DBを変えちゃうと立ち上がらなくなっちゃいます。
+結構面倒臭いんですよねLiquibase。</p>
+<p>基本的には<a href="https://www.jhipster.tech/development/#database-updates">Using JHipster in developmentのDatabase updates</a>に書いてある通り、です。
+3通り紹介されていますが、最初に書かれている<code>entity sub-generator</code>を使った方が、testやi18n、angular側の面倒も見てくれるので楽です。
+但し、generateされるjava/json/ts filesについては、面倒でも一つ一つdiffを見て上書きするか考えた方がいいです。場合によっては上書きしない方がいいcaseもありました(repository class、即ちDBを直接叩くclassとかresource class、即ちRest Controllerとか、i18nのglobal.jsonとか、独自に書いたところがあるものは特に)。</p>
+<p>新規にtableごと加える時はこれでいいのかもしれません(以前やってうまく行った薄い記憶がありますがよく覚えてません)。
+けれども、既存tableにcolumnを足す、となると、
+<code>年月日_changelog.xml</code>を作ってくれないので、
+いくら<code>gradle</code>かけてもDBのtableを変更してくれないんです。
+更に、checksumが合わないといって起動しなくなります。
+困ります。</p>
+<p>なので、2番目の策を合わせて<code>changelog.xml</code>を作ってもらいます。
+そのためには上記ページに書いてあるように、<strong>一旦buildしてから</strong>、
+<code>gradle liquibaseDiffChangelog -PrunList=diffLog</code>すると、
+class fileのdiffを取って<code>src/main/resources/config/liquibase/changelog/</code>以下にchangelogを作ってくれます。
+それを<code>src/main/resources/config/liquibase/master.xml</code>に手で書き入れてからbuildすると、changelogが働いて<code>alter table</code>してくれます。
+但しその際、元のtableのxml(<code>年月日_added_entity_テーブル名.xml</code>)をもとに戻しておかないと、「checksumが合わない」と言われるでしょう。</p>
+<p>...というように、1番目と2番目の合わせ技的なところが最良のように思います。</p>
+<p>どうしてもうまく行かない時、最後は以下の手で何とかなります。なりました。</p>
+<ul>
+<li>DBは自分で<code>alter table</code></li>
+<li>checksumは<code>DATABASECHANGELOG.MD5CHECKSUM</code>にあるので自分で<code>update table set ...</code></li>
+</ul>
+]]></content></entry></feed>

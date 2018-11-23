@@ -29,7 +29,7 @@ parameterで分けるのは自分でやれということですね。</p>
 <p>ともあれ、このpython predict server script 1つと
 keras model fileの2 filesだけでサクッと動くものを、
 <a href="https://github.com/u-ryo/python_prediction_server">github</a>に置きました。</p>
-]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-09-17T20:47:26+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
+]]></content></entry><entry><title type="html"><![CDATA[DeepLearning for Java DL4J]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/deeplearning-for-java-dl4j/"/><updated>2018-11-18T22:34:13+09:00</updated><id>/blog/2018/09/14/deeplearning-for-java-dl4j/</id><content type="html"><![CDATA[<p>会社はケチな(本気でMLやる気はない)のでマシンもGPUもなく、
 やむなく<a href="https://colab.research.google.com/">Google Colaboratory</a>上で<a href="https://keras.io/ja/">keras</a>でVGG16 with ImageNetをfine tuningしたmodelを、
 GPUのないNotePCでpredictしようとしました。
 NotePCはDisk/Memory容量が小さいためpythonも本気では入れてないので、
@@ -426,7 +426,7 @@ EditorのCodeで見られるbytecodeならいじれるので、
 </span><span class='line'>// model = KerasModelImport.importKerasModelAndWeights(&#39;my_model.hdf5&#39;, [224, 224, 3] as int[], false)
 </span><span class='line'>model = KerasModelImport.importKerasModelAndWeights(&#39;my_model.hdf5&#39;)
 </span><span class='line'>
-</span><span class='line'>$ groovy -cp ~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar dl4j.groovy
+</span><span class='line'>$ groovy -cp ~/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/mkl-dnn/jars/mkl-dnn-0.15-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.2-1.4.2-linux-x86_64.jar dl4j.groovy
 </span></code></pre></td></tr></table></div></figure>
 <p><a href="https://github.com/deeplearning4j/deeplearning4j/issues">本家のissue</a>で聞くからには、
 Groovyだからダメなんじゃないの? とか言われそうだったので、
