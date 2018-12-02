@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-11-24T05:56:26+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Adding a new column on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/adding-a-new-column-on-jhipster/"/><updated>2018-11-24T05:56:26+09:00</updated><id>/blog/2018/11/24/adding-a-new-column-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでdatabaseのtableに新しいcolumnを足したいと思いました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-12-03T02:19:42+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[creating executable war on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/12/03/creating-executable-war-on-jhipster/"/><updated>2018-12-03T02:19:42+09:00</updated><id>/blog/2018/12/03/creating-executable-war-on-jhipster/</id><content type="html"><![CDATA[<p>いつも忘れちゃうんで。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gradle bootRepackage -Pprod
+</span></code></pre></td></tr></table></div></figure>
+<p><code>build.gradle</code>に中に定義があります。</p>
+]]></content></entry><entry><title type="html"><![CDATA[mat-spinner in Angular Material]]></title><link href="http://u-ryo.github.io//blog/2018/12/02/mat-spinner-in-angular-material/"/><updated>2018-12-02T09:56:25+09:00</updated><id>/blog/2018/12/02/mat-spinner-in-angular-material/</id><content type="html"><![CDATA[<p>Angularで「ロード中」を簡単に実現する方法を探していて、
+<a href="https://material.angular.io/components/progress-spinner/overview">Angular Material</a>にあるんですね。<code>&lt;mat-spinner&gt;&lt;/mat-spinner&gt;</code>だけ。凄く簡単。
+でも、実際にやってみても出て来なかったので不思議でした。
+いや、<a href="https://stackblitz.com/angular/qyqovrjarbx?file=app%2Fprogress-spinner-overview-example.html">sample</a>とかいくら見ても、特に何も<code>import</code>しなくてもいきなりtag書くだけで使えるよ、っていうんですけど、自分のには出て来ません。なぜ??
+<a href="https://www.youtube.com/watch?v=Z6JdFWXh1Nc">動画</a>見てやっとわかりました。
+確かに当該component fileではimportの必要ありませんけど、
+<code>app.module.ts</code>なりで<code>MatProgressSpinnerModule</code>のimport/importsが必要なんですね。
+もし入ってなければ<code>BrowserAnimationsModule</code>も。
+sampleはdefaultでMat系Module全部入りだからよくわかんなかったんですよ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Using where and join in mysqldump]]></title><link href="http://u-ryo.github.io//blog/2018/11/28/using-where-and-join-in-mysqldump/"/><updated>2018-11-28T00:37:50+09:00</updated><id>/blog/2018/11/28/using-where-and-join-in-mysqldump/</id><content type="html"><![CDATA[<p>基本的には<a href="https://qiita.com/asigochan/items/fec45efff78045b33b90">mysqldumpでwhereにjoinを使う</a>にある通り、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>mysqldump -uusername -p DatabaseName tableA --single-transaction --were &#39;id IN (SELECT a.id FROM tableA a JOIN tableB b ON a.b_id=b.id WHERE b.name LIKE &quot;%someone%&quot;)&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>というわけですが、肝は、</p>
+<ul>
+<li><code>--where</code>中で<code>JOIN</code>を使うためにsubqueryにする</li>
+<li><code>--single-transaction</code>を付けることで<code>mysqldump: Couldn't execute 'SELECT... Table 'a' was not locked with LOCK TABLES (1100)</code>と言われるのを防ぐ</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Suddenly failed to parse DateTime on JHipster Angular]]></title><link href="http://u-ryo.github.io//blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/"/><updated>2018-11-25T01:23:33+09:00</updated><id>/blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/</id><content type="html"><![CDATA[<p>ある時、JHipsterのAngularのUser Managementを久し振りに見てみると、user名など表示されるのが物凄く遅いことがありました。ポツ、また数秒してポツ、という具合に一つ一つの行が表示されていきます。あれぇ? こんなもんだったかなぁ? あまり気にしなかったのですが、流石に新規Userを作成しようとして失敗する段になって、これは何とかしなければと思い始めました。browserでF12を押してみると、どうやらDate Pipeでのparseに失敗している様子。どうして? 前は出来てたのに。serverから来ているJSONをよく見ると、DBからのDateTime部分のObjectが<code>epochSecond</code>とかnano何とかになっていました。検索すると、
+<a href="https://stackoverflow.com/questions/37999762/efficient-way-to-have-jackson-serialize-java-8-instant-as-epoch-milliseconds/38004044">Efficient way to have Jackson serialize Java 8 Instant as epoch milliseconds?</a>を見付けて、中身読んでないですが「jackson-datatype-jsr310」を見掛けてあぁー!っと。</p>
+<p>jhipsterで新規application作ってその<code>build.gradle</code>見てみると、確かにありました<code>compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'</code>。
+これを、なくてもいいじゃん、と大分前に取っちゃってたんですね。確かにWebアプリ本体には影響なかったので気付きませんでした。あーあ。こういう影響が出てくるですか。なるほど。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Setting password for unreachable mail user on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/"/><updated>2018-11-28T04:32:45+09:00</updated><id>/blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでuserを作る時にmail addressは必須で、
+基本的にはnew user作るとJHipsterは裏でmailを投げています。
+投げて失敗してもnew userは作れるんですが、passwordを設定できません。
+どうしたらいいんだろう? と思ってlog見ていたら、
+<code>http(s)://ホスト名/#/reset/finish?key=XXXXXXXXXXXXXXX</code>にaccessすれば通常の手続きに乗れるんですね。
+このkeyはどこで規定されるのかと思ったら、<code>JHI_USER.RESET_KEY</code>の値です。
+ここだけではダメで、<code>JHI_USER.RESET_DATE</code>に<code>now()</code>等で日付時刻をsetしないと、そしてその時刻から24時間以内にaccessしないと、ならないです。
+あるuserのpassword強制resetにも使える、と思います。</p>
+<p>ただこれをやると、<code>UserService#completePasswordReset</code>の中の<code>cacheManager.getCache</code>でヌルポが出るようでどうしようもなかったです。なので、<code>UserService.java</code>中の<code>cacheManager.getCache(...)</code>を(当該method以外でも)全て<code>try...catch</code>で囲いました。だって無害でしょう?</p>
+<p>追記: JHipsterでのlogin dialogには「パスワードを忘れましたか」というlinkがあって、
+それを踏むと<code>http://127.0.0.1:8080/#/reset/request</code>というpageに遷移し、
+mail addressを入れると、上記初期登録時同様にActivateを要求するmailが飛びます。
+初めてやってみました。へぇよく出来てますね。
+そのmailに書いてあるURLも初期登録時同様<code>http://127.0.0.1:8080/#/reset/finish?key=XXXXXXXXXX</code>です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Adding a new column on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/adding-a-new-column-on-jhipster/"/><updated>2018-11-24T05:56:26+09:00</updated><id>/blog/2018/11/24/adding-a-new-column-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでdatabaseのtableに新しいcolumnを足したいと思いました。
 Liquibaseで管理されているので、直接DBを変えちゃうと立ち上がらなくなっちゃいます。
 結構面倒臭いんですよねLiquibase。</p>
 <p>基本的には<a href="https://www.jhipster.tech/development/#database-updates">Using JHipster in developmentのDatabase updates</a>に書いてある通り、です。
@@ -923,305 +964,4 @@ logのlevel指定が、
 使う時はフツーに<code>log.d('object',obj)</code>と<code>i</code>、<code>w</code>ですが、
 errorだけは<code>log.er('object',obj)</code>なので注意です。
 あと出てくるlogの見た目はcolorfulできれいです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Dont use the same image file in css and manifest.webapp on webpack]]></title><link href="http://u-ryo.github.io//blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/"/><updated>2018-09-02T15:44:19+09:00</updated><id>/blog/2018/09/01/dont-use-the-same-image-file-in-css-and-manifest-webapp-on-webpack/</id><content type="html"><![CDATA[<p>notificationに使っていたlogicを変えたいと思って、
-アプリとしてinstallしていたPWAを一旦uninstallしてから
-browserでそのpageを読んでも、「ホーム画面に追加」が現れなかったんですね。
-何でんだろー、一旦uninstallしちゃうとダメなのかな?
-いやそんなことないだろうな、とは思いつつも
-明確に「uninstallしても大丈夫」だと書いてあるところもなく、
-心配だったんです。
-「ホーム画面に追加」が出ないのは何が悪いのか、わからないんですよね。</p>
-<p>「ホーム画面に追加」が出る条件、というのがあって、
-<a href="https://developers.google.com/web/fundamentals/app-install-banners/?hl=ja">公式ページ(ウェブアプリのインストール バナー)</a>によると、</p>
-<ol>
-<li><code>short_name</code>(ホーム画面で使用)</li>
-<li><code>name</code>(バナーで使用)</li>
-<li>192x192のpngアイコン(アイコンの宣言にはMIMEタイプ<code>image/png</code>の指定が必要)</li>
-<li>読み込み先の<code>start_url</code></li>
-</ol>
-<p>というんですが、
-<a href="https://qiita.com/narikei/items/4240f03542f29e313989">「ホーム画面に追加」からはじめる『PWA(Service Worker)』</a>には192のpngの話はなく、
-また<a href="https://amymd.hatenablog.com/entry/2017/10/12/001612">【3ステップではじめる】PWAによる「ホーム画面に追加」バナーの実装</a>では<code>fetch</code> eventの定義が必要だとあります。
-こちとら、一度は出来たわけだし、実際には
-<a href="https://www.bunkei-programmer.net/entry/2018/04/09/125015">PWAで「ホーム画面に追加」が表示されない時に確認する事</a>にある「manifest.json内のアイコン画像が404である」といったところが一番多いんじゃないでしょうか。
-この人もそうだったといいますし、ぼくもそうでした。</p>
-<p>ただ、その原因は困ったものでした。
-webpackでhash化された名前の付いたpng fileが壊れていたからです。
-とても悩みました。調べてもそんな事例、出てきません。
-色々試行錯誤した挙句わかったのは、
-<code>css</code>内と<code>manifest.webapp</code>(<code>manifest.json</code>)内で
-指定しているpngが同じだと、
-webpackがpng fileをhash名化する時にバッティングするようで、
-生成後のpng fileはviewerで見えないし、
-<code>file</code>コマンドで見ると「data」とか出るし。
-<code>css</code>でのpng fileを<code>../../../../../../webpack/logo-jhipster.png</code>
-といったようにして<code>manifest.webpack</code>と別物にすると、うまく行きました。
-<code>./src/...</code>以下でなくてもいいんですね!</p>
-]]></content></entry><entry><title type="html"><![CDATA[illegal forward reference]]></title><link href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/30/illegal-forward-reference/</id><content type="html"><![CDATA[<p>Javaの珍しいcompile error messageに、
-<code>illegal forward reference</code>というのがあります。
-これを題材に、後輩氏に課題を出しました。</p>
-<p>最も単純な形にして挙例すると、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>import java.util.function.Function;
-</span><span class='line'>class Test {
-</span><span class='line'>    Function f = new Function() {
-</span><span class='line'>            @Override
-</span><span class='line'>            public Object apply(Object t) {
-</span><span class='line'>                return o;
-</span><span class='line'>            }
-</span><span class='line'>        };
-</span><span class='line'>    Object o;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>↑これをlambda式に直しなさい、といったようなものです。</p>
-<p>実はこれ、単純にlambda式にすると、compile errorになります。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
-</span><span class='line'>    java.util.function.Function f = t -&gt; o;
-</span><span class='line'>    Object o;
-</span><span class='line'>}
-</span><span class='line'>$ javac /tmp/Test.java
-</span><span class='line'>/tmp/Test.java:2: error: illegal forward reference
-</span><span class='line'>    java.util.function.Function f = t -&gt; o;
-</span><span class='line'>                                         ^
-</span><span class='line'>1 error
-</span></code></pre></td></tr></table></div></figure>
-<p>error messageからしてどう直せばいいかは自明かと思ったんですが、
-英語が不自由な後輩氏の1日弱かけた答えはこうでした。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
-</span><span class='line'>    java.util.function.Function f = t -&gt; o;
-</span><span class='line'>    static Object o;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>流石に「何でもかんでも<code>static</code>にすればいいってもんじゃない」
-ってことはわかってて、「これがFA」とまでは言ってませんでしたけど、
-<a href="https://stackoverflow.com/questions/1746758/illegal-forward-reference-in-java">ここ</a>をみて、
-「<code>static</code>にすればいいんじゃね、って書いてある」と思ったんだそう。
-そうは書いてないんだけどなー。</p>
-<p>でも、こういう回答は想像してなくて、新鮮でした。</p>
-<p>そもそもdeclarationが後ろに書いてあったこと自体がおかしい、とは思いますけどね。
-そういう「色々おかしい」ソフトを直しています。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-on-jhipster/</id><content type="html"><![CDATA[<p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、
-と思っていて、<a href="https://angular.io/">Angular</a>だから、
-<a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように
-<code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、
-って思ってたんですが、違うんですね。
-JHipsterでは<a href="https://developers.google.com/web/tools/workbox/">workbox</a>でService Worker使うようになってるんですね予め。
-確かに<code>index.html</code>で<code>service-worker.js</code>を有効にして挙動を見てると、
-cachingは綺麗に行っている様子です。
-えーでも調べてみると、workboxってWeb Pushはないじゃーないですかー。</p>
-<blockquote><p>特に私の知っている範囲ではworkboxはプッシュ通知のロジックを作ってくれないので、そこは自分で書いてやる必要があります。
-<a href="https://qiita.com/nazonohito51/items/32b61cabdac8b24769bd">ServiceWorkerを簡単に書けるworkbox-swの使い方</a></p>
-</blockquote>
-<p>しかも、自分のcodeとmergeする、
-即ち<code>workboxPlugin(...)</code>に<code>swSrc:</code>を追加すると、
-<code>generateSW</code>が使えず自分で書かないといけないの!? ですか?
-いやー、jhipsterで生成される<code>service-worker.js</code>とか見ると、
-色んなfilesにhash値?が付与されているから、
-これを自分で作るというのはあり得ないでしょー。
-どーしたらいーのー?!</p>
-<p>と、途方に暮れました。</p>
-<p>workboxを捨ててAngularのSwPushにする?
-いやー、でもjhipsterでのbuildでは<code>ng</code>実行されないので、
-いくら<code>.angular-cli.json</code>に<code>"serviceWorker": true</code>と書いても効かないんですよー。
-Angularのservice workerは生成されないわけですね。</p>
-<p>jhipsterで生成された<code>build/www/service-worker.js</code>を見ていると、
-上部のコメントに、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'> * The rest of the code is auto-generated. Please don&#39;t update this file
-</span><span class='line'> * directly; instead, make changes to your Workbox build configuration
-</span><span class='line'> * and re-run your build process.
-</span><span class='line'> * See https://goo.gl/2aRDsh
-</span></code></pre></td></tr></table></div></figure>
-<p>とあります。言われるままに<a href="https://goo.gl/2aRDsh">そのURL</a>を見てみると、
-<code>importScripts</code>というoptionがあることがわかりました。
-これを指定するとどうなるのかなー、試してみます。
-指定する場所は、webpackでworkboxのservice worker生成をやっているので、
-<code>webpack/webpack.prod.js</code>になります。
-それの最下段、<code>new WorkboxPlugin.GenerateSW({...})</code>の中に
-<code>importScripts: ['push-notifications.js']</code>と書いてみると、
-自動生成された<code>build/www/service-worker.js</code>中に、
-<code>importScripts("push-notifications.js",...)</code>と出ます。
-なるほど。
-ではこの<code>push-notifications.js</code>というのを作ってwww root folderに置き、
-そこにpush notificationのlogicを書いておけばいいんじゃーん。
-でも、基本的には全てのfile名はhash化?されてしまいます。
-どうやって名前をhash化されないようにするの?!
-<code>favicon.ico</code>等の例から手探りで探し当てました。
-<code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に
-書いておけばいーんですね。なるほど。</p>
-<p>結局要するにworkboxの<code>importScripts</code>を使うということで、具体的には、</p>
-<ol>
-<li><code>src/main/webapp/push-notification.js</code>にWeb Push通知時の処理<code>addEventListener('push', function(event) {...});</code>と通知をclickした時の処理<code>addEventListener('notificationclick', function(event) {...});</code>を書いておく</li>
-<li><code>webpack/webpack.prod.js</code>の<code>new WorkboxPlugin.GenerateSW({...})</code>に<code>importScripts: ['push-notifications.js']</code>を書く</li>
-<li><code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に<code>{ from: './src/main/webapp/push-notifications.js', to: 'push-notifications.js' },</code>を書く</li>
-</ol>
-<p>で目出度くJHipster application上でのWeb Push通知が出来ました。</p>
-<p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、
-Angularの<code>SwPush</code>を使うことが出来ます。
-JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p>
-]]></content></entry><entry><title type="html"><![CDATA[service worker in private browsing mode]]></title><link href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/28/service-worker-in-private-browsing-mode/</id><content type="html"><![CDATA[<p>Service WorkerでWeb Pushを色々試していて、
-違うaccountでloginしてみようとprivate browsing mode用いると、
-何か出来ないんですねこれ。
-<code>https</code>か<code>localhost</code>じゃないとダメ、というのは知ってましたが。
-気を付けましょう。
-以上。</p>
-<blockquote><p>Firefox ではプライベートブラウジングモードでサービスワーカー API を利用することはできません。
-<a href="https://developer.mozilla.org/ja/docs/Web/API/ServiceWorker_API#Service_worker_concepts_and_usage">サービスワーカーの概念と使い方</a></p>
-</blockquote>
-<p>chromeはsecret mode(private window)でのService Workerも大丈夫、のようですか。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Spring Auth and JWT behind the reverse proxy]]></title><link href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/"/><updated>2018-09-01T20:25:36+09:00</updated><id>/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/</id><content type="html"><![CDATA[<p>JHipsterのSpring Authなapplicationを
-httpsのreverse proxy(nginx)の後ろに置いて、
-GoogleのOAuth2でJWTな認証をしようとしました。
-当然、backend serverからはGoogle APIに自分のhost名でaccessするような
-URLを返してしまい、Google APIから戻ってきたところでJWT認証は弾かれます。
-backend serverはfrontend serverの名前を知らないんですから、
-そりゃあ当然です。
-こういうreverse proxyの後ろにbackend server置いてOAuth2 + JWTなんて
-そもそもダメなの? 何とかならないの?
-と調べてみると、
-<a href="https://stackoverflow.com/questions/31834278/spring-boot-and-oauth2-redirect-url-over-reverse-proxy">Spring Boot and OAuth2: redirect url over reverse proxy</a>に、
-reverse proxy側で<code>X-Forwarded-Port</code>とかのproxy用HTTP Response Headerを設定し、
-Spring application側で<code>server.use-forward-headers=true</code>にすればいいよ、
-とあったので、
-じゃぁnginxではどうやるのだろうと調べると、
-<a href="https://qiita.com/HeRo/items/7063b86b5e8a2efde0f4">Nginx のリバースプロキシ設定のメモ</a>にありました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
-</span><span class='line'>  listen 80;
-</span><span class='line'>  server_name hoge.com;
-</span><span class='line'>
-</span><span class='line'>  location / {
-</span><span class='line'>    proxy_set_header X-Real-IP $remote_addr;
-</span><span class='line'>    index index.html index.htm;
-</span><span class='line'>    proxy_set_header X-Forwarded-Proto $scheme;
-</span><span class='line'>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-</span><span class='line'>    proxy_set_header Host $http_host;
-</span><span class='line'>    proxy_redirect off;
-</span><span class='line'>    proxy_pass http://127.0.0.1:3000;
-</span><span class='line'>  }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>この通りやってみると、
-何故かGoogle APIには<code>http://proxy-server/...</code>で渡っており、
-じゃぁっていうんで<code>proxy_set_header X-Forwarded-Proto https;</code>
-とベタ書きしてみてもダメで、
-うーんとか思っていると、
-<a href="https://blog.akagi.jp/archives/3883.html">nginx でリバースプロキシするときの Tips</a>に<code>off</code>じゃなくて<code>proxy_redirect http:// https://;</code>という記述があったので、
-試してみると、上手く行きました。
-あーちなみに、<code>proxy_set_header X-Forwarded-Proto https;</code>も
-ベタ書きじゃないとダメでした。
-結局うちの場合は、以下の通りになりました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
-</span><span class='line'>        listen 80 default_server;
-</span><span class='line'>        listen [::]:80 default_server;
-</span><span class='line'>
-</span><span class='line'>        # Everything is a 404
-</span><span class='line'>        location / {
-</span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
-</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;
-</span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-</span><span class='line'>                proxy_set_header Host $http_host;
-</span><span class='line'>                proxy_redirect http:// https://;
-</span><span class='line'>                proxy_pass http://walt.mydns.bz:10022/;
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>        # You may need this to prevent return 404 recursion.
-</span><span class='line'>        location = /404.html {
-</span><span class='line'>                internal;
-</span><span class='line'>        }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-<p>で、<code>sudo /usr/sbin/nginx -s reload</code>です。</p>
-<p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、
-その後「No-providerで登録」になってしまい、
-まだ完成しません。
-ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p>
-<p>↑その「No-providerで登録」になってしまうのは、
-backendで以下のようなerrorが出ていて。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>javax.validation.ConstraintViolationException: Validation failed for classes [bz.mydns.walt.canmatch.domain.User] during persist time for groups [javax.validation.groups.Default, ]
-</span><span class='line'>List of constraint violations:[
-</span><span class='line'>        ConstraintViolationImpl{interpolatedMessage=&#39;must match &quot;^[_&#39;.@A-Za-z0-9-]*$&quot;&#39;, propertyPath=login, rootBeanClass=class bz.mydns.walt.canmatch.domain.User, messageTemplate=&#39;{javax.validation.constraints.Pattern.message}&#39;}
-</span><span class='line'>]
-</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:140)
-</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:80)
-</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:197)
-</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
-</span><span class='line'>        at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:626)
-</span><span class='line'>   :
-</span><span class='line'>   :
-</span></code></pre></td></tr></table></div></figure>
-<p>何なんでしょうね。
-これは、account mail addressが「w.disney@somecompany.co.jp」みたいな
-「.」が入るものなんですが、それがいけないとかなのでしょうか。
-というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら
-全く同じcodeで何の問題もなく入れるのです。
-「must match」の対象が何なのか、よく分かりません。</p>
 ]]></content></entry></feed>

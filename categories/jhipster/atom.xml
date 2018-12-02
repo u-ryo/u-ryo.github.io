@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Adding a new column on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/adding-a-new-column-on-jhipster/"/><updated>2018-11-24T05:56:26+09:00</updated><id>/blog/2018/11/24/adding-a-new-column-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでdatabaseのtableに新しいcolumnを足したいと思いました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/jhipster/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[creating executable war on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/12/03/creating-executable-war-on-jhipster/"/><updated>2018-12-03T02:19:42+09:00</updated><id>/blog/2018/12/03/creating-executable-war-on-jhipster/</id><content type="html"><![CDATA[<p>いつも忘れちゃうんで。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gradle bootRepackage -Pprod
+</span></code></pre></td></tr></table></div></figure>
+<p><code>build.gradle</code>に中に定義があります。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Suddenly failed to parse DateTime on JHipster Angular]]></title><link href="http://u-ryo.github.io//blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/"/><updated>2018-11-25T01:23:33+09:00</updated><id>/blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/</id><content type="html"><![CDATA[<p>ある時、JHipsterのAngularのUser Managementを久し振りに見てみると、user名など表示されるのが物凄く遅いことがありました。ポツ、また数秒してポツ、という具合に一つ一つの行が表示されていきます。あれぇ? こんなもんだったかなぁ? あまり気にしなかったのですが、流石に新規Userを作成しようとして失敗する段になって、これは何とかしなければと思い始めました。browserでF12を押してみると、どうやらDate Pipeでのparseに失敗している様子。どうして? 前は出来てたのに。serverから来ているJSONをよく見ると、DBからのDateTime部分のObjectが<code>epochSecond</code>とかnano何とかになっていました。検索すると、
+<a href="https://stackoverflow.com/questions/37999762/efficient-way-to-have-jackson-serialize-java-8-instant-as-epoch-milliseconds/38004044">Efficient way to have Jackson serialize Java 8 Instant as epoch milliseconds?</a>を見付けて、中身読んでないですが「jackson-datatype-jsr310」を見掛けてあぁー!っと。</p>
+<p>jhipsterで新規application作ってその<code>build.gradle</code>見てみると、確かにありました<code>compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'</code>。
+これを、なくてもいいじゃん、と大分前に取っちゃってたんですね。確かにWebアプリ本体には影響なかったので気付きませんでした。あーあ。こういう影響が出てくるですか。なるほど。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Setting password for unreachable mail user on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/"/><updated>2018-11-28T04:32:45+09:00</updated><id>/blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでuserを作る時にmail addressは必須で、
+基本的にはnew user作るとJHipsterは裏でmailを投げています。
+投げて失敗してもnew userは作れるんですが、passwordを設定できません。
+どうしたらいいんだろう? と思ってlog見ていたら、
+<code>http(s)://ホスト名/#/reset/finish?key=XXXXXXXXXXXXXXX</code>にaccessすれば通常の手続きに乗れるんですね。
+このkeyはどこで規定されるのかと思ったら、<code>JHI_USER.RESET_KEY</code>の値です。
+ここだけではダメで、<code>JHI_USER.RESET_DATE</code>に<code>now()</code>等で日付時刻をsetしないと、そしてその時刻から24時間以内にaccessしないと、ならないです。
+あるuserのpassword強制resetにも使える、と思います。</p>
+<p>ただこれをやると、<code>UserService#completePasswordReset</code>の中の<code>cacheManager.getCache</code>でヌルポが出るようでどうしようもなかったです。なので、<code>UserService.java</code>中の<code>cacheManager.getCache(...)</code>を(当該method以外でも)全て<code>try...catch</code>で囲いました。だって無害でしょう?</p>
+<p>追記: JHipsterでのlogin dialogには「パスワードを忘れましたか」というlinkがあって、
+それを踏むと<code>http://127.0.0.1:8080/#/reset/request</code>というpageに遷移し、
+mail addressを入れると、上記初期登録時同様にActivateを要求するmailが飛びます。
+初めてやってみました。へぇよく出来てますね。
+そのmailに書いてあるURLも初期登録時同様<code>http://127.0.0.1:8080/#/reset/finish?key=XXXXXXXXXX</code>です。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Adding a new column on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/adding-a-new-column-on-jhipster/"/><updated>2018-11-24T05:56:26+09:00</updated><id>/blog/2018/11/24/adding-a-new-column-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでdatabaseのtableに新しいcolumnを足したいと思いました。
 Liquibaseで管理されているので、直接DBを変えちゃうと立ち上がらなくなっちゃいます。
 結構面倒臭いんですよねLiquibase。</p>
 <p>基本的には<a href="https://www.jhipster.tech/development/#database-updates">Using JHipster in developmentのDatabase updates</a>に書いてある通り、です。

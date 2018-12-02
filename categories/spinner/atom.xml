@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/spinner/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[mat-spinner in Angular Material]]></title><link href="http://u-ryo.github.io//blog/2018/12/02/mat-spinner-in-angular-material/"/><updated>2018-12-02T09:56:25+09:00</updated><id>/blog/2018/12/02/mat-spinner-in-angular-material/</id><content type="html"><![CDATA[<p>Angularで「ロード中」を簡単に実現する方法を探していて、
+<a href="https://material.angular.io/components/progress-spinner/overview">Angular Material</a>にあるんですね。<code>&lt;mat-spinner&gt;&lt;/mat-spinner&gt;</code>だけ。凄く簡単。
+でも、実際にやってみても出て来なかったので不思議でした。
+いや、<a href="https://stackblitz.com/angular/qyqovrjarbx?file=app%2Fprogress-spinner-overview-example.html">sample</a>とかいくら見ても、特に何も<code>import</code>しなくてもいきなりtag書くだけで使えるよ、っていうんですけど、自分のには出て来ません。なぜ??
+<a href="https://www.youtube.com/watch?v=Z6JdFWXh1Nc">動画</a>見てやっとわかりました。
+確かに当該component fileではimportの必要ありませんけど、
+<code>app.module.ts</code>なりで<code>MatProgressSpinnerModule</code>のimport/importsが必要なんですね。
+もし入ってなければ<code>BrowserAnimationsModule</code>も。
+sampleはdefaultでMat系Module全部入りだからよくわかんなかったんですよ。</p>
+]]></content></entry></feed>

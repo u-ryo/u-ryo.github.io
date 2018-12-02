@@ -8,7 +8,205 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/20/images-in-readme-md-on-github/">Images in README.md on Github</a></h1> <p class="meta"> <time datetime="2017-09-20T00:58:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">20</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/20/images-in-readme-md-on-github/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://github.com/">Github</a>の<code>README.md</code>にscreen shotとか画像を貼りたかったんですけど、どうしたものなんでしょう。説明用のimagesをsource codeと一緒に置いておくというのも何か野暮なので。幾つかやり方があるようです。</p> <ol> <li>image用の別branchを切る(e.g. <a href="https://github.com/cakecatz/garage">https://github.com/cakecatz/garage</a>)</li> <li>Githubのissueを利用する(<a href="https://www.youtube.com/watch?v=hHbWF1Bvgf4">GitHub Readme Images Tutorial (screenshots in readmes)</a>)</li> <li>Githubのwikiを利用する(<a href="https://www.pupha.net/archives/1632/">GitHubに画像ファイルを保存してREADME.mdで表示する方法</a>)</li> </ol> <p>issueに画像をDrag and Dropすると、https://user-images.githubusercontent.com/... に自動的にuploadしてURLが得られるなんて知りませんでした。でもこれ、いつまで持っててくれるんでしょう、というのと、消したい時に消せるのかな? というのがあって。やっぱり自分でcontrol持っておきたいでしょう。(<a href="https://qiita.com/kotet/items/a2203a400136ba50b41e">GitHubのissueを悪用して画像をホストする</a>)</p> <p>別branchを切ると、一旦画像以外全部消さないとならなくて、 何となくそれがちょっと嫌だったので、結局wikiを利用しました。 一度何でもいいのでWikiのpageを保存しないとならないみたいです。 一度保存しちゃえば、上記ページに書いてあるように<code>git clone https://github.com/.../XXX.wiki</code>で取ってこられて、images作って置けちゃうんですね。へー。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/20/gitignore/">Gitignore</a></h1> <p class="meta"> <time datetime="2017-09-20T00:54:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">20</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/20/gitignore/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>前も書いたような気がしますけど、<code>.gitignore</code>は<a href="https://gitignore.io/">gitignore.io</a>で。ここでgenerateしたものに置き換えてみたんですが、<code>git status</code>はあんまり変わりませんでした。記述量は確かに増えていたので、良くはなっているんでしょう...</p> <p>AndroidStudio用に引っ張ってきたんですけど、そのままだと<code>.idea/kotlinc.xml</code>が入ってきてしまうようです。<code>kotlinc.xml</code>はversion管理不要ですよね? 逆に、<code>.idea/gradle.xml</code>はversion管理下に、という話が<a href="http://www.torutk.com/projects/swe/wiki/Android_Studioのバージョン管理対象ファイル">Android Studioのバージョン管理対象ファイル</a>、<a href="http://qiita.com/komax/items/d1aaecaec0a22cb5bc4e">Android Studioでバージョン管理下に置かないもの</a>、<a href="http://gihyo.jp/dev/serial/01/android_studio/0035">第35回　バージョン管理 ─プロジェクト管理ファイルについて［後編］</a>と出て来るんですが、<code>gitignore.io</code>のfileではexplicitlyにignore対象なんですよね...</p> <p>試してみると、特に<code>.idea/</code>が無くてもAndroid Projectとして開けますね。じゃ全部要らないのかな。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/16/personal-information-leak-incident/">Personal Information Leak Incident</a></h1> <p class="meta"> <time datetime="2017-09-16T17:58:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">16</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/16/personal-information-leak-incident/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>先日派遣先で、5万数千件にのぼる個人情報漏洩を見付けてしまいました。</p> <p>その会社ではチンケなECサイトをやってるんですけど、 といっても再販の再販までされてて何百人にも使われちゃってますが、 中身は2000年代前半〜中盤のcode。未だにJSP(一部Java)。 今やもうJavaEEから外れたっていうのに。 OSやlibrary、middlewareもsupport切れで無いものは無いという。 http/https混在、userのpasswordもDBに平文で保存してるくらい、 設計思想からして古いままのものです。WAFも入ってないといいますし。 早晩、こんなことが起こるだろうと傍で見ていて思っていましたが、 現実になり、しかも発見者がぼくだとは。 ぼく一応これ、部外者なんですけど。 同じように派遣されててそっちも手伝っている同僚から、 こんなaccessが沢山来てるってattack patternを見せられて。 不覚にも最初は一般的な定期巡回sql injectionかと思ってました。 Googleで調べると、<a href="https://serverfault.com/questions/541401/mysql-injection-attacks-random-urls-causing-errors">そういうのが載ってた</a>んです。</p> <p>(<a href="https://github.com/ron190/jsql-injection">jsql-injection</a> かとも思ったんですが、試してみるとちょっと違うかも。 Havij ProはWindowsだしちょっと怖いので入れてません)</p> <p>ともあれ、だから単なる下調べ的なattackかと思ってました当初は。 しかし、</p> <ol> <li>IP遮断してもIP変えてやって来るくらいしつこい(IP元はHK,US,JP,CN,UK等々)</li> <li>しかも同じようだが微妙に違うrequestを大量にする</li> </ol> <p>というところからすぐにピンとくるべきでした。 翌週になって、そういえば見せられたqueryに このサイト固有の名前が入っていたな、 というところから、ちょっと実際に叩いてみたんですね。 そしたら...</p> <p>あらま。</p> <p>確かによく見たらqueryの中に「MAIL、PASSWD、TEL」の文字が。 見事に抜かれてました。 各queryの違いは、<code>lImIt</code>の数。 これを変えて、順々に取って行ってたんですね。 後でわかったことですが、固有名が無くても<code>information_schema</code>から table名1個ずつ抜けるんですね。</p> <p>attackがあったのが木曜、ぼくが気付いたのが翌週月曜、 log解析依頼されて、調べてみるとMAIL AddressとかPASSWDが5万数千件は 抜かれてました。 その他、抜かれてたのはショップ運営者の方のID、MAIL、PASSWDも。 それは6月19日に起きてました。 今までずっと気付いてなかったという。 再販先と連絡取って、すぐサイト全体落としたんですけど、 全体をこれまでのオンプレミスサーバ群からクラウドに移行したということで、 また再開したそうです(WAFは入れると言ってはいましたが) (しかも移行したといってもミスがあるらしくすぐにはうまく行っていないとかで、 自分でやっといて直せないなんてアホの極みだと。 その不具合修正をぼくに求めてくるという。 確かにぼくはJava expertなので、 なんで見当違いのところで騒いでるのかくらいの指摘はしてあげましたけど、 自分の尻くらい自分で拭ったらどうですか?と)。</p> <p>色々信じられません。</p> <p>元々彼らの思考には付いていけてなくて。 今自分がやらされているprojectの方でも、 serverのlogic追ってったら「これ認証無いですよ」 って言っても改善せずそのまま、 他人の電話番号とか情報を抜けるPOC作って示しても、 「そのPOC書くのにどのくらい時間かけた?」とか聞いてくる始末。 もう匙投げてました。 っていうか、こんな人もいるんだ、と勉強になりました。 更に言えば、日本のsecurity意識って一般的にはこんなもんなんでしょうか。</p> <p>本当は、この実態を再販先等に告発した方が社会正義のためだと 思うんですけれども、 西宮冷蔵社長の例を鑑みても告発者が報われない社会なのは明らかなので、 黙っているしか無いのかと悲しい思いをしています。</p> <p>早くこんなとこから抜け出さないと、イケマセン。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/">Getting Prize S Level Programmer at Paiza</a></h1> <p class="meta"> <time datetime="2017-09-16T17:34:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">16</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/16/getting-prize-s-level-programmer-at-paiza/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>先日、<a href="https://paiza.jp/challenges">Paizaのスキルチェック</a>で <a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">時間切れ0点</a>を取ってしまったので、 癪だからランクS、本気で取りに行きました。 <a href="https://paiza.jp/challenges/share/BpVEE0xUqzek-gFkhWaalVEwoIv7rpTSXnDL6cOC4eo?source=social">ひとりすごろく</a>は第一次制限時間の40分を超えてしまったので、 全ケース通ったんですけど95点でSではなくA判定。 やっぱり時間が大事なんですね。 Javaで「早く」書くのは確かにキツイです。 ので、次は50点の制限時間が2時間の<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo?source=social">ビリヤードの玉突き</a>に挑戦しました。 こちらは、問題中にヒントを書いていてくれていることもあり、 60分で解答を提出、ようやっとSランクをゲットできました。 今までAランクでいっか、とか思ってて、S問題はゆっくりやって、 再チャレンジでcodeをbrush upして100点を取ってたんですけど、 それより時間が大事、なんですかね。 いや、実務では分を争う程、そこまでsevereではないので... それに、paizaでいくら頑張っても、 小さいとこばっかりであんまり行きたい先が無いので、虚しいんです。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/13/challenging-paiza-tsp/">Challenging Paiza TSP</a></h1> <p class="meta"> <time datetime="2017-09-13T23:46:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">13</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/13/challenging-paiza-tsp/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>8/13はPaizaの日、ということで、巡回セールスマン問題を出題していました。 <a href="https://paiza.jp/works/algorithm/primer/algorithm3">Paizaラーニングでも巡回セールスマン問題のさわり(貪欲法)を取り上げていて</a>、 2-OptやSimulatedAnnealing(焼きなまし法)を<a href="https://github.com/eugenp/tutorials/blob/3abb98e9e8acc7efe3f9f8423fcf0f8934655be7/algorithms/src/main/java/com/baeldung/algorithms/ga/annealing/SimulatedAnnealing.java">学んで</a>、 いざ書いてみたんですが、なかなかうまく行きません。 テストデータは<a href="http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp/">有名ドコロ</a>があります。 まずはatt48で2-Optでやってみたものの、 交差線が多く、全然それっぽい経路が得られません。 なんでーーー!? <a href="http://ist.ksc.kwansei.ac.jp/~tutimura/GraphApplication/">Javaによるまんまのコード</a>があったので、 読み解いていったんですけど時間かかっちゃって、 結局Paizaの締切9/12に間に合いませんでした... 何たること。</p> <p>どうも、キモはswapにあるようで、 点を交換すると総延長が短くなる場合、 当然点を交換するんですが、 当該点だけを交換するだけじゃなく、 そこから真ん中へ向かってずっと点を交換していくんですね。 そうかー。</p> <p>悔しいから、久し振りにPaizaのS問題やってみました。 最も簡単そうな最小辞書順列にしてみました。 けれど、問題の意味を理解するのと、JavaのStreamで書ききったために、 制限の2時間、あっという間に過ぎてしまいました。<a href="https://paiza.jp/challenges/share/0njRogbXZnuXG_Dt_noi_u1lW1Bl4R262Je2koUAjNA?source=social">0点確定</a>です。トホホ。 しかも、提出したコードは、2つの場合だけ通らずに、80点。 どうしてコケる時があるのか、思い当たるフシもなく、未だにわかっていません。 テストデータ、見せて欲しいです。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/16/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/18/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/11/24/adding-a-new-column-on-jhipster/">Adding a New Column on JHipster</a> </li> <li class="post"> <a href="/blog/2018/11/13/number-to-string-on-angular-typescript/">Number to String on Angular/TypeScript</a> </li> <li class="post"> <a href="/blog/2018/11/13/grape-on-groovysh/">Grape on Groovysh</a> </li> <li class="post"> <a href="/blog/2018/11/13/drawing-rectangles-on-an-image-for-groovy/">Drawing Rectangles on an Image for Groovy</a> </li> <li class="post"> <a href="/blog/2018/11/13/chomp-for-groovy/">Chomp for Groovy</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/">Digest Authentication and File Realm on Glassfish</a></h1> <p class="meta"> <time datetime="2017-10-04T19:27:00+09:00" pubdate data-updated=true> <span class="month">Oct</span> <span class="day">04</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/10/04/digest-authentication-and-file-realm-on-glassfish/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>客先から「192.168.1.134にdiget認証のrelmsを作成してください」と 相変わらずわけわかんない指令を受けたので、 「何かに使う『digest』認証を任意の『Realm』で設定」 と解釈して取り組みました。 一番簡単な<code>FileRealm</code>でいいっしょ、 これは4848のGUIからRealms辿って<code>Manage Users</code>ボタンからuser足せばいいし、 Digest Authは<code>&lt;auth-method&gt;DIGEST&lt;/auth-method&gt;</code>で瞬殺、 とか思ってたら、ハマりました。 <code>index.html</code>と<code>web.xml</code>のみの最小構成でproof application作ったのですが、 どうしても認証できないのです。 <code>server.log</code>見ると、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>SEC1105: A PasswordCredential was required but not provided.
+</span></code></pre></td></tr></table></div></figure> <p>と言われています。えー!? 何で? 試しにBASIC認証にしてみると、(紆余曲折ありましたが要するに)通ります。 だから、<code>keyfile</code>の書き方が悪いわけでは無いんですね。 勿論色々ググりました。が、なかなか出て来ません類似例。 辛うじて同じような症状があっても、Answerがついてません。 半日悩みました。 GlassfishのRealmって、 JAAS Contextを指定する必要があって、これは<code>.../domains/domain/config/login.conf</code>で規定されているんですね。 これを見ると、 fileについては<code>fileRealm</code>は一つなのに、 jdbcについては<code>jdbcRealm</code>と<code>jdbcDigestRealm</code>ってあるぢゃないですか。 をぉ、と思って、source treeを探してみると、 <code>com.sun.enterprise.security.auth.login.DigestLoginModule</code> というのもあるんですね。 これどうやって使うんでしょうね。 使い方とかも例も、 JavaDocに書いてないしググっても出て来ませんでした。 試しに<code>digestRealm</code>なんて<code>login.conf</code>に他のを真似して、 上の<code>DigestLoginModule</code>を指定して作って使ってみたのですが、 fileから読み込むようにはなっていないようで、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>WEB9102: Web Login Failed: com.sun.enterprise.security.auth.login.common.LoginException: Login failed: unable to instantiate LoginModule: null
+</span></code></pre></td></tr></table></div></figure> <p>と言われて失敗してました。 ...って、これ<code>abstract class</code>だから当たり前じゃないですか恥ずかしい。 <code>DigestLoginModule</code>をextendsしてるのは<code>JDBCDigestLoginModule</code>だけだから、 file realmで使うなら<code>JDBCDigestLoginModule</code>みたいなのを自前で作らないとならないんじゃないでしょうかね。 でもそうならどっかにそう書いといてよねー。</p> <p>結局、大人しく<code>jdbcDigestRealm</code>を使うように変更することで面倒を回避しました。 まぁ、それだけ世にDigest Authenticationのdemandがない、 という証左なのかなと思いました。</p> <h3>minimum web.xml</h3> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+</span><span class='line'><span class="nt">&lt;web</span><span class="na">-app</span> <span class="na">xmlns=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee&quot;</span>
+</span><span class='line'>         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee</span>
+</span><span class='line'><span class="s">                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;</span>
+</span><span class='line'>         <span class="na">version=</span><span class="s">&quot;3.0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-constraint</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;web</span><span class="na">-resource-collection</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;web</span><span class="na">-resource-name</span><span class="nt">&gt;</span>Digest Authentication Test<span class="err">&lt;</span>/web-resource-name&gt;
+</span><span class='line'>      <span class="nt">&lt;url</span><span class="na">-pattern</span><span class="nt">&gt;</span>/*<span class="err">&lt;</span>/url-pattern&gt;
+</span><span class='line'>    <span class="err">&lt;</span>/web-resource-collection&gt;
+</span><span class='line'>    <span class="nt">&lt;auth</span><span class="na">-constraint</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>    <span class="err">&lt;</span>/auth-constraint&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-constraint&gt;
+</span><span class='line'>  <span class="nt">&lt;login</span><span class="na">-config</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;auth</span><span class="na">-method</span><span class="nt">&gt;</span>DIGEST<span class="err">&lt;</span>/auth-method&gt;
+</span><span class='line'>    <span class="nt">&lt;realm</span><span class="na">-name</span><span class="nt">&gt;</span>someCreatedRealmUsingjdbcDigestRealmOnJAASContext<span class="err">&lt;</span>/realm-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/login-config&gt;
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>someRole<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-role&gt;
+</span><span class='line'><span class="err">&lt;</span>/web-app&gt;
+</span></code></pre></td></tr></table></div></figure> <h3>WEB-INF/glassfish-web.xml</h3> <p>glassfishの場合は、以下のように<code>role-name</code>と<code>group-name</code>を結びつける<code>glassfish-web.xml</code>もないとダメでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE glassfish-web-app PUBLIC &quot;-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;glassfish</span><span class="na">-web-app</span> <span class="na">error-url=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;security</span><span class="na">-role-mapping</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;role</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/role-name&gt;
+</span><span class='line'>    <span class="nt">&lt;group</span><span class="na">-name</span><span class="nt">&gt;</span>user<span class="err">&lt;</span>/group-name&gt;
+</span><span class='line'>  <span class="err">&lt;</span>/security-role-mapping&gt;
+</span><span class='line'>  <span class="nt">&lt;class</span><span class="na">-loader</span> <span class="na">delegate=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;jsp</span><span class="na">-config</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;keepgenerated&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;description&gt;</span>.<span class="nt">&lt;/description&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/property&gt;</span>
+</span><span class='line'>  <span class="err">&lt;</span>/jsp-config&gt;
+</span><span class='line'><span class="err">&lt;</span>/glassfish-web-app&gt;
+</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/28/make-sqlcipher-faster/">Make SqlCipher Faster</a></h1> <p class="meta"> <time datetime="2017-09-28T14:23:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">28</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/28/make-sqlcipher-faster/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>他に言及しているsourceが全く無かったのでまさかと思っていたのですが、<a href="http://qiita.com/atr-toru/items/d98a434eecf9f58c443d#keyの形式を変えて爆速に">keyの形式を変えて爆速に</a>は本当でした。 試しに、Allcaridaから<code>c.bin</code>だけ持ってきてAndroid sample applicationを作って計測した所、従来のkey(4文字)だと約0.4秒、上記ページ例の64字だと0.02秒と顕著な差がありました。</p> <p>従いまして、「SqlCipherの<code>key</code>を64文字の16進数にすれば速くなる」が結論です。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥
+</span><span class='line'>09-27 16:25:59.010 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>09-27 16:25:59.400 30173-30173/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c.bin
+</span><span class='line'>
+</span><span class='line'>64å­key
+</span><span class='line'>09-27 16:24:26.060 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/Open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span><span class='line'>09-27 16:24:26.080 28517-28517/sqlcipher.test.jmtech.co.jp.sqlciphertest D/AfterÂ open: /data/user/0/sqlcipher.test.jmtech.co.jp.sqlciphertest/databases/c2.bin
+</span></code></pre></td></tr></table></div></figure> <p>そこで、実際にAllcaridaで<code>c.bin</code>,<code>r.bin</code>だけ64字key版を作って「履歴一覧」画面表示を比較してみると、従来約3.5秒のところ約0.2秒で開けることを確認しました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>å¾æ¥ 3.46ç§(ç´0.6ç§Ã5+Î±)
+</span><span class='line'>09-27 17:53:03.670 9054-9054/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:53:03.680 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:04.360 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:04.380 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:05.010 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.050 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c.bin Open
+</span><span class='line'>09-27 17:53:05.710 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:05.720 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:06.370 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:53:06.390 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r.bin Open
+</span><span class='line'>09-27 17:53:07.030 9054-10071/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>
+</span><span class='line'>64å­key 0.21ç§(0.0+0.01+0.01+0.02+0.03+Î±)
+</span><span class='line'>09-27 17:50:57.350 4493-4493/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;HistoryMainActivity</span><span class="err">#</span><span class="na">activityStart:49</span><span class="nt">&gt;</span>&gt; å±¥æ­´ä¸è¦§
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.360 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.400 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.410 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.460 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; c2.bin Open
+</span><span class='line'>09-27 17:50:57.470 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.480 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.500 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span><span class='line'>09-27 17:50:57.530 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:964</span><span class="nt">&gt;</span>&gt; r2.bin Open
+</span><span class='line'>09-27 17:50:57.560 4493-5754/jp.ideacross.allcardia.main D/After: <span class="err">&lt;</span><span class="nt">&lt;DatabaseHelper</span><span class="err">#</span><span class="na">open:970</span><span class="nt">&gt;</span>&gt; After Database Open
+</span></code></pre></td></tr></table></div></figure> <p>More concretely,</p> <p><code>SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, "x\'2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99\'", null);</code></p> <p>in Java.</p> <p>To get a rekeyed file,</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo apt install sqlcipher
+</span><span class='line'>$ sqlcipher /tmp/c.bin
+</span><span class='line'>SQLCipher version 3.15.2 2016-11-28 19:13:37
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &#39;7824&#39;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;c2.bin&#39; AS c KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;c&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE c;
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure> <p>You'll get <code>c2.bin</code> with the new 64bit key.</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sqlcipher r.bin
+</span><span class='line'>SQLCipher version 3.8.6 2014-08-15 11:46:33
+</span><span class='line'>Enter &quot;.help&quot; for instructions
+</span><span class='line'>Enter SQL statements terminated with a &quot;;&quot;
+</span><span class='line'>sqlite&gt; PRAGMA key = &quot;7824&quot;;
+</span><span class='line'>sqlite&gt; ATTACH DATABASE &#39;r2.bin&#39; AS r KEY &quot;x&#39;2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99&#39;&quot;;
+</span><span class='line'>sqlite&gt; SELECT sqlcipher_export(&#39;r&#39;);
+</span><span class='line'>
+</span><span class='line'>sqlite&gt; DETACH DATABASE r;sqlite&gt; PRAGMA user_version;
+</span><span class='line'>0
+</span><span class='line'>sqlite&gt; PRAGMA user_version = 6;
+</span><span class='line'>sqlite&gt; PRAGMA user_version;
+</span><span class='line'>6
+</span><span class='line'>sqlite&gt;
+</span></code></pre></td></tr></table></div></figure> <p>You'll get <code>r2.bin</code> with the new 64bit key and version 6.</p> <p><code>PRAGMA user_version</code> is needed because in SQLiteOpenHelper class judges whether it calls <code>onCreate</code>(table creation) by <code>db.getVersion()</code>. <a href="http://d.hatena.ne.jp/isher/20091108/1257684508">[Android]データベースをアップグレードする時</a></p> <p>そもそも画面遷移に4秒も掛かるようなAndroidアプリをリリースするなんていうのもunbelievableですが、そういう人達なので...</p> <p>まぁ、暗号化するにせよ自分なら<a href="https://realm.io/">Realm</a>使うので、こんな知識不要ですけど、SqlCipher使うなら最初から64字16進code使うべきなんですね。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/28/test-failed-on-androidstudio/">Test Failed on AndroidStudio</a></h1> <p class="meta"> <time datetime="2017-09-28T14:12:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">28</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/28/test-failed-on-androidstudio/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Android Studio(2.3.1)で久し振りにtestを動かしてみると、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>Caused by: java.lang.ClassNotFoundException: android.view.View$OnClickListener
+</span></code></pre></td></tr></table></div></figure> <p>と言われて動かなくなりました。 instrumentation testではなくフツーのtestですjunit4とmockitoの。 <a href="https://stackoverflow.com/questions/14213219/java-lang-noclassdeffounderrorandroid-and-junit-test">java.lang.NoClassDefFoundError:android and junit test</a>を見付けて、えーとか思いつつもやってみたら、確かに直りました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ rm -rf .gradle
+</span></code></pre></td></tr></table></div></figure> <h3>追記</h3> <p>projectを<code>clean</code>した後、いくらbuildしても「<code>databinding</code> classが見つからない」と言われて困った時にも効きました。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/26/botui-chatbot-only-by-javascript/">BotUI - ChatBot Only by JavaScript</a></h1> <p class="meta"> <time datetime="2017-09-26T00:33:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">26</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/26/botui-chatbot-only-by-javascript/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="http://paiza.hatenablog.com/entry/2017/09/21/﻿JavaScriptだけで本格的なチャットボットを開発できる">paiza開発日誌</a>で紹介されていた<a href="https://github.com/botui/botui">BotUI</a>、なるほど予め型にはまった会話ならこれだけでお手軽にJavaScriptだけで(<code>.then(function(){...})</code>で繋ぐだけで)出来ちゃうんですね。注文を取るとか、特定のAPI叩く(Wizardを会話でやる)とか、サポートセンターで特定の電話番号につなぐとか。AIは使ってないので、user側の曖昧な自然言語を受け取って処理する、というものではないですけど、そういうのに繋げればいい? いや、IBMのWatsonとかみると、そういう会話のplatformも含めて提供しているので、そうなるとBotUIの出番は無い筈。 <a href="https://webhacck.github.io/botui-sample/">Git Repositoriesの総数を答えるsample</a>は、<a href="https://examples.botui.org">公式のsamples</a>より面白かった(興味深かった)です。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2017/09/25/s-rank-of-codeiq/">S Rank of CodeIQ</a></h1> <p class="meta"> <time datetime="2017-09-25T05:01:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">25</span>, <span class="year">2017</span> </time> | <a href="http://u-ryo.github.io//blog/2017/09/25/s-rank-of-codeiq/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>もう昨日のことですが、<a href="https://paiza.jp/challenges/share/Ku6dnsSr8gw5zINY0ItXIQ1UXOOdmh6Xl_0akPz7zwo">Paiza</a>に続いてようやっと<a href="https://codeiq.jp">CodeIQ</a>でも<a href="https://codeiq.jp/badge/3116">Sランク取りました</a>。</p> <p>まぁ、u-ryoさんなら当然だよね、とか言われておしまいでしょうけど。</p> <p><a href="https://paiza.jp/challenges/share/UwlvLJ8wbTeDuWz-kV7g2vpFehW0vZE-wI-qg56WM98">Paizaにあった似た問題</a>(←これで見ると失敗もありますが、これは最初に提出したcodeについてで、後でちゃんと全部通るようにしてます)からcode引っ張ってきて、でも勿論そのままでは使えなくて。土曜未明の一晩で終えるつもりが、間にバイトやmachine troubleを挟んで日曜の午後までかかっちゃいました。ふと探してみると、<a href="http://ideone.com/pfoy7z">まんまのcode</a>があるのにはびっくり。流石にそのままっていうのは癪なので、「直前の方向を使う」というideaと検算にだけありがたく使わせてもらいました。 探索順の違いによるエラーをなかなか潰せなくて。そっか全探索なのね、そのためには... BFSではなくDFSか、と辿って、あーそっか、その違いはstackかqueueかだけか、に最後の最後気付いてgoalでした。何か色々忘れてて、こういうのやり続けてないと錆び付いてたなーというのを思い知らされました。この手のalgorithm系は集中してやらないと!</p> <p>コメント書きすぎでしょうか。でもまんまの置いてあるよりは遥かにマシかと。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/16/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/18/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/12/03/creating-executable-war-on-jhipster/">Creating Executable War on JHipster</a> </li> <li class="post"> <a href="/blog/2018/12/02/mat-spinner-in-angular-material/">Mat-spinner in Angular Material</a> </li> <li class="post"> <a href="/blog/2018/11/28/using-where-and-join-in-mysqldump/">Using Where and Join in Mysqldump</a> </li> <li class="post"> <a href="/blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/">Suddenly Failed to Parse DateTime on JHipster Angular</a> </li> <li class="post"> <a href="/blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/">Setting Password for Unreachable Mail User on JHipster</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.

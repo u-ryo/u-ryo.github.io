@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-03T02:48:45+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Using where and join in mysqldump]]></title><link href="http://u-ryo.github.io//blog/2018/11/28/using-where-and-join-in-mysqldump/"/><updated>2018-11-28T00:37:50+09:00</updated><id>/blog/2018/11/28/using-where-and-join-in-mysqldump/</id><content type="html"><![CDATA[<p>基本的には<a href="https://qiita.com/asigochan/items/fec45efff78045b33b90">mysqldumpでwhereにjoinを使う</a>にある通り、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>mysqldump -uusername -p DatabaseName tableA --single-transaction --were &#39;id IN (SELECT a.id FROM tableA a JOIN tableB b ON a.b_id=b.id WHERE b.name LIKE &quot;%someone%&quot;)&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>というわけですが、肝は、</p>
+<ul>
+<li><code>--where</code>中で<code>JOIN</code>を使うためにsubqueryにする</li>
+<li><code>--single-transaction</code>を付けることで<code>mysqldump: Couldn't execute 'SELECT... Table 'a' was not locked with LOCK TABLES (1100)</code>と言われるのを防ぐ</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[MySQL on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/"/><updated>2018-09-03T02:48:45+09:00</updated><id>/blog/2018/09/02/mysql-on-jhipster/</id><content type="html"><![CDATA[<p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、
 実際、これまでdevだったのをprod環境にして、
 Timastampを含むTableのあるMySQLをbackendに据えてみると、
 <code>-Pdev</code>環境ではうまく立ち上がっていたのに、
