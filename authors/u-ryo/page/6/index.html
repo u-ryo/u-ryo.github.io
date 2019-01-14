@@ -8,7 +8,95 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Author: U-ryo</h1> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a></h1> <p class="meta"> <time datetime="2018-08-27T13:53:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">27</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>時々、「全く同じgroovy scriptなのにあるマシンでだけ 起動に失敗する」ことがあります。 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Author: U-ryo</h1> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/28/service-worker-in-private-browsing-mode/">Service Worker in Private Browsing Mode</a></h1> <p class="meta"> <time datetime="2018-08-28T10:11:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">28</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Service WorkerでWeb Pushを色々試していて、 違うaccountでloginしてみようとprivate browsing mode用いると、 何か出来ないんですねこれ。 <code>https</code>か<code>localhost</code>じゃないとダメ、というのは知ってましたが。 気を付けましょう。 以上。</p> <blockquote><p>Firefox ではプライベートブラウジングモードでサービスワーカー API を利用することはできません。 <a href="https://developer.mozilla.org/ja/docs/Web/API/ServiceWorker_API#Service_worker_concepts_and_usage">サービスワーカーの概念と使い方</a></p> </blockquote> <p>chromeはsecret mode(private window)でのService Workerも大丈夫、のようですか。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a></h1> <p class="meta"> <time datetime="2018-08-27T17:47:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">27</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>JHipsterのSpring Authなapplicationを httpsのreverse proxy(nginx)の後ろに置いて、 GoogleのOAuth2でJWTな認証をしようとしました。 当然、backend serverからはGoogle APIに自分のhost名でaccessするような URLを返してしまい、Google APIから戻ってきたところでJWT認証は弾かれます。 backend serverはfrontend serverの名前を知らないんですから、 そりゃあ当然です。 こういうreverse proxyの後ろにbackend server置いてOAuth2 + JWTなんて そもそもダメなの? 何とかならないの? と調べてみると、 <a href="https://stackoverflow.com/questions/31834278/spring-boot-and-oauth2-redirect-url-over-reverse-proxy">Spring Boot and OAuth2: redirect url over reverse proxy</a>に、 reverse proxy側で<code>X-Forwarded-Port</code>とかのproxy用HTTP Response Headerを設定し、 Spring application側で<code>server.use-forward-headers=true</code>にすればいいよ、 とあったので、 じゃぁnginxではどうやるのだろうと調べると、 <a href="https://qiita.com/HeRo/items/7063b86b5e8a2efde0f4">Nginx のリバースプロキシ設定のメモ</a>にありました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
+</span><span class='line'>  listen 80;
+</span><span class='line'>  server_name hoge.com;
+</span><span class='line'>
+</span><span class='line'>  location / {
+</span><span class='line'>    proxy_set_header X-Real-IP $remote_addr;
+</span><span class='line'>    index index.html index.htm;
+</span><span class='line'>    proxy_set_header X-Forwarded-Proto $scheme;
+</span><span class='line'>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class='line'>    proxy_set_header Host $http_host;
+</span><span class='line'>    proxy_redirect off;
+</span><span class='line'>    proxy_pass http://127.0.0.1:3000;
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure> <p>この通りやってみると、 何故かGoogle APIには<code>http://proxy-server/...</code>で渡っており、 じゃぁっていうんで<code>proxy_set_header X-Forwarded-Proto https;</code> とベタ書きしてみてもダメで、 うーんとか思っていると、 <a href="https://blog.akagi.jp/archives/3883.html">nginx でリバースプロキシするときの Tips</a>に<code>off</code>じゃなくて<code>proxy_redirect http:// https://;</code>という記述があったので、 試してみると、上手く行きました。 あーちなみに、<code>proxy_set_header X-Forwarded-Proto https;</code>も ベタ書きじゃないとダメでした。 結局うちの場合は、以下の通りになりました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
+</span><span class='line'>        listen 80 default_server;
+</span><span class='line'>        listen [::]:80 default_server;
+</span><span class='line'>
+</span><span class='line'>        # Everything is a 404
+</span><span class='line'>        location / {
+</span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
+</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;
+</span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class='line'>                proxy_set_header Host $http_host;
+</span><span class='line'>                proxy_redirect http:// https://;
+</span><span class='line'>                proxy_pass http://walt.mydns.bz:10022/;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # You may need this to prevent return 404 recursion.
+</span><span class='line'>        location = /404.html {
+</span><span class='line'>                internal;
+</span><span class='line'>        }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure> <p>で、<code>sudo /usr/sbin/nginx -s reload</code>です。</p> <p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、 その後「No-providerで登録」になってしまい、 まだ完成しません。 ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p> <p>↑その「No-providerで登録」になってしまうのは、 backendで以下のようなerrorが出ていて。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>javax.validation.ConstraintViolationException: Validation failed for classes [bz.mydns.walt.canmatch.domain.User] during persist time for groups [javax.validation.groups.Default, ]
+</span><span class='line'>List of constraint violations:[
+</span><span class='line'>        ConstraintViolationImpl{interpolatedMessage=&#39;must match &quot;^[_&#39;.@A-Za-z0-9-]*$&quot;&#39;, propertyPath=login, rootBeanClass=class bz.mydns.walt.canmatch.domain.User, messageTemplate=&#39;{javax.validation.constraints.Pattern.message}&#39;}
+</span><span class='line'>]
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:140)
+</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:80)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:197)
+</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
+</span><span class='line'>        at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:626)
+</span><span class='line'>   :
+</span><span class='line'>   :
+</span></code></pre></td></tr></table></div></figure> <p>何なんでしょうね。 これは、account mail addressが「w.disney@somecompany.co.jp」みたいな 「.」が入るものなんですが、それがいけないとかなのでしょうか。 というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら 全く同じcodeで何の問題もなく入れるのです。 「must match」の対象が何なのか、よく分かりません。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a></h1> <p class="meta"> <time datetime="2018-08-27T13:53:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">27</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>時々、「全く同じgroovy scriptなのにあるマシンでだけ 起動に失敗する」ことがあります。 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -48,7 +136,7 @@
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>sudo apt install python-pip
 </span><span class='line'>pip install ntfy
-</span></code></pre></td></tr></table></div></figure> <p>で<code>ntfy</code>を入れ、<code>~/.ntfy.yml</code>にPushBulletのaccess_tokenを入れ、 <code>~/.local/bin/ntfy -t 'Title' send 'notification contents'</code> とすると、送れました。 スマホ側の音とか振動は、アプリでの設定にて調整可能です。</p> <p>最初よくわかってなかったのですが、 PushBulletのアプリを入れると、 電話帳やSMS(Short Message Service)もぶっこ抜いてくるんですね。 それと知らずにSMS送ってしまい、相手に不審がられてしまいました。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a></h1> <p class="meta"> <time datetime="2018-08-24T11:30:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">24</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Spring BootでCSV downloadを実現するのに、 <a href="https://qiita.com/yo1000/items/050c5c47daabf7a10e10">Spring MVC で CSV をダウンロードさせる</a>を参考にしました。 要するに、</p> <ul> <li><code>compile "com.fasterxml.jackson.dataformat:jackson-dataformat-csv"</code> in <code>build.gradle</code></li> <li>Bean classの各fieldに<code>@JsonProperty</code></li> <li>field出力順を制御したいので<code>@JsonPropertyOrder({"login", "filename",...})</code></li> <li><code>CsvMapper mapper = new CsvMapper();</code>して<code>CsvSchema schema = mapper.schemaFor(SomeBean.class).withHeader();</code>して<code>return mapper.writer(schema).writeValueAsString(beans);</code></li> <li><code>compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"</code>を入れて<code>@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")</code>して<code>mapper.registerModule(new JavaTimeModule());</code>すると、<code>ZonedDateTime</code>を如意に表示できる?<a href="http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/">Formatting Java Time with Spring Boot using JSON</a></li> </ul> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/24/fluent-on-lombok/">Fluent on Lombok</a></h1> <p class="meta"> <time datetime="2018-08-24T11:20:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">24</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/24/fluent-on-lombok/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://projectlombok.org">Lombok</a>で<code>@Accessors(fluent=true)</code>にしたら、 setterのみならず<a href="https://projectlombok.org/features/experimental/Accessors">getterもfluentになる</a>んですね。 <code>getXxx()</code>がないと言われて焦りました。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/24/returning-xml-from-spring-boot-rest/">Returning XML From Spring Boot REST</a></h1> <p class="meta"> <time datetime="2018-08-24T10:38:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">24</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/24/returning-xml-from-spring-boot-rest/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Spring BootでRESTやってて、XMLでdataを返したいと。 <a href="http://blog.rakugakibox.net/entry/2014/11/23/java_spring_boot_rest">Java: Spring Boot で REST なアプリを作ってみる</a>を見てみて、 <code>@XmlRootElement</code>を付ければいい? ついでにtag名がclass名と違うので、 <code>@XmlRootElement(name="annotation")</code>としました。</p> <p>あと、<a href="https://projectlombok.org">Lombok</a>を使ったせいなのか、 各fieldに<code>@XmlElement</code>を付けないと、出て来ませんでした。 そういうもの?!</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/authors/u-ryo/page/5/">&larr; Newer</a> <a class="next" href="/authors/u-ryo/page/7/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2018/12/03/creating-executable-war-on-jhipster/">Creating Executable War on JHipster</a> </li> <li class="post"> <a href="/blog/2018/12/02/mat-spinner-in-angular-material/">Mat-spinner in Angular Material</a> </li> <li class="post"> <a href="/blog/2018/11/28/using-where-and-join-in-mysqldump/">Using Where and Join in Mysqldump</a> </li> <li class="post"> <a href="/blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/">Suddenly Failed to Parse DateTime on JHipster Angular</a> </li> <li class="post"> <a href="/blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/">Setting Password for Unreachable Mail User on JHipster</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2018 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure> <p>で<code>ntfy</code>を入れ、<code>~/.ntfy.yml</code>にPushBulletのaccess_tokenを入れ、 <code>~/.local/bin/ntfy -t 'Title' send 'notification contents'</code> とすると、送れました。 スマホ側の音とか振動は、アプリでの設定にて調整可能です。</p> <p>最初よくわかってなかったのですが、 PushBulletのアプリを入れると、 電話帳やSMS(Short Message Service)もぶっこ抜いてくるんですね。 それと知らずにSMS送ってしまい、相手に不審がられてしまいました。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/24/csv-download-on-spring-boot-rest/">CSV Download on Spring Boot REST</a></h1> <p class="meta"> <time datetime="2018-08-24T11:30:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">24</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/24/csv-download-on-spring-boot-rest/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Spring BootでCSV downloadを実現するのに、 <a href="https://qiita.com/yo1000/items/050c5c47daabf7a10e10">Spring MVC で CSV をダウンロードさせる</a>を参考にしました。 要するに、</p> <ul> <li><code>compile "com.fasterxml.jackson.dataformat:jackson-dataformat-csv"</code> in <code>build.gradle</code></li> <li>Bean classの各fieldに<code>@JsonProperty</code></li> <li>field出力順を制御したいので<code>@JsonPropertyOrder({"login", "filename",...})</code></li> <li><code>CsvMapper mapper = new CsvMapper();</code>して<code>CsvSchema schema = mapper.schemaFor(SomeBean.class).withHeader();</code>して<code>return mapper.writer(schema).writeValueAsString(beans);</code></li> <li><code>compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"</code>を入れて<code>@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")</code>して<code>mapper.registerModule(new JavaTimeModule());</code>すると、<code>ZonedDateTime</code>を如意に表示できる?<a href="http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/">Formatting Java Time with Spring Boot using JSON</a></li> </ul> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/authors/u-ryo/page/5/">&larr; Newer</a> <a class="next" href="/authors/u-ryo/page/7/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2019/01/13/3-good-things-in-this-week/">3 Good Things in This Week</a> </li> <li class="post"> <a href="/blog/2019/01/07/nengajo-rhapsody/">Nengajo Rhapsody</a> </li> <li class="post"> <a href="/blog/2018/12/03/creating-executable-war-on-jhipster/">Creating Executable War on JHipster</a> </li> <li class="post"> <a href="/blog/2018/12/02/mat-spinner-in-angular-material/">Mat-spinner in Angular Material</a> </li> <li class="post"> <a href="/blog/2018/11/28/using-where-and-join-in-mysqldump/">Using Where and Join in Mysqldump</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2019 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.

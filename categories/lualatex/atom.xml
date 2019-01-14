@@ -1,16 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/lualatex/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[LuaLaTeX]]></title><link href="http://u-ryo.github.io//blog/2015/11/12/lualatex/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2015/11/12/lualatex/</id><content type="html"><![CDATA[<p>表題の通り、LaTeXをよく使っています。
-pLaTeXが長かったので、
-LuaLaTeXについてのメモ書きです。
-例によって、ちょっと調べればいくらでも出てますけど。</p>
-<ol>
-<li>preambleは<code>\documentclass{ltjsarticle}</code></li>
-<li>usepackageは<code>luatexja</code> (<code>\usepackage{luatexja}</code>)</li>
-<li><code>\usepackage[dvipdfmx]{graphics}</code></li>
-<li>pngを貼りこむ時には、普通に<code>\includegraphics{XXX.png}</code>で良いが、
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/lualatex/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Nengajo Rhapsody]]></title><link href="http://u-ryo.github.io//blog/2019/01/07/nengajo-rhapsody/"/><updated>2019-01-15T00:49:28+09:00</updated><id>/blog/2019/01/07/nengajo-rhapsody/</id><content type="html"><![CDATA[<p>いつも年賀状で苦労しています。
+毎年微妙に変わりますので。
+今年苦労した点をメモしておきます。年末の自分のために。</p>
+<p><code>LuaLaTeX</code>になってから、fontの扱いは大分楽になりました。
+<a href="https://arxiv.hatenablog.com/entry/2016/11/30/183000">LuaLaTeXのフォントの取り扱いについて</a>を参考に、
+<code>*.ttf/otf</code>を<code>/usr/share/fonts/[true|open]type/xxx/</code>以下にcopyして、
+<code>.tex</code>fileに
+<code>\newfontfamily\Text任意名{英文フォントファイル名}</code>や
+<code>\newjfontfamily\Text任意名{和文フォントファイル名}</code>と書けば、
+<code>\Text任意名 happy new year!</code>や<code>\Text任意名 謹賀新年</code>というように使えました。</p>
+<p>class fileは香田温人さんの<code>ltjhagaki.cls</code>を長年使わせて貰っています。
+探してみたら今はもう見付からないようですね。</p>
+<p>0.81や0.85でLuaLaTeXが少し変わって(<a href="https://zrbabbler.hatenablog.com/entry/20151013/1444700367">LuaTeX や LaTeX や LuaLaTeX が新しくなってアレ(1)</a>)、
+<code>\pdfpagewidth</code>も未定義になっちゃってて、
+はがき自体の表示位置もA4のupper centerになっちゃってて。
+去年はハガキサイズでPDF出てたのに。
+これだと印刷にどうにも苦労したので、
+<a href="https://org-technology.com/posts/lualatex-geometry.html#">LuaLaTeX での余白の設定</a>を参考に
+geometryを導入してはがきサイズでpdfを出力するようにしたら
+ようやっとうまく行きました。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ extractbb XXX.png
-</span></code></pre></td></tr></table></div></figure></li>
-<li><code>zw</code>は<code>\zw</code>に</li>
-</ol>
-<p>reportもMarkdownで書いてみようかな...</p>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>\usepackage[paperwidth=100mm, paperheight=149mm]{geometry}
+</span><span class='line'>\geometry{top=0truemm,bottom=0truemm,inner=0truemm,outer=0truemm}
+</span></code></pre></td></tr></table></div></figure>
+<p>これですね。良かったです。</p>
+<p><a href="http://www.easydrawingtutorials.com/index.php/disney/414-mickey-mouse-body">Easy Drawing Tutorials</a>、<a href="http://www.easydrawingtutorials.com/index.php/88-disney/81-draw-mickey-mouse">顔の描き方</a>なんてあるんですね凄いなぁ。</p>
 ]]></content></entry></feed>
