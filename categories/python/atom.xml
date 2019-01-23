@@ -1,4 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/python/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Python Basic Web Server for Applying keras Model]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/</id><content type="html"><![CDATA[<p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/python/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Learn Python 3 the Hard Way]]></title><link href="http://u-ryo.github.io//blog/2019/01/24/learn-python-3-the-hard-way/"/><updated>2019-01-24T04:34:38+09:00</updated><id>/blog/2019/01/24/learn-python-3-the-hard-way/</id><content type="html"><![CDATA[<p>知人が<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-Introduction-ebook/dp/B07378P8W6">Learn Python 3 the Hard Way</a>を<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-%E6%9B%B8%E3%81%84%E3%81%A6%E8%A6%9A%E3%81%88%E3%82%8BPython%E5%85%A5%E9%96%80/dp/4621303287">翻訳しました</a>。
+凄いなぁと思うと同時に、
+見てみると既に<a href="https://learnpythonthehardway.org/">英語版</a>で<a href="http://blog.sayajewels.com/posts/janiota-python-practice/">勉強した人がいる</a>というので、
+その人がやったという初心者用練習問題を、
+ジャニヲタじゃないので、
+というか初心者ではないので「一行で」やってみました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>&gt;&gt;&gt; def average_age(members):
+</span><span class='line'>...  return sum([x[2] for x in members])/len(members)
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; average_age([(&#39;s&#39;,&#39;s&#39;,35),(&#39;a&#39;,&#39;a&#39;,34),(&#39;n&#39;,&#39;n&#39;,34),(&#39;d&#39;,&#39;o&#39;,36),(&#39;j&#39;,&#39;j&#39;,34)])
+</span><span class='line'>34.6
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def oldest_member(members):
+</span><span class='line'>...  return max(members, key=(lambda x:x[2]))[0]
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; oldest_member([(&#39;s&#39;,&#39;s&#39;,35),(&#39;a&#39;,&#39;a&#39;,34),(&#39;n&#39;,&#39;n&#39;,34),(&#39;d&#39;,&#39;o&#39;,36),(&#39;j&#39;,&#39;j&#39;,34)])
+</span><span class='line'>&#39;d&#39;
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def second_oldest_member(members):
+</span><span class='line'>...  return sorted(members, key=(lambda x:x[2]))[1][0]
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; second_oldest_member([(&#39;s&#39;,&#39;s&#39;,35),(&#39;a&#39;,&#39;a&#39;,34),(&#39;n&#39;,&#39;n&#39;,34),(&#39;d&#39;,&#39;o&#39;,36),(&#39;j&#39;,&#39;j&#39;,34)])
+</span><span class='line'>&#39;n&#39;
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def next_older_member(members, nickname):
+</span><span class='line'>...  return min([a for a in members if a[2] &gt; [b for b in members if b[0]==nickname][0][2]],key=(lambda x:x[2]))[0]
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; next_older_member([(&#39;st&#39;,&#39;ms&#39;,19),(&#39;m&#39;,&#39;my&#39;,17),(&#39;k&#39;,&#39;nk&#39;,23),(&#39;f&#39;,&#39;kf&#39;,22),(&#39;sh&#39;,&#39;ss&#39;,20)],&#39;f&#39;)
+</span><span class='line'>&#39;k&#39;
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def check_future_age(current_members, future_members):
+</span><span class='line'>...  return len({i[2]-j[2] for i,j in zip(current_members,future_members)}) == 1
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; check_future_age([(&#39;st&#39;,&#39;ms&#39;,19),(&#39;m&#39;,&#39;my&#39;,17),(&#39;k&#39;,&#39;nk&#39;,23),(&#39;f&#39;,&#39;kf&#39;,22),(&#39;sh&#39;,&#39;ss&#39;,20)],[(&#39;st&#39;,&#39;ms&#39;,22),(&#39;m&#39;,&#39;my&#39;,20),(&#39;k&#39;,&#39;nk&#39;,26),(&#39;f&#39;,&#39;kf&#39;,25),(&#39;sh&#39;,&#39;ss&#39;,23)])
+</span><span class='line'>True
+</span><span class='line'>&gt;&gt;&gt; check_future_age([(&#39;st&#39;,&#39;ms&#39;,19),(&#39;m&#39;,&#39;my&#39;,17),(&#39;k&#39;,&#39;nk&#39;,23),(&#39;f&#39;,&#39;kf&#39;,22),(&#39;sh&#39;,&#39;ss&#39;,20)],[(&#39;st&#39;,&#39;ms&#39;,22),(&#39;m&#39;,&#39;my&#39;,20),(&#39;k&#39;,&#39;nk&#39;,26),(&#39;f&#39;,&#39;kf&#39;,25),(&#39;sh&#39;,&#39;ss&#39;,24)])
+</span><span class='line'>False
+</span></code></pre></td></tr></table></div></figure>
+<p>あぁ、なんてアホなことに時間と頭を使ってしまった...</p>
+<p><code>min</code>、<code>max</code>、<code>sorted</code>ってリスト内包表記で出来ないんですか?</p>
+<p>印税は初版で20〜30万、あとは増刷でガッポガッポ、だそうです。
+1年半かかったって。お疲れさまでした。
+ぼくも販促に協力しましょうかね。
+そしておこぼれにあずかれれば!</p>
+]]></content></entry><entry><title type="html"><![CDATA[Python Basic Web Server for Applying keras Model]]></title><link href="http://u-ryo.github.io//blog/2018/09/14/python-basic-web-server-for-applying-keras-model/"/><updated>2018-09-15T17:34:45+09:00</updated><id>/blog/2018/09/14/python-basic-web-server-for-applying-keras-model/</id><content type="html"><![CDATA[<p>VGG16をfine tuningしたmodelを簡単にapply(predict)するsystemが
 NotePC程度で動くことを証明したく、
 PythonのBaseHTTPServerで1日でちゃちゃっと作りました。</p>
 <p>といっても「PythonのBaseHTTPServer」なんて触るの初めてです。

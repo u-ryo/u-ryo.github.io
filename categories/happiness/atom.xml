@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/happiness/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[3 good things in this week]]></title><link href="http://u-ryo.github.io//blog/2019/01/13/3-good-things-in-this-week/"/><updated>2019-01-14T09:46:50+09:00</updated><id>/blog/2019/01/13/3-good-things-in-this-week/</id><content type="html"><![CDATA[<p>とっても今更ですが、凄い本に出会いました。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/happiness/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[3 good things in this week]]></title><link href="http://u-ryo.github.io//blog/2019/01/13/3-good-things-in-this-week/"/><updated>2019-01-15T01:06:52+09:00</updated><id>/blog/2019/01/13/3-good-things-in-this-week/</id><content type="html"><![CDATA[<p>とっても今更ですが、凄い本に出会いました。
 情報処理学会誌のビブリオトークで紹介されていた「データの見えざる手」、
 帰りに池袋三省堂で100頁ちょっと立ち読みしたら止まらくなっちゃって、
 もう本を買うのはやめようと思ってたのに、買っちゃいました。
@@ -24,11 +24,13 @@ happiness levelが高まった、という話がありました(p.81)。
 そして言います。</p>
 <blockquote><p>人のハピネスは、意外に小さなことが決めていることが実証された。(p.82)</p>
 </blockquote>
-<p>あぁ、でもよく読むと、
-* 幸せは、およそ半分は遺伝的に決まっている
-* 驚くべきことに、これら環境要因をすべて合わせても、幸せに対する影響は、全体の10%にすぎない
-* 残りの40%は何だろう。...たとえば、人に感謝を表す、困っている人を助けてあげる、という一見簡単なことでも、実はハピネスは格段に高まる
-といった辺り(p.72〜74)は、<a href="https://ja.wikipedia.org/wiki/ポジティブ心理学">ポジティブ心理学</a>の成果なんですね。</p>
+<p>あぁ、でもよく読むと、</p>
+<ul>
+<li>幸せは、およそ半分は遺伝的に決まっている</li>
+<li>驚くべきことに、これら環境要因をすべて合わせても、幸せに対する影響は、全体の10%にすぎない</li>
+<li>残りの40%は何だろう。...たとえば、人に感謝を表す、困っている人を助けてあげる、という一見簡単なことでも、実はハピネスは格段に高まる</li>
+</ul>
+<p>といった辺り(p.72〜74)は、<a href="https://ja.wikipedia.org/wiki/ポジティブ心理学">ポジティブ心理学</a>の成果なんですね。</p>
 <p>なるほど、要するに、
 こういった心理学(や経営学?)の成果を、
 アンケートではなくwearable sensorによる行動履歴から実証した、

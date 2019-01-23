@@ -1,4 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/lualatex/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Nengajo Rhapsody]]></title><link href="http://u-ryo.github.io//blog/2019/01/07/nengajo-rhapsody/"/><updated>2019-01-15T00:49:28+09:00</updated><id>/blog/2019/01/07/nengajo-rhapsody/</id><content type="html"><![CDATA[<p>いつも年賀状で苦労しています。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/lualatex/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[lualatex error]]></title><link href="http://u-ryo.github.io//blog/2019/01/23/lualatex-error/"/><updated>2019-01-23T22:34:34+09:00</updated><id>/blog/2019/01/23/lualatex-error/</id><content type="html"><![CDATA[<p>Ubuntu 18.04になってからか、これまで難なく通っていたLuaLaTeXが
+通らなくなっていました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>(/usr/share/texlive/texmf-dist/tex/luatex/luatexja/patches/lltjp-stfloats.sty)
+</span><span class='line'>ABD: EverySelectfont initializing macros
+</span><span class='line'>! Undefined control sequence.
+</span><span class='line'><span class="nt">&lt;argument&gt;</span> ...x \ifdim \paperheight &gt;0pt\relax \pdfpagewidth
+</span><span class='line'>                                                  =\paperwidth \pdfpageheigh...
+</span><span class='line'>
+</span><span class='line'>l.5 \begin{document}
+</span><span class='line'>?
+</span></code></pre></td></tr></table></div></figure>
+<p>version upしたからかな、
+そのうち通るようになるかな、
+それまでは16.04捨てられないな、
+とか思ってほっぽっておいてたんですが、
+一向に良くならないので、ちょっと調べてみました。
+LuaLaTeX追ってる人には何でもない情報でしょうが、
+色々変わってたんですね。</p>
+<p>結論から示しますと、
+<code>graphicx</code>のdriverを<code>pdftex</code>から<code>luatex</code>にする
+(→defaultの自動判定に任せる)ようにすれば良かったです。
+具体的には、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>\usepackage[pdftex]{graphicx}
+</span><span class='line'>   â
+</span><span class='line'>\usepackage{graphicx}
+</span></code></pre></td></tr></table></div></figure>
+<p>だけでした(ref.<a href="http://acetaminophen.hatenablog.com/entry/2016/04/23/141922">TeX Live 2016 の新しい LuaTeX あれこれ</a>)。
+primitive名が色々変わって、
+LuaTeXのprimitiveに対応した<code>luatex.def</code>が出来て、
+graphicx driverの<code>luatex</code>への自動判定(<code>pdftex</code>ではなく)が
+導入されていました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Nengajo Rhapsody]]></title><link href="http://u-ryo.github.io//blog/2019/01/07/nengajo-rhapsody/"/><updated>2019-01-15T00:49:28+09:00</updated><id>/blog/2019/01/07/nengajo-rhapsody/</id><content type="html"><![CDATA[<p>いつも年賀状で苦労しています。
 毎年微妙に変わりますので。
 今年苦労した点をメモしておきます。年末の自分のために。</p>
 <p><code>LuaLaTeX</code>になってから、fontの扱いは大分楽になりました。
