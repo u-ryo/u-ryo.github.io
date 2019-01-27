@@ -8,7 +8,69 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2019/01/23/lualatex-error/">Lualatex Error</a></h1> <p class="meta"> <time datetime="2019-01-23T21:59:00+09:00" pubdate data-updated=true> <span class="month">Jan</span> <span class="day">23</span>, <span class="year">2019</span> </time> | <a href="http://u-ryo.github.io//blog/2019/01/23/lualatex-error/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Ubuntu 18.04になってからか、これまで難なく通っていたLuaLaTeXが 通らなくなっていました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2019/01/24/learn-python-3-the-hard-way/">Learn Python 3 the Hard Way</a></h1> <p class="meta"> <time datetime="2019-01-24T03:30:00+09:00" pubdate data-updated=true> <span class="month">Jan</span> <span class="day">24</span>, <span class="year">2019</span> </time> | <a href="http://u-ryo.github.io//blog/2019/01/24/learn-python-3-the-hard-way/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>知人が<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-Introduction-ebook/dp/B07378P8W6">Learn Python 3 the Hard Way</a>を<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-%E6%9B%B8%E3%81%84%E3%81%A6%E8%A6%9A%E3%81%88%E3%82%8BPython%E5%85%A5%E9%96%80/dp/4621303287">翻訳しました</a>。 凄いなぁと思うと同時に、 見てみると既に<a href="https://learnpythonthehardway.org/">英語版</a>で<a href="http://blog.sayajewels.com/posts/janiota-python-practice/">勉強した人がいる</a>というので、 その人がやったという初心者用練習問題を、 ジャニヲタじゃないので、 というか初心者ではないので「一行で」やってみました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>&gt;&gt;&gt; def average_age(members):
+</span><span class='line'>...  return sum([x[2] for x in members])/len(members)
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; average_age([(&#39;s&#39;,&#39;s&#39;,35),(&#39;a&#39;,&#39;a&#39;,34),(&#39;n&#39;,&#39;n&#39;,34),(&#39;d&#39;,&#39;o&#39;,36),(&#39;j&#39;,&#39;j&#39;,34)])
+</span><span class='line'>34.6
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def oldest_member(members):
+</span><span class='line'>...  return max(members, key=(lambda x:x[2]))[0]
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; oldest_member([(&#39;s&#39;,&#39;s&#39;,35),(&#39;a&#39;,&#39;a&#39;,34),(&#39;n&#39;,&#39;n&#39;,34),(&#39;d&#39;,&#39;o&#39;,36),(&#39;j&#39;,&#39;j&#39;,34)])
+</span><span class='line'>&#39;d&#39;
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def second_oldest_member(members):
+</span><span class='line'>...  return sorted(members, key=(lambda x:x[2]))[1][0]
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; second_oldest_member([(&#39;s&#39;,&#39;s&#39;,35),(&#39;a&#39;,&#39;a&#39;,34),(&#39;n&#39;,&#39;n&#39;,34),(&#39;d&#39;,&#39;o&#39;,36),(&#39;j&#39;,&#39;j&#39;,34)])
+</span><span class='line'>&#39;n&#39;
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def next_older_member(members, nickname):
+</span><span class='line'>...  return min([a for a in members if a[2] &gt; [b for b in members if b[0]==nickname][0][2]],key=(lambda x:x[2]))[0]
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; next_older_member([(&#39;st&#39;,&#39;ms&#39;,19),(&#39;m&#39;,&#39;my&#39;,17),(&#39;k&#39;,&#39;nk&#39;,23),(&#39;f&#39;,&#39;kf&#39;,22),(&#39;sh&#39;,&#39;ss&#39;,20)],&#39;f&#39;)
+</span><span class='line'>&#39;k&#39;
+</span><span class='line'>
+</span><span class='line'>&gt;&gt;&gt; def check_future_age(current_members, future_members):
+</span><span class='line'>...  return len({i[2]-j[2] for i,j in zip(current_members,future_members)}) == 1
+</span><span class='line'>...
+</span><span class='line'>&gt;&gt;&gt; check_future_age([(&#39;st&#39;,&#39;ms&#39;,19),(&#39;m&#39;,&#39;my&#39;,17),(&#39;k&#39;,&#39;nk&#39;,23),(&#39;f&#39;,&#39;kf&#39;,22),(&#39;sh&#39;,&#39;ss&#39;,20)],[(&#39;st&#39;,&#39;ms&#39;,22),(&#39;m&#39;,&#39;my&#39;,20),(&#39;k&#39;,&#39;nk&#39;,26),(&#39;f&#39;,&#39;kf&#39;,25),(&#39;sh&#39;,&#39;ss&#39;,23)])
+</span><span class='line'>True
+</span><span class='line'>&gt;&gt;&gt; check_future_age([(&#39;st&#39;,&#39;ms&#39;,19),(&#39;m&#39;,&#39;my&#39;,17),(&#39;k&#39;,&#39;nk&#39;,23),(&#39;f&#39;,&#39;kf&#39;,22),(&#39;sh&#39;,&#39;ss&#39;,20)],[(&#39;st&#39;,&#39;ms&#39;,22),(&#39;m&#39;,&#39;my&#39;,20),(&#39;k&#39;,&#39;nk&#39;,26),(&#39;f&#39;,&#39;kf&#39;,25),(&#39;sh&#39;,&#39;ss&#39;,24)])
+</span><span class='line'>False
+</span></code></pre></td></tr></table></div></figure> <p>あぁ、なんてアホなことに時間と頭を使ってしまった...</p> <p><code>min</code>、<code>max</code>、<code>sorted</code>ってリスト内包表記で出来ないんですか?</p> <p>印税は初版で20〜30万、あとは増刷でガッポガッポ、だそうです。 1年半かかったって。お疲れさまでした。 ぼくも販促に協力しましょうかね。 そしておこぼれにあずかれれば!</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2019/01/23/lualatex-error/">Lualatex Error</a></h1> <p class="meta"> <time datetime="2019-01-23T21:59:00+09:00" pubdate data-updated=true> <span class="month">Jan</span> <span class="day">23</span>, <span class="year">2019</span> </time> | <a href="http://u-ryo.github.io//blog/2019/01/23/lualatex-error/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Ubuntu 18.04になってからか、これまで難なく通っていたLuaLaTeXが 通らなくなっていました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -36,7 +98,7 @@
 </span><span class='line'>\geometry{top=0truemm,bottom=0truemm,inner=0truemm,outer=0truemm}
 </span></code></pre></td></tr></table></div></figure> <p>これですね。良かったです。</p> <p><a href="http://www.easydrawingtutorials.com/index.php/disney/414-mickey-mouse-body">Easy Drawing Tutorials</a>、<a href="http://www.easydrawingtutorials.com/index.php/88-disney/81-draw-mickey-mouse">顔の描き方</a>なんてあるんですね凄いなぁ。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/12/03/creating-executable-war-on-jhipster/">Creating Executable War on JHipster</a></h1> <p class="meta"> <time datetime="2018-12-03T02:18:00+09:00" pubdate data-updated=true> <span class="month">Dec</span> <span class="day">03</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/12/03/creating-executable-war-on-jhipster/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>いつも忘れちゃうんで。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>$ gradle bootRepackage -Pprod
-</span></code></pre></td></tr></table></div></figure> <p><code>build.gradle</code>に中に定義があります。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/12/02/mat-spinner-in-angular-material/">Mat-spinner in Angular Material</a></h1> <p class="meta"> <time datetime="2018-12-02T09:39:00+09:00" pubdate data-updated=true> <span class="month">Dec</span> <span class="day">02</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/12/02/mat-spinner-in-angular-material/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Angularで「ロード中」を簡単に実現する方法を探していて、 <a href="https://material.angular.io/components/progress-spinner/overview">Angular Material</a>にあるんですね。<code>&lt;mat-spinner&gt;&lt;/mat-spinner&gt;</code>だけ。凄く簡単。 でも、実際にやってみても出て来なかったので不思議でした。 いや、<a href="https://stackblitz.com/angular/qyqovrjarbx?file=app%2Fprogress-spinner-overview-example.html">sample</a>とかいくら見ても、特に何も<code>import</code>しなくてもいきなりtag書くだけで使えるよ、っていうんですけど、自分のには出て来ません。なぜ?? <a href="https://www.youtube.com/watch?v=Z6JdFWXh1Nc">動画</a>見てやっとわかりました。 確かに当該component fileではimportの必要ありませんけど、 <code>app.module.ts</code>なりで<code>MatProgressSpinnerModule</code>のimport/importsが必要なんですね。 もし入ってなければ<code>BrowserAnimationsModule</code>も。 sampleはdefaultでMat系Module全部入りだからよくわかんなかったんですよ。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/3/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2019/01/24/omega3-fatty-acids/">Omega3 Fatty Acids</a> </li> <li class="post"> <a href="/blog/2019/01/24/deeplooks/">Deeplooks</a> </li> <li class="post"> <a href="/blog/2019/01/24/positive-psychology/">Positive Psychology</a> </li> <li class="post"> <a href="/blog/2019/01/24/funny-patents/">Funny Patents</a> </li> <li class="post"> <a href="/blog/2019/01/24/learn-python-3-the-hard-way/">Learn Python 3 the Hard Way</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2019 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure> <p><code>build.gradle</code>に中に定義があります。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/3/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2019/01/28/3-good-things-in-this-week/">3 Good Things in This Week</a> </li> <li class="post"> <a href="/blog/2019/01/24/omega3-fatty-acids/">Omega3 Fatty Acids</a> </li> <li class="post"> <a href="/blog/2019/01/24/deeplooks/">Deeplooks</a> </li> <li class="post"> <a href="/blog/2019/01/24/positive-psychology/">Positive Psychology</a> </li> <li class="post"> <a href="/blog/2019/01/24/funny-patents/">Funny Patents</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2019 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.
