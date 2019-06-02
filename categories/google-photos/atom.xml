@@ -1,14 +1,14 @@
-<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Google photo - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/google-photo/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-70134374-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Google photo</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Google photo category via RSS" href="/categories/google-photo/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2019/06/02/google-photo-api/">Google Photo Api</a></h1> <p class="meta"> <time datetime="2019-06-02T03:49:00+09:00" pubdate data-updated=true> <span class="month">Jun</span> <span class="day">02</span>, <span class="year">2019</span> </time> | <a href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。 backupは無限の<a href="https://photos.google.com">Google Photos</a>に、ということで、前はPicasaのAPI、<code>upload_gphots</code>を使ってたんですけど、もう無くなっちゃっていて。どうしよう、途方に暮れていました。暫くぶりに探すと、丁度1年程前からGoogle Photo APIが整備されたようで、良かったです。ずっと待っていました。 <a href="https://qiita.com/zaki-lknr/items/97c363c12ede4c1f25d2">[追記あり] Google Photos APIsでアルバム作成と写真のアップロード</a>と<a href="https://qiita.com/wo_k_harada/items/7327971a2414040e5a86">Google Photoを業務システムのクラウドストレージとして使った結果</a>、<a href="https://developers.google.com/photos/library/guides/list">本家API Document</a>を参考に早速使ってみます。</p> <h2>ACCESS_TOKENの取得</h2> <ul> <li><a href="https://developers.google.com/photos/library/guides/get-started">APIの有効化</a></li> <li><a href="https://console.developers.google.com/">Google Developer Console</a>から「認証情報」→「OAuth2.0クライアントID」無ければ上の「認証情報を作成」pulldown menuから「OAuthクライアントID」(「ウェブアプリケーションの種類」は「その他」)で作成</li> <li>上記「クライアントID」「クライアント シークレット」をメモ</li> <li>次のURLに<code>$CLIENT_ID</code>を入れてbrowserでaccess、AUTHORIZATION_CODEを取得 (<code>https://accounts.google.com/o/oauth2/v2/auth?response_type=code&amp;client_id=$CLIENT_ID&amp;redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;scope=https://www.googleapis.com/auth/photoslibrary&amp;access_type=offline</code> (SCOPEはGoogle PhotoでのR/W accessの場合は<code>https://www.googleapis.com/auth/photoslibrary</code>)</li> <li>以下のようにして、<code>ACCESS_TOKEN</code>及び<code>REFRESH_TOKEN</code>を得る <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/google-photos/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2019-06-02T20:25:20+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
+backupは無限の<a href="https://photos.google.com">Google Photos</a>に、ということで、前はPicasaのAPI、<code>upload_gphots</code>を使ってたんですけど、もう無くなっちゃっていて。どうしよう、途方に暮れていました。暫くぶりに探すと、丁度1年程前からGoogle Photo APIが整備されたようで、良かったです。ずっと待っていました。
+<a href="https://qiita.com/zaki-lknr/items/97c363c12ede4c1f25d2">[追記あり] Google Photos APIsでアルバム作成と写真のアップロード</a>と<a href="https://qiita.com/wo_k_harada/items/7327971a2414040e5a86">Google Photoを業務システムのクラウドストレージとして使った結果</a>、<a href="https://developers.google.com/photos/library/guides/list">本家API Document</a>を参考に早速使ってみます。</p>
+<h2>ACCESS_TOKENの取得</h2>
+<ul>
+<li><a href="https://developers.google.com/photos/library/guides/get-started">APIの有効化</a></li>
+<li><a href="https://console.developers.google.com/">Google Developer Console</a>から「認証情報」→「OAuth2.0クライアントID」無ければ上の「認証情報を作成」pulldown menuから「OAuthクライアントID」(「ウェブアプリケーションの種類」は「その他」)で作成</li>
+<li>上記「クライアントID」「クライアント シークレット」をメモ</li>
+<li>次のURLに<code>$CLIENT_ID</code>を入れてbrowserでaccess、AUTHORIZATION_CODEを取得 (<code>https://accounts.google.com/o/oauth2/v2/auth?response_type=code&amp;client_id=$CLIENT_ID&amp;redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;scope=https://www.googleapis.com/auth/photoslibrary&amp;access_type=offline</code> (SCOPEはGoogle PhotoでのR/W accessの場合は<code>https://www.googleapis.com/auth/photoslibrary</code>)</li>
+<li>以下のようにして、<code>ACCESS_TOKEN</code>及び<code>REFRESH_TOKEN</code>を得る
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -34,7 +34,9 @@
 </span><span class='line'>  <span class="s2">&quot;scope&quot;</span>: <span class="s2">&quot;https://www.googleapis.com/auth/photoslibrary&quot;</span>,
 </span><span class='line'>  <span class="s2">&quot;token_type&quot;</span>: <span class="s2">&quot;Bearer&quot;</span>
 </span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></li> <li><code>ACCESS_TOKEN</code>は1時間しか有効でないので、適宜<code>REFRESH_TOKEN</code>を使って更新 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><code>ACCESS_TOKEN</code>は1時間しか有効でないので、適宜<code>REFRESH_TOKEN</code>を使って更新
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -44,9 +46,17 @@
 </span><span class='line'><span class="nv">$ CLIENT_SECRET</span><span class="o">=</span>k6XPLuryMWUtKDKmS1cYgW0r
 </span><span class='line'>
 </span><span class='line'><span class="nv">$ ACCESS_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s --data <span class="s2">&quot;refresh_token=$REFRESH_TOKEN&quot;</span> --data <span class="s2">&quot;client_id=$CLIENT_ID&quot;</span> --data <span class="s2">&quot;client_secret=$CLIENT_SECRET&quot;</span> --data <span class="s2">&quot;grant_type=refresh_token&quot;</span> https://www.googleapis.com/oauth2/v4/token|jq .access_token -r<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure></li> </ul> <p><code>REFRESH_TOKEN</code>を取得すれば、あと<code>CLIENT_ID</code>と<code>CLIENT_SECRET</code>が分かれば<code>ACCESS_TOKEN</code>は更新できます。</p> <h2>ALBUMの作成</h2> <ul> <li>既存のAlbumの確認 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<p><code>REFRESH_TOKEN</code>を取得すれば、あと<code>CLIENT_ID</code>と<code>CLIENT_SECRET</code>が分かれば<code>ACCESS_TOKEN</code>は更新できます。</p>
+<h2>ALBUMの作成</h2>
+<ul>
+<li>既存のAlbumの確認
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> https://photoslibrary.googleapis.com/v1/albums?pageSize<span class="o">=</span>50
-</span></code></pre></td></tr></table></div></figure></li> <li>新規Albumの作成 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li>新規Albumの作成
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -62,7 +72,15 @@
 </span><span class='line'>  <span class="s2">&quot;productUrl&quot;</span>: <span class="s2">&quot;https://photos.google.com/lr/album/ADIlBkAOcfB64a_Opnwdjgxeq6jhQv4GQ1pZQ-wse2o2hiBIofuhefmFycfTtIcLAG0inLt0FlZn&quot;</span>,
 </span><span class='line'>  <span class="s2">&quot;isWriteable&quot;</span>: <span class="nb">true</span>
 </span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></li> </ul> <h2>UPLOAD and adding to Album</h2> <p>2段階になっていて、 1. binary fileをuploadして<code>UPLOAD_TOKEN</code>を得る 1. <code>UPLOAD_TOKEN</code>を元に<code>mediaItems:batchCreate</code>する(ALBUM名はここで渡す。batch処理なので複数の<code>UPLOAD_TOKEN</code>を渡せる) <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<h2>UPLOAD and adding to Album</h2>
+<p>2段階になっていて、</p>
+<ol>
+<li>binary fileをuploadして<code>UPLOAD_TOKEN</code>を得る</li>
+<li><code>UPLOAD_TOKEN</code>を元に<code>mediaItems:batchCreate</code>する(ALBUM名はここで渡す。batch処理なので複数の<code>UPLOAD_TOKEN</code>を渡せる)</li>
+</ol>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -96,7 +114,7 @@
 </span><span class='line'><span class="nv">$ </span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s1">&#39;Content-type: application/octet-stream&#39;</span> -H <span class="s1">&#39;X-Goog-Upload-Protocol: raw&#39;</span> -H <span class="s2">&quot;X-Goog-Upload-File-Name: $FILENAME&quot;</span> --data-binary <span class="s2">&quot;@$FILENAME&quot;</span> https://photoslibrary.googleapis.com/v1/uploads
 </span><span class='line'>CAIS+QIASsy4zFbu3IKGgbDXA5XshOGvHPOTLuqbqTN9MQxKRVCsxp3YHbus+qsDgA0GCjuqXdmGpv1uWFxKvf8GYa/8VJQ1S6FUcmGWgw6Hdj14QNYtBRVbXU/cdq/Jkx3ZblG5co3hnY6+yMxih26kB0vTWfWp9GwIE904y5yXEE1pm/V0bFduzA/CZvdlAU9EvWfqKnNO7c3nozWUalm5WUZHHatVQZT+H5+jD0Bq3YwMUdfC5KF048AxFa9auW1HpQGdboalYyXBCJksfzteWtU53wZ8rFnZgHwrui9uA2ptnTuDlin2m+WXU+HqaVRuKX1ou5BzalI4P0gVfWql41Af6nuvvEdMNZ39tEvK2EARUX0CUd8veDznZiWjtPcRqpJnvjDRCxaSgr/cn+JXf9k7SnD0DYVWOdM64lngcAuXxsKk6RJJOVxQBUi6XAG04dHnKxDndqjl+fcH9qWAmpXejPx8Kgn6GX7TgatiKHEG4ybvWjStWg1JPg
 </span><span class='line'>
-</span><span class='line'><span class="nv">$ UPLOAD_TOKEN</span><span class="o">=</span>...
+</span><span class='line'><span class="nv">$ UPLOAD_TOKEN</span><span class="o">=</span>CAIS+...
 </span><span class='line'><span class="nv">$ ALBUM_ID</span><span class="o">=</span>ADIlBkAOcfB64a_Opnwdjgxeq6jhQv4GQ1pZQ-wse2o2hiBIofuhefmFycfTtIcLAG0inLt0FlZn
 </span><span class='line'><span class="nv">$ </span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{ &quot;albumId&quot;: &quot;&#39;</span><span class="nv">$ALBUM_ID</span><span class="s1">&#39;&quot;, &quot;newMediaItems&quot;:[ { &quot;simpleMediaItem&quot;: { &quot;uploadToken&quot;: &quot;&#39;</span><span class="nv">$UPLOAD_TOKEN</span><span class="s1">&#39;&quot; }} ] }&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate
 </span><span class='line'><span class="o">{</span>
@@ -120,7 +138,11 @@
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>  <span class="o">]</span>
 </span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></p> <h2>folderまるっとupload</h2> <ul> <li>事前準備 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure>
+<h2>folderまるっとupload</h2>
+<ul>
+<li>事前準備
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -128,43 +150,61 @@
 </span><span class='line'><span class="nv">CLIENT_ID</span><span class="o">=</span>...
 </span><span class='line'><span class="nv">CLIENT_SECRET</span><span class="o">=</span>...
 </span><span class='line'><span class="nv">ACCESS_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s --data <span class="s2">&quot;refresh_token=$REFRESH_TOKEN&quot;</span> --data <span class="s2">&quot;client_id=$CLIENT_ID&quot;</span> --data <span class="s2">&quot;client_secret=$CLIENT_SECRET&quot;</span> --data <span class="s2">&quot;grant_type=refresh_token&quot;</span> https://www.googleapis.com/oauth2/v4/token|jq .access_token -r<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure></li> <li>Album作成 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li>Album作成
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">DIR</span><span class="o">=</span>...
 </span><span class='line'><span class="nv">ALBUM_ID</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;album&quot;:{&quot;title&quot;:&quot;&#39;</span><span class="nv">$DIR</span><span class="s1">&#39;&quot;}}&#39;</span> https://photoslibrary.googleapis.com/v1/albums|jq -r .id<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure></li> <li><code>~/photo/$DIR</code>以下の<code>img_*.jpg</code> filesのuploadとalbum登録(約100 files毎に<code>ACCESS_TOKEN</code>のrefresh) <code>` uploadに失敗したfile namesが標準出力と`/tmp/upload_failed.log`に出てくるので、後刻それらをretry。 </code><code> これではbatch処理を活かしていない(複数の</code>UPLOAD_TOKEN`をbatchCreateしていない)のですが、Googleだけに割とすぐ終わること、error handlingがあまりにも複雑になることから、都度batchCreateすることにしました。</li> </ul> <p>私の場合、1000 filesで約3GB弱、を目処に分割してuploadしています。 uploadしたfilesは全て「元のサイズ」で保存されてしまい、Google Driveの容量を消費してしまうので、<a href="https://photos.google.com/settings">設定</a>から「容量を解放」しなければなりません。これが「1日1回」となっているものの、だからといって24時間後に再度実行しても「ファイルを圧縮できませんでした。ストレージを復元できるのは 1 日 1 回だけです。」と言われて出来ず、困っています。実際に再度実行できるまでには1.5日〜2日かかるようです。これが最大のneckになっています。</p> <h2>新規Albumへの既存files追加</h2> <p>これはダメでした。 何度試してもダメだったので、調べてみると、公式Documentに、 <a href="https://developers.google.com/photos/library/guides/manage-albums">Note that you can only add media items that have been uploaded by your application to albums that your application has created.</a>とあります。 なんでやねん! 何で既存の画像とAPI経由の画像とを区別するのか、わけわかりません。 それじゃぁ、っていうんで、既にGoogle Photos上にある写真も改めてuploadしてalbumにaddしたら、それは出来ました。しかし、「元のサイズ」になってしまって容量を食ってしまいます。これについても「容量を解放」しなければなりません。 全く七面倒臭いものです。</p> <p>ちなみに、以下のようにやりました。paginationが発生しない程度のAlbum限定で、 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><code>~/photo/$DIR</code>以下の<code>img_*.jpg</code> filesのuploadとalbum登録(約100 files毎に<code>ACCESS_TOKEN</code>のrefresh)</li>
+</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">for </span>i in ~/photo/<span class="nv">$DIR</span>/img_*.jpg; <span class="k">do if</span> <span class="o">[</span> ! <span class="k">${</span><span class="nv">i</span><span class="p">##*00.jpg</span><span class="k">}</span> <span class="o">]</span>;<span class="k">then </span><span class="nv">ACCESS_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s --data <span class="s2">&quot;refresh_token=$REFRESH_TOKEN&quot;</span> --data <span class="s2">&quot;client_id=$CLIENT_ID&quot;</span> --data <span class="s2">&quot;client_secret=$CLIENT_SECRET&quot;</span> --data <span class="s2">&quot;grant_type=refresh_token&quot;</span> https://www.googleapis.com/oauth2/v4/token|jq .access_token -r<span class="sb">`</span>;<span class="k">fi</span>;<span class="nv">UPLOAD_TOKEN</span><span class="o">=</span><span class="sb">`</span><span class="nv">FILENAME</span><span class="o">=</span><span class="nv">$DIR</span>/<span class="k">${</span><span class="nv">i</span><span class="p">##*/</span><span class="k">}</span>; curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s1">&#39;Content-type: application/octet-stream&#39;</span> -H <span class="s1">&#39;X-Goog-Upload-Protocol: raw&#39;</span> -H <span class="s2">&quot;X-Goog-Upload-File-Name: $FILENAME&quot;</span> --data-binary <span class="s2">&quot;@$i&quot;</span> https://photoslibrary.googleapis.com/v1/uploads<span class="sb">`</span>;<span class="k">if</span> <span class="o">[</span> <span class="nv">$UPLOAD_TOKEN</span> <span class="o">]</span>;<span class="k">then </span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;albumId&quot;:&quot;&#39;</span><span class="nv">$ALBUM_ID</span><span class="s1">&#39;&quot;,&quot;newMediaItems&quot;:[{&quot;simpleMediaItem&quot;:{&quot;uploadToken&quot;:&quot;&#39;</span><span class="nv">$UPLOAD_TOKEN</span><span class="s1">&#39;&quot;}}]}&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate|tee -a /tmp/upload.log|grep -q error&amp;&amp;echo <span class="nv">$i</span>;<span class="k">else </span><span class="nb">echo</span> <span class="nv">$i</span>;sleep 1;fi;done|tee /tmp/upload_failed.log
-</span></code></pre></td></tr></table></div></figure></p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2019/06/02/google-photo-api/">Google Photo Api</a> </li> <li class="post"> <a href="/blog/2019/01/28/3-good-things-in-this-week/">3 Good Things in This Week</a> </li> <li class="post"> <a href="/blog/2019/01/24/omega3-fatty-acids/">Omega3 Fatty Acids</a> </li> <li class="post"> <a href="/blog/2019/01/24/deeplooks/">Deeplooks</a> </li> <li class="post"> <a href="/blog/2019/01/24/positive-psychology/">Positive Psychology</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A Java programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2019 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
-  var disqus_shortname = "uryooo";
-  
-    // As `page.comments` is empty, we must be on the index page.
-    var disqus_script = 'count.js';
-  
-  (function () {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  }());
-</script> <div id="fb-root"></div> <script>
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id; js.async = true;
-      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-  </script> <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script> <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script> </body> </html>
+</span></code></pre></td></tr></table></div></figure>
+<p>uploadに失敗したfile namesが標準出力と<code>/tmp/upload_failed.log</code>に出てくるので、後刻それらをretry。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">for </span>i in <span class="sb">`</span>cat /tmp/upload_failed.log<span class="sb">`</span>; <span class="k">do if</span> <span class="o">[</span> ! <span class="k">${</span><span class="nv">i</span><span class="p">##*00.jpg</span><span class="k">}</span> <span class="o">]</span>;<span class="k">then </span><span class="nv">ACCESS_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s --data <span class="s2">&quot;refresh_token=$REFRESH_TOKEN&quot;</span> --data <span class="s2">&quot;client_id=$CLIENT_ID&quot;</span> --data <span class="s2">&quot;client_secret=$CLIENT_SECRET&quot;</span> --data <span class="s2">&quot;grant_type=refresh_token&quot;</span> https://www.googleapis.com/oauth2/v4/token|jq .access_token -r<span class="sb">`</span>;<span class="k">fi</span>;<span class="nv">UPLOAD_TOKEN</span><span class="o">=</span><span class="sb">`</span><span class="nv">FILENAME</span><span class="o">=</span><span class="nv">$DIR</span>/<span class="k">${</span><span class="nv">i</span><span class="p">##*/</span><span class="k">}</span>; curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s1">&#39;Content-type: application/octet-stream&#39;</span> -H <span class="s1">&#39;X-Goog-Upload-Protocol: raw&#39;</span> -H <span class="s2">&quot;X-Goog-Upload-File-Name: $FILENAME&quot;</span> --data-binary <span class="s2">&quot;@$i&quot;</span> https://photoslibrary.googleapis.com/v1/uploads<span class="sb">`</span>;curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;albumId&quot;:&quot;&#39;</span><span class="nv">$ALBUM_ID</span><span class="s1">&#39;&quot;,&quot;newMediaItems&quot;:[{&quot;simpleMediaItem&quot;:{&quot;uploadToken&quot;:&quot;&#39;</span><span class="nv">$UPLOAD_TOKEN</span><span class="s1">&#39;&quot;}}]}&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate|tee -a /tmp/upload.log|grep -q error&amp;&amp;echo <span class="nv">$i</span>;<span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>これではbatch処理を活かしていない(複数の<code>UPLOAD_TOKEN</code>をbatchCreateしていない)のですが、Googleだけに割とすぐ終わること、error handlingがあまりにも複雑になることから、都度batchCreateすることにしました。</p>
+<p>私の場合、1000 filesで約3GB弱、を目処に分割してuploadしています。
+uploadしたfilesは全て「元のサイズ」で保存されてしまい、Google Driveの容量を消費してしまうので、<a href="https://photos.google.com/settings">設定</a>から「容量を解放」しなければなりません。これが「1日1回」となっているものの、だからといって24時間後に再度実行しても「ファイルを圧縮できませんでした。ストレージを復元できるのは 1 日 1 回だけです。」と言われて出来ず、困っています。実際に再度実行できるまでには1.5日〜2日かかるようです。これが最大のneckになっています。</p>
+<h2>新規Albumへの既存files追加</h2>
+<p>これはダメでした。
+何度試してもダメだったので、調べてみると、公式Documentに、
+<a href="https://developers.google.com/photos/library/guides/manage-albums">Note that you can only add media items that have been uploaded by your application to albums that your application has created.</a>とあります。
+なんでやねん!
+何で既存の画像とAPI経由の画像とを区別するのか、わけわかりません。
+それじゃぁ、っていうんで、既にGoogle Photos上にある写真も改めてuploadしてalbumにaddしたら、それは出来ました。しかし、「元のサイズ」になってしまって容量を食ってしまいます。これについても「容量を解放」しなければなりません。
+全く七面倒臭いものです。</p>
+<p>ちなみに、以下のようにやりました。paginationが発生しない程度のAlbum限定で、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ DIR</span><span class="o">=</span>20171005
+</span><span class='line'><span class="nv">$ ALBUM_ID</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{ &quot;album&quot;: { &quot;title&quot;:&quot;&#39;</span><span class="nv">$DIR</span><span class="s1">&#39;&quot; } }&#39;</span> https://photoslibrary.googleapis.com/v1/albums|jq -r .id<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ MEDIA_ITEMS</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;pageSize&quot;:&quot;100&quot;,&quot;filters&quot;:{&quot;dateFilter&quot;:{&quot;dates&quot;:[{&quot;year&quot;:2017,&quot;month&quot;:10,&quot;day&quot;:5}]}}}&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:search|jq .mediaItems<span class="o">[]</span>.id|sed -z <span class="s1">&#39;s/\n/,/g&#39;</span><span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;mediaItemIds&quot;:[&#39;</span><span class="nv">$MEDIA_ITEMS</span><span class="s1">&#39;]}&#39;</span> https://photoslibrary.googleapis.com/v1/albums/<span class="k">${</span><span class="nv">ALBUM_ID</span><span class="k">}</span>:batchAddMediaItems
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="s2">&quot;error&quot;</span>: <span class="o">{</span>
+</span><span class='line'>    <span class="s2">&quot;code&quot;</span>: 400,
+</span><span class='line'>    <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Request contains an invalid media item id.&quot;</span>,
+</span><span class='line'>    <span class="s2">&quot;status&quot;</span>: <span class="s2">&quot;INVALID_ARGUMENT&quot;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+なら既存のものは手でやればいいではないか?
+やってみたのですが、微妙に手元のfilesと数が合わなかったりするので、困難です。手元に3282枚あってGoogle PhotosのAlbumに3281枚あった時、どうやって差分をあぶり出したらいいのですか?! 全downloadはなしで。もう一つでは、手元に5221枚、Google Photosに5230枚と増えてます! Manuallyでは限界を感じました。</p>
+]]></content></entry></feed>
