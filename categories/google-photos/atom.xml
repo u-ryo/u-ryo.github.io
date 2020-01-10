@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/google-photos/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2020-01-11T00:51:56+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/google-photos/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2020-01-11T00:58:08+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
 backupは無限の<a href="https://photos.google.com">Google Photos</a>に、ということで、前はPicasaのAPI、<code>upload_gphots</code>を使ってたんですけど、もう無くなっちゃっていて。どうしよう、途方に暮れていました。暫くぶりに探すと、丁度1年程前からGoogle Photo APIが整備されたようで、良かったです。ずっと待っていました。
 <a href="https://qiita.com/zaki-lknr/items/97c363c12ede4c1f25d2">[追記あり] Google Photos APIsでアルバム作成と写真のアップロード</a>と<a href="https://qiita.com/wo_k_harada/items/7327971a2414040e5a86">Google Photoを業務システムのクラウドストレージとして使った結果</a>、<a href="https://developers.google.com/photos/library/guides/list">本家API Document</a>を参考に早速使ってみます。</p>
 <h2>ACCESS_TOKENの取得</h2>
@@ -220,12 +220,10 @@ uploadしたfilesは全て「元のサイズ」で保存されてしまい、Goo
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
 </span></code></pre></td></tr></table></div></figure>
 なければ次のpageへ。</p>
-<p>``<code>
-見付かれば、</code>ALBUM_ID`を同定。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&amp;pageToken=Ck...&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
 </span></code></pre></td></tr></table></div></figure>
-<p>そうしてから徐に、
+<p>見付かれば、<code>ALBUM_ID</code>を同定。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -235,14 +233,18 @@ uploadしたfilesは全て「元のサイズ」で保存されてしまい、Goo
 </span><span class='line'>      <span class="s2">&quot;title&quot;</span>: <span class="s2">&quot;20080318&quot;</span>,
 </span><span class='line'>      <span class="s2">&quot;productUrl&quot;</span>: <span class="s2">&quot;https://photos.google.com/lr/album/ADI...&quot;</span>,
 </span></code></pre></td></tr></table></div></figure>
-<p>その後、</p>
+<p>そうしてから徐に、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">ALBUM_ID</span><span class="o">=</span>...
 </span><span class='line'><span class="nv">NEXT_PAGE_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;pageSize&quot;:&quot;100&quot;,&quot;albumId&quot;:&quot;&#39;</span><span class="nv">$ALBUM_ID</span><span class="s1">&#39;&quot;}&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:search|jq -r <span class="s1">&#39;.mediaItems[].filename,.nextPageToken&#39;</span>|tee /tmp/files.txt|tail -1<span class="sb">`</span>;<span class="k">while</span> <span class="o">[</span> <span class="s2">&quot;$NEXT_PAGE_TOKEN&quot;</span> !<span class="o">=</span> null <span class="o">]</span>;<span class="k">do </span><span class="nv">NEXT_PAGE_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;pageSize&quot;:&quot;100&quot;,&quot;albumId&quot;:&quot;&#39;</span><span class="nv">$ALBUM_ID</span><span class="s1">&#39;&quot;,&quot;pageToken&quot;:&quot;&#39;</span><span class="nv">$NEXT_PAGE_TOKEN</span><span class="s1">&#39;&quot;}&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:search|jq -r <span class="s1">&#39;.mediaItems[].filename,.nextPageToken&#39;</span>|tee -a /tmp/files.txt|tail -1<span class="sb">`</span>;<span class="k">done</span>
 </span></code></pre></td></tr></table></div></figure>
+<p>その後、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>grep -vE -e <span class="s1">&#39;.{300,}&#39;</span> -e null /tmp/files.txt
+</span></code></pre></td></tr></table></div></figure>
 <p>で取り出せます。</p>
-<p>それで比較(<code>diff &lt;(cd ~/photo;ls .../img_*) &lt;(grep -vE -e '.{300,}' -e null /tmp/files.txt)</code>)したところ、足りないものはわかりました。
+<p>それで比較(<code>diff -y --suppress-common-lines &lt;(cd ~/photo;ls .../img_*|sort) &lt;(grep -vE -e '.{300,}' -e null /tmp/files.txt|sort)</code>)したところ、足りないものはわかりました。
 ですが、何故かAPIで取ると3282個なのに
 「コンテンツ 3283個」と表示されていたり...
 よく精査すると、なるほど、Google Photosが勝手に?作った、
