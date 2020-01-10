@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/curl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2019-10-13T13:55:03+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/curl/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2020-01-11T00:33:51+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
 backupは無限の<a href="https://photos.google.com">Google Photos</a>に、ということで、前はPicasaのAPI、<code>upload_gphots</code>を使ってたんですけど、もう無くなっちゃっていて。どうしよう、途方に暮れていました。暫くぶりに探すと、丁度1年程前からGoogle Photo APIが整備されたようで、良かったです。ずっと待っていました。
 <a href="https://qiita.com/zaki-lknr/items/97c363c12ede4c1f25d2">[追記あり] Google Photos APIsでアルバム作成と写真のアップロード</a>と<a href="https://qiita.com/wo_k_harada/items/7327971a2414040e5a86">Google Photoを業務システムのクラウドストレージとして使った結果</a>、<a href="https://developers.google.com/photos/library/guides/list">本家API Document</a>を参考に早速使ってみます。</p>
 <h2>ACCESS_TOKENの取得</h2>
@@ -215,19 +215,27 @@ uploadしたfilesは全て「元のサイズ」で保存されてしまい、Goo
 <p>自己解決しました。
 <code>NEXT_PAGE_TOKEN</code>あると面倒くさいんですけど、これで何とか。</p>
 <h3>Album探し</h3>
-<p>最初のpageに目的のalbumがあるかをこれ↓で探す
-<code>`
-なければ次のpageへ。
-</code><code>
-見付かれば、</code>ALBUM_ID<code>を同定。
-``</code></p>
-<p>そうしてから徐に、
+<p>最初のpageに目的のalbumがあるかをこれ↓で探す</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
-</span></code></pre></td></tr></table></div></figure></p>
-<p>その後、</p>
+</span></code></pre></td></tr></table></div></figure>
+なければ次のpageへ。</p>
+<p><code>`
+見付かれば、`ALBUM_ID`を同定。
+</code>`</p>
+<p>そうしてから徐に、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&amp;pageToken=Ck...&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
+</span></code></pre></td></tr></table></div></figure>
+<p>その後、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&amp;pageToken=Ck...&#39;</span>|grep -1 20080318
+</span><span class='line'>      <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;ADI...&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;title&quot;</span>: <span class="s2">&quot;20080318&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;productUrl&quot;</span>: <span class="s2">&quot;https://photos.google.com/lr/album/ADI...&quot;</span>,
 </span></code></pre></td></tr></table></div></figure>
 <p>で取り出せます。</p>
 <p>それで比較(<code>diff &lt;(cd ~/photo;ls .../img_*) &lt;(grep -vE -e '.{300,}' -e null /tmp/files.txt)</code>)したところ、足りないものはわかりました。

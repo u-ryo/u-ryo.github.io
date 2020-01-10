@@ -332,19 +332,27 @@ uploadしたfilesは全て「元のサイズ」で保存されてしまい、Goo
 <p>自己解決しました。
 <code>NEXT_PAGE_TOKEN</code>あると面倒くさいんですけど、これで何とか。</p>
 <h3>Album探し</h3>
-<p>最初のpageに目的のalbumがあるかをこれ↓で探す
-<code>`
-なければ次のpageへ。
-</code><code>
-見付かれば、</code>ALBUM_ID<code>を同定。
-``</code></p>
-<p>そうしてから徐に、
+<p>最初のpageに目的のalbumがあるかをこれ↓で探す</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
-</span></code></pre></td></tr></table></div></figure></p>
-<p>その後、</p>
+</span></code></pre></td></tr></table></div></figure>
+なければ次のpageへ。</p>
+<p><code>`
+見付かれば、`ALBUM_ID`を同定。
+</code>`</p>
+<p>そうしてから徐に、
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&amp;pageToken=Ck...&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
+</span></code></pre></td></tr></table></div></figure>
+<p>その後、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&amp;pageToken=Ck...&#39;</span>|grep -1 20080318
+</span><span class='line'>      <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;ADI...&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;title&quot;</span>: <span class="s2">&quot;20080318&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;productUrl&quot;</span>: <span class="s2">&quot;https://photos.google.com/lr/album/ADI...&quot;</span>,
 </span></code></pre></td></tr></table></div></figure>
 <p>で取り出せます。</p>
 <p>それで比較(<code>diff &lt;(cd ~/photo;ls .../img_*) &lt;(grep -vE -e '.{300,}' -e null /tmp/files.txt)</code>)したところ、足りないものはわかりました。
@@ -379,11 +387,11 @@ Googleならこんなもんじゃないだろー!</p>
 
 
 
-     <time datetime="2019-10-13T13:55:03+09:00" class="updated">
+     <time datetime="2020-01-11T00:33:51+09:00" class="updated">
        Updated
-       <span class="month">Oct</span>
-       <span class="day">13</span>,
-       <span class="year">2019</span>
+       <span class="month">Jan</span>
+       <span class="day">11</span>,
+       <span class="year">2020</span>
      </time>
 
       
