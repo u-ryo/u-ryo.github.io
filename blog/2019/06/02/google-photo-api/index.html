@@ -172,6 +172,10 @@ backupは無限の<a href="https://photos.google.com">Google Photos</a>に、と
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> https://photoslibrary.googleapis.com/v1/albums?pageSize<span class="o">=</span>50
 </span></code></pre></td></tr></table></div></figure></li>
+<li>既存のAlbumの確認(<code>nextPageToken</code>がある場合)
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> https://photoslibrary.googleapis.com/v1/albums?pageSize<span class="o">=</span>50&amp;pageToken<span class="o">=</span>...
+</span></code></pre></td></tr></table></div></figure></li>
 <li>新規Albumの作成
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -277,7 +281,7 @@ backupは無限の<a href="https://photos.google.com">Google Photos</a>に、と
 <li><code>~/photo/$DIR</code>以下の<code>img_*.jpg</code> filesのuploadとalbum登録(約100 files毎に<code>ACCESS_TOKEN</code>のrefresh)</li>
 </ul>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">for </span>i in ~/photo/<span class="nv">$DIR</span>/img_*.jpg; <span class="k">do if</span> <span class="o">[</span> ! <span class="k">${</span><span class="nv">i</span><span class="p">##*00.jpg</span><span class="k">}</span> <span class="o">]</span>;<span class="k">then </span><span class="nv">ACCESS_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s --data <span class="s2">&quot;refresh_token=$REFRESH_TOKEN&quot;</span> --data <span class="s2">&quot;client_id=$CLIENT_ID&quot;</span> --data <span class="s2">&quot;client_secret=$CLIENT_SECRET&quot;</span> --data <span class="s2">&quot;grant_type=refresh_token&quot;</span> https://www.googleapis.com/oauth2/v4/token|jq .access_token -r<span class="sb">`</span>;<span class="k">fi</span>;<span class="nv">UPLOAD_TOKEN</span><span class="o">=</span><span class="sb">`</span><span class="nv">FILENAME</span><span class="o">=</span><span class="nv">$DIR</span>/<span class="k">${</span><span class="nv">i</span><span class="p">##*/</span><span class="k">}</span>; curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s1">&#39;Content-type: application/octet-stream&#39;</span> -H <span class="s1">&#39;X-Goog-Upload-Protocol: raw&#39;</span> -H <span class="s2">&quot;X-Goog-Upload-File-Name: $FILENAME&quot;</span> --data-binary <span class="s2">&quot;@$i&quot;</span> https://photoslibrary.googleapis.com/v1/uploads<span class="sb">`</span>;<span class="k">if</span> <span class="o">[</span> <span class="nv">$UPLOAD_TOKEN</span> <span class="o">]</span>;<span class="k">then </span>curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;albumId&quot;:&quot;&#39;</span><span class="nv">$ALBUM_ID</span><span class="s1">&#39;&quot;,&quot;newMediaItems&quot;:[{&quot;simpleMediaItem&quot;:{&quot;uploadToken&quot;:&quot;&#39;</span><span class="nv">$UPLOAD_TOKEN</span><span class="s1">&#39;&quot;}}]}&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate|tee -a /tmp/upload.log|grep -q error&amp;&amp;echo <span class="nv">$i</span>;<span class="k">else </span><span class="nb">echo</span> <span class="nv">$i</span>;sleep 1;fi;done|tee /tmp/upload_failed.log
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="k">for </span>i in ~/photo/<span class="nv">$DIR</span>/img_*.jpg; <span class="k">do if</span> <span class="o">[</span> ! <span class="k">${</span><span class="nv">i</span><span class="p">##*00.jpg</span><span class="k">}</span> <span class="o">]</span>;<span class="k">then </span><span class="nv">ACCESS_TOKEN</span><span class="o">=</span><span class="sb">`</span>curl -s --data <span class="s2">&quot;refresh_token=$REFRESH_TOKEN&quot;</span> --data <span class="s2">&quot;client_id=$CLIENT_ID&quot;</span> --data <span class="s2">&quot;client_secret=$CLIENT_SECRET&quot;</span> --data <span class="s2">&quot;grant_type=refresh_token&quot;</span> https://www.googleapis.com/oauth2/v4/token|jq .access_token -r<span class="sb">`</span>;<span class="k">fi</span>;<span class="nv">UPLOAD_TOKEN</span><span class="o">=</span><span class="sb">`</span><span class="nv">FILENAME</span><span class="o">=</span><span class="nv">$DIR</span>/<span class="k">${</span><span class="nv">i</span><span class="p">##*/</span><span class="k">}</span>; curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s1">&#39;Content-type: application/octet-stream&#39;</span> -H <span class="s1">&#39;X-Goog-Upload-Protocol: raw&#39;</span> -H <span class="s2">&quot;X-Goog-Upload-File-Name: $FILENAME&quot;</span> --data-binary <span class="s2">&quot;@$i&quot;</span> https://photoslibrary.googleapis.com/v1/uploads<span class="sb">`</span>;curl -s -X POST -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> -H <span class="s2">&quot;Content-type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;albumId&quot;:&quot;&#39;</span><span class="nv">$ALBUM_ID</span><span class="s1">&#39;&quot;,&quot;newMediaItems&quot;:[{&quot;simpleMediaItem&quot;:{&quot;uploadToken&quot;:&quot;&#39;</span><span class="nv">$UPLOAD_TOKEN</span><span class="s1">&#39;&quot;}}]}&#39;</span> https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate|tee -a /tmp/upload.log|grep -q error&amp;&amp;echo <span class="nv">$i</span>;<span class="k">done</span>|tee /tmp/upload_failed.log
 </span></code></pre></td></tr></table></div></figure>
 <p>uploadに失敗したfile namesが標準出力と<code>/tmp/upload_failed.log</code>に出てくるので、後刻それらをretry。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -285,7 +289,7 @@ backupは無限の<a href="https://photos.google.com">Google Photos</a>に、と
 </span></code></pre></td></tr></table></div></figure>
 <p>これではbatch処理を活かしていない(複数の<code>UPLOAD_TOKEN</code>をbatchCreateしていない)のですが、Googleだけに割とすぐ終わること、error handlingがあまりにも複雑になることから、都度batchCreateすることにしました。</p>
 <p>私の場合、1000 filesで約3GB弱、を目処に分割してuploadしています。
-uploadしたfilesは全て「元のサイズ」で保存されてしまい、Google Driveの容量を消費してしまうので、<a href="https://photos.google.com/settings">設定</a>から「容量を解放」しなければなりません。これが「1日1回」となっているものの、だからといって24時間後に再度実行しても「ファイルを圧縮できませんでした。ストレージを復元できるのは 1 日 1 回だけです。」と言われて出来ず、困っています。実際に再度実行できるまでには1.5日〜2日かかるようです。これが最大のneckになっています。</p>
+uploadしたfilesは全て「元のサイズ」で保存されてしまい、Google Driveの容量を消費してしまうので、<a href="https://photos.google.com/settings">設定</a>から「容量を解放」しなければなりません。これが「1日1回」となっているものの、だからといって24時間後に再度実行しても「ファイルを圧縮できませんでした。ストレージを復元できるのは 1 日 1 回だけです。」と言われて出来ず、困っています。実際に再度実行できるまでには1.5日〜2日かかるようで、これが最大のneckになっています。</p>
 <h2>新規Albumへの既存files追加</h2>
 <p>これはダメでした。
 何度試してもダメだったので、調べてみると、公式Documentに、
@@ -324,6 +328,41 @@ uploadしたfilesは全て「元のサイズ」で保存されてしまい、Goo
 </span></code></pre></td></tr></table></div></figure>
 なら既存のものは手でやればいいではないか?
 やってみたのですが、微妙に手元のfilesと数が合わなかったりするので、困難です。手元に3282枚あってGoogle PhotosのAlbumに3281枚あった時、どうやって差分をあぶり出したらいいのですか?! 全downloadはなしで。もう一つでは、手元に5221枚、Google Photosに5230枚と増えてます! Manuallyでは限界を感じました。</p>
+<h2>Album中の全file名取得</h2>
+<p>自己解決しました。
+<code>NEXT_PAGE_TOKEN</code>あると面倒くさいんですけど、これで何とか。</p>
+<h3>Album探し</h3>
+<p>最初のpageに目的のalbumがあるかをこれ↓で探す
+<code>`
+なければ次のpageへ。
+</code><code>
+見付かれば、</code>ALBUM_ID<code>を同定。
+``</code></p>
+<p>そうしてから徐に、
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
+</span></code></pre></td></tr></table></div></figure></p>
+<p>その後、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -s -H <span class="s2">&quot;Authorization: Bearer $ACCESS_TOKEN&quot;</span> <span class="s1">&#39;https://photoslibrary.googleapis.com/v1/albums?pageSize=50&amp;pageToken=Ck...&#39;</span>|jq -r .albums<span class="o">[]</span>.title,.nextPageToken
+</span></code></pre></td></tr></table></div></figure>
+<p>で取り出せます。</p>
+<p>それで比較(<code>diff &lt;(cd ~/photo;ls .../img_*) &lt;(grep -vE -e '.{300,}' -e null /tmp/files.txt)</code>)したところ、足りないものはわかりました。
+ですが、何故かAPIで取ると3282個なのに
+「コンテンツ 3283個」と表示されていたり...
+よく精査すると、なるほど、Google Photosが勝手に?作った、
+<a href="https://photos.google.com/assistant">アシスタント</a>にある
+<code>MOVIE.mp4</code>(ムービー)や<code>...-EFFECTS.jpg</code>(スタイルを適用した写真)、
+<code>...-PANO.jpg</code>(パノラマ)が含まれているから?
+いや、一つ(5230個と表示)はそれが原因で9個多く数が表示されていたのですが、
+もう一つ、「コンテンツ 3283個」は、APIで取得するといくら見ても
+3282個しかない、自動生成物もない、です。謎です。</p>
+<p>それと、EnrichmentとかいってTextやLocationとMapを入れられるんですけど、
+それらを取得する術がなく、Textに書いたことを検索するとかも出来ず。
+GUIから入れてみましたが、要素を追加する度にいちいち先頭に戻される、
+移動すると他の要素もどこかに行ってしまうことがある、
+等何だかなぁ、というものでした。
+Googleならこんなもんじゃないだろー!</p>
 </div>
 
 </article>
@@ -340,10 +379,10 @@ uploadしたfilesは全て「元のサイズ」で保存されてしまい、Goo
 
 
 
-     <time datetime="2019-06-02T20:25:20+09:00" class="updated">
+     <time datetime="2019-10-13T13:55:03+09:00" class="updated">
        Updated
-       <span class="month">Jun</span>
-       <span class="day">02</span>,
+       <span class="month">Oct</span>
+       <span class="day">13</span>,
        <span class="year">2019</span>
      </time>
 
@@ -472,7 +511,7 @@ uploadしたfilesは全て「元のサイズ」で保存されてしまい、Goo
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - u-ryo -
+  Copyright &copy; 2020 - u-ryo -
   <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
 </p>
 
