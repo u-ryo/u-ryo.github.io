@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/swap/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[add swap file]]></title><link href="http://u-ryo.github.io//blog/2020/01/12/add-swap-file/"/><updated>2020-01-12T01:55:02+09:00</updated><id>/blog/2020/01/12/add-swap-file/</id><content type="html"><![CDATA[<p>年末にideapad 310のmemoryが壊れてしまい、2度買い直してもmemoryを認識しなかったので、これは本体側が壊れたのだろうと。これを直すには本体のmother board交換になる、くらいならまだ2年程しか使ってませんが新しいのを買う? と考え、物色していたところ、新しいものでもmemoryって搭載容量4GBとか程度で、何故? と思ったんですけど、今はSSDだからそれでいいってことなんですね! そっか、今はSSDが廉価になったからswapでいいのか! なら310もSSDに換装すれば、ということで、SSD 1TBにしました。1.11万円でSamsungの1TBをGET。ubuntu 19.10を入れて... 最初、折角だからZFSにしてみたのですが、SSDと相性悪いんですねこれ。swap partitionは、位置が固定されるためSSDには良くないと。XFSもSSDではjournalingを止めた方が良いとのことで、それだと何のためのXFSなの?! ということなのでつまらないですけどext4で再installします。しかし、partitioningをお任せにすると、今はdefaultでswap partitionではなく2GBのswap fileになるというのは驚きですね。
+ということで、本題です。よく、<code>dd</code>でswap fileを作る例が載っていますけれども、<a href="https://www.server-memo.net/centos-settings/system/add-swap.html#ext4">スワップ領域の追加方法|server-memo.net</a>には<code>fallocate</code>を使う方法があったので、メモです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo fallocate -l 2G /swapfile1
+</span><span class='line'>sudo mkswap /swapfile1
+</span><span class='line'>Setting up swapspace version 1, <span class="nv">size</span> <span class="o">=</span> 2097148 KiB
+</span><span class='line'>no label, <span class="nv">UUID</span><span class="o">=</span>89a19a54-42c9-4847-a482-1971c388fa95
+</span><span class='line'>sudo chmod 600 /swapfile1
+</span><span class='line'>sudo swapon /swapfile1
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry></feed>

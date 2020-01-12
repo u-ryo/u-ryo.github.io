@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2020-01-11T00:58:08+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2020-01-11T00:58:08+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2020-01-12T01:55:02+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[add swap file]]></title><link href="http://u-ryo.github.io//blog/2020/01/12/add-swap-file/"/><updated>2020-01-12T01:55:02+09:00</updated><id>/blog/2020/01/12/add-swap-file/</id><content type="html"><![CDATA[<p>年末にideapad 310のmemoryが壊れてしまい、2度買い直してもmemoryを認識しなかったので、これは本体側が壊れたのだろうと。これを直すには本体のmother board交換になる、くらいならまだ2年程しか使ってませんが新しいのを買う? と考え、物色していたところ、新しいものでもmemoryって搭載容量4GBとか程度で、何故? と思ったんですけど、今はSSDだからそれでいいってことなんですね! そっか、今はSSDが廉価になったからswapでいいのか! なら310もSSDに換装すれば、ということで、SSD 1TBにしました。1.11万円でSamsungの1TBをGET。ubuntu 19.10を入れて... 最初、折角だからZFSにしてみたのですが、SSDと相性悪いんですねこれ。swap partitionは、位置が固定されるためSSDには良くないと。XFSもSSDではjournalingを止めた方が良いとのことで、それだと何のためのXFSなの?! ということなのでつまらないですけどext4で再installします。しかし、partitioningをお任せにすると、今はdefaultでswap partitionではなく2GBのswap fileになるというのは驚きですね。
+ということで、本題です。よく、<code>dd</code>でswap fileを作る例が載っていますけれども、<a href="https://www.server-memo.net/centos-settings/system/add-swap.html#ext4">スワップ領域の追加方法|server-memo.net</a>には<code>fallocate</code>を使う方法があったので、メモです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo fallocate -l 2G /swapfile1
+</span><span class='line'>sudo mkswap /swapfile1
+</span><span class='line'>Setting up swapspace version 1, <span class="nv">size</span> <span class="o">=</span> 2097148 KiB
+</span><span class='line'>no label, <span class="nv">UUID</span><span class="o">=</span>89a19a54-42c9-4847-a482-1971c388fa95
+</span><span class='line'>sudo chmod 600 /swapfile1
+</span><span class='line'>sudo swapon /swapfile1
+</span></code></pre></td></tr></table></div></figure>
+]]></content></entry><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2020-01-11T00:58:08+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
 backupは無限の<a href="https://photos.google.com">Google Photos</a>に、ということで、前はPicasaのAPI、<code>upload_gphots</code>を使ってたんですけど、もう無くなっちゃっていて。どうしよう、途方に暮れていました。暫くぶりに探すと、丁度1年程前からGoogle Photo APIが整備されたようで、良かったです。ずっと待っていました。
 <a href="https://qiita.com/zaki-lknr/items/97c363c12ede4c1f25d2">[追記あり] Google Photos APIsでアルバム作成と写真のアップロード</a>と<a href="https://qiita.com/wo_k_harada/items/7327971a2414040e5a86">Google Photoを業務システムのクラウドストレージとして使った結果</a>、<a href="https://developers.google.com/photos/library/guides/list">本家API Document</a>を参考に早速使ってみます。</p>
 <h2>ACCESS_TOKENの取得</h2>
@@ -669,6 +684,4 @@ ImageMagickってdrawも出来るんですね。</p>
 <li><code>new ConvertCmd().run(op)</code>で実行</li>
 </ol>
 <p><a href="http://im4java.sourceforge.net/docs/dev-guide.html">公式page</a>にありますけどね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[chomp for groovy]]></title><link href="http://u-ryo.github.io//blog/2018/11/13/chomp-for-groovy/"/><updated>2018-11-13T12:27:08+09:00</updated><id>/blog/2018/11/13/chomp-for-groovy/</id><content type="html"><![CDATA[<p>groovyでcommand executionの結果を拾った(<code>'command args'.execute().text</code>)ところ改行がついてたので、除去しようと<code>.replace('\n', '')</code>としてたんですが、そっか、<code>.trim()</code>でいいんですね。勿論目的にもよりますが。</p>
-<p>cf. <a href="http://orangeclover.hatenablog.com/entry/20110524/1306164109">Groovyで文字列の先頭・末尾から空白を取り除く</a></p>
 ]]></content></entry></feed>
