@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>add swap file - u-ryo's blog</title>
+  <title>gradlew stopped - u-ryo's blog</title>
   <meta name="author" content="u-ryo">
   
   
@@ -14,7 +14,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="canonical" href="http://u-ryo.github.io//blog/2020/01/12/add-swap-file/">
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2021/07/11/gradlew-stopped/">
   <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
   <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
@@ -92,17 +92,17 @@
 
   <header>
     
-      <h1 class="entry-title">Add Swap File</h1>
+      <h1 class="entry-title">Gradlew Stopped</h1>
     
     
       <p class="meta">
         
 
 
-    <time datetime="2020-01-12T01:19:00+09:00" pubdate data-updated=true>
-      <span class="month">Jan</span>
-      <span class="day">12</span>,
-      <span class="year">2020</span>
+    <time datetime="2021-07-11T01:02:00+09:00" pubdate data-updated=true>
+      <span class="month">Jul</span>
+      <span class="day">11</span>,
+      <span class="year">2021</span>
     </time>
   
 
@@ -115,21 +115,23 @@
   </header>
 
 
-<div class="entry-content"><p>年末にideapad 310のmemoryが壊れてしまい、2度買い直してもmemoryを認識しなかったので、これは本体側が壊れたのだろうと。これを直すには本体のmother board交換になる、くらいならまだ2年程しか使ってませんが新しいのを買う? と考え、物色していたところ、新しいものでもmemoryって搭載容量4GBとか程度で、何故? と思ったんですけど、今はSSDだからそれでいいってことなんですね! そっか、今はSSDが廉価になったからswapでいいのか! なら310もSSDに換装すれば、ということで、SSD 1TBにしました。1.11万円でSamsungの1TBをGET。ubuntu 19.10を入れて... 最初、折角だからZFSにしてみたのですが、SSDと相性悪いんですねこれ。swap partitionは、位置が固定されるためSSDには良くないと。XFSもSSDではjournalingを止めた方が良いとのことで、それだと何のためのXFSなの?! ということなのでつまらないですけどext4で再installします。しかし、partitioningをお任せにすると、今はdefaultでswap partitionではなく2GBのswap fileになるというのは驚きですね。
-ということで、本題です。よく、<code>dd</code>でswap fileを作る例が載っていますけれども、<a href="https://www.server-memo.net/centos-settings/system/add-swap.html#ext4">スワップ領域の追加方法|server-memo.net</a>には<code>fallocate</code>を使う方法があったので、メモです。</p>
+<div class="entry-content"><p>実に久し振りにこのblogを書こうとして、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo fallocate -l 2G /swapfile1
-</span><span class='line'>sudo mkswap /swapfile1
-</span><span class='line'>Setting up swapspace version 1, <span class="nv">size</span> <span class="o">=</span> 2097148 KiB
-</span><span class='line'>no label, <span class="nv">UUID</span><span class="o">=</span>89a19a54-42c9-4847-a482-1971c388fa95
-</span><span class='line'>sudo chmod 600 /swapfile1
-</span><span class='line'>sudo swapon /swapfile1
+</pre></td><td class='code'><pre><code class='html'><span class='line'>./grainw create-post &#39;some title&#39;
 </span></code></pre></td></tr></table></div></figure>
+<p>としたら、<code>gradle-1.8.jar</code>を取りに行って404 not found食らって動きません。
+この<a href="https://github.com/sysgears/grain">grain</a>って古いしもう更新止まってるし、先見の明なかったなぁということなんですが、もうちょっと本気で原因究明です。
+https://services.gradle.org/distributions/ はあるのになぜ404? と思ったら、<code>http://...</code>で取りに行ってました。gradlewのgradleが古すぎる?
+<code>grainw</code>のどこで止まってるか、debug print入れて割り出すと、<code>./gradlew gendeps</code>でした。これをversion 6.8.1のgradleで手動でやってみる(<code>gradle gendeps</code>)と、<code>build.gradle</code>の<code>line: 78</code>で止まります。なんで?と思って調べると、<a href="https://qiita.com/Yu-s/items/13a6a8db8dc191bb3b42">「Cannot add task 'wrapper' as a task with that name already exists.」が出た</a>にあった通り、でした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>task wrapper(type: Wrapper) {
+</span></code></pre></td></tr></table></div></figure>
+<p>を</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>wrapper {
+</span></code></pre></td></tr></table></div></figure>
+<p>にすれば動きました。良かった。
+<code>gradle wrapper</code>で<code>./gradlew</code>を更新して、<code>./grainw</code>も復活しました。</p>
 </div>
 
 </article>
@@ -146,20 +148,20 @@
 
 
 
-     <time datetime="2020-01-12T01:55:02+09:00" class="updated">
+     <time datetime="2021-07-11T01:12:30+09:00" class="updated">
        Updated
-       <span class="month">Jan</span>
-       <span class="day">12</span>,
-       <span class="year">2020</span>
+       <span class="month">Jul</span>
+       <span class="day">11</span>,
+       <span class="year">2021</span>
      </time>
 
       
 <div class="categories">
   <p class="meta">Tags:</p>
   
-     <a class="category" href="/categories/linux/">linux</a>
+     <a class="category" href="/categories/gradle/">gradle</a>
   
-     <a class="category" href="/categories/swap/">swap</a>
+     <a class="category" href="/categories/grain/">grain</a>
   
 </div>
 
@@ -168,7 +170,7 @@
     
       <div class="sharing">
   
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2020/01/12/add-swap-file/" data-via="" data-counturl="/blog/2020/01/12/add-swap-file/" data-lang="en">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2021/07/11/gradlew-stopped/" data-via="" data-counturl="/blog/2021/07/11/gradlew-stopped/" data-lang="en">Tweet</a>
   
   
     <div class="g-plusone" data-size="medium"></div>
@@ -181,8 +183,10 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2023/09/10/get-refresh-token-for-google-api/" title="Previous Post: Get Refresh Token for Google API">&laquo; Get Refresh Token for Google API</a>
       
-        <a class="basic-alignment right" href="/blog/2019/06/02/google-photo-api/" title="Next Post: google photo api">Google Photo Api &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2021/07/11/ansible-for-docker/" title="Next Post: ansible for docker">Ansible for Docker &raquo;</a>
       
     </p>
   </footer>
@@ -203,23 +207,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2020/01/12/add-swap-file/">Add Swap File</a>
+        <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2021/07/11/gradlew-stopped/">Gradlew Stopped</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2021/07/11/ansible-for-docker/">Ansible for Docker</a>
       </li>
     
       <li class="post">
         <a href="/blog/2019/06/02/google-photo-api/">Google Photo Api</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/28/3-good-things-in-this-week/">3 Good Things in This Week</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/24/omega3-fatty-acids/">Omega3 Fatty Acids</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/24/deeplooks/">Deeplooks</a>
       </li>
     
   </ul>
@@ -252,7 +256,7 @@
     
 <section>
   <h1>About Me</h1>
-  <p>A Java programmer in Tokyo.</p>
+  <p>A ~~Java~~ Ruby programmer in Tokyo.</p>
 </section>
 <section>
   <h1><a href="privacy.html">Privacy Policy</a></h1>
@@ -278,7 +282,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2020 - u-ryo -
+  Copyright &copy; 2023 - u-ryo -
   <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
 </p>
 
@@ -290,8 +294,8 @@
   
     // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
     // var disqus_developer = 1;
-    var disqus_identifier = "http://u-ryo.github.io//blog/2020/01/12/add-swap-file/";
-    var disqus_url = "http://u-ryo.github.io//blog/2020/01/12/add-swap-file/";
+    var disqus_identifier = "http://u-ryo.github.io//blog/2021/07/11/gradlew-stopped/";
+    var disqus_url = "http://u-ryo.github.io//blog/2021/07/11/gradlew-stopped/";
     var disqus_script = 'embed.js';
   
   (function () {

@@ -1,18 +1,187 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2020-01-12T01:55:02+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[add swap file]]></title><link href="http://u-ryo.github.io//blog/2020/01/12/add-swap-file/"/><updated>2020-01-12T01:55:02+09:00</updated><id>/blog/2020/01/12/add-swap-file/</id><content type="html"><![CDATA[<p>年末にideapad 310のmemoryが壊れてしまい、2度買い直してもmemoryを認識しなかったので、これは本体側が壊れたのだろうと。これを直すには本体のmother board交換になる、くらいならまだ2年程しか使ってませんが新しいのを買う? と考え、物色していたところ、新しいものでもmemoryって搭載容量4GBとか程度で、何故? と思ったんですけど、今はSSDだからそれでいいってことなんですね! そっか、今はSSDが廉価になったからswapでいいのか! なら310もSSDに換装すれば、ということで、SSD 1TBにしました。1.11万円でSamsungの1TBをGET。ubuntu 19.10を入れて... 最初、折角だからZFSにしてみたのですが、SSDと相性悪いんですねこれ。swap partitionは、位置が固定されるためSSDには良くないと。XFSもSSDではjournalingを止めた方が良いとのことで、それだと何のためのXFSなの?! ということなのでつまらないですけどext4で再installします。しかし、partitioningをお任せにすると、今はdefaultでswap partitionではなく2GBのswap fileになるというのは驚きですね。
-ということで、本題です。よく、<code>dd</code>でswap fileを作る例が載っていますけれども、<a href="https://www.server-memo.net/centos-settings/system/add-swap.html#ext4">スワップ領域の追加方法|server-memo.net</a>には<code>fallocate</code>を使う方法があったので、メモです。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2023-09-10T17:20:45+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Get Refresh Token for Google API]]></title><link href="http://u-ryo.github.io//blog/2023/09/10/get-refresh-token-for-google-api/"/><updated>2023-09-10T15:03:23+09:00</updated><id>/blog/2023/09/10/get-refresh-token-for-google-api/</id><content type="html"><![CDATA[]]></content></entry><entry><title type="html"><![CDATA[Get Refresh Token for Google API]]></title><link href="http://u-ryo.github.io//blog/2023/09/10/get-refresh-token-for-google-api/"/><updated>2023-09-10T17:20:45+09:00</updated><id>/blog/2023/09/10/get-refresh-token-for-google-api/</id><content type="html"><![CDATA[<p>何かいつの間にかGoogle APIの認証方法が変わってて、security上の理由からというので仕方ないんでしょうけど。
+<code>AUTHORIZATION_CODE</code>を得ようと、以前のように↓のURLにaccessすると、
+https://accounts.google.com/o/oauth2/v2/auth?response<em>type=code&amp;client</em>id=...apps.googleusercontent.com&amp;redirect<em>uri=urn:ietf:wg:oauth:2.0:oob&amp;scope=https://www.googleapis.com/auth/photoslibrary&amp;access</em>type=offline
+<code>アクセスをブロック: ... のリクエストは無効です</code>
+と出て、あれ?!と。</p>
+<blockquote><p>エラー 400: invalid_request
+The out-of-band (OOB) flow has been blocked in order to keep users secure. Follow the Out-of-Band (OOB) flow migration guide linked in the developer docs below to migrate your app to an alternative method.
+で、<a href="https://developers.google.com/identity/protocols/oauth2/resources/oob-migration?hl=ja">帯域外（OOB）フロー移行ガイド</a>へ誘導され。
+このoobフローはなくなったと!? んじゃどうせぃっていうんじゃねん。
+「デスクトップクライアント」に相当するから、<a href="https://developers.google.com/identity/protocols/oauth2/native-app?hl=ja#redirect-uri_loopback">ループバック IP アドレス（localhost または 127.0.0.1）フロー</a>に飛ばされたものの、こっちもなくなってて、<a href="https://developers.google.com/identity/protocols/oauth2/resources/loopback-migration?hl=ja">ループバック IP アドレスフローの移行ガイド</a>に飛ばされて、結局library使う方法しか書いてなくて。こちとら、shell scriptで使いたいんですけど。<code>refresh_token</code>欲しいだけなのに、なんでこんなに苦労せなかんの??🤔
+...って嘆いても仕方ないので、library使って<code>refresh_token</code>取得だけします。
+ちょっとめんどくさいんですけど、local環境を汚染しない形で。
+参考:
+- <a href="https://qiita.com/sey323/items/4c7140efaed750e690eb">PythonからGooglePhotoに画像や動画をアップロード</a>
+- <a href="https://qiita.com/sey323/items/875c0ab1585044772ab2#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%AE%E4%BD%9C%E6%88%90">PythonからGoogleDriveにファイルをアップロード</a></p>
+</blockquote>
+<p>Google APIの<a href="https://console.cloud.google.com/apis/credentials">認証情報のpage</a>から「OAuthクライアントをダウンロード」して<code>client_secret.json</code>として保存。
+``<code>
+ここで</code>w3m<code>が開くので、</code>Q<code>を押して閉じるとURLが表示され、そこをChromeなりで開いて、突き進んで承認します。
+そうすると、http://localhost:8080/?state=.... へ回されて止まるので、</code>C-a<code>で別screenを開いて、そこで</code>w3m 'http://localhost:8080/?state=...'<code>とすると、</code>The authentication flow has completed. You may close this window.<code>と言われます。徐に元のscreenに戻ると</code>credential<code>objectができているので、</code>credential.refresh<em>token<code>とすると、漸く</code>REFRESH</em>TOKEN<code>を得られます。1時間有効な</code>ACCESS_TOKEN<code>は</code>credentail.token`で得られます。
+これらを使うと、やっと以前のようにshell scriptで回せるようになります。ふぅ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[gradlew stopped]]></title><link href="http://u-ryo.github.io//blog/2021/07/11/gradlew-stopped/"/><updated>2021-07-11T01:12:30+09:00</updated><id>/blog/2021/07/11/gradlew-stopped/</id><content type="html"><![CDATA[<p>実に久し振りにこのblogを書こうとして、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>./grainw create-post &#39;some title&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>としたら、<code>gradle-1.8.jar</code>を取りに行って404 not found食らって動きません。
+この<a href="https://github.com/sysgears/grain">grain</a>って古いしもう更新止まってるし、先見の明なかったなぁということなんですが、もうちょっと本気で原因究明です。
+https://services.gradle.org/distributions/ はあるのになぜ404? と思ったら、<code>http://...</code>で取りに行ってました。gradlewのgradleが古すぎる?
+<code>grainw</code>のどこで止まってるか、debug print入れて割り出すと、<code>./gradlew gendeps</code>でした。これをversion 6.8.1のgradleで手動でやってみる(<code>gradle gendeps</code>)と、<code>build.gradle</code>の<code>line: 78</code>で止まります。なんで?と思って調べると、<a href="https://qiita.com/Yu-s/items/13a6a8db8dc191bb3b42">「Cannot add task 'wrapper' as a task with that name already exists.」が出た</a>にあった通り、でした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>task wrapper(type: Wrapper) {
+</span></code></pre></td></tr></table></div></figure>
+<p>を</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>wrapper {
+</span></code></pre></td></tr></table></div></figure>
+<p>にすれば動きました。良かった。
+<code>gradle wrapper</code>で<code>./gradlew</code>を更新して、<code>./grainw</code>も復活しました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[ansible for docker]]></title><link href="http://u-ryo.github.io//blog/2021/07/11/ansible-for-docker/"/><updated>2021-07-11T15:40:40+09:00</updated><id>/blog/2021/07/11/ansible-for-docker/</id><content type="html"><![CDATA[<p>ansibleのlocalでの開発環境といえばvagrant+virtualboxですが、dockerでいいんじゃねぇの?と思って色々試行錯誤してみました。何度も挫けて、もう駄目かと思いましたけど、幾つもの山を越え、ついに出来ましたですよ!</p>
+<figure class='code'><figcaption><span>docker.ini</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">[</span><span class="nv">docker_host</span><span class="p-Indicator">]</span>
+</span><span class='line'><span class="l-Scalar-Plain">localhost</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">[container]</span>
+</span><span class='line'><span class="l-Scalar-Plain">eiger-local</span>
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>playbooks/docker.yml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo fallocate -l 2G /swapfile1
-</span><span class='line'>sudo mkswap /swapfile1
-</span><span class='line'>Setting up swapspace version 1, <span class="nv">size</span> <span class="o">=</span> 2097148 KiB
-</span><span class='line'>no label, <span class="nv">UUID</span><span class="o">=</span>89a19a54-42c9-4847-a482-1971c388fa95
-</span><span class='line'>sudo chmod 600 /swapfile1
-</span><span class='line'>sudo swapon /swapfile1
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">hosts</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">localhost</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">connection</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">local</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">gather_facts</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">no</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">vars</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">ansible_python_interpreter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/Users/ryo-umetsu/.anyenv/envs/pyenv/shims/python</span>
+</span><span class='line'>    <span class="c1"># ansible_python_interpreter: /usr/bin/python3</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">tasks</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">deploy amazonlinux docker</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">docker_container</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">amazonlinux</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">eiger-local</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">/sys/fs/cgroup:/sys/fs/cgroup:ro</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">57017:27017</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">expose</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">57017</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">tty</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">yes</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">detach</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">yes</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">privileged</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">yes</span>
+</span><span class='line'>        <span class="c1"># capabilities:</span>
+</span><span class='line'>        <span class="c1">#   - SYS_ADMIN</span>
+</span><span class='line'>        <span class="c1"># sysctl:</span>
+</span><span class='line'>        <span class="c1">#   vm.swappiness: 1</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">command</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sh -c &#39;yum -y install procps systemd-sysv file &amp;&amp; exec /sbin/init &amp;&amp; systemctl restart&#39;</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">adding host</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">add_host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">name=&quot;eiger-local&quot;</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">wait</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">wait_for</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">delay</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">timeout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10</span>
+</span><span class='line'>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">hosts</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">eiger-local</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">connection</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">docker</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">vars</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">setup_mongodb_password</span><span class="p-Indicator">:</span> <span class="kt">!vault</span> <span class="p-Indicator">|</span>
+</span><span class='line'>      <span class="no">$ANSIBLE_VAULT;1.1;AES256</span>
+</span><span class='line'>          <span class="no">39356533306331333763353433363335343961653335373762623630653361623034646232633837</span>
+</span><span class='line'>          <span class="no">6164306666656436653636643333363261646662356666640a636462346635323164633365376637</span>
+</span><span class='line'>          <span class="no">39303832396638336664653439326536386235323262303733653563653766353263623032386538</span>
+</span><span class='line'>          <span class="no">3135623166613363630a343734666666323830663838653962663032386337626635396563383230</span>
+</span><span class='line'>          <span class="no">6266</span>
+</span><span class='line'>    <span class="c1"># setup_mongodb_password: &quot;test&quot;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">ansible_python_interpreter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/usr/bin/python</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">roles</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">role</span><span class="p-Indicator">:</span> <span class="s">&quot;../roles/create_data_directory&quot;</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">role</span><span class="p-Indicator">:</span> <span class="s">&quot;../roles/setup_mongodb&quot;</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">role</span><span class="p-Indicator">:</span> <span class="s">&quot;../roles/configure_logrotate&quot;</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">role</span><span class="p-Indicator">:</span> <span class="s">&quot;../roles/configure_swap&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
+<p>凄いknow-how詰まってます。</p>
+<ul>
+<li><code>connection: local</code>とすると<code>ssh</code>経由じゃなく直接command叩いてくれる</li>
+<li><code>connection: docker</code>とすると<code>docker exec</code>で叩いてくれる(のでtargetに<code>authorized_keys</code>とか<code>sshd</code>とか不要)</li>
+<li><code>localhost</code>では<code>gather_facts: no</code>とする(これをしないと<code>ansible_swaptotal_mb</code>とか<code>ansible_memtotal_mb</code>といった<a href="https://docs.ansible.com/ansible/2.9_ja/user_guide/playbooks_variables.html#fact">システムから検出される変数: Fact (ファクト)</a>が埋められない)</li>
+<li><code>ansible_python_interpreter: /usr/bin/python3</code>は<code>python</code> binaryを探す順序があって、<code>/usr/bin/python</code>を先に見つけてしまい、version 2を使ってしまうのを防ぐため。Macだと<code>/usr/bin/python</code>がpython2で、python3は<code>/usr/bin/python3</code>なので。ここのversionが合わないと、<code>The error was: No module named 'requests'"</code>と言われて何が悪いのかさっぱりだった。基本的には<code>pip3 install docker</code>が足りなかったのだが、その他に、このようにansibleが自分で見つけて使っているpythonのversionと自分がcommand lineで使っていて<code>pip install</code>したpythonのversionがずれていると、このように言われる、ことがわかった。その他にもinventoryで指定することもcommand line optionで指定することも出来る。command line optionで<code>-e ansible_python_interpreter=/usr/bin/python3</code>とするのが最も柔軟だが、これはplaybooks中の値を全て上書きするので、やはり注意が必要だった。pythonってversionややこしくて...</li>
+<li><code>setup_mongodb_password: !vault |</code>は<a href="https://docs.ansible.com/ansible/2.9/user_guide/playbooks_vault.html#single-encrypted-variable">Single Encrypted Variable</a>で<code>echo -n test|ansible-vault encrypt_string --vault-password-file vault_password.txt --encrypt-vault-id default --stdin setup_mongodb_password</code>のように使う(<a href="https://qiita.com/park-jh/items/91bf48848e366c79a61b#variable%E3%82%921%E9%A0%85%E7%9B%AE%E3%81%A0%E3%81%91%E6%9A%97%E5%8F%B7%E5%8C%96%E3%81%99%E3%82%8B">ansible-vaultで暗号化しよう。</a>)</li>
+<li><code>docker_container:</code>はmodule名で、古い文献だと<code>docker:</code>になっていて今は効かないので注意。中で指定できるものは<a href="https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html#ansible-collections-community-docker-docker-container-module">community.docker.docker_container – manage docker containers</a>に挙がっている。<code>privileged: yes</code>は、container内で<code>sysctl vm.swappiness=1</code>(defaultは60)をされるので。<code>sysctl:</code>というoptionもあるのだけれど、そこで指定できる(whitelistにある)のは<code>net.*</code>とか<code>kernel.*</code>の一部だけだそう(<a href="https://docs.docker.jp/engine/reference/commandline/run.html#currently-supprted-sysctls">サポート中の sysctl</a>)。</li>
+<li><code>command: sh -c 'yum -y install procps systemd-sysv file &amp;&amp; exec /sbin/init'</code>は、playbook中で<code>systemctl</code>を設定するものがあるから。<code>Restart=always</code>にしたいんですよね要するに。でも、そうするとdockerに<code>systemd</code>(<code>initd</code>)が動いていねばならず、そういえばdockerって普通はそんなのなかったな、どうやるんだ? <a href="https://qiita.com/mach3/items/33f2b234babe679c759f">調べる</a>と、</li>
+<li><code>systemd-sysv</code>をinstallする必要</li>
+<li><code>/sys/fs/cgroup:/sys/fs/cgroup:ro</code>のdevice mountが必要<ul>
+<li>macにはそんなdirectoryはないのに大丈夫なのが不思議</li>
+</ul>
+</li>
+<li>最後は<code>/sbin/init</code></li>
+<li>↑これではcontainerが数秒で倒れるので更に調べると<code>exec /sbin/init</code>(これどこで見たんだっけなぁ感動したなぁStackOverflowだった気が。他では全然書いて無くて、よく見つけたもんだ)</li>
+<li><code>wait_for:</code>がないと、docker内にまだ<code>yum install</code>とか終わりきってないのにどんどん次に進んでしまい、<code>service.name:mongod,service.enabled:true</code>の時に「<code>mongod</code>というserviceはない」といって落ちてしまうので。ホントはちゃんと何かを待ちたかったんだけど、何を待ったらいいのか不明でした。processかなと思ったんですが、processのwaitって<a href="https://www.middlewareinventory.com/blog/ansible-wait_for-examples/">pid fileの存在有無を確認する</a>みたいな。いゃー、<code>systemd</code>というか<code>init</code>ってpid fileなんてないんですけど。network port待つ例は数多あれど。仕方ないのでただ10秒待つように。<code>timeout:10</code>は不要かと思いきや、ないとずっと待ってました。</li>
+<li>これを<code>ansible-playbook -vvv -i docker.ini playbooks/docker.yml</code>と実行するんですが、dockerでやる場合は<code>ansible/ansible-runner</code>使って、<code>docker run --rm --name=ansible -v $PWD:/work -w /work -v /var/run/docker.sock:/var/run/docker.sock ansible/ansible-runner sh -c 'pip3 install docker&amp;yum install -y yum-utils;yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo;yum install -y docker-ce docker-ce-cli containerd.io;ansible-playbook -i docker.ini playbooks/docker.yml'</code>と、CentOS8 baseのansible-runnerにdockerを入れねばならず、またunix socketを共有しないとなりませんでした。CentOS8に<code>yum install docker</code>するとpodmanが入りやがるんですよね。podmanってMacじゃ動かねぇっつーの! podmanだと<code>hosts:eiger-local</code>の<code>gather_facts</code>でDocker version checkに失敗して落ちるんですよね。<a href="https://discussion.fedoraproject.org/t/podman-broken-on-silverblue-podman-complains-kernel-not-supporting-overlay-fs-backing-file-system-is-unsupported-for-this-graph-driver/25403/2">Podman broken on Silverblue? Podman complains kernel not supporting overlay fs (backing file system is unsupported for this graph driver)</a>見て<code>sed -i "s/#mount_program/mount_program/" /etc/containers/storage.conf</code>加えても、<code>Error: mount /var/lib/containers/storage/overlay:/var/lib/containers/storage/overlay, flags: 0x1000: operation not permitted</code>。うーん。逆に、docker containerにansibleを入れる方がsimpleでした。即ち、<code>docker run --rm --name=ansible -v $PWD:/work -w /work -v /var/run/docker.sock:/var/run/docker.sock docker sh -c 'apk add ansible py3-pip;pip3 install docker;ansible-playbook -i docker.ini playbooks/docker.yml'</code>ですね。</li>
+</ul>
+<h2>参考サイト</h2>
+<ul>
+<li><a href="https://techblog.gmo-ap.jp/2016/09/23/docker%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%82%92ansible%E3%81%A7%E3%83%97%E3%83%AD%E3%83%93%E3%82%B8%E3%83%A7%E3%83%8B%E3%83%B3%E3%82%B0%E3%81%97%E3%81%9F/">ansibleを使ってDockerコンテナをプロビジョニングしたお話</a></li>
+<li><a href="https://qiita.com/gosarami/items/e1600292aa260444d3df">ansible-playbookでdockerコンテナをプロビジョニングしてみた</a></li>
+<li><a href="https://inamuu.com/ansible%E3%81%A7docker%E3%81%B8%E3%83%97%E3%83%AD%E3%83%93%E3%82%B8%E3%83%A7%E3%83%8B%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">Ansibleでdockerへプロビジョニングする</a></li>
+<li><a href="https://techblog.gmo-ap.jp/wp-content/uploads/2016/09/77a5ba13cea567e2af8323cbfa5a2286.pdf">ansibleを使ってDockerコンテナをプロビジョニングする</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html#ansible-collections-community-docker-docker-container-module">community.docker.docker_container – manage docker containers</a></li>
+<li><a href="https://rheb.hatenablog.com/entry/ansible_interpreter_discovery">Ansible2.8の新機能1 - Interpreter Discovery</a></li>
+<li><a href="https://qiita.com/muddydixon/items/d2982ab0846002bf3ea8">Docker privileged オプションについて</a></li>
+<li><a href="https://qiita.com/osamunmun/items/1786aac5904439522d72">Dockerコンテナ上でsysctlでカーネルパラメータを変更する方法</a></li>
+<li><a href="https://docs.docker.jp/engine/reference/commandline/run.html#currently-supprted-sysctls">サポート中の sysctl</a></li>
+<li><a href="https://qiita.com/ma2shita/items/f1a68a3f909c5cee7869">Dockerコンテナ内のnet.core.somaxconnをいじる方法</a></li>
+<li><a href="https://blog.ymyzk.com/2017/01/docker-compose-sysctls/">Docker Compose でカーネルパラメータを設定する</a></li>
+<li><a href="https://moznion.hatenadiary.com/entry/2018/09/01/224626">Linux Kernel 4.12以前であればhostマシンのsysctlの値がDocker container環境に引き継がれるかどうか検証した</a></li>
+<li><a href="https://qiita.com/hiroyuki_onodera/items/398c1331b157e5b4b588">Ansible: ターゲットノードでpython3を使用するansible.cfg設定は、ansible<em>python</em>interpreterでは無くinterpreter_python</a></li>
+<li><a href="https://kamatama41.hatenablog.com/entry/2019/06/17/001009">DockerのUbuntuコンテナでsystemdを動かす</a></li>
+<li><a href="https://qiita.com/mach3/items/33f2b234babe679c759f">Docker amazonlinux2 で systemctl を使いたい人生だった</a></li>
+<li><a href="https://qiita.com/kawanet/items/d856b7b9eb8ceccac4d7">Docker for MacでAmazon Linux 2でsystemd</a></li>
+<li><a href="https://www.middlewareinventory.com/blog/ansible-wait_for-examples/">Ansible wait_for module examples</a></li>
+</ul>
 ]]></content></entry><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2020-01-11T00:58:08+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
 backupは無限の<a href="https://photos.google.com">Google Photos</a>に、ということで、前はPicasaのAPI、<code>upload_gphots</code>を使ってたんですけど、もう無くなっちゃっていて。どうしよう、途方に暮れていました。暫くぶりに探すと、丁度1年程前からGoogle Photo APIが整備されたようで、良かったです。ずっと待っていました。
 <a href="https://qiita.com/zaki-lknr/items/97c363c12ede4c1f25d2">[追記あり] Google Photos APIsでアルバム作成と写真のアップロード</a>と<a href="https://qiita.com/wo_k_harada/items/7327971a2414040e5a86">Google Photoを業務システムのクラウドストレージとして使った結果</a>、<a href="https://developers.google.com/photos/library/guides/list">本家API Document</a>を参考に早速使ってみます。</p>
@@ -635,53 +804,4 @@ class fileのdiffを取って<code>src/main/resources/config/liquibase/changelog
 <li>DBは自分で<code>alter table</code></li>
 <li>checksumは<code>DATABASECHANGELOG.MD5CHECKSUM</code>にあるので自分で<code>update table set ...</code></li>
 </ul>
-]]></content></entry><entry><title type="html"><![CDATA[number to string on Angular/TypeScript]]></title><link href="http://u-ryo.github.io//blog/2018/11/13/number-to-string-on-angular-typescript/"/><updated>2018-11-13T12:48:50+09:00</updated><id>/blog/2018/11/13/number-to-string-on-angular-typescript/</id><content type="html"><![CDATA[<p>Angularを書いていて、
-<code>Type 'string' is not assignable to type 'number'.</code>と言われて驚いたので調べました。
-えー、そのくらいよしなに変換してくれるんじゃないのー?!
-結構型に厳しいんですね。
-<a href="https://stackoverflow.com/questions/39956988/typescript-tofixed-type-string-is-not-assignable-to-type-number">Typescript, toFixed. Type 'string' is not assignable to type 'number'</a>に<code>(12.32).toFixed(2)</code>とあるので試すとその通りでした。
-この2ってなんだろう? と思ったら、「小数点以下第2位までの表示(第3位で四捨五入、無ければ0埋め)」ってことなんですね。</p>
-]]></content></entry><entry><title type="html"><![CDATA[grape on groovysh]]></title><link href="http://u-ryo.github.io//blog/2018/11/13/grape-on-groovysh/"/><updated>2018-11-13T12:35:59+09:00</updated><id>/blog/2018/11/13/grape-on-groovysh/</id><content type="html"><![CDATA[<p>groovyshでgrapeを使ってlibraryを使いたい時がありました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>groovy:000&gt; :i groovy.grape.*
-</span><span class='line'>===&gt; groovy.grape.*
-</span><span class='line'>groovy:000&gt; Grape.grab(group:&#39;mysql&#39;,module:&#39;mysql-connector-java&#39;,version:&#39;8.0.11&#39;)
-</span><span class='line'>===&gt; null
-</span><span class='line'>groovy:000&gt; Grape.grab(&#39;mysql:mysql-connector-java:8.0.11&#39;)
-</span><span class='line'>ERROR java.lang.RuntimeException:
-</span><span class='line'>Error grabbing Grapes -- [unresolved dependency: groovy.endorsed#mysql:mysql-connector-java:8.0.11;2.5.0: not found]
-</span></code></pre></td></tr></table></div></figure>
-<p>versionも文字列でないとならないのに気を付けます。
-いつもの<code>'mysql:mysql-connector-java:8.0.11'</code>の形式はダメでした。</p>
-<p><code>@GrabConfig(systemClassLoader=true)</code>はどうやってもダメっぽいので、
-結局groovyshからのMySQL accessは諦めましたが。</p>
-<p>参考: <a href="https://qiita.com/yukung/items/6e1f62e7c2d0aae95bee">groovysh で Maven リポジトリにあるライブラリを使う</a></p>
-]]></content></entry><entry><title type="html"><![CDATA[drawing rectangles on an image for groovy]]></title><link href="http://u-ryo.github.io//blog/2018/11/13/drawing-rectangles-on-an-image-for-groovy/"/><updated>2018-11-13T12:27:15+09:00</updated><id>/blog/2018/11/13/drawing-rectangles-on-an-image-for-groovy/</id><content type="html"><![CDATA[<p>今まで、「画像を読み込んで線や図形を描く」というのはGroovyFXでやってたんですが、
-JavaFXってheadlessで出来ないんですね!?
-びっくりポンです。
-<code>java.awt.headless=true</code>もそういやAWTなんですね。
-うーむ、流石は廃止されるJavaFX、と思ったんですが、
-どうせ<code>im4java</code>使ってるなら、なんだImageMagickだけで出来るじゃーん、
-ということに遅ればせながら気付きました。
-ImageMagickってdrawも出来るんですね。</p>
-<p>大体、以下の要領です。</p>
-<ol>
-<li><code>import org.im4java.core.*</code></li>
-<li><code>op = new IMOperation()</code></li>
-<li><code>op.addImage(...)</code>で画像fileを読み込む</li>
-<li><code>op.fill('rgba(255,100,0,0.5)')</code>等と塗り潰す色を指定</li>
-<li><code>op.stroke('white')</code>等と線の色を指定</li>
-<li><code>op.draw('rectangle 0,10,30,30')</code>で長方形を描画</li>
-<li><code>op.draw('text 0,10 ABCD')</code>で文字を描画</li>
-<li><code>op.quality(80)</code>で圧縮率(品質)指定</li>
-<li>もう一度<code>op.addImage(...)</code>で出力画像の名前と形式を指定</li>
-<li><code>new ConvertCmd().run(op)</code>で実行</li>
-</ol>
-<p><a href="http://im4java.sourceforge.net/docs/dev-guide.html">公式page</a>にありますけどね。</p>
 ]]></content></entry></feed>

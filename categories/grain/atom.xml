@@ -1,4 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/grain/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Grain on CodeAnywhere]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/grain-on-codeanywhere/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/06/grain-on-codeanywhere/</id><content type="html"><![CDATA[<p>ちょっと、やっぱりダメですね。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/grain/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[gradlew stopped]]></title><link href="http://u-ryo.github.io//blog/2021/07/11/gradlew-stopped/"/><updated>2021-07-11T01:12:30+09:00</updated><id>/blog/2021/07/11/gradlew-stopped/</id><content type="html"><![CDATA[<p>実に久し振りにこのblogを書こうとして、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>./grainw create-post &#39;some title&#39;
+</span></code></pre></td></tr></table></div></figure>
+<p>としたら、<code>gradle-1.8.jar</code>を取りに行って404 not found食らって動きません。
+この<a href="https://github.com/sysgears/grain">grain</a>って古いしもう更新止まってるし、先見の明なかったなぁということなんですが、もうちょっと本気で原因究明です。
+https://services.gradle.org/distributions/ はあるのになぜ404? と思ったら、<code>http://...</code>で取りに行ってました。gradlewのgradleが古すぎる?
+<code>grainw</code>のどこで止まってるか、debug print入れて割り出すと、<code>./gradlew gendeps</code>でした。これをversion 6.8.1のgradleで手動でやってみる(<code>gradle gendeps</code>)と、<code>build.gradle</code>の<code>line: 78</code>で止まります。なんで?と思って調べると、<a href="https://qiita.com/Yu-s/items/13a6a8db8dc191bb3b42">「Cannot add task 'wrapper' as a task with that name already exists.」が出た</a>にあった通り、でした。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>task wrapper(type: Wrapper) {
+</span></code></pre></td></tr></table></div></figure>
+<p>を</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>wrapper {
+</span></code></pre></td></tr></table></div></figure>
+<p>にすれば動きました。良かった。
+<code>gradle wrapper</code>で<code>./gradlew</code>を更新して、<code>./grainw</code>も復活しました。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Grain on CodeAnywhere]]></title><link href="http://u-ryo.github.io//blog/2017/09/06/grain-on-codeanywhere/"/><updated>2018-07-18T07:36:11+09:00</updated><id>/blog/2017/09/06/grain-on-codeanywhere/</id><content type="html"><![CDATA[<p>ちょっと、やっぱりダメですね。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

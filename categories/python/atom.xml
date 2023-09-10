@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/python/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Learn Python 3 the Hard Way]]></title><link href="http://u-ryo.github.io//blog/2019/01/24/learn-python-3-the-hard-way/"/><updated>2019-01-24T04:34:38+09:00</updated><id>/blog/2019/01/24/learn-python-3-the-hard-way/</id><content type="html"><![CDATA[<p>知人が<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-Introduction-ebook/dp/B07378P8W6">Learn Python 3 the Hard Way</a>を<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-%E6%9B%B8%E3%81%84%E3%81%A6%E8%A6%9A%E3%81%88%E3%82%8BPython%E5%85%A5%E9%96%80/dp/4621303287">翻訳しました</a>。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/python/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Get Refresh Token for Google API]]></title><link href="http://u-ryo.github.io//blog/2023/09/10/get-refresh-token-for-google-api/"/><updated>2023-09-10T17:20:45+09:00</updated><id>/blog/2023/09/10/get-refresh-token-for-google-api/</id><content type="html"><![CDATA[<p>何かいつの間にかGoogle APIの認証方法が変わってて、security上の理由からというので仕方ないんでしょうけど。
+<code>AUTHORIZATION_CODE</code>を得ようと、以前のように↓のURLにaccessすると、
+https://accounts.google.com/o/oauth2/v2/auth?response<em>type=code&amp;client</em>id=...apps.googleusercontent.com&amp;redirect<em>uri=urn:ietf:wg:oauth:2.0:oob&amp;scope=https://www.googleapis.com/auth/photoslibrary&amp;access</em>type=offline
+<code>アクセスをブロック: ... のリクエストは無効です</code>
+と出て、あれ?!と。</p>
+<blockquote><p>エラー 400: invalid_request
+The out-of-band (OOB) flow has been blocked in order to keep users secure. Follow the Out-of-Band (OOB) flow migration guide linked in the developer docs below to migrate your app to an alternative method.
+で、<a href="https://developers.google.com/identity/protocols/oauth2/resources/oob-migration?hl=ja">帯域外（OOB）フロー移行ガイド</a>へ誘導され。
+このoobフローはなくなったと!? んじゃどうせぃっていうんじゃねん。
+「デスクトップクライアント」に相当するから、<a href="https://developers.google.com/identity/protocols/oauth2/native-app?hl=ja#redirect-uri_loopback">ループバック IP アドレス（localhost または 127.0.0.1）フロー</a>に飛ばされたものの、こっちもなくなってて、<a href="https://developers.google.com/identity/protocols/oauth2/resources/loopback-migration?hl=ja">ループバック IP アドレスフローの移行ガイド</a>に飛ばされて、結局library使う方法しか書いてなくて。こちとら、shell scriptで使いたいんですけど。<code>refresh_token</code>欲しいだけなのに、なんでこんなに苦労せなかんの??🤔
+...って嘆いても仕方ないので、library使って<code>refresh_token</code>取得だけします。
+ちょっとめんどくさいんですけど、local環境を汚染しない形で。
+参考:
+- <a href="https://qiita.com/sey323/items/4c7140efaed750e690eb">PythonからGooglePhotoに画像や動画をアップロード</a>
+- <a href="https://qiita.com/sey323/items/875c0ab1585044772ab2#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%AE%E4%BD%9C%E6%88%90">PythonからGoogleDriveにファイルをアップロード</a></p>
+</blockquote>
+<p>Google APIの<a href="https://console.cloud.google.com/apis/credentials">認証情報のpage</a>から「OAuthクライアントをダウンロード」して<code>client_secret.json</code>として保存。
+``<code>
+ここで</code>w3m<code>が開くので、</code>Q<code>を押して閉じるとURLが表示され、そこをChromeなりで開いて、突き進んで承認します。
+そうすると、http://localhost:8080/?state=.... へ回されて止まるので、</code>C-a<code>で別screenを開いて、そこで</code>w3m 'http://localhost:8080/?state=...'<code>とすると、</code>The authentication flow has completed. You may close this window.<code>と言われます。徐に元のscreenに戻ると</code>credential<code>objectができているので、</code>credential.refresh<em>token<code>とすると、漸く</code>REFRESH</em>TOKEN<code>を得られます。1時間有効な</code>ACCESS_TOKEN<code>は</code>credentail.token`で得られます。
+これらを使うと、やっと以前のようにshell scriptで回せるようになります。ふぅ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Learn Python 3 the Hard Way]]></title><link href="http://u-ryo.github.io//blog/2019/01/24/learn-python-3-the-hard-way/"/><updated>2019-01-24T04:34:38+09:00</updated><id>/blog/2019/01/24/learn-python-3-the-hard-way/</id><content type="html"><![CDATA[<p>知人が<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-Introduction-ebook/dp/B07378P8W6">Learn Python 3 the Hard Way</a>を<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-%E6%9B%B8%E3%81%84%E3%81%A6%E8%A6%9A%E3%81%88%E3%82%8BPython%E5%85%A5%E9%96%80/dp/4621303287">翻訳しました</a>。
 凄いなぁと思うと同時に、
 見てみると既に<a href="https://learnpythonthehardway.org/">英語版</a>で<a href="http://blog.sayajewels.com/posts/janiota-python-practice/">勉強した人がいる</a>というので、
 その人がやったという初心者用練習問題を、
