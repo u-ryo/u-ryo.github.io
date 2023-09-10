@@ -8,129 +8,7 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/19/peeking-an-encrypted-luks-lvm/">Peeking an Encrypted Luks Lvm</a></h1> <p class="meta"> <time datetime="2018-09-19T20:09:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">19</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/19/peeking-an-encrypted-luks-lvm/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>純粋に知的好奇心から、 とある暗号化diskをmountして中身を見てみたくなりまして。 targetはubuntuで、立ち上がる時にdisk復号化keyを入力して 立ち上がるような代物です。 それを<code>dd</code>でcopyして(最後の方50GBくらいは何かI/Oエラーで copyがうまく行きませんでしたがそれはそもそもそうなのか、 直前にちょっと蹴っ躓いてコードに少し足が引っかかったせいなのか、 よくわかりません)、 copyした方に対してmountをかけるといきなりpassword聞かれて、 答えると難なくmount出来たもののそれはgrubとかkernelとか 置かれているboot領域。 root領域本体はsdb5の中。 <a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186 暗号化ファイルシステムを使ってみる ～ LUKS 編</a>を参考に、 <code>sudo apt install cryptsetup</code>して、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cryptsetup luksOpen /dev/sdb5 luks
-</span><span class='line'>Enter passphrase for /dev/sdb5: *******
-</span></code></pre></td></tr></table></div></figure> <p>とすると、<code>/dev/mapper/luks</code>が出来ます。 それをmountすればいいようなんですが、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo mount /dev/mapper/luks /tmp/luks/
-</span><span class='line'>mount: /tmp/luks: unknown filesystem type &#39;LVM2_member&#39;.
-</span></code></pre></td></tr></table></div></figure> <p>と言われて出来ません。 <a href="http://a5.hatenablog.jp/entry/2011/11/01/000000">HDDからのデータサルベージ</a>を参考に、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgscan
-</span><span class='line'>  Reading volume groups from cache.
-</span><span class='line'>  Found volume group &quot;ubuntu-vg&quot; using metadata type lvm2
-</span></code></pre></td></tr></table></div></figure> <p>確かに何かあるようです。 <a href="http://d.hatena.ne.jp/kt_hiro/20120117/1326764520">LVMの使い方</a>を参考に、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo pvscan
-</span><span class='line'>  PV /dev/mapper/luks
-</span><span class='line'>  Total: 1 [<span class="nt">&lt;232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">]</span> <span class="err">/</span> <span class="na">in</span> <span class="na">use:</span> <span class="na">0</span> <span class="err">[</span><span class="na">0</span>   <span class="err">]</span> <span class="err">/</span> <span class="na">in</span> <span class="na">no</span> <span class="na">VG:</span> <span class="na">1</span> <span class="err">[&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">]</span>
-</span><span class='line'><span class="err">$</span> <span class="na">sudo</span> <span class="na">pvdisplay</span> <span class="na">-v</span>
-</span><span class='line'>    <span class="na">Wiping</span> <span class="na">internal</span> <span class="na">VG</span> <span class="na">cache</span>
-</span><span class='line'>    <span class="na">Wiping</span> <span class="na">cache</span> <span class="na">of</span> <span class="na">LVM-capable</span> <span class="na">devices</span>
-</span><span class='line'>  <span class="err">&quot;/</span><span class="na">dev</span><span class="err">/</span><span class="na">mapper</span><span class="err">/</span><span class="na">luks</span><span class="err">&quot;</span> <span class="na">is</span> <span class="na">a</span> <span class="na">new</span> <span class="na">physical</span> <span class="na">volume</span> <span class="na">of</span> <span class="err">&quot;&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span><span class="err">&quot;</span>
-</span><span class='line'>  <span class="na">---</span> <span class="na">NEW</span> <span class="na">Physical</span> <span class="na">volume</span> <span class="na">---</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">Name</span>               <span class="err">/</span><span class="na">dev</span><span class="err">/</span><span class="na">mapper</span><span class="err">/</span><span class="na">luks</span>
-</span><span class='line'>  <span class="na">VG</span> <span class="na">Name</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">Size</span>               <span class="err">&lt;</span><span class="na">232</span><span class="err">.</span><span class="na">17</span> <span class="na">GiB</span>
-</span><span class='line'>  <span class="na">Allocatable</span>           <span class="na">NO</span>
-</span><span class='line'>  <span class="na">PE</span> <span class="na">Size</span>               <span class="na">0</span>
-</span><span class='line'>  <span class="na">Total</span> <span class="na">PE</span>              <span class="na">0</span>
-</span><span class='line'>  <span class="na">Free</span> <span class="na">PE</span>               <span class="na">0</span>
-</span><span class='line'>  <span class="na">Allocated</span> <span class="na">PE</span>          <span class="na">0</span>
-</span><span class='line'>  <span class="na">PV</span> <span class="na">UUID</span>               <span class="na">w34D6Y-8iVC-zIWW-0WHB-ltuf-FADa-sPMT7k</span>
-</span></code></pre></td></tr></table></div></figure> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgchange -ay
-</span><span class='line'>  2 logical volume(s) in volume group &quot;ubuntu-vg&quot; now active
-</span></code></pre></td></tr></table></div></figure> <p>これで、<code>/dev/ubuntu-vg/</code>が出来ます。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ ls -alrt /dev/ubuntu-vg/
-</span><span class='line'>total 0
-</span><span class='line'>lrwxrwxrwx  1 root root    7  9æ 19 04:44 root -&gt; ../dm-1
-</span><span class='line'>drwxr-xr-x 22 root root 4760  9æ 19 04:44 ..
-</span><span class='line'>lrwxrwxrwx  1 root root    7  9æ 19 04:44 swap_1 -&gt; ../dm-2
-</span><span class='line'>drwxr-xr-x  2 root root   80  9æ 19 04:44 .
-</span></code></pre></td></tr></table></div></figure> <p>これをmountすればよいですね。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo mount /dev/ubuntu-vg/root /tmp/luks
-</span></code></pre></td></tr></table></div></figure> <h3>unmount / detach</h3> <p>これを外すのに右往左往してしまいました。 <code>sudo vgremove ubuntu-vg</code>とかってやってしまいました。 これは、volume groupを消してしまう行為でした。 やってはいけません。</p> <p>結局、外す時はこれでいいわけですね。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo umount /tmp/luks
-</span><span class='line'>$ sudo vgchange -an ubuntu-vg
-</span><span class='line'>  0 logical volume(s) in volume group &quot;ubuntu-vg&quot; now active
-</span><span class='line'>$ sudo cryptsetup luksClose luks
-</span></code></pre></td></tr></table></div></figure> <p>これで<code>/dev/ubuntu-vg/</code>も<code>/dev/mapper/luks</code>もなくなり、 deviceを外せます。</p> <p><code>vgremove</code>しちゃったからもうダメかな、と思ったら、戻せるんですね。 <a href="https://www.thegeekdiary.com/centos-rhel-how-to-restore-recover-a-delete-volume-group-on-lvm/">CentOS / RHEL : How to restore/recover a deleted volume group in LVM</a>を参考に、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgcfgrestore --list ubuntu-vg
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/archive/ubuntu-vg_00000-434080001.vg
-</span><span class='line'>  Couldn&#39;t find device with uuid w34D6Y-8iVC-zIWW-0WHB-ltuf-FADa-sPMT7k.
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *before* executing &#39;vgremove ubuntu-vg&#39;
-</span><span class='line'>  Backup Time:  Tue Sep 18 21:04:48 2018
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/archive/ubuntu-vg_00001-841595159.vg
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *before* executing &#39;vgcreate ubuntu-vg /dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a&#39;
-</span><span class='line'>  Backup Time:  Wed Sep 19 04:31:30 2018
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  File:         /etc/lvm/backup/ubuntu-vg
-</span><span class='line'>  VG name:      ubuntu-vg
-</span><span class='line'>  Description:  Created *after* executing &#39;vgcreate ubuntu-vg /dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a&#39;
-</span><span class='line'>  Backup Time:  Wed Sep 19 04:31:30 2018
-</span></code></pre></td></tr></table></div></figure> <p>このように出て来るので、 身に覚えのあるものを選んで、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo vgcfgrestore -f /etc/lvm/archive/ubuntu-vg_00000-434080001.vg ubuntu-vg
-</span><span class='line'>  Restored volume group ubuntu-vg
-</span></code></pre></td></tr></table></div></figure> <p>とするとVolume Groupが戻るんですね。すごいー。 助かりました。</p> <p>あと、<code>cryptsetup</code>と<code>lvm</code>が予め入っていると、 encrypted diskをUSBで繋げた時点でkeyを聞かれて、 <code>luksOpen</code>まで裏でやっちゃうんですね。 自分で<code>luksOpen</code>しようとして、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ sudo cryptsetup luksOpen /dev/sdb5 luks2
-</span><span class='line'>Enter passphrase for /dev/sdb5: 
-</span><span class='line'>Cannot use device /dev/sdb5 which is in use (already mapped or mounted).
-</span></code></pre></td></tr></table></div></figure> <p>といわれて「?!」とか思ってしまいました。 この時点で<code>/dev/mapper/luks-1144f2c9-43f4-c433-66a7-81aa5e0f703a</code>が出来ています。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a></h1> <p class="meta"> <time datetime="2018-09-17T20:57:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">17</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。 3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。 画像と音声は別々だしsizeも320x240と凄く小さいんですけど、 1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、 いっかなぁと。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/17/viewing-recording-tv-hiden-no-tare/">Viewing/Recording TV (Hiden No Tare)</a></h1> <p class="meta"> <time datetime="2018-09-17T20:57:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">17</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/17/viewing-recording-tv-hiden-no-tare/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>何を今更ですが、ここ15年、以下のようにTVを見たり録画したりしています。 3000円くらいで買ったUSB Video Capture Box(LiveView:絶版)を使い続けています。 画像と音声は別々だしsizeも320x240と凄く小さいんですけど、 1秒2MBとfile sizeもcompactだし細かい字は読めないものの話の筋は十分わかるので、 いっかなぁと。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -590,7 +468,7 @@
 </span><span class='line'>}
 </span><span class='line'>$ javac -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar DL4J.java
 </span><span class='line'>$ java -cp ~/.groovy/grapes/org.deeplearning4j/deeplearning4j-modelimport/jars/deeplearning4j-modelimport-1.0.0-beta2.jar:/usr/share/java/slf4j-simple.jar:/home/u-ryo/.groovy/grapes/org.deeplearning4j/deeplearning4j-nn/jars/deeplearning4j-nn-1.0.0-beta2.jar:/usr/share/java/slf4j-api.jar:.:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-jackson/jars/nd4j-jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/jackson/jars/jackson-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-common/jars/nd4j-common-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-api/jars/nd4j-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-context/jars/nd4j-context-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-buffer/jars/nd4j-buffer-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-platform/jars/nd4j-native-platform-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native/jars/nd4j-native-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.nd4j/nd4j-native-api/jars/nd4j-native-api-1.0.0-beta2.jar:/home/u-ryo/.groovy/grapes/org.apache.commons/commons-math3/jars/commons-math3-3.5.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2-linux-x86_64.jar:/home/u-ryo/.groovy/grapes/org.bytedeco/javacpp/jars/javacpp-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/hdf5/jars/hdf5-1.10.2-1.4.2.jar:/home/u-ryo/.groovy/grapes/org.bytedeco.javacpp-presets/openblas/jars/openblas-0.3.0-1.4.2.jar DL4J
-</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/07/battle-against-fool/">Battle Against Fool</a></h1> <p class="meta"> <time datetime="2018-09-07T18:26:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">07</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>いゃぁ、びっくりしました。 今日会社でいきなり会議に招集されたんですけど、 その内容が、今後AI外観検査案件で使うPCの標準specを決めます、というもの。 そもそも外観検査、出来るかどうか、とかどういう撮像でどういうalgorithmで、 とかじゃなくて、えー、まずはそんなところから入るんだー、と驚きです。 営業とかマネージャーとか、技術全くわかんない(わかろうともしない)人達って、 そういうこと考えてるんですね。 確かに、そういうところなら彼らでも議論が出来る、から?</p> <p>丁度、<a href="https://www.amazon.co.jp/%E9%A0%AD%E3%81%AB%E6%9D%A5%E3%81%A6%E3%82%82%E3%82%A2%E3%83%9B%E3%81%A8%E3%81%AF%E6%88%A6%E3%81%86%E3%81%AA-%E4%BA%BA%E9%96%93%E9%96%A2%E4%BF%82%E3%82%92%E6%80%9D%E3%81%84%E9%80%9A%E3%82%8A%E3%81%AB%E3%81%97%E3%80%81%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%82%92%E5%AE%9F%E7%8F%BE%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-%E7%94%B0%E6%9D%91%E8%80%95%E5%A4%AA%E9%83%8E/dp/4022511982/ref=cm_cr_arp_d_product_top?ie=UTF8">頭に来てもアホとは戦うな!</a>をちょっと立ち読みしたので、 もう受け流すことにしました。</p> <p>「そうですよねー、Nさん目の付け所が違いますねー」</p> <p>『目の付け所が違う』のは確かでしょう。 真面目に議論しちゃうと、精神衛生上よくない気がしました。 しかしこの本、カスタマーレビューでは結構叩かれてますね。 尤もだと思います。</p> <p>ちょっぴりアホと戦ってしまいました。 やっぱりまだまだですねーぼくも。</p> <h3>社内用語集</h3> <ul> <li>勉強させている → 放置プレイ</li> <li>マネジメント → 「どう? 出来た?」/日程調整</li> <li>PM → Project Messenger</li> <li>高コミュ力 → イエスマン</li> <li>ワンストップ・トータルコーディネート → 客からの中間搾取(=BPへの丸投げ)</li> <li>客先常駐・SES → 偽装派遣</li> <li>BP派遣 → 多重派遣</li> </ul> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/6/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/8/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2022/03/20/nhk-taiga-staff-reflection/">NHK Taiga Staff Reflection</a> </li> <li class="post"> <a href="/blog/2021/07/11/gradlew-stopped/">Gradlew Stopped</a> </li> <li class="post"> <a href="/blog/2021/07/11/ansible-for-docker/">Ansible for Docker</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A ~~Java~~ Ruby programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2023 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/07/battle-against-fool/">Battle Against Fool</a></h1> <p class="meta"> <time datetime="2018-09-07T18:26:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">07</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/07/battle-against-fool/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>いゃぁ、びっくりしました。 今日会社でいきなり会議に招集されたんですけど、 その内容が、今後AI外観検査案件で使うPCの標準specを決めます、というもの。 そもそも外観検査、出来るかどうか、とかどういう撮像でどういうalgorithmで、 とかじゃなくて、えー、まずはそんなところから入るんだー、と驚きです。 営業とかマネージャーとか、技術全くわかんない(わかろうともしない)人達って、 そういうこと考えてるんですね。 確かに、そういうところなら彼らでも議論が出来る、から?</p> <p>丁度、<a href="https://www.amazon.co.jp/%E9%A0%AD%E3%81%AB%E6%9D%A5%E3%81%A6%E3%82%82%E3%82%A2%E3%83%9B%E3%81%A8%E3%81%AF%E6%88%A6%E3%81%86%E3%81%AA-%E4%BA%BA%E9%96%93%E9%96%A2%E4%BF%82%E3%82%92%E6%80%9D%E3%81%84%E9%80%9A%E3%82%8A%E3%81%AB%E3%81%97%E3%80%81%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%82%92%E5%AE%9F%E7%8F%BE%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-%E7%94%B0%E6%9D%91%E8%80%95%E5%A4%AA%E9%83%8E/dp/4022511982/ref=cm_cr_arp_d_product_top?ie=UTF8">頭に来てもアホとは戦うな!</a>をちょっと立ち読みしたので、 もう受け流すことにしました。</p> <p>「そうですよねー、Nさん目の付け所が違いますねー」</p> <p>『目の付け所が違う』のは確かでしょう。 真面目に議論しちゃうと、精神衛生上よくない気がしました。 しかしこの本、カスタマーレビューでは結構叩かれてますね。 尤もだと思います。</p> <p>ちょっぴりアホと戦ってしまいました。 やっぱりまだまだですねーぼくも。</p> <h3>社内用語集</h3> <ul> <li>勉強させている → 放置プレイ</li> <li>マネジメント → 「どう? 出来た?」/日程調整</li> <li>PM → Project Messenger</li> <li>高コミュ力 → イエスマン</li> <li>ワンストップ・トータルコーディネート → 客からの中間搾取(=BPへの丸投げ)</li> <li>客先常駐・SES → 偽装派遣</li> <li>BP派遣 → 多重派遣</li> </ul> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/04/how-secure-is-my-password/">How Secure Is My Password</a></h1> <p class="meta"> <time datetime="2018-09-04T14:25:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">04</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/04/how-secure-is-my-password/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186</a>に載ってたものなので、何を今更、ですが。</p> <p><a href="http://howsecureismypassword.net/">How Secure Is My Password?</a>、 自分の常用passwordは1 Dayでした。 色々試してみると、 「長いことはいいことだ(10文字以上はないと)」 「最後に大文字アルファベットでも足すと劇的に良くなる」 みたいです。 でも多分これ、localにhashか何かがあってbrute forceを試せる、 という前提での解読時間かなと思います。 今はjs fileはugrifyされてて具体的にどう計算しているのかlogic(簡単には)追えないです。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/6/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/8/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2022/03/20/nhk-taiga-staff-reflection/">NHK Taiga Staff Reflection</a> </li> <li class="post"> <a href="/blog/2021/07/11/gradlew-stopped/">Gradlew Stopped</a> </li> <li class="post"> <a href="/blog/2021/07/11/ansible-for-docker/">Ansible for Docker</a> </li> <li class="post"> <a href="/blog/2020/12/23/cut-pdf-and-convert-to-png/">Cut Pdf and Convert to Png</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A ~~Java~~ Ruby programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2023 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.
