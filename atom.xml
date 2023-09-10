@@ -19,6 +19,15 @@ The out-of-band (OOB) flow has been blocked in order to keep users secure. Follo
 ここで</code>w3m<code>が開くので、</code>Q<code>を押して閉じるとURLが表示され、そこをChromeなりで開いて、突き進んで承認します。
 そうすると、http://localhost:8080/?state=.... へ回されて止まるので、</code>C-a<code>で別screenを開いて、そこで</code>w3m 'http://localhost:8080/?state=...'<code>とすると、</code>The authentication flow has completed. You may close this window.<code>と言われます。徐に元のscreenに戻ると</code>credential<code>objectができているので、</code>credential.refresh<em>token<code>とすると、漸く</code>REFRESH</em>TOKEN<code>を得られます。1時間有効な</code>ACCESS_TOKEN<code>は</code>credentail.token`で得られます。
 これらを使うと、やっと以前のようにshell scriptで回せるようになります。ふぅ。</p>
+]]></content></entry><entry><title type="html"><![CDATA[NHK Taiga Staff reflection]]></title><link href="http://u-ryo.github.io//blog/2022/03/20/nhk-taiga-staff-reflection/"/><updated>2022-03-21T00:01:28+09:00</updated><id>/blog/2022/03/20/nhk-taiga-staff-reflection/</id><content type="html"><![CDATA[<p><a href="https://matomebu.com/wadai/kamakura13jiko20220313/">大河ドラマ『鎌倉殿の13人』13日放送分に一眼カメラを構えたマスクおじさんスタッフ映り込み放送事故で公式が謝罪、視聴者「タイムスクープハンターの撮影班だ」#鎌倉殿の13人</a>
+たまたまぼくも本放送、再放送どちらも録画してたので、よーく見てみました。</p>
+<p><img src="kamakuradonono13nin.png" alt="kamakuradonono13nin" /></p>
+<p>12fps で 3コマ約0.2秒、確かによく見付けたなぁと思います。
+再放送では編集されるとの由、どうなるんだろうと注視していましたら、
+北条義時の走るシーンが例の場面直前まででカットされ、
+その分佐竹側の武者達が降りてくる次のシーンが若干長くなっている、
+というものでした。
+両者足したものを作ってみたら確かに45分を0.2秒程越えてました。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[gradlew stopped]]></title><link href="http://u-ryo.github.io//blog/2021/07/11/gradlew-stopped/"/><updated>2021-07-11T01:12:30+09:00</updated><id>/blog/2021/07/11/gradlew-stopped/</id><content type="html"><![CDATA[<p>実に久し振りにこのblogを書こうとして、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>./grainw create-post &#39;some title&#39;
@@ -182,6 +191,150 @@ https://services.gradle.org/distributions/ はあるのになぜ404? と思っ�
 <li><a href="https://qiita.com/kawanet/items/d856b7b9eb8ceccac4d7">Docker for MacでAmazon Linux 2でsystemd</a></li>
 <li><a href="https://www.middlewareinventory.com/blog/ansible-wait_for-examples/">Ansible wait_for module examples</a></li>
 </ul>
+]]></content></entry><entry><title type="html"><![CDATA[cut pdf and convert to png]]></title><link href="http://u-ryo.github.io//blog/2020/12/23/cut-pdf-and-convert-to-png/"/><updated>2020-12-23T01:13:27+09:00</updated><id>/blog/2020/12/23/cut-pdf-and-convert-to-png/</id><content type="html"><![CDATA[<p>「pdf fileの10ページ目を切り取ってpngにconvertする」やり方。
+<code>pdftk</code>で<code>10</code>ページ目を<code>cat</code>して標準出力に渡し、それをpipeで繋げて<code>pdftoppm</code>で標準入力から読み込みredirectして<code>-png</code>で変換してfileへ。<code>-png</code>がないと<code>.ppm</code>になるので注意。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>pdftk nenga2021.pdf cat 10 output -|pdftoppm -png - &gt; nenga2021.png
+</span></code></pre></td></tr></table></div></figure></p>
+]]></content></entry><entry><title type="html"><![CDATA[learned on ruby and vue, angularjs]]></title><link href="http://u-ryo.github.io//blog/2020/03/15/learned-on-ruby-and-vue-angularjs/"/><updated>2022-03-20T23:49:01+09:00</updated><id>/blog/2020/03/15/learned-on-ruby-and-vue-angularjs/</id><content type="html"><![CDATA[<p>お仕事でRuby on RailsとVueをやっております。
+これまではずっとJavaやAngularな人生だったので、Duck Typingと格闘中です。
+新規機能開発で様々な山を超えてきた(知見を得た)ので、忘れないうちに。</p>
+<ul>
+<li>破壊的method(Bang Method)って、その響きから何かあんまり良くないのかと無意識に思っていたのですけれども、調べてみると特に忌避すべきというものは見つかりませんでした。内部logicを考えると中で変数を付け替えていると思われますが、bangしないと両方分memoryに持ってなきゃならないから?→そうしたらrubocopに、<code>result[:key]=... if ...</code>と書けと言われました。ナルホドです!</li>
+<li>手元では<code>yarn test:vue</code>通るのにCircleCIでは<code>7 fails</code>と言われて通らないので悩みました。どう目を凝らしてもerrorらしき出力はなく。よく見るとCircleCIの最後に<code>Too long with no output (exceeded 10m0s): context deadline exceeded</code>とあり、かかった時間が10:57とか。えー!?そんなにかかっているの?? 手元で<code>time</code>で計測するも、1分ちょっと。CircleCI再実行して観察すると、test自体は1分程で終わり、その後ずっとだんまりで、10分程してTimeoutします。何だろう? 手元では再現しないのでとにかく厄介です。考えてみたら、チェックじゃなくて「1)」とか「2)」になっているところが失敗したところなんですね。確かに7)までありますわ。でも、そこがどう間違っているのかが全然出力されないので皆目わかりません。一箇所、<code>describe('...', async () =&gt; {</code>ってなっていたから、これか! と消して勇躍試してみたものの、症状変わらず。<code>mount</code>を<code>shallow</code>にしてみたり削れるだけの<code>async</code>/<code>await</code>を削っても。何故か<code>describe</code>の囲みを解くとtestが失敗します。期待してるobjectのpropsがないと。でももう一つ別のpropsはある。もぅわけわかんない!ですよ。CircleCIにsshで入ったりして色々と調べてみると、特定の2 filesが先にあると失敗する様子。何それ。どちらかがない、もしくはどちらかより先に実行されれば上手く行く。もっと詳しく見てみると、具体的には、<code>shallow</code>した直後の<code>wrapper.html()</code>の中身が全然違うという。どうして? そんなとこどうにもなんないじゃん。...あぁ、ぃゃ、test対象Vue Classできちんとcomponentを定義すると(e.g.<code>components: { 'el-button': Button, 'el-dialog': Dialog }</code>)warningが消えてcomponentとして見えるようになることがありますが(特にElementUIは<code>el-...</code>とclass nameが合わないので...(- -;)、そういうわけでもなく。何せ2 filesが組み合わさるとtestにコケるというのが謎です。試しにダメにするspec fileを一つ消してから全体的に<code>npm run test:vue</code>してみると、またコケるので、その2 filesはat leastであってもっと他にも組み合わせの悪いのがあるということです。i18nかなぁ? 確かに一方はenで他方はjaでしたが、大して使ってないのでcomment outしても変わらないですし... localでは全体的に通しても通っている、CircleCI上でも単体や相性の悪いものの後でなければ動く、でも全体的に通すとtestに失敗する、というのはとても悔しく、厄介です。結局心折れて、componentが見つからなければtest codeをthroughするようにしました。端から<code>describe.skip(...</code>よりはマシでしょう。それにしても何でやねん。大したtestしてるわけでもないclasses(methodがcallされたかどうかをassertしてる程度)に阻まれて、ちゃんと作ったspecのtest(条件がどうならどういう表示状態、<code>input</code>要素をclickしたらどういう文言のdialogが出て、等)を実行できないというのは何とも残念でなりません。</li>
+<li>Vueのtest、ムズカシイです。child componentの扱い、ですね。何気なく使っているであろう<code>el-table</code>とか<code>el-dialog</code>、そのままだとそんなcomponent知らないよとwarningが出まくります(<code>[Vue warn]: Unknown custom element: &lt;el-table-column&gt; - did you register the component correctly? For recursive components, make sure to provide the "name" option.</code>)。<code>wrapper</code>からはHTML Tagとして扱えるので最後はそうするのですけど、出来ればちゃんとcomponentとして扱いたいところです(でないとtable等でdataをloopさせて表示を作るcodeだった時のdata部分がそっくりないのでtest出来ない)。spec classで<code>shallow</code>(or<code>mount</code>)する時に<code>stubs:</code>するのかと思ってた(前それで頑張った気がした)んですけどそうではなく、spec対象元classでちゃんと定義されていれば?、否、ElementUIなんかは丸っと読み込まれているのでいいのかなぁ?ともあれ、spec classで<code>localVue.use(Table)</code>とした<code>localVue</code>を<code>shallow</code>(or<code>mount</code>)時に読み込んでやる必要がありました。でそのcomponentを<code>find</code>して<code>.props()</code>して中身を<code>expect</code>していくという流れですね。最初は<code>console.log(wrapper.html())</code>で何が捕れるのかよく観察すると。でも上記のように、何かが変わるとすぐ取れるcomponentが変わるようなので、怖いです。その辺りの機微がよくわからないので...</li>
+<li>Vue testにおけるtickの待ち方。<code>it(..., async () =&gt; { ... await Vue.nextTick(); ...});</code> 2 ticks待たないと値が変わらないことも。</li>
+<li><code>wrapper.findAll('.cell')</code>で取って来た値はElement Objectなので、見た目上は空でも<code>expect(cell).to.be.empty</code>とは出来ません。<code>expect(cell.isEmpty()).to.be.true</code></li>
+<li>Vue componentって、初期値<code>props</code>と<code>data</code>は分けねばならない? 当初、<code>data</code>に初期値を渡そうとしてどうしても出来ず、途方に暮れました。<code>data</code>の初期値は<code>data</code>部に書いた最初に返す値でそれは何でもよく、tagの方で渡す値で上書きされるのかと思ったら違うんですね。では<code>data</code>ではなく<code>props</code>を使うのかと思うとそうでもなく、<code>props</code>を後から変更しようとすると怒られますし。Stackoverflowにあった解決策は、初期値<code>props</code>と<code>data</code>を使い分けること。無駄な変数増えて何だかなぁとは思いますれど、そういうもの?</li>
+<li><code>slot-scope</code>って、<code>="scope"</code>ではなく<code>={row}</code>とやればいいんですね。本で知りました。</li>
+<li><code>...mapGetters</code>がなかなか効かなくて苦労しました。<code>computed:</code>に入れる、storeのmodule構造に合わせて<code>module(file)名/method名</code>にする、とやったんですが、<code>undefined</code>って言われて。<code>store</code>経由で<code>this.store.value_name</code>とかってやると取れるのに。でも<a href="https://uncle-javascript.com/vuex-getters">State を直接参照せず、getter 経由で参照することを強く推奨する</a>というので頑張りました。一回は諦めたんですけど、その後retryしたらうまくいくように。結局どうしてうまくようになったのか、決め手が何だったのかよく分からずじまいです。</li>
+<li>確認dialogを出すというんですが、非同期のJavascript/Vueにあってはこれが意外とムズカシイです。確認dialogというからには処理を止めなければなりません。よくやるように「flagで表示を制御」ではmain処理止まらないんですよね。そもそもsleepだとて簡単には行かないですよねJavascriptで。とても苦労しました。<code>async</code>/<code>await</code>を導入してやっと止めました。要は「dialogを作っているところを<code>new Promise</code>でくるんで<code>return</code>、それを<code>await</code>、しているfunctionを<code>async</code>」ですかね。</li>
+<li>dialogって自分で<code>$destory()</code>出来るんですね。生成と削除は外からやらないとダメかな、と思っていた(ので<code>$emit</code>して親で受けて<code>dialog.$destory()</code>してた)んですけど、実際生成は外から<code>$mount()</code>呼ばないとならないですけど(<code>created:</code>や<code>mounted:</code>はcallbackですよね)、「ボタン押したら消滅」で自己<code>$destroy()</code>は出来るんですねやってみたら。いちいち面倒くさいけどやってみないとわからんもんですね。</li>
+<li>dialogを出す必要に迫られたんですけど、よくあるようにdialogを予めDOMに仕込んでflagでappear/disposeとするには、2階層上のVue componentに書かないと、loopで大量生産されてしまうことが判明。Vue component間は親との対話だったら<code>$emit</code>と、戻しは何だ??を使えば出来ますが、2階層上は面倒です。情報渡すだけならまだしも、その後の処理を孫でやるならdialogの結果を2階層戻してもらわないとならないですし、じゃぁ処理もgrandparentに渡す? 処理に必要な情報も渡さないとだし、grandparentで知らなくてもいいことを知らなきゃいけないなんて。ということで、何かないかなーと探すと、揮発性dialogというものが(<a href="https://speakerdeck.com/uhck/hui-fa-xing-falsegao-ikonponentowozuo-ruhua">揮発性の高いコンポーネントを作る話</a>)。探すと似たようなことしてる人割と多く。これを理解して、そのままではなく2 filesで済むようにして自分のにapplyするのも頭を使いました。これ結構いいような。Vueのdialogも一般的にこれでいいような。初からDOMについているのではなくって。</li>
+<li>既述のように、<code>await</code>もうまく行ってよし、じゃぁtestを書くぞ、と試したら、いきなりわけのわからないerrorに見舞われてそもそもtestが動かなくなってしまいました。なんでだろー?! 自分以前では確かに動いていたので、自分のせいです。でもどのfileが悪いとかも出て来ないのでまるで取っ掛かりがなく、途方に暮れました。error messageで検索すると、どうやらなんと<code>async</code>/<code>await</code>を使った場合に出る<code>bable</code>/<code>polyfill</code>系のerrorだとか。えー!! 折角苦労して<code>async</code>/<code>await</code>でdialog止めたのに! 代替手段なんて思い付かないよー! ということで、何とか突破すべく頑張りました。<code>babel</code>の線で色々と調べてみると、こうしたら直った、ああしたら、とか種々書いてあるんですね。新たなgem install以外は全部試しましたけど、うまく行かず。でも<a href="https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined/">この記事</a>を参考にvueの<code>setup.js</code>冒頭に<code>require("babel-polifill");</code>と書いたら!! 動いてくれました!! 省みれば僅か1行の追加ですけど、この1行には数時間もの汗と涙が詰まっているのです。</li>
+<li>APIの試験をするのに、<code>curl</code>やPostmanを使うのはよくありますけど、cookieが何か長くてcopyが面倒だなーと思ったので、Chrome Developer toolのConsoleにて<code>fetch</code>でやる手法を。<code>fetch(｀/apis/endpoint/＄｛id｝｀,{method:method,credentials:'include',headers:{'X-CSRF-Token':token}}).then((response)=&gt;console.log(response))</code>とすればBrowserの持っている認証情報をそのまま使ってくれます。<code>credentials:'include'</code>が肝です。どうせ使い捨てcommandですから。</li>
+<li>Railsは自動的にCSRF対策がなされている、ということで、何してるんだろーと思いきや、session毎に予測困難な<code>X-CSRF-Token</code>が付くというものでした。request毎に違うものでなくてもいいのか? いいのか...予測困難なら...</li>
+<li>Railsの日付、Timezone気を付けないといけないのですけど(AWSはUTCなので)、<code>Time.current</code>や<code>Date.current</code>のように<code>.current</code> methodを使えばTimezoneを意識してくれる模様。<code>.now</code>より<code>.current</code>がということでやはり「ナウい」は死語ということですか。</li>
+<li>Ruby、共通処理は継承関係作って親クラスに、と思っていたんですけどそれってJava的発想? OOP的というか。RubyではむしろMixin? MixinってAOPかと思ってたんですけど。Duck Typingだからそもそもclass的には無関係でいいんですね。Java屋さんとしては何だかなぁと。</li>
+<li>Rubyのstream(<code>map</code>や<code>select</code>や<code>reject</code>や<code>each</code>等)、もうfoolproofとして<code>lazy...force</code>を付けるのがいいんじゃないか、と思ったんですけど、そうでもないんですねこれ!! ってかそもそもどうして<code>lazy</code>がdefaultじゃないんだろう? ってJava屋さんとしては思ってたんですけど、<a href="https://bugs.ruby-lang.org/issues/6183#note-2">銀の弾丸ではない</a>という話があって衝撃でした何を今更ですけど(古い話のようで今は<a href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-core/77130">多少performance上がった</a>そう)。というわけで、<code>lazy</code>は「省メモリ」か「後でかなりの数<code>take</code>することがわかっている場合」でないと効果なさそうなんですね。<a href="https://stackoverflow.com/questions/47653131/rubys-lazy-less-performant-than-allocating-huge-lists">元ネタ</a></li>
+<li>最近何か安易に大量のlogをslackに投げていたので、そうじゃないでしょ基本的にはlog fileでしょ、それもdefaultのfileでいいよね、ということで、<code>Logger.new(...)</code>ってやったんですけどどうして毎回file nameを指定しなきゃいけないのか、しかもfile名指定して<code>new</code>すると都度file作りやがる、のでappend modeでopenして、とかってやらないとならないの?! なんか面倒臭くね? と思ってたら、<code>Rails.logger</code>でいいんですね。なぁんだ。<code>@logger ||= Rails.logger</code></li>
+<li><code>controller</code>で最終的?に全てのerrorを拾うには<code>rescue_from error_class名, with: :method名</code>、事前validationを定義するには<code>before_action :method名</code></li>
+<li>決まった名前をclass methodにするか定数にするか、は、定数の方が良いようです。ref. <a href="https://stackoverflow.com/questions/15903835/class-method-vs-constant-in-ruby-rails">Class method vs constant in Ruby/Rails</a></li>
+<li>Rubyで「objectの同一性」とは、Javaと違って<code>==</code>、<code>eql?</code>、<code>hash</code>の3 methodあるんですね。うち<code>==</code>はArrayで、残る2つはSetで使われる模様。Arrayでは比較通るのにSetでは違うと判定され悩みました。Setではobject hashを取っているからなんですね。でも結局、<code>.to_json</code>すれば同一性methods定義しなくても行けました。何だかなぁですけどまぁunit testなのでいっかー。</li>
+<li>すっかり忘れてましたけど<code>routes</code>で<code>resources</code>を使えばendpoint定義をまとめられますね。path parameterも積極的に使うべきでしょう(その存在を強制できるので)。parameter nameは基本<code>id</code>ですけど変えられるんですね。</li>
+<li>ActiveRecordで、MySQLみたいに「あれば取得、なければ作る(recordも入れる)」なんてあるかなーと思ったら<code>.find_or_create_by</code>がありました。更にforeign key制約をつけて、その制約に反したらerrorにして欲しい場合は、<code>.find_or_create_by!</code>でした。</li>
+<li>RubyでVO(Value Object)を作るのは、どうしたらいいんですかね。<code>object = Struct.new(:variables, ...)</code>とobjectとして使えば良い、という記述があったので、今度試してみます。←ここでいうobjectってclasなんですね。</li>
+<li>RubyにもJavadocのようなcomment流儀あるんですね。<a href="http://yardoc.org">YARD</a>ですか。<code>@param [引数のクラス] 引数名 引数の説明</code>、<code>@return [戻り値のクラス] 戻り値の説明</code></li>
+<li>配列からhash mapを作る手法、色々ありますよね。よくある「<code>[key, value]</code>の配列の配列にしてから<code>.to_set</code>」はloopを2回回すので何だかなぁと思っていました。Rubyにもある<code>reduce(inject)</code>を使えば出来る!とあったのでやったのですけど、そうしたらrubocopに「そういう時は<code>each_with_object</code>を使え」と言われました。ナルホド、それなら確かにblockの最後に<code>hash</code>をreturnせずともよいわけですね! というわけで、<code>list.each_with_object({}){|value,hash|hash[key]=value}</code>、更に一気にhashのhashを作るには、<code>list.each_with_object(Hash.new{|hash,key|hash[key]={}){|value,hash|hash[key1][key2]=value}</code></li>
+<li>同様に、一気に<code>Set</code>を作るには、<code>list.each_with_object(Set.new){|value,set|set&lt;&lt;value}</code>の方が、最後に<code>.to_set</code>よりよいでしょう。</li>
+<li>reekに「<code>log.debug</code>を複数回使っているからまとめよ」と言われて弱りました。単純にまとめると、毎回引数を評価しちゃうじゃないですか。でもloggingなので遅延評価が必要でしょう。というわけで、blockを残せるようにmethod定義しました。<code>def debug(&amp;block) Rails.logger.debug(&amp;block); end</code>使う時は<code>debug{...}</code>です。</li>
+<li><code>rescue</code>で<code>=&gt; e</code>とせずとも<code>$!</code>でerrorを参照できるんですね。<code>rescue</code>で<code>retry</code>とすれば<code>begin</code>からまたやってくれるんですね! ただ、上限設けないとずっとretryし続けるので注意ですかね。</li>
+<li>Railsでmail送信は、configが終わっているのであとは、<code>ApplicationMailer</code>を継承したclassを作成、<code>app/views/class名/method名.html.haml</code>といったtemplateを用意、という感じでした。html mailだけだとspam判定されやすいとのことなので、<code>app/views/class名/method名.txt.erb</code>も用意しました。classのinstance fieldをmail template中で参照できます。</li>
+<li>ActiveRecordでの取得はなるべく<code>.pluck</code>にした方が速いし軽い、ということでそうしてますが、でもそうすると何のためのDTOなのかと。model定義の意義が少し薄れるような。modelがfatなのが悪い? <code>.pluck</code>でない場合はせめて<code>.select</code>で選択するfieldを減らしてやって生成されるobjectを少しでも軽くすると。ただActiveRecordからObjectを生成するcostが高いとのことなので、<code>.pluck</code>の方が推奨されています。...<code>.select</code>って、modelにないfieldもselectできるんですね。そしてdynamicにmethodが生えると。なんかそこまで行くと気持ち悪い気がするのは、やはりJava出身だから??</li>
+<li><code>yield</code>はよく使いました。<code>if block_given?</code>も併せて。</li>
+<li>instanceからclass variableへの参照は<code>instance.class::VARIABLE</code>でした。</li>
+<li>rspecで<code>allow(Rails).to receive(:logger).and_return(spy('logger'))</code>とするとloggingが一律空回しになります。</li>
+<li>method chainを<code>allow</code>するには<code>receive_message_chain</code>(e.g.<code>expect(SomeClass).to receive_message_chain(:joins, :distinct, :where, :pluck)</code>) <code>.with(...)</code>を複数書いても、それぞれのmethodの引数指定ではなく、最後の一つしか評価されていない?</li>
+<li>rspecで、違ったparameterで同じobjectのmethodをcallするのをstubするには、<code>allow(...).to receive(:same_method).with(...)</code>を並列で何度も書けばよいです。<code>with(...)</code>をmethod chainさせるとかではないんですね。</li>
+<li>rspecでinstance doubleに引数を連ねるとmethod stubになります。e.g. <code>double('user', id: 1)</code>→<code>user.id==1</code>(<code>double</code>の最初の引数は任意名)</li>
+<li>調べればすぐ出てくることではありますが、Railsのmigrationの<code>create_table</code>時にprimary keyを自動で出来る<code>id</code>以外にしたい場合は<code>create_table</code>の行に<code>primary_key: key名</code>と書きます。更にforeign key constraintを付け加えたい場合は、その下に<code>add_foreign_key :table名, :foreign_table名</code>と書けば大丈夫でした。</li>
+<li>RubyでTime format時、<code>.strftime('%X')</code>とすると一文字で<code>15:37:21</code>に、<code>.strftime('%F')</code>とすると<code>2020-03-01</code>になるので便利です。また、<code>.iso8601</code>とすると<code>T</code>を挟んでTimezone付きで<code>2020-03-01T15:39:10+09:00</code>というようにしてくれるのでこれも便利です。</li>
+<li><a href="https://daily.belltail.jp/?p=2035">嫁の顔忘れてもTimecop.returnは忘れないでねという話</a>にあるように、<code>Timecop.travel(Time.parse('2020/3/1 0:01:03')) do ... end</code>で囲うのはいいですね。<code>Timecop</code>も<code>.travel</code>(特定時刻にしてから時を刻む)と<code>.freeze</code>(特定時刻にして時を止める)では違うので注意です。</li>
+<li>Rubyで文字列の連結は<code>&lt;&lt;</code>が<a href="https://qiita.com/Kta-M/items/c7c2fb0b61b11d3a2c48">いいみたい</a>ですね。C++みたいですね。</li>
+<li>ActiveRecordでN+1問題を回避するには、なるべく<code>joins</code>した方が良いようです。が、図に乗って巨大tableをjoinするとそれはcostがでかいので、分割して引いた方がいいんでしょう。<code>joins</code>するにはmodelに<code>has_many</code>とかの関係が書いてないとダメでした。2つ先の関連も書けて、<code>has_many :second_table, through: :first_table</code>と<code>through:</code>で繋げられました。</li>
+<li>と思ったのは幻想でした。書けちゃいますけど、joinされたものはkeyで結びついたものではなく、雑に合わさったもので、<code>where</code>で引いてもそうでないものまでついてきていて、bugを引き起こしていました。ちゃんとやらないとダメですね。</li>
+<li>「ちゃんとやる」とは、<a href="https://qiita.com/TeruhisaFukumoto/items/007ad22cc170d297dbcc">Railsでモデルを4段階joinする方法で、もう一度理解するjoinsとmerge</a>にあるように、ActiveRecordの<code>joins</code>で繋ぐ時に<code>joins(first:[second: :third])</code>とすること。これでちゃんとjoinされました。</li>
+<li>controllerで、APIっぽくheaderだけ返して中身は不要という場合、<code>head :created</code>(201)とか<code>head :unauthorized</code>(401)と書けます。</li>
+<li>Rubyのhere documentはもう<code>&lt;&lt;~</code>でよくないすか? <code>&lt;&lt;</code>だと左端にひっつくので。</li>
+<li>Rubyの<code>reduce</code>は<code>each_with_object</code>に取って代わられるのですが、<code>reduce(&amp;:method)</code>で済むところに活路があるようです。使えたのは<code>Set</code>のmergeですね。<code>[Set.new([1,2,3]),Set.new([2,3,4])].reduce(&amp;:merge)==Set.new([1,2,3,4])</code></li>
+<li>複数回<code>.include?</code>するなら絶対<code>Set</code>にすべきですよ。</li>
+<li>定数文字列もなるべく<code>.freeze</code>すべきでしょうか。magic comment <code># frozen_string_literal: true</code>で(が?)よいのでしょうか。</li>
+<li>controllerのrspecで、<code>before_action</code>のtestを書くことになったのですが、色々と悩みました。どこに書くか? 書いたclass? 使うclass? Javaでabstract classのtestだとconcrete classに書きますが、controllerは使う側に書くと多岐にわたるので、<code>application_controller_spec.rb</code>に書きました。</li>
+<li>curlでtest clientとしてJSONを<code>-d</code>でPOSTしたところ、どうもうまく行かなくて、調べるとserver側に<code>"{\"key\":\"value\"}"</code>なんて渡っていました。どうしてー?! HTTP Request Headerに<code>Contetnt-Type: application/json</code>が必要なんですね! そういえば。</li>
+<li>今更ですがAngularJSのtestで、<code>window.location.href</code>をassertionしようとして四苦八苦しました。<a href="https://stackoverflow.com/questions/20252382/how-to-mock-window-location-replace-in-angularjs-unit-test">How to mock $window.location.replace in AngularJS unit test?</a>等から得たことは、<code>window.location.href</code>だとtest(jasmin)で拾えないので<code>$window.location.href</code>にする、responseがemptyだとどうしてもtestの方でcatchしてくれないのでdummy値を<code>response</code>代入する、testでは<code>$window</code>がemptyで悩みました。<code>$provide.value('$window',</code>でprovideして<code>beforeEach(inject(function($injector, $rootScope, $httpBackend, $window) {</code>でinjectしつつ<code>window=$window;</code>と付け替えて、assertionのところで<code>window</code>を使う、という。</li>
+<li><code>diff</code>で相違は出ますが、共通行を抽出するには? <code>comm -1 -2 file1 file2</code>(但しfilesはsort済であること) ref.<a href="https://qiita.com/mekagazira/items/1a1791a42e435cefd5f6">２つのファイルの共通行を抽出する方法</a></li>
+<li>MySQLでindexがついたかどうかを確認するには、<code>describe table名</code>では<code>Mul</code>と付くだけでよくわからず。<code>show create table table名</code>でCREATE文を出すことで。</li>
+<li>controllerのrspecで、sessionってどう表すのかと。<code>get :index,params:{aaa:'AA'}</code>だから<code>get :index,params{...},session:{...}</code>かと思いきや、実際そう書いてあるところもあるんですが、それではうまく行かず、<code>get :index,{param:'something'},{session:'something'}</code>と。ref. <a href="https://stackoverflow.com/questions/22451969/rspec-set-session-object">RSpec set session object</a></li>
+<li>rspecでprivate variableにsetするには、<code>some_instance.instance_variable_set('variable_name', 'some value')</code>、getするには`some<em>instance.instance</em>variable<em>get('variable</em>name')</li>
+<li>visitor patternを適用しようと思っていたのですけど、諦めました。RubyってDuck Typingだからあんまり効果を見出だせず。<a href="https://passingloop.tumblr.com/post/13835569972/rarely-used-visitor-pattern-in-ruby">Ruby で Visitor パターンをあまり使わない理由，Ruby で Visitor パターンを使うとき</a>という投稿もあり。</li>
+</ul>
+<hr />
+<ul>
+<li><p><a href="https://abicky.net/2018/12/03/104228/">upstart で start した job の設定を変更するには一度 stop する必要がある</a>
+へーそうなんだ! ってぃぅか何のための<code>restart</code>っすか? <code>restart</code>あるんだから機能すると思いますよねぇ...orz</p>
+</li>
+<li><p><code>1.hour.ago</code>があるのに<code>.later</code>や<code>.after</code>はないのでどうするんだろう? と思ったら、<code>1.hour.from_now</code>っていうんですね。</p>
+</li>
+<li><p>controllerのrspec書いていて、やっと単体で通るようになったので、いざ全体的にrspecかけてみると、コケます。確かに自分の書き足したところ。でも通る時もある。どうして?→そういう、rspecの結果が不安定な時は、実行順序依存性があります。これを紐解かねばなりません。それが厄介でした。といいますか、rspecって全体的にかけると、といいますかspec fileを指定しないでdirectoryだけ指定して実行すると、spec filesの実行順序がrandomなんですね。それはその方がいいですね。なので、色んな手を使って順序依存性を解明していきます。ref. <a href="https://qiita.com/ShunjiKato/items/c95e6cb0fb3523aa693a">RSpecコマンドのオプションまとめ</a> rspecに<code>--order random:NNNNN</code>を付けてrandom seedを固定、<code>-f d</code>として出力formatにclass名を出すようにし、<code>--no-color</code>でescape sequenceを抑制します。<code>-o filename.log</code>でfileに出力、それをうまく行ったときと失敗した時で保存して、class名を比較しました。当該classのtest以前だけが大事なので、そこだけ出して<code>sort</code>して<code>diff</code>取ります。失敗事例が複数取れれば、それらの共通classを<code>comm -1 -2 &lt;(...) &lt;(...)</code>で抽出するのが良いです。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker-compose <span class="nb">exec </span>rails bash -c <span class="s1">&#39;RAILS_ENV=test bundle exec rspec --order random:32510 -f d -o 32510.log --no-color&#39;</span>
+</span><span class='line'>diff &lt;<span class="o">(</span>grep -e <span class="s1">&#39;^[A-Za-z]&#39;</span> -e <span class="s1">&#39;^  Apis::&#39;</span> controllers2.log|awk <span class="s1">&#39;{if(/ApplicationController/){exit}print}&#39;</span>|sort<span class="o">)</span> &lt;<span class="o">(</span>grep -e <span class="s1">&#39;^[A-Za-z]&#39;</span> -e <span class="s1">&#39;^  Apis::&#39;</span> 32510.log|awk <span class="s1">&#39;{if(/ApplicationController/){exit}print}&#39;</span>|sort<span class="o">)</span>|ag <span class="s1">&#39;&lt;&#39;</span>
+</span><span class='line'>comm -1 -2 &lt;<span class="o">(</span>grep -e <span class="s1">&#39;^[A-Za-z]&#39;</span> -e <span class="s1">&#39;^  Apis::&#39;</span> controllers2.log|awk <span class="s1">&#39;{if(/ApplicationController/){exit}print}&#39;</span>|sort<span class="o">)</span> &lt;<span class="o">(</span>grep -e <span class="s1">&#39;^[A-Za-z]&#39;</span> -e <span class="s1">&#39;^  Apis::&#39;</span> 4627.log|awk <span class="s1">&#39;{if(/ApplicationController/){exit}print}&#39;</span>|sort<span class="o">)</span>
+</span><span class='line'>comm -1 -2 &lt;<span class="o">(</span>grep -e <span class="s1">&#39;^[A-Za-z]&#39;</span> -e <span class="s1">&#39;^  Apis::&#39;</span> controllers2.log|awk <span class="s1">&#39;{if(/ApplicationController/){exit}print}&#39;</span>|sort<span class="o">)</span> &lt;<span class="o">(</span>grep -e <span class="s1">&#39;^[A-Za-z]&#39;</span> -e <span class="s1">&#39;^  Apis::&#39;</span> 48327.log|awk <span class="s1">&#39;{if(/ApplicationController/){exit}print}&#39;</span>|sort<span class="o">)</span>|grep -r -l -f /dev/stdin spec/controllers|sort -u|tr -d <span class="s1">&#39;\r&#39;</span>
+</span></code></pre></td></tr></table></div></figure></p>
+</li>
+<li><p>単体では通るのに全体だと時々こけるというのはどうしてもよくわからないので、何度も何度も実行して観察してみると、コケる時のFの出る位置がまちまちなんですね。あぁ、これって毎回test順序違うのか、とその時初めて思い至りました。それで、rspecにおけるrandom seedの固定方法や出力形式の指定の仕方を調べ、何とか実行順を成功時と失敗時で比較して、怪しいものを試して、辿り着いたのでした。</p>
+</li>
+<li><p>controllerのtestでは、<code>before_action</code>に指定したprivate methodのtest且つ利用するchild classでのtestではなくbase classでのtestなので、当初は<code>contorller.send('method_name')</code>とかやってたんですけどこれは本来的ではないな、ということで、Anonymous Controller使いました。といっても<code>describe</code>の中で<code>controller do ... end</code>して、そこで<code>before_action :method_name</code>しただけのものです。それでその<code>describe</code>内のcontrollerは定義したものになるという、お手軽な。でもここでエラー(<code>Error</code>をthrow、じゃないRubyだからraiseですか、する筈が正常に終了してしまう)が出て、悩みました。結局、わかってみればどうということはないのですが、他のspec classで、<code>ApplicationController.skip_before_filter :login_required</code>を<code>before do...</code>でやっていて、でも<code>after do...</code>で元に戻していなかったから、というのが原因でした。</p>
+</li>
+<li><p>そもそも、<code>ApplicationController.skip_before_filter</code>なんてせずに、単に<code>allow(controller).to receive(:method)</code>とmockすれば十分です。そうしたら<code>after do...</code>だって不要ですし。ref. <a href="https://qiita.com/yuutetu/items/a1586339d716aad04098">before_filterを分離してテストする方法(Rspec)</a> 別段<code>true</code>返す必要もないんですねこの<code>before_action</code>って。<code>before_filter</code>は古いんだそう。</p>
+</li>
+<li><p>いつも<code>schedule</code>の確認をするのに。<code>bundle exec whenever</code></p>
+</li>
+<li><p>AngularJSでのredirect? になるのかな? は、routesの<code>$stateProvider.state('...')</code>に定義されたところへ、<code>$state.go('...')</code>で飛びます。ref. <a href="https://qiita.com/nogson/items/63d8f007fe987e2dfe9e">Angularjs UI Routerの使い方</a> でも結局、AngularJSのrouting範囲外に飛ばしたかったので、<code>$window.location.href = ...</code>で飛ばしました。</p>
+</li>
+<li><p>ActiveRecordの<code>scope</code>に引数を取る場合には、<code>scope scope_name -&gt;(arg1, arg2) { ... }</code> 矢印とカッコはくっつけないとreekに怒られます。</p>
+</li>
+<li><p>Rubyで<code>String</code>の<code>select</code>を正規表現でするなら<code>grep(/.../)</code>、<code>-v</code>の場合は<code>grep_v</code>(<a href="https://stackoverflow.com/questions/4165971/ruby-equivalent-to-grep-v/33881808">Ruby equivalent to grep -v</a>)</p>
+</li>
+<li><p>AngularJSのroutingってURLについたanchor(<code>#</code>以下)に出るのですが、それってそもそもbrowserがserver側に送信しないんですね...</p>
+</li>
+<li><p>ActiveRecordで選択して保存を1行で。例えば<code>User.find(1).update(name:'new name')</code></p>
+</li>
+<li><p>rspecでActiveRecordのtest dataってfixtureやFactoryGirlを使うものかと思っていたのですけど、普通に<code>.create</code>とか<code>.update</code>とかして大丈夫なんですね。大丈夫、というのは、後腐れがない、んですね。</p>
+</li>
+<li><p>RSpecで<code>allow</code>でmockした時に、<code>.and_return</code>だけでなく処理(<code>sleep(1)</code>)を入れたかったんですけどどうしたら? と思ったら、単にblockでいいんですね。blockの最終評価値がreturnになる、というなら<code>.and_return</code>って不要なの?</p>
+</li>
+</ul>
+<!--
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/stats/adset?campaign_id=6119375093538&amp;date_preset=customize&amp;advertiser_id=3&#39;</span>
+</span><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/stats/campaign?campaign_id=6119375093538&amp;advertiser_id=3&#39;</span>
+</span><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/stats/adset?adset_id=6119375094338&amp;advertiser_id=3&#39;</span>
+</span><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/stats/adset?adset_id=6119375094338&amp;type=daily&amp;advertiser_id=3&#39;</span>
+</span><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/stats/adgroup?adset_id=6119375094338&amp;advertiser_id=3&#39;</span>
+</span><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/stats/adgroup?type=daily&amp;advertiser_id=3&amp;adgroup_id=6119375096938&#39;</span>
+</span><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/adgroups/show/6119375096938?advertiser_id=3&#39;</span>
+</span><span class='line'>curl -v -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/adgroups/reach_estimateand_description?adgroupid=6119375096938&amp;advertiser_id=3&#39;</span>
+</span><span class='line'>curl -v -H <span class="s1">&#39;content-type:application/json&#39;</span> -d <span class="s1">&#39;{&quot;creative_id&quot;:&quot;6119375095738&quot;}&#39;</span> -H <span class="s2">&quot;JWT-Authorization:$JWT&quot;</span> -H <span class="s2">&quot;X-CSRF-Token:$CSRF&quot;</span> -H <span class="s2">&quot;Cookie:$COOKIE&quot;</span> <span class="s1">&#39;http://dev.ibiza.jp:13000/apis/ads/preview?advertiser_id=3&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+-->
+]]></content></entry><entry><title type="html"><![CDATA[add swap file]]></title><link href="http://u-ryo.github.io//blog/2020/01/12/add-swap-file/"/><updated>2020-01-12T01:55:02+09:00</updated><id>/blog/2020/01/12/add-swap-file/</id><content type="html"><![CDATA[<p>年末にideapad 310のmemoryが壊れてしまい、2度買い直してもmemoryを認識しなかったので、これは本体側が壊れたのだろうと。これを直すには本体のmother board交換になる、くらいならまだ2年程しか使ってませんが新しいのを買う? と考え、物色していたところ、新しいものでもmemoryって搭載容量4GBとか程度で、何故? と思ったんですけど、今はSSDだからそれでいいってことなんですね! そっか、今はSSDが廉価になったからswapでいいのか! なら310もSSDに換装すれば、ということで、SSD 1TBにしました。1.11万円でSamsungの1TBをGET。ubuntu 19.10を入れて... 最初、折角だからZFSにしてみたのですが、SSDと相性悪いんですねこれ。swap partitionは、位置が固定されるためSSDには良くないと。XFSもSSDではjournalingを止めた方が良いとのことで、それだと何のためのXFSなの?! ということなのでつまらないですけどext4で再installします。しかし、partitioningをお任せにすると、今はdefaultでswap partitionではなく2GBのswap fileになるというのは驚きですね。
+ということで、本題です。よく、<code>dd</code>でswap fileを作る例が載っていますけれども、<a href="https://www.server-memo.net/centos-settings/system/add-swap.html#ext4">スワップ領域の追加方法|server-memo.net</a>には<code>fallocate</code>を使う方法があったので、メモです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo fallocate -l 2G /swapfile1
+</span><span class='line'>sudo mkswap /swapfile1
+</span><span class='line'>Setting up swapspace version 1, <span class="nv">size</span> <span class="o">=</span> 2097148 KiB
+</span><span class='line'>no label, <span class="nv">UUID</span><span class="o">=</span>89a19a54-42c9-4847-a482-1971c388fa95
+</span><span class='line'>sudo chmod 600 /swapfile1
+</span><span class='line'>sudo swapon /swapfile1
+</span></code></pre></td></tr></table></div></figure>
 ]]></content></entry><entry><title type="html"><![CDATA[google photo api]]></title><link href="http://u-ryo.github.io//blog/2019/06/02/google-photo-api/"/><updated>2020-01-11T00:58:08+09:00</updated><id>/blog/2019/06/02/google-photo-api/</id><content type="html"><![CDATA[<p>一日千枚とか写真撮る人だと写真がすぐ溜まっちゃうんですよね。
 backupは無限の<a href="https://photos.google.com">Google Photos</a>に、ということで、前はPicasaのAPI、<code>upload_gphots</code>を使ってたんですけど、もう無くなっちゃっていて。どうしよう、途方に暮れていました。暫くぶりに探すと、丁度1年程前からGoogle Photo APIが整備されたようで、良かったです。ずっと待っていました。
 <a href="https://qiita.com/zaki-lknr/items/97c363c12ede4c1f25d2">[追記あり] Google Photos APIsでアルバム作成と写真のアップロード</a>と<a href="https://qiita.com/wo_k_harada/items/7327971a2414040e5a86">Google Photoを業務システムのクラウドストレージとして使った結果</a>、<a href="https://developers.google.com/photos/library/guides/list">本家API Document</a>を参考に早速使ってみます。</p>
@@ -753,55 +906,4 @@ geometryを導入してはがきサイズでpdfを出力するようにしたら
 <code>app.module.ts</code>なりで<code>MatProgressSpinnerModule</code>のimport/importsが必要なんですね。
 もし入ってなければ<code>BrowserAnimationsModule</code>も。
 sampleはdefaultでMat系Module全部入りだからよくわかんなかったんですよ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Using where and join in mysqldump]]></title><link href="http://u-ryo.github.io//blog/2018/11/28/using-where-and-join-in-mysqldump/"/><updated>2018-11-28T00:37:50+09:00</updated><id>/blog/2018/11/28/using-where-and-join-in-mysqldump/</id><content type="html"><![CDATA[<p>基本的には<a href="https://qiita.com/asigochan/items/fec45efff78045b33b90">mysqldumpでwhereにjoinを使う</a>にある通り、</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>mysqldump -uusername -p DatabaseName tableA --single-transaction --were &#39;id IN (SELECT a.id FROM tableA a JOIN tableB b ON a.b_id=b.id WHERE b.name LIKE &quot;%someone%&quot;)&#39;
-</span></code></pre></td></tr></table></div></figure>
-<p>というわけですが、肝は、</p>
-<ul>
-<li><code>--where</code>中で<code>JOIN</code>を使うためにsubqueryにする</li>
-<li><code>--single-transaction</code>を付けることで<code>mysqldump: Couldn't execute 'SELECT... Table 'a' was not locked with LOCK TABLES (1100)</code>と言われるのを防ぐ</li>
-</ul>
-]]></content></entry><entry><title type="html"><![CDATA[Suddenly failed to parse DateTime on JHipster Angular]]></title><link href="http://u-ryo.github.io//blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/"/><updated>2018-11-25T01:23:33+09:00</updated><id>/blog/2018/11/25/suddenly-failed-to-parse-datetime-on-jhipster-angular/</id><content type="html"><![CDATA[<p>ある時、JHipsterのAngularのUser Managementを久し振りに見てみると、user名など表示されるのが物凄く遅いことがありました。ポツ、また数秒してポツ、という具合に一つ一つの行が表示されていきます。あれぇ? こんなもんだったかなぁ? あまり気にしなかったのですが、流石に新規Userを作成しようとして失敗する段になって、これは何とかしなければと思い始めました。browserでF12を押してみると、どうやらDate Pipeでのparseに失敗している様子。どうして? 前は出来てたのに。serverから来ているJSONをよく見ると、DBからのDateTime部分のObjectが<code>epochSecond</code>とかnano何とかになっていました。検索すると、
-<a href="https://stackoverflow.com/questions/37999762/efficient-way-to-have-jackson-serialize-java-8-instant-as-epoch-milliseconds/38004044">Efficient way to have Jackson serialize Java 8 Instant as epoch milliseconds?</a>を見付けて、中身読んでないですが「jackson-datatype-jsr310」を見掛けてあぁー!っと。</p>
-<p>jhipsterで新規application作ってその<code>build.gradle</code>見てみると、確かにありました<code>compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'</code>。
-これを、なくてもいいじゃん、と大分前に取っちゃってたんですね。確かにWebアプリ本体には影響なかったので気付きませんでした。あーあ。こういう影響が出てくるですか。なるほど。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Setting password for unreachable mail user on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/"/><updated>2018-11-28T04:32:45+09:00</updated><id>/blog/2018/11/24/setting-password-for-unreachable-mail-user-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでuserを作る時にmail addressは必須で、
-基本的にはnew user作るとJHipsterは裏でmailを投げています。
-投げて失敗してもnew userは作れるんですが、passwordを設定できません。
-どうしたらいいんだろう? と思ってlog見ていたら、
-<code>http(s)://ホスト名/#/reset/finish?key=XXXXXXXXXXXXXXX</code>にaccessすれば通常の手続きに乗れるんですね。
-このkeyはどこで規定されるのかと思ったら、<code>JHI_USER.RESET_KEY</code>の値です。
-ここだけではダメで、<code>JHI_USER.RESET_DATE</code>に<code>now()</code>等で日付時刻をsetしないと、そしてその時刻から24時間以内にaccessしないと、ならないです。
-あるuserのpassword強制resetにも使える、と思います。</p>
-<p>ただこれをやると、<code>UserService#completePasswordReset</code>の中の<code>cacheManager.getCache</code>でヌルポが出るようでどうしようもなかったです。なので、<code>UserService.java</code>中の<code>cacheManager.getCache(...)</code>を(当該method以外でも)全て<code>try...catch</code>で囲いました。だって無害でしょう?</p>
-<p>追記: JHipsterでのlogin dialogには「パスワードを忘れましたか」というlinkがあって、
-それを踏むと<code>http://127.0.0.1:8080/#/reset/request</code>というpageに遷移し、
-mail addressを入れると、上記初期登録時同様にActivateを要求するmailが飛びます。
-初めてやってみました。へぇよく出来てますね。
-そのmailに書いてあるURLも初期登録時同様<code>http://127.0.0.1:8080/#/reset/finish?key=XXXXXXXXXX</code>です。</p>
-]]></content></entry><entry><title type="html"><![CDATA[Adding a new column on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/11/24/adding-a-new-column-on-jhipster/"/><updated>2018-11-24T05:56:26+09:00</updated><id>/blog/2018/11/24/adding-a-new-column-on-jhipster/</id><content type="html"><![CDATA[<p>JHipsterでdatabaseのtableに新しいcolumnを足したいと思いました。
-Liquibaseで管理されているので、直接DBを変えちゃうと立ち上がらなくなっちゃいます。
-結構面倒臭いんですよねLiquibase。</p>
-<p>基本的には<a href="https://www.jhipster.tech/development/#database-updates">Using JHipster in developmentのDatabase updates</a>に書いてある通り、です。
-3通り紹介されていますが、最初に書かれている<code>entity sub-generator</code>を使った方が、testやi18n、angular側の面倒も見てくれるので楽です。
-但し、generateされるjava/json/ts filesについては、面倒でも一つ一つdiffを見て上書きするか考えた方がいいです。場合によっては上書きしない方がいいcaseもありました(repository class、即ちDBを直接叩くclassとかresource class、即ちRest Controllerとか、i18nのglobal.jsonとか、独自に書いたところがあるものは特に)。</p>
-<p>新規にtableごと加える時はこれでいいのかもしれません(以前やってうまく行った薄い記憶がありますがよく覚えてません)。
-けれども、既存tableにcolumnを足す、となると、
-<code>年月日_changelog.xml</code>を作ってくれないので、
-いくら<code>gradle</code>かけてもDBのtableを変更してくれないんです。
-更に、checksumが合わないといって起動しなくなります。
-困ります。</p>
-<p>なので、2番目の策を合わせて<code>changelog.xml</code>を作ってもらいます。
-そのためには上記ページに書いてあるように、<strong>一旦buildしてから</strong>、
-<code>gradle liquibaseDiffChangelog -PrunList=diffLog</code>すると、
-class fileのdiffを取って<code>src/main/resources/config/liquibase/changelog/</code>以下にchangelogを作ってくれます。
-それを<code>src/main/resources/config/liquibase/master.xml</code>に手で書き入れてからbuildすると、changelogが働いて<code>alter table</code>してくれます。
-但しその際、元のtableのxml(<code>年月日_added_entity_テーブル名.xml</code>)をもとに戻しておかないと、「checksumが合わない」と言われるでしょう。</p>
-<p>...というように、1番目と2番目の合わせ技的なところが最良のように思います。</p>
-<p>どうしてもうまく行かない時、最後は以下の手で何とかなります。なりました。</p>
-<ul>
-<li>DBは自分で<code>alter table</code></li>
-<li>checksumは<code>DATABASECHANGELOG.MD5CHECKSUM</code>にあるので自分で<code>update table set ...</code></li>
-</ul>
 ]]></content></entry></feed>

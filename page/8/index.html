@@ -8,89 +8,11 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/30/illegal-forward-reference/">Illegal Forward Reference</a></h1> <p class="meta"> <time datetime="2018-08-30T10:02:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">30</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/30/illegal-forward-reference/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Javaの珍しいcompile error messageに、 <code>illegal forward reference</code>というのがあります。 これを題材に、後輩氏に課題を出しました。</p> <p>最も単純な形にして挙例すると、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/04/how-secure-is-my-password/">How Secure Is My Password</a></h1> <p class="meta"> <time datetime="2018-09-04T14:25:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">04</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/04/how-secure-is-my-password/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="http://www.usupi.org/sysad/186.html">いますぐ実践! Linux システム管理 / Vol.186</a>に載ってたものなので、何を今更、ですが。</p> <p><a href="http://howsecureismypassword.net/">How Secure Is My Password?</a>、 自分の常用passwordは1 Dayでした。 色々試してみると、 「長いことはいいことだ(10文字以上はないと)」 「最後に大文字アルファベットでも足すと劇的に良くなる」 みたいです。 でも多分これ、localにhashか何かがあってbrute forceを試せる、 という前提での解読時間かなと思います。 今はjs fileはugrifyされてて具体的にどう計算しているのかlogic(簡単には)追えないです。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/04/extract-recent-initramfs/">Extract Recent Initramfs</a></h1> <p class="meta"> <time datetime="2018-09-04T11:19:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">04</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/04/extract-recent-initramfs/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>よその会社に用意して貰ったLinux(ubuntu)のSSDがあって、 ちょっとhappy hackingしてみようと。 <code>initramfs</code>を展開しようと<code>zcat initrd.img|cpio -di</code>とかってやってみたところ、 「not in gzip format」と。 <code>file initrd.img</code>とすると「ASCII cpio archive (SVR4 with no CRC)」です。 圧縮fileじゃないのかとそのまま<code>cpio -id</code>しても、 何か<code>kernel/x86/microcode/AuthenticAMD.bin</code>しか出て来ません。 えー!? どうなってんのー?! 調べてみると、<code>lsinitramfs</code>というのでlistは出るらしい、です。 試してみると、確かに色々入ってそうです。 なのに出て来ません。えー。 <a href="http://neocat.hatenablog.com/entry/20150730/1438273548">FedoraやCentOS 6/7、RHEL 6/7のinitramfsを展開する</a>や<a href="http://nopipi.hatenablog.com/entry/2015/05/06/235615">RHEL7 initramfsの展開方法</a>を見ると、 きょうびの<code>initramfs</code>は違うんですねー。 びっくりです。</p> <p>ちなみに、<code>skipcpio</code>は<code>apt install dracut</code>で入ります。 使うには、<code>/usr/lib/dracut/skipcpio</code>とfull path指定が必要です。 <code>binwalk</code>は<code>apt install binwalk</code>でした。</p> <p>早速試したところ、上手く行くもの(<code>/boot/initrd.img-4.15.0-33-generic</code>)もありましたが、 下記のように上手く行かないものもありました。 そして、目的のものは上手く行かない方のものでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>import java.util.function.Function;
-</span><span class='line'>class Test {
-</span><span class='line'>    Function f = new Function() {
-</span><span class='line'>            @Override
-</span><span class='line'>            public Object apply(Object t) {
-</span><span class='line'>                return o;
-</span><span class='line'>            }
-</span><span class='line'>        };
-</span><span class='line'>    Object o;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>↑これをlambda式に直しなさい、といったようなものです。</p> <p>実はこれ、単純にlambda式にすると、compile errorになります。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
-</span><span class='line'>    java.util.function.Function f = t -&gt; o;
-</span><span class='line'>    Object o;
-</span><span class='line'>}
-</span><span class='line'>$ javac /tmp/Test.java
-</span><span class='line'>/tmp/Test.java:2: error: illegal forward reference
-</span><span class='line'>    java.util.function.Function f = t -&gt; o;
-</span><span class='line'>                                         ^
-</span><span class='line'>1 error
-</span></code></pre></td></tr></table></div></figure> <p>error messageからしてどう直せばいいかは自明かと思ったんですが、 英語が不自由な後輩氏の1日弱かけた答えはこうでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>class Test {
-</span><span class='line'>    java.util.function.Function f = t -&gt; o;
-</span><span class='line'>    static Object o;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>流石に「何でもかんでも<code>static</code>にすればいいってもんじゃない」 ってことはわかってて、「これがFA」とまでは言ってませんでしたけど、 <a href="https://stackoverflow.com/questions/1746758/illegal-forward-reference-in-java">ここ</a>をみて、 「<code>static</code>にすればいいんじゃね、って書いてある」と思ったんだそう。 そうは書いてないんだけどなー。</p> <p>でも、こういう回答は想像してなくて、新鮮でした。</p> <p>そもそもdeclarationが後ろに書いてあったこと自体がおかしい、とは思いますけどね。 そういう「色々おかしい」ソフトを直しています。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/28/service-worker-on-jhipster/">Service Worker on JHipster</a></h1> <p class="meta"> <time datetime="2018-08-28T10:24:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">28</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/28/service-worker-on-jhipster/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://jhipster.tech">JHipster</a>でService WorkerでWeb Pushを、 と思っていて、<a href="https://angular.io/">Angular</a>だから、 <a href="https://u-ryo.github.io/blog/2018/03/19/push-notification-on-angular5/">前やった</a>ように <code>app.modules.ts</code>で<code>ServiceWorkerModule.register('./service-worker.js',...);</code>してから<code>@angular/service-worker</code>で<code>SwPush</code>をinjectして、 って思ってたんですが、違うんですね。 JHipsterでは<a href="https://developers.google.com/web/tools/workbox/">workbox</a>でService Worker使うようになってるんですね予め。 確かに<code>index.html</code>で<code>service-worker.js</code>を有効にして挙動を見てると、 cachingは綺麗に行っている様子です。 えーでも調べてみると、workboxってWeb Pushはないじゃーないですかー。</p> <blockquote><p>特に私の知っている範囲ではworkboxはプッシュ通知のロジックを作ってくれないので、そこは自分で書いてやる必要があります。 <a href="https://qiita.com/nazonohito51/items/32b61cabdac8b24769bd">ServiceWorkerを簡単に書けるworkbox-swの使い方</a></p> </blockquote> <p>しかも、自分のcodeとmergeする、 即ち<code>workboxPlugin(...)</code>に<code>swSrc:</code>を追加すると、 <code>generateSW</code>が使えず自分で書かないといけないの!? ですか? いやー、jhipsterで生成される<code>service-worker.js</code>とか見ると、 色んなfilesにhash値?が付与されているから、 これを自分で作るというのはあり得ないでしょー。 どーしたらいーのー?!</p> <p>と、途方に暮れました。</p> <p>workboxを捨ててAngularのSwPushにする? いやー、でもjhipsterでのbuildでは<code>ng</code>実行されないので、 いくら<code>.angular-cli.json</code>に<code>"serviceWorker": true</code>と書いても効かないんですよー。 Angularのservice workerは生成されないわけですね。</p> <p>jhipsterで生成された<code>build/www/service-worker.js</code>を見ていると、 上部のコメントに、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'> * The rest of the code is auto-generated. Please don&#39;t update this file
-</span><span class='line'> * directly; instead, make changes to your Workbox build configuration
-</span><span class='line'> * and re-run your build process.
-</span><span class='line'> * See https://goo.gl/2aRDsh
-</span></code></pre></td></tr></table></div></figure> <p>とあります。言われるままに<a href="https://goo.gl/2aRDsh">そのURL</a>を見てみると、 <code>importScripts</code>というoptionがあることがわかりました。 これを指定するとどうなるのかなー、試してみます。 指定する場所は、webpackでworkboxのservice worker生成をやっているので、 <code>webpack/webpack.prod.js</code>になります。 それの最下段、<code>new WorkboxPlugin.GenerateSW({...})</code>の中に <code>importScripts: ['push-notifications.js']</code>と書いてみると、 自動生成された<code>build/www/service-worker.js</code>中に、 <code>importScripts("push-notifications.js",...)</code>と出ます。 なるほど。 ではこの<code>push-notifications.js</code>というのを作ってwww root folderに置き、 そこにpush notificationのlogicを書いておけばいいんじゃーん。 でも、基本的には全てのfile名はhash化?されてしまいます。 どうやって名前をhash化されないようにするの?! <code>favicon.ico</code>等の例から手探りで探し当てました。 <code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に 書いておけばいーんですね。なるほど。</p> <p>結局要するにworkboxの<code>importScripts</code>を使うということで、具体的には、</p> <ol> <li><code>src/main/webapp/push-notification.js</code>にWeb Push通知時の処理<code>addEventListener('push', function(event) {...});</code>と通知をclickした時の処理<code>addEventListener('notificationclick', function(event) {...});</code>を書いておく</li> <li><code>webpack/webpack.prod.js</code>の<code>new WorkboxPlugin.GenerateSW({...})</code>に<code>importScripts: ['push-notifications.js']</code>を書く</li> <li><code>webpack/webpack.common.js</code>の<code>new CopyWebpackPlugin([..])</code>に<code>{ from: './src/main/webapp/push-notifications.js', to: 'push-notifications.js' },</code>を書く</li> </ol> <p>で目出度くJHipster application上でのWeb Push通知が出来ました。</p> <p>尚、通知の許可を求める処理やendpoint、auth、publicKeyを求める処理では、 Angularの<code>SwPush</code>を使うことが出来ます。 JavaScriptでゴリゴリ書かなくても<code>this.swPush.requestSubscription()</code>だけで済むのでラクです。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/28/service-worker-in-private-browsing-mode/">Service Worker in Private Browsing Mode</a></h1> <p class="meta"> <time datetime="2018-08-28T10:11:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">28</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/28/service-worker-in-private-browsing-mode/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Service WorkerでWeb Pushを色々試していて、 違うaccountでloginしてみようとprivate browsing mode用いると、 何か出来ないんですねこれ。 <code>https</code>か<code>localhost</code>じゃないとダメ、というのは知ってましたが。 気を付けましょう。 以上。</p> <blockquote><p>Firefox ではプライベートブラウジングモードでサービスワーカー API を利用することはできません。 <a href="https://developer.mozilla.org/ja/docs/Web/API/ServiceWorker_API#Service_worker_concepts_and_usage">サービスワーカーの概念と使い方</a></p> </blockquote> <p>chromeはsecret mode(private window)でのService Workerも大丈夫、のようですか。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/">Spring Auth and JWT Behind the Reverse Proxy</a></h1> <p class="meta"> <time datetime="2018-08-27T17:47:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">27</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/27/spring-auth-and-jwt-behind-the-reverse-proxy/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>JHipsterのSpring Authなapplicationを httpsのreverse proxy(nginx)の後ろに置いて、 GoogleのOAuth2でJWTな認証をしようとしました。 当然、backend serverからはGoogle APIに自分のhost名でaccessするような URLを返してしまい、Google APIから戻ってきたところでJWT認証は弾かれます。 backend serverはfrontend serverの名前を知らないんですから、 そりゃあ当然です。 こういうreverse proxyの後ろにbackend server置いてOAuth2 + JWTなんて そもそもダメなの? 何とかならないの? と調べてみると、 <a href="https://stackoverflow.com/questions/31834278/spring-boot-and-oauth2-redirect-url-over-reverse-proxy">Spring Boot and OAuth2: redirect url over reverse proxy</a>に、 reverse proxy側で<code>X-Forwarded-Port</code>とかのproxy用HTTP Response Headerを設定し、 Spring application側で<code>server.use-forward-headers=true</code>にすればいいよ、 とあったので、 じゃぁnginxではどうやるのだろうと調べると、 <a href="https://qiita.com/HeRo/items/7063b86b5e8a2efde0f4">Nginx のリバースプロキシ設定のメモ</a>にありました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
-</span><span class='line'>  listen 80;
-</span><span class='line'>  server_name hoge.com;
-</span><span class='line'>
-</span><span class='line'>  location / {
-</span><span class='line'>    proxy_set_header X-Real-IP $remote_addr;
-</span><span class='line'>    index index.html index.htm;
-</span><span class='line'>    proxy_set_header X-Forwarded-Proto $scheme;
-</span><span class='line'>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-</span><span class='line'>    proxy_set_header Host $http_host;
-</span><span class='line'>    proxy_redirect off;
-</span><span class='line'>    proxy_pass http://127.0.0.1:3000;
-</span><span class='line'>  }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>この通りやってみると、 何故かGoogle APIには<code>http://proxy-server/...</code>で渡っており、 じゃぁっていうんで<code>proxy_set_header X-Forwarded-Proto https;</code> とベタ書きしてみてもダメで、 うーんとか思っていると、 <a href="https://blog.akagi.jp/archives/3883.html">nginx でリバースプロキシするときの Tips</a>に<code>off</code>じゃなくて<code>proxy_redirect http:// https://;</code>という記述があったので、 試してみると、上手く行きました。 あーちなみに、<code>proxy_set_header X-Forwarded-Proto https;</code>も ベタ書きじゃないとダメでした。 結局うちの場合は、以下の通りになりました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ /usr/lib/dracut/skipcpio ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: ASCII cpio archive (SVR4 with no CRC)
+</span></code></pre></td></tr></table></div></figure> <p><code>binwalk</code>で見てみると、全く同じ位置にあるのに。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -109,84 +31,76 @@
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>server {
-</span><span class='line'>        listen 80 default_server;
-</span><span class='line'>        listen [::]:80 default_server;
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ binwalk ~/initrd.img-4.15.0-33-generic
 </span><span class='line'>
-</span><span class='line'>        # Everything is a 404
-</span><span class='line'>        location / {
-</span><span class='line'>                proxy_set_header X-Real-IP $remote_addr;
-</span><span class='line'>                proxy_set_header X-Forwarded-Proto https;
-</span><span class='line'>                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-</span><span class='line'>                proxy_set_header Host $http_host;
-</span><span class='line'>                proxy_redirect http:// https://;
-</span><span class='line'>                proxy_pass http://walt.mydns.bz:10022/;
-</span><span class='line'>        }
+</span><span class='line'>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span><span class='line'>--------------------------------------------------------------------------------
+</span><span class='line'>0             0x0             ASCII cpio archive (SVR4 with no CRC), file name: &quot;.&quot;, file name length: &quot;0x00000002&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>112           0x70            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>232           0xE8            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>356           0x164           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>488           0x1E8           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/AuthenticAMD.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00006B2A&quot;
+</span><span class='line'>28072         0x6DA8          ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28672         0x7000          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28792         0x7078          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28916         0x70F4          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29048         0x7178          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/.enuineIntel.align.0123456789abc&quot;, file name length: &quot;0x00000036&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29212         0x721C          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/GenuineIntel.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00180C00&quot;
+</span><span class='line'>1605296       0x187EB0        ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>1605632       0x188000        gzip compressed data, from Unix, last modified: 2018-08-30 06:15:36
 </span><span class='line'>
-</span><span class='line'>        # You may need this to prevent return 404 recursion.
-</span><span class='line'>        location = /404.html {
-</span><span class='line'>                internal;
-</span><span class='line'>        }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure> <p>で、<code>sudo /usr/sbin/nginx -s reload</code>です。</p> <p>でも、これでGoogle APIから無事戻ってくるようにはなったものの、 その後「No-providerで登録」になってしまい、 まだ完成しません。 ただ、その問題は別のもののようで、一歩は進んだと思うので、記事にしました。</p> <p>↑その「No-providerで登録」になってしまうのは、 backendで以下のようなerrorが出ていて。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</span><span class='line'>$ binwalk /boot/initrd.img-4.15.0-33-generic
+</span><span class='line'>
+</span><span class='line'>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span><span class='line'>--------------------------------------------------------------------------------
+</span><span class='line'>0             0x0             ASCII cpio archive (SVR4 with no CRC), file name: &quot;.&quot;, file name length: &quot;0x00000002&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>112           0x70            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>232           0xE8            ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>356           0x164           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>488           0x1E8           ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/AuthenticAMD.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00006B2A&quot;
+</span><span class='line'>28072         0x6DA8          ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28672         0x7000          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel&quot;, file name length: &quot;0x00000007&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28792         0x7078          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>28916         0x70F4          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode&quot;, file name length: &quot;0x00000015&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29048         0x7178          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/.enuineIntel.align.0123456789abc&quot;, file name length: &quot;0x00000036&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>29212         0x721C          ASCII cpio archive (SVR4 with no CRC), file name: &quot;kernel/x86/microcode/GenuineIntel.bin&quot;, file name length: &quot;0x00000026&quot;, file size: &quot;0x00180C00&quot;
+</span><span class='line'>1605296       0x187EB0        ASCII cpio archive (SVR4 with no CRC), file name: &quot;TRAILER!!!&quot;, file name length: &quot;0x0000000B&quot;, file size: &quot;0x00000000&quot;
+</span><span class='line'>1605632       0x188000        gzip compressed data, from Unix, last modified: 2018-08-28 05:01:31
+</span></code></pre></td></tr></table></div></figure> <p><code>TRAILER</code>が2つあるので、<code>skipcpio</code>を2回かけてみてもダメでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ /usr/lib/dracut/skipcpio ~/initrd.img-4.15.0-33-generic|/usr/lib/dracut/skipcpio /dev/stdin|file -
+</span><span class='line'>/dev/stdin: data
+</span></code></pre></td></tr></table></div></figure> <p>仕方ないので、<code>binwalk</code>で得られたbyte数を自分でskipしてやる手法で試すと、上手く解凍されました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>javax.validation.ConstraintViolationException: Validation failed for classes [bz.mydns.walt.canmatch.domain.User] during persist time for groups [javax.validation.groups.Default, ]
-</span><span class='line'>List of constraint violations:[
-</span><span class='line'>        ConstraintViolationImpl{interpolatedMessage=&#39;must match &quot;^[_&#39;.@A-Za-z0-9-]*$&quot;&#39;, propertyPath=login, rootBeanClass=class bz.mydns.walt.canmatch.domain.User, messageTemplate=&#39;{javax.validation.constraints.Pattern.message}&#39;}
-</span><span class='line'>]
-</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:140)
-</span><span class='line'>        at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:80)
-</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:197)
-</span><span class='line'>        at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
-</span><span class='line'>        at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:626)
-</span><span class='line'>   :
-</span><span class='line'>   :
-</span></code></pre></td></tr></table></div></figure> <p>何なんでしょうね。 これは、account mail addressが「w.disney@somecompany.co.jp」みたいな 「.」が入るものなんですが、それがいけないとかなのでしょうか。 というのも、フツーの「gepetto@gmail.com」みたいなmail accountなら 全く同じcodeで何の問題もなく入れるのです。 「must match」の対象が何なのか、よく分かりません。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/08/27/groovy-grape-fails/">Groovy Grape Fails</a></h1> <p class="meta"> <time datetime="2018-08-27T13:53:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">27</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/08/27/groovy-grape-fails/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>時々、「全く同じgroovy scriptなのにあるマシンでだけ 起動に失敗する」ことがあります。 error messageはcaseによりますが、例えば直近では以下のようなものでした。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$ tail -c +1605632 ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: data
+</span><span class='line'>$ tail -c +1605633 ~/initrd.img-4.15.0-33-generic|file -
+</span><span class='line'>/dev/stdin: gzip compressed data, last modified: Thu Aug 30 06:15:36 2018, from Unix
+</span><span class='line'>$ tail -c +1605633 ~/initrd.img-4.15.0-33-generic|zcat|cpio -id
+</span></code></pre></td></tr></table></div></figure> <p><code>binwalk</code>で得られた1605632ではダメで、1605633でOKでした。 上記サイトには「得られたbyte数以降を<code>dd</code>で書き出せ」とかありましたが、 別にそんなことしなくても<code>tail -c +NNN</code>で十分です。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/02/mysql-on-jhipster/">MySQL on JHipster</a></h1> <p class="meta"> <time datetime="2018-09-02T21:02:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">02</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/02/mysql-on-jhipster/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>これはもう<a href="https://www.jhipster.tech/development/#using-mysql-mariadb-or-postgresql-in-development">書いてあります</a>けど、 実際、これまでdevだったのをprod環境にして、 Timastampを含むTableのあるMySQLをbackendに据えてみると、 <code>-Pdev</code>環境ではうまく立ち上がっていたのに、 <code>-Pprod</code>だと<code>ERROR 1067 (42000): Invalid default value for 'create_date'</code> とかって言われて立ち上がりません。 エラーに直面すると、前書いてあったことなんて忘れてて、 改めて探し回っちゃいました。 結局、ですね、ubuntuの場合は、 <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>の<code>[mysqld]</code>のところに 以下を加えてrestartすれば済みます。特に2行目ですね。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ groovy webpush.groovy
-</span><span class='line'>org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
-</span><span class='line'>General error during conversion: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
-</span><span class='line'>
-</span><span class='line'>java.lang.RuntimeException: Error grabbing Grapes -- [download failed: com.google.guava#guava;19.0!guava.jar(bundle)]
-</span><span class='line'>        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-</span><span class='line'>        at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-</span><span class='line'>        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-</span><span class='line'>        at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-</span><span class='line'>        at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:83)
-</span><span class='line'>        at org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:77)
-</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:84)
-</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:59)
-</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:238)
-</span><span class='line'>        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:250)
-</span><span class='line'>        at groovy.grape.GrapeIvy.getDependencies(GrapeIvy.groovy:464)
-</span><span class='line'>   :
-</span><span class='line'>   :
-</span></code></pre></td></tr></table></div></figure> <p>要するに「guava-19.0.jarのdownloadに失敗した」と。 <code>~/.groovy/grapes/com.google.guava/guava/</code>を見ると、 確かに他のlibrariesのように<code>jars</code> directoryがありませんし、 当然jar fileもありません。 じゃぁっていうんで、自分で<code>guava-19.0.jar</code>を落としてきて、 <code>jars/</code>作ってその下に置いても、同じ結果です。 Groovyが悪いのかJavaが悪いのかGrapeが悪いのか設定が悪いのか versionが悪いのか、何なのか全然分かりません。 普通に動くマシンでのJava/Groovyとversionを合わせてもダメ、 Grapeする各libraryのversionを上げてもダメ、 Guava 19.0を明示的に<code>@Grab</code>に入れてもダメ、 <a href="https://stackoverflow.com/questions/16871792/groovy-grab-download-failed">Groovy - Grab - download failed</a>を見て<code>~/.groovy</code>以下や<code>~/.groovy/grapes</code>を削除してもダメ、 と途方に暮れました。 いつもは面倒なので諦めて、 その動くマシンでやっていつのですけれども、 今回は粘って原因究明してみました。</p> <p>結局、以下のどちらかの方法で立ち上がるようになりました。</p> <ol> <li><code>~/.groovy/grapes/com.google.guava/guava/jars</code>ではなく<code>~/.groovy/grapes/com.google.guava/guava/bundles</code>にして、その下に落としてきた<code>guava-19.0.jar</code>を置く</li> <li>他の多くのlibrariesと同様に<code>~/.groovy/grapes/com.google.guava/guava/jars</code>に落としてきた<code>guava-19.0.jar</code>を置き、<code>~/.groovy/grapes/com.google.guava/guava/ivy-19.0.xml</code>の<code>&lt;publications&gt;</code>下の<code>&lt;artifact name="guava" type="bundle" ext="jar" conf="master"/&gt;</code>の<code>type</code> attributeを<code>bundle</code>から<code>jar</code>にする</li> </ol> <p>上手く行っていたマシンでは、 <code>~/.groovy/grapes/com.google.guava/guava/bundles</code>が出来ており、 その下に<code>guava-19.0.jar</code>もフツーにありました。 上手く行かないマシンではなぜ<code>bundles</code>が出来ないのか、は未だ不明ですが、 取り敢えず前に進める方法がわかったので記しています。</p> <p>あぁ、あと、このようにGrapeに失敗すると、 <code>~/.groovy/grapes/</code>以下に<code>resolved-caller-all-caller-working73.properties</code>と<code>resolved-caller-all-caller-working73.xml</code>といったfilesが澱のように溜まっていくので、都度削除した方がいいです。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/7/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/9/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2021/07/11/gradlew-stopped/">Gradlew Stopped</a> </li> <li class="post"> <a href="/blog/2021/07/11/ansible-for-docker/">Ansible for Docker</a> </li> <li class="post"> <a href="/blog/2019/06/02/google-photo-api/">Google Photo Api</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A ~~Java~~ Ruby programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2023 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+</pre></td><td class='code'><pre><code class='html'><span class='line'>character-set-server=utf8
+</span><span class='line'>explicit_defaults_for_timestamp=on
+</span></code></pre></td></tr></table></div></figure> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/02/communication-between-components-on-angular/">Communication Between Components on Angular</a></h1> <p class="meta"> <time datetime="2018-09-02T18:49:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">02</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/02/communication-between-components-on-angular/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p><a href="https://angular.io/">Angular</a>でcomponent間通信しようと思いました。 これまで一つにしていたcontrol formとそれをはんえいするimage viewを 別componentにして、その間で情報伝達したり、 あるtimingで他方のfunctionを叩いたり、 とかしたくなるわけですね。 <a href="https://qiita.com/gambare/items/b75f9c9dc997ae45c092">コンポーネント間のデータ授受メモ</a>とか<a href="https://christina04.hatenablog.com/entry/2017/01/19/041235">Angular2でComponentをまたがったデータのやり取り</a>とか<a href="https://st40.xyz/one-run/article/200/">コンポーネント間でデータを共有する</a>とかちょっと調べればもう色々書いてあって、 親子だとどうとか兄弟間だとこうとかあるわけです。 今回は兄弟間だったので間を取り持つService作って兄から書いて弟で読むとかその逆とかやってたんですが、 <a href="https://www.npmjs.com/package/ngx-store">ngx-store</a>の<code>@SharedStorage</code>使えば一発ですよそんなの。 最初から知ってればもっともっと簡単に済んだのに。 <a href="https://www.jhipster.tech/">JHipster</a>では <a href="https://www.npmjs.com/package/ngx-webstorage">ngx-webstorage</a>が 予め入っているのでこれを使えればいいんでしょうけど、 <code>this.$sessionStorage.store('key', 'value')</code>して <code>this.$sessionStorage.retrieve('key')</code>取り出すというように、 <code>ngx-store</code>と比べてちょっと面倒です。 っていうか、JHipsterでも<code>ngx-store</code>使ってくれればよかったのに。 Local Storageにも保存できますし、ってそれはどちらも同じですが、 <code>ngx-store</code>の方は特にstore/retrieveとかしなくても、 意識しなくても変数に<code>@SharedStorage</code>とか<code>@LocalStorage</code>とすれば 他のcomponentでも変更された値がそのまま参照できるというスグレモノです。 全部これ使えばいーんですよ。</p> </div> </article> <article> <header> <h1 class="entry-title"><a href="/blog/2018/09/02/logging-on-angular/">Logging on Angular</a></h1> <p class="meta"> <time datetime="2018-09-02T16:48:00+09:00" pubdate data-updated=true> <span class="month">Sep</span> <span class="day">02</span>, <span class="year">2018</span> </time> | <a href="http://u-ryo.github.io//blog/2018/09/02/logging-on-angular/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>Angularでloggingをしようと思いました。 <a href="https://www.slf4j.org/">slf4j(Simple Logging Facade 4 Java)</a>みたいなのないかなー、って思って<a href="https://www.npmjs.com/package/ng2-logger">ng2-logger</a>使いました。 まぁ良かったんですけど、 logのlevel指定が、 指定level以下、とかではなく、 それぞれ指定しなくてはならないというのがちょっと不便です。 何でそんな設計にしたのかなー。 例えば、<code>Log.create('books', Level.WARN)</code>とすれば<code>Level.ERROR</code>も 出てくるというわけではなく、明示的にそれぞれ <code>Log.create('books', Level.ERROR, Level.WARN)</code>と指定しなくてはならない、 というわけです。 <code>Log.setProductionMode()</code>で全てのlogは出て来なくなります。 これは、階層関係なくどこかに1箇所書いてあれば効くようです。 使う時はフツーに<code>log.d('object',obj)</code>と<code>i</code>、<code>w</code>ですが、 errorだけは<code>log.er('object',obj)</code>なので注意です。 あと出てくるlogの見た目はcolorfulできれいです。</p> </div> </article> </article> <div class="pagination"> <div class="links"> <a class="prev" href="/page/7/">&larr; Newer</a> <a class="archive" href="/archives/">Blog Archives</a> <a class="next" href="/page/9/">Older &rarr;</a> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2022/03/20/nhk-taiga-staff-reflection/">NHK Taiga Staff Reflection</a> </li> <li class="post"> <a href="/blog/2021/07/11/gradlew-stopped/">Gradlew Stopped</a> </li> <li class="post"> <a href="/blog/2021/07/11/ansible-for-docker/">Ansible for Docker</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A ~~Java~~ Ruby programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2023 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
   var disqus_shortname = "uryooo";
   
     // As `page.comments` is empty, we must be on the index page.
