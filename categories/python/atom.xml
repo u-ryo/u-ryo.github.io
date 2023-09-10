@@ -1,24 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/python/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Get Refresh Token for Google API]]></title><link href="http://u-ryo.github.io//blog/2023/09/10/get-refresh-token-for-google-api/"/><updated>2023-09-10T17:20:45+09:00</updated><id>/blog/2023/09/10/get-refresh-token-for-google-api/</id><content type="html"><![CDATA[<p>何かいつの間にかGoogle APIの認証方法が変わってて、security上の理由からというので仕方ないんでしょうけど。
-<code>AUTHORIZATION_CODE</code>を得ようと、以前のように↓のURLにaccessすると、
-https://accounts.google.com/o/oauth2/v2/auth?response<em>type=code&amp;client</em>id=...apps.googleusercontent.com&amp;redirect<em>uri=urn:ietf:wg:oauth:2.0:oob&amp;scope=https://www.googleapis.com/auth/photoslibrary&amp;access</em>type=offline
-<code>アクセスをブロック: ... のリクエストは無効です</code>
-と出て、あれ?!と。</p>
-<blockquote><p>エラー 400: invalid_request
-The out-of-band (OOB) flow has been blocked in order to keep users secure. Follow the Out-of-Band (OOB) flow migration guide linked in the developer docs below to migrate your app to an alternative method.
-で、<a href="https://developers.google.com/identity/protocols/oauth2/resources/oob-migration?hl=ja">帯域外（OOB）フロー移行ガイド</a>へ誘導され。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/python/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Get Refresh Token for Google API]]></title><link href="http://u-ryo.github.io//blog/2023/09/10/get-refresh-token-for-google-api/"/><updated>2023-09-10T17:20:45+09:00</updated><id>/blog/2023/09/10/get-refresh-token-for-google-api/</id><content type="html"><![CDATA[何かいつの間にかGoogle APIの認証方法が変わってて、security上の理由からというので仕方ないんでしょうけど。
+`AUTHORIZATION_CODE`を得ようと、以前のように↓のURLにaccessすると、
+https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=...apps.googleusercontent.com&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=https://www.googleapis.com/auth/photoslibrary&access_type=offline
+`アクセスをブロック: ... のリクエストは無効です`
+と出て、あれ?!と。
+> エラー 400: invalid_request
+> The out-of-band (OOB) flow has been blocked in order to keep users secure. Follow the Out-of-Band (OOB) flow migration guide linked in the developer docs below to migrate your app to an alternative method.
+で、[帯域外（OOB）フロー移行ガイド](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration?hl=ja)へ誘導され。
 このoobフローはなくなったと!? んじゃどうせぃっていうんじゃねん。
-「デスクトップクライアント」に相当するから、<a href="https://developers.google.com/identity/protocols/oauth2/native-app?hl=ja#redirect-uri_loopback">ループバック IP アドレス（localhost または 127.0.0.1）フロー</a>に飛ばされたものの、こっちもなくなってて、<a href="https://developers.google.com/identity/protocols/oauth2/resources/loopback-migration?hl=ja">ループバック IP アドレスフローの移行ガイド</a>に飛ばされて、結局library使う方法しか書いてなくて。こちとら、shell scriptで使いたいんですけど。<code>refresh_token</code>欲しいだけなのに、なんでこんなに苦労せなかんの??🤔
-...って嘆いても仕方ないので、library使って<code>refresh_token</code>取得だけします。
+「デスクトップクライアント」に相当するから、[ループバック IP アドレス（localhost または 127.0.0.1）フロー](https://developers.google.com/identity/protocols/oauth2/native-app?hl=ja#redirect-uri_loopback)に飛ばされたものの、こっちもなくなってて、[ループバック IP アドレスフローの移行ガイド](https://developers.google.com/identity/protocols/oauth2/resources/loopback-migration?hl=ja)に飛ばされて、結局library使う方法しか書いてなくて。こちとら、shell scriptで使いたいんですけど。`refresh_token`欲しいだけなのに、なんでこんなに苦労せなかんの??🤔
+...って嘆いても仕方ないので、library使って`refresh_token`取得だけします。
 ちょっとめんどくさいんですけど、local環境を汚染しない形で。
 参考:
-- <a href="https://qiita.com/sey323/items/4c7140efaed750e690eb">PythonからGooglePhotoに画像や動画をアップロード</a>
-- <a href="https://qiita.com/sey323/items/875c0ab1585044772ab2#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%AE%E4%BD%9C%E6%88%90">PythonからGoogleDriveにファイルをアップロード</a></p>
+- [PythonからGooglePhotoに画像や動画をアップロード](https://qiita.com/sey323/items/4c7140efaed750e690eb)
+- [PythonからGoogleDriveにファイルをアップロード](https://qiita.com/sey323/items/875c0ab1585044772ab2#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%AE%E4%BD%9C%E6%88%90)
+
+Google APIの[認証情報のpage](https://console.cloud.google.com/apis/credentials)から「OAuthクライアントをダウンロード」して`client_secret.json`として保存。
+nullsh
+$ docker run --rm -it -v $PWD/client_secret_....json:/root/client_secret.json python:alpine sh
+# apk add w3m screen
+# pip install google-api-python-client google-auth-oauthlib
+# screen
+# python
+>>> from google_auth_oauthlib.flow import InstalledAppFlow
+>>> credential=InstalledAppFlow.from_client_secrets_file('client_secret.json',["https://www.googleapis.com/auth/photoslibrary.appendonly"]).run_local_server()
+null
+ここで`w3m`が開くので、`Q`を押して閉じるとURLが表示され、そこをChromeなりで開いて、突き進んで承認します。
+そうすると、http://localhost:8080/?state=.... へ回されて止まるので、`C-a`で別screenを開いて、そこで`w3m 'http://localhost:8080/?state=...'`とすると、`The authentication flow has completed. You may close this window.`と言われます。徐に元のscreenに戻ると`credential` objectができているので、`credential.refresh_token`とすると、漸く`REFRESH_TOKEN`を得られます。1時間有効な`ACCESS_TOKEN`は`credentail.token`で得られます。
+これらを使うと、やっと以前のようにshell scriptで回せるようになります。ふぅ。
+]]></content></entry><entry><title type="html"><![CDATA[Get Refresh Token for Google API]]></title><link href="http://u-ryo.github.io//blog/2023/09/10/get-refresh-token-for-google-api/"/><updated>2023-09-11T02:30:49+09:00</updated><id>/blog/2023/09/10/get-refresh-token-for-google-api/</id><content type="html"><![CDATA[<p>何かいつの間にかGoogle APIの認証方法が変わってて、security上の理由からというので仕方ないんでしょうけど。</p>
+<p><code>AUTHORIZATION_CODE</code>を得ようと、以前のように↓のURLにaccessすると、
+https://accounts.google.com/o/oauth2/v2/auth?response<em>type=code&amp;client</em>id=...apps.googleusercontent.com&amp;redirect<em>uri=urn:ietf:wg:oauth:2.0:oob&amp;scope=https://www.googleapis.com/auth/photoslibrary&amp;access</em>type=offline
+<code>アクセスをブロック: ... のリクエストは無効です</code></p>
+<p>と出て、あれ?!と。</p>
+<blockquote><p>エラー 400: invalid_request
+The out-of-band (OOB) flow has been blocked in order to keep users secure. Follow the Out-of-Band (OOB) flow migration guide linked in the developer docs below to migrate your app to an alternative method.</p>
 </blockquote>
-<p>Google APIの<a href="https://console.cloud.google.com/apis/credentials">認証情報のpage</a>から「OAuthクライアントをダウンロード」して<code>client_secret.json</code>として保存。
-``<code>
-ここで</code>w3m<code>が開くので、</code>Q<code>を押して閉じるとURLが表示され、そこをChromeなりで開いて、突き進んで承認します。
-そうすると、http://localhost:8080/?state=.... へ回されて止まるので、</code>C-a<code>で別screenを開いて、そこで</code>w3m 'http://localhost:8080/?state=...'<code>とすると、</code>The authentication flow has completed. You may close this window.<code>と言われます。徐に元のscreenに戻ると</code>credential<code>objectができているので、</code>credential.refresh<em>token<code>とすると、漸く</code>REFRESH</em>TOKEN<code>を得られます。1時間有効な</code>ACCESS_TOKEN<code>は</code>credentail.token`で得られます。
-これらを使うと、やっと以前のようにshell scriptで回せるようになります。ふぅ。</p>
+<p>で、<a href="https://developers.google.com/identity/protocols/oauth2/resources/oob-migration?hl=ja">帯域外（OOB）フロー移行ガイド</a>へ誘導され。</p>
+<p>このoobフローはなくなったと!? んじゃどうせぃっていうんじゃねん。</p>
+<p>「デスクトップクライアント」に相当するから、<a href="https://developers.google.com/identity/protocols/oauth2/native-app?hl=ja#redirect-uri_loopback">ループバック IP アドレス（localhost または 127.0.0.1）フロー</a>に飛ばされたものの、こっちもなくなってて、<a href="https://developers.google.com/identity/protocols/oauth2/resources/loopback-migration?hl=ja">ループバック IP アドレスフローの移行ガイド</a>に飛ばされて、結局library使う方法しか書いてなくて。こちとら、shell scriptで使いたいんですけど。<code>refresh_token</code>欲しいだけなのに、なんでこんなに苦労せなかんの??🤔</p>
+<p>...って嘆いても仕方ないので、library使って<code>refresh_token</code>取得だけします。</p>
+<p>ちょっとめんどくさいんですけど、local環境を汚染しない形で。</p>
+<p>参考:</p>
+<ul>
+<li><a href="https://qiita.com/sey323/items/4c7140efaed750e690eb">PythonからGooglePhotoに画像や動画をアップロード</a></li>
+<li><a href="https://qiita.com/sey323/items/875c0ab1585044772ab2#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%AE%E4%BD%9C%E6%88%90">PythonからGoogleDriveにファイルをアップロード</a></li>
+</ul>
+<p>Google APIの<a href="https://console.cloud.google.com/apis/credentials">認証情報のpage</a>から「OAuthクライアントをダウンロード」して<code>client_secret.json</code>として保存。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>docker run --rm -it -v <span class="nv">$PWD</span>/client_secret_....json:/root/client_secret.json python:alpine sh
+</span><span class='line'><span class="c"># apk add w3m screen</span>
+</span><span class='line'><span class="c"># pip install google-api-python-client google-auth-oauthlib</span>
+</span><span class='line'><span class="c"># screen</span>
+</span><span class='line'><span class="c"># python</span>
+</span><span class='line'>&gt;&gt;&gt; from google_auth_oauthlib.flow import InstalledAppFlow
+</span><span class='line'>&gt;&gt;&gt; <span class="nv">credential</span><span class="o">=</span>InstalledAppFlow.from_client_secrets_file<span class="o">(</span><span class="s1">&#39;client_secret.json&#39;</span>,<span class="o">[</span><span class="s2">&quot;https://www.googleapis.com/auth/photoslibrary.appendonly&quot;</span><span class="o">])</span>.run_local_server<span class="o">()</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>ここで<code>w3m</code>が開くので、<code>Q</code>を押して閉じるとURLが表示され、そこをChromeなりで開いて、突き進んで承認します。</p>
+<p>そうすると、http://localhost:8080/?state=.... へ回されて止まるので、<code>C-a</code>で別screenを開いて、そこで<code>w3m 'http://localhost:8080/?state=...'</code>とすると、<code>The authentication flow has completed. You may close this window.</code>と言われます。徐に元のscreenに戻ると<code>credential</code> objectができているので、<code>credential.refresh_token</code>とすると、漸く<code>REFRESH_TOKEN</code>を得られます。1時間有効な<code>ACCESS_TOKEN</code>は<code>credentail.token</code>で得られます。</p>
+<p>これらを使うと、やっと以前のようにshell scriptで回せるようになります。ふぅ。</p>
 ]]></content></entry><entry><title type="html"><![CDATA[Learn Python 3 the Hard Way]]></title><link href="http://u-ryo.github.io//blog/2019/01/24/learn-python-3-the-hard-way/"/><updated>2019-01-24T04:34:38+09:00</updated><id>/blog/2019/01/24/learn-python-3-the-hard-way/</id><content type="html"><![CDATA[<p>知人が<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-Introduction-ebook/dp/B07378P8W6">Learn Python 3 the Hard Way</a>を<a href="https://www.amazon.co.jp/Learn-Python-Hard-Way-%E6%9B%B8%E3%81%84%E3%81%A6%E8%A6%9A%E3%81%88%E3%82%8BPython%E5%85%A5%E9%96%80/dp/4621303287">翻訳しました</a>。
 凄いなぁと思うと同時に、
 見てみると既に<a href="https://learnpythonthehardway.org/">英語版</a>で<a href="http://blog.sayajewels.com/posts/janiota-python-practice/">勉強した人がいる</a>というので、
