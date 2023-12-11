@@ -1,4 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/docker/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[ansible for docker]]></title><link href="http://u-ryo.github.io//blog/2021/07/11/ansible-for-docker/"/><updated>2021-07-11T15:40:40+09:00</updated><id>/blog/2021/07/11/ansible-for-docker/</id><content type="html"><![CDATA[<p>ansibleのlocalでの開発環境といえばvagrant+virtualboxですが、dockerでいいんじゃねぇの?と思って色々試行錯誤してみました。何度も挫けて、もう駄目かと思いましたけど、幾つもの山を越え、ついに出来ましたですよ!</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/docker/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[markdown to pdf on CLI]]></title><link href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/"/><updated>2023-12-12T00:03:52+09:00</updated><id>/blog/2023/12/11/markdown-to-pdf-on-cli/</id><content type="html"><![CDATA[<p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
+<p>調べると、意外とないんですよね日本語markdown to pdf。popularなのはMS Visual Studio Codeの拡張機能Markdown PDF使うものですけど、たったそれだけのためにVisual Studio Code入れたかぁないですし。
+nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出来そうだったんですけど、古いのか、どうしようもないエラーが出ます。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run --rm -it -v <span class="nv">$PWD</span>:/work -w /work -e <span class="nv">https_proxy</span><span class="o">=</span>http://192.168.120.1:3128 node:alpine sh
+</span><span class='line'><span class="c"># npm i -g markdown-pdf</span>
+</span><span class='line'><span class="c"># markdown-pdf some.md</span>
+</span><span class='line'>node:events:497
+</span><span class='line'>      throw er; // Unhandled <span class="s1">&#39;error&#39;</span> event
+</span><span class='line'>      ^
+</span><span class='line'>
+</span><span class='line'>Error: spawn /usr/local/lib/node_modules/markdown-pdf/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs ENOENT
+</span><span class='line'>  :
+</span><span class='line'><span class="c"># npm i -g md-to-pdf</span>
+</span><span class='line'><span class="c"># md-to-pdf some.md</span>
+</span><span class='line'><span class="o">(</span>node:29<span class="o">)</span> <span class="o">[</span>DEP0040<span class="o">]</span> DeprecationWarning: The <span class="sb">`</span>punycode<span class="sb">`</span> module is deprecated. Please use a userland alternative instead.
+</span><span class='line'><span class="o">(</span>Use <span class="sb">`</span>node --trace-deprecation ...<span class="sb">`</span> to show where the warning was created<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  Puppeteer old Headless deprecation warning:
+</span><span class='line'>    :
+</span><span class='line'>
+</span><span class='line'>  â generating PDF from some.md
+</span><span class='line'>    â TROUBLESHOOTING: https://pptr.dev/troubleshooting
+</span><span class='line'>ListrError: Something went wrong
+</span><span class='line'>    at /usr/local/lib/node_modules/md-to-pdf/node_modules/listr/index.js:102:18
+</span><span class='line'>     :
+</span></code></pre></td></tr></table></div></figure>
+<p>pandocもいいんですが、texの環境色々入れるのがかったるいなー。
+というわけで、docker baseで。
+探すと、参考文献がありました。proxyも使わないとならないので。</p>
+<ul>
+<li><a href="https://qiita.com/kojix2/items/1d2db46858ce202628d2">楽にDockerで日本語Pandocする</a></li>
+<li><a href="https://qiita.com/yyamnk/items/2da2791bcee82643984f">[proxy対応]brewとtlmgrによるTeX環境構築 (ヒラギノ, times埋め込み設定)</a></li>
+</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ PROXY</span><span class="o">=</span>http://192.168.120.1:3128
+</span><span class='line'><span class="nv">$ </span>docker run --rm -it -e <span class="nv">https_proxy</span><span class="o">=</span><span class="nv">$PROXY</span> -e <span class="nv">http_proxy</span><span class="o">=</span><span class="nv">$PROXY</span> -e <span class="nv">ftp_proxy</span><span class="o">=</span><span class="nv">$PROXY</span> -e <span class="nv">use_proxy</span><span class="o">=</span>yes -v <span class="nv">$PWD</span>:/data --entrypoint sh pandoc/latex
+</span><span class='line'>/data <span class="c"># tlmgr install collection-langjapanese</span>
+</span><span class='line'>   :
+</span><span class='line'>tlmgr: package repository ftp://tug.org/historic/systems/texlive/2022/tlnet-final <span class="o">(</span>not verified: valid signature with expired key<span class="o">)</span>
+</span><span class='line'>   :
+</span><span class='line'><span class="o">[</span>108/108, 22:16/22:16<span class="o">]</span> install: collection-langjapanese <span class="o">[</span>1k<span class="o">]</span>
+</span><span class='line'>running mktexlsr ...
+</span><span class='line'>   :
+</span><span class='line'>/data <span class="c"># pandoc some.md -o some.pdf -C --pdf-engine=lualatex -V linkcolor=blue -V documentclass=ltjsarticle -V luatexjapresetoptions=fonts-noto-cjk</span>
+</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>何か今どきftpで取りに行くので、<code>ftp_proxy</code>が必要</li>
+<li><code>use_proxy=yes</code>もないとproxy経由と認識してくれなかった</li>
+<li>working directoryはdefaultで<code>/data</code>なのでそこにmountする</li>
+<li><code>entrypoint</code>が入っているので、optionで上書きしないと<code>tlmgr</code>を動かせない</li>
+<li><code>pandoc/core</code>ではなく<code>pandoc/latex</code>であることに留意</li>
+<li>500MB超とsizeも結構ある</li>
+<li><code>tlmgr install collection-langjapanese</code>は22分かかった</li>
+<li>総計30分弱はかかる</li>
+<li>基本的には<code>pandoc md_file -o pdf_file</code>だが、<code>--pdf-engine</code>に<code>lualatex</code>を指定したり<code>documentclass</code>に<code>ltjsarticle</code>を指定したり、日本語特有の指定が必要</li>
+<li><code>###</code>が本文と同じ大きさの文字になるので、思っているよりlevelを1段階上げとかないと、思ったような出力にならない</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[ansible for docker]]></title><link href="http://u-ryo.github.io//blog/2021/07/11/ansible-for-docker/"/><updated>2021-07-11T15:40:40+09:00</updated><id>/blog/2021/07/11/ansible-for-docker/</id><content type="html"><![CDATA[<p>ansibleのlocalでの開発環境といえばvagrant+virtualboxですが、dockerでいいんじゃねぇの?と思って色々試行錯誤してみました。何度も挫けて、もう駄目かと思いましたけど、幾つもの山を越え、ついに出来ましたですよ!</p>
 <figure class='code'><figcaption><span>docker.ini</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

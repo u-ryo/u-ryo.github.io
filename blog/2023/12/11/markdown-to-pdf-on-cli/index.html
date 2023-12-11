@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>markdown to pdf on CLI - u-ryo's blog</title>
+  <meta name="author" content="u-ryo">
+  
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/">
+  <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon">
+  <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml">
+  
+    <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script>
+  
+    <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script>
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body 
+   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">u-ryo's blog</a></h1>
+  
+    <h2>various information for coding...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss ">
+  <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  
+    <li><a href="/">Blog</a></li>
+  
+    <li><a href="/archives/">Archives</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      
+<div class="blog-index">
+<article class="hentry" role="article">
+  <article>
+
+  <header>
+    
+      <h1 class="entry-title">Markdown to Pdf on CLI</h1>
+    
+    
+      <p class="meta">
+        
+
+
+    <time datetime="2023-12-11T22:11:00+09:00" pubdate data-updated=true>
+      <span class="month">Dec</span>
+      <span class="day">11</span>,
+      <span class="year">2023</span>
+    </time>
+  
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
+<p>調べると、意外とないんですよね日本語markdown to pdf。popularなのはMS Visual Studio Codeの拡張機能Markdown PDF使うものですけど、たったそれだけのためにVisual Studio Code入れたかぁないですし。
+nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出来そうだったんですけど、古いのか、どうしようもないエラーが出ます。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run --rm -it -v <span class="nv">$PWD</span>:/work -w /work -e <span class="nv">https_proxy</span><span class="o">=</span>http://192.168.120.1:3128 node:alpine sh
+</span><span class='line'><span class="c"># npm i -g markdown-pdf</span>
+</span><span class='line'><span class="c"># markdown-pdf some.md</span>
+</span><span class='line'>node:events:497
+</span><span class='line'>      throw er; // Unhandled <span class="s1">&#39;error&#39;</span> event
+</span><span class='line'>      ^
+</span><span class='line'>
+</span><span class='line'>Error: spawn /usr/local/lib/node_modules/markdown-pdf/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs ENOENT
+</span><span class='line'>  :
+</span><span class='line'><span class="c"># npm i -g md-to-pdf</span>
+</span><span class='line'><span class="c"># md-to-pdf some.md</span>
+</span><span class='line'><span class="o">(</span>node:29<span class="o">)</span> <span class="o">[</span>DEP0040<span class="o">]</span> DeprecationWarning: The <span class="sb">`</span>punycode<span class="sb">`</span> module is deprecated. Please use a userland alternative instead.
+</span><span class='line'><span class="o">(</span>Use <span class="sb">`</span>node --trace-deprecation ...<span class="sb">`</span> to show where the warning was created<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  Puppeteer old Headless deprecation warning:
+</span><span class='line'>    :
+</span><span class='line'>
+</span><span class='line'>  â generating PDF from some.md
+</span><span class='line'>    â TROUBLESHOOTING: https://pptr.dev/troubleshooting
+</span><span class='line'>ListrError: Something went wrong
+</span><span class='line'>    at /usr/local/lib/node_modules/md-to-pdf/node_modules/listr/index.js:102:18
+</span><span class='line'>     :
+</span></code></pre></td></tr></table></div></figure>
+<p>pandocもいいんですが、texの環境色々入れるのがかったるいなー。
+というわけで、docker baseで。
+探すと、参考文献がありました。proxyも使わないとならないので。</p>
+<ul>
+<li><a href="https://qiita.com/kojix2/items/1d2db46858ce202628d2">楽にDockerで日本語Pandocする</a></li>
+<li><a href="https://qiita.com/yyamnk/items/2da2791bcee82643984f">[proxy対応]brewとtlmgrによるTeX環境構築 (ヒラギノ, times埋め込み設定)</a></li>
+</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ PROXY</span><span class="o">=</span>http://192.168.120.1:3128
+</span><span class='line'><span class="nv">$ </span>docker run --rm -it -e <span class="nv">https_proxy</span><span class="o">=</span><span class="nv">$PROXY</span> -e <span class="nv">http_proxy</span><span class="o">=</span><span class="nv">$PROXY</span> -e <span class="nv">ftp_proxy</span><span class="o">=</span><span class="nv">$PROXY</span> -e <span class="nv">use_proxy</span><span class="o">=</span>yes -v <span class="nv">$PWD</span>:/data --entrypoint sh pandoc/latex
+</span><span class='line'>/data <span class="c"># tlmgr install collection-langjapanese</span>
+</span><span class='line'>   :
+</span><span class='line'>tlmgr: package repository ftp://tug.org/historic/systems/texlive/2022/tlnet-final <span class="o">(</span>not verified: valid signature with expired key<span class="o">)</span>
+</span><span class='line'>   :
+</span><span class='line'><span class="o">[</span>108/108, 22:16/22:16<span class="o">]</span> install: collection-langjapanese <span class="o">[</span>1k<span class="o">]</span>
+</span><span class='line'>running mktexlsr ...
+</span><span class='line'>   :
+</span><span class='line'>/data <span class="c"># pandoc some.md -o some.pdf -C --pdf-engine=lualatex -V linkcolor=blue -V documentclass=ltjsarticle -V luatexjapresetoptions=fonts-noto-cjk</span>
+</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>何か今どきftpで取りに行くので、<code>ftp_proxy</code>が必要</li>
+<li><code>use_proxy=yes</code>もないとproxy経由と認識してくれなかった</li>
+<li>working directoryはdefaultで<code>/data</code>なのでそこにmountする</li>
+<li><code>entrypoint</code>が入っているので、optionで上書きしないと<code>tlmgr</code>を動かせない</li>
+<li><code>pandoc/core</code>ではなく<code>pandoc/latex</code>であることに留意</li>
+<li>500MB超とsizeも結構ある</li>
+<li><code>tlmgr install collection-langjapanese</code>は22分かかった</li>
+<li>総計30分弱はかかる</li>
+<li>基本的には<code>pandoc md_file -o pdf_file</code>だが、<code>--pdf-engine</code>に<code>lualatex</code>を指定したり<code>documentclass</code>に<code>ltjsarticle</code>を指定したり、日本語特有の指定が必要</li>
+<li><code>###</code>が本文と同じ大きさの文字になるので、思っているよりlevelを1段階上げとかないと、思ったような出力にならない</li>
+</ul>
+</div>
+
+</article>
+
+  <footer>
+    <p class="meta">
+      
+
+  <span class="byline author vcard">Posted by <a href="/authors/u-ryo/"><span class="fn">u-ryo</span></a></span>
+
+
+      
+
+
+
+
+     <time datetime="2023-12-12T00:03:52+09:00" class="updated">
+       Updated
+       <span class="month">Dec</span>
+       <span class="day">12</span>,
+       <span class="year">2023</span>
+     </time>
+
+      
+<div class="categories">
+  <p class="meta">Tags:</p>
+  
+     <a class="category" href="/categories/markdown/">markdown</a>
+  
+     <a class="category" href="/categories/pdf/">pdf</a>
+  
+     <a class="category" href="/categories/docker/">docker</a>
+  
+</div>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="/blog/2023/12/11/markdown-to-pdf-on-cli/" data-via="" data-counturl="/blog/2023/12/11/markdown-to-pdf-on-cli/" data-lang="en">Tweet</a>
+  
+  
+    <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2023/09/10/get-refresh-token-for-google-api/" title="Next Post: Get Refresh Token for Google API">Get Refresh Token for Google API &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2023/12/11/markdown-to-pdf-on-cli/">Markdown to Pdf on CLI</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2022/03/20/nhk-taiga-staff-reflection/">NHK Taiga Staff Reflection</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2021/07/11/gradlew-stopped/">Gradlew Stopped</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2021/07/11/ansible-for-docker/">Ansible for Docker</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+    
+
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  
+  
+    <a href="https://github.com/u-ryo">u-ryo</a> on GitHub
+  
+  
+</section>
+
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+<section>
+  <h1>About Me</h1>
+  <p>A ~~Java~~ Ruby programmer in Tokyo.</p>
+</section>
+<section>
+  <h1><a href="privacy.html">Privacy Policy</a></h1>
+</section>
+
+
+  
+    
+
+  
+    
+
+  
+    
+
+  
+    
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2023 - u-ryo -
+  <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span>
+</p>
+
+</footer>
+  <!-- Load script if disquss comments are enabled and `page.comments` is either empty (index) or set to true -->
+
+<script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // `page.comments` can only be set to true on pages/posts, so we embed the comments here.
+    // var disqus_developer = 1;
+    var disqus_identifier = "http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/";
+    var disqus_url = "http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/";
+    var disqus_script = 'embed.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script>
+
+
+
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+<!-- Place your javascript or css declarations here so that they will be placed after footer -->
+
+
+</body>
+
+</html>
