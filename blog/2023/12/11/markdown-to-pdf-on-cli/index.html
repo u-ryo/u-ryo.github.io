@@ -196,10 +196,14 @@ nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出�
 <li><code>use_proxy=yes</code>もないとproxy経由と認識してくれなかった</li>
 <li>working directoryはdefaultで<code>/data</code>なのでそこにmountする</li>
 <li><code>entrypoint</code>が入っているので、optionで上書きしないと<code>tlmgr</code>を動かせない</li>
-<li><code>pandoc/core</code>ではなく<code>pandoc/latex</code>であることに留意</li>
+<li><code>pandoc/core</code>ではなく<code>pandoc/latex</code>であることに留意<ul>
 <li>500MB超とsizeも結構ある</li>
-<li><code>tlmgr install collection-langjapanese</code>は22分かかった</li>
+</ul>
+</li>
+<li><code>tlmgr install collection-langjapanese</code>は22分かかった<ul>
 <li>総計30分弱はかかる</li>
+</ul>
+</li>
 <li>基本的には<code>pandoc md_file -o pdf_file</code>だが、<code>--pdf-engine</code>に<code>lualatex</code>を指定したり<code>documentclass</code>に<code>ltjsarticle</code>を指定したり、日本語特有の指定が必要</li>
 <li><code>###</code>が本文と同じ大きさの文字になるので、思っているよりlevelを1段階上げとかないと、思ったような出力にならない</li>
 </ul>
@@ -219,7 +223,7 @@ nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出�
 
 
 
-     <time datetime="2023-12-12T00:03:52+09:00" class="updated">
+     <time datetime="2023-12-12T00:21:33+09:00" class="updated">
        Updated
        <span class="month">Dec</span>
        <span class="day">12</span>,

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/pdf/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[markdown to pdf on CLI]]></title><link href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/"/><updated>2023-12-12T00:03:52+09:00</updated><id>/blog/2023/12/11/markdown-to-pdf-on-cli/</id><content type="html"><![CDATA[<p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/pdf/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[markdown to pdf on CLI]]></title><link href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/"/><updated>2023-12-12T00:21:33+09:00</updated><id>/blog/2023/12/11/markdown-to-pdf-on-cli/</id><content type="html"><![CDATA[<p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
 <p>調べると、意外とないんですよね日本語markdown to pdf。popularなのはMS Visual Studio Codeの拡張機能Markdown PDF使うものですけど、たったそれだけのためにVisual Studio Code入れたかぁないですし。
 nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出来そうだったんですけど、古いのか、どうしようもないエラーが出ます。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -79,10 +79,14 @@ nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出�
 <li><code>use_proxy=yes</code>もないとproxy経由と認識してくれなかった</li>
 <li>working directoryはdefaultで<code>/data</code>なのでそこにmountする</li>
 <li><code>entrypoint</code>が入っているので、optionで上書きしないと<code>tlmgr</code>を動かせない</li>
-<li><code>pandoc/core</code>ではなく<code>pandoc/latex</code>であることに留意</li>
+<li><code>pandoc/core</code>ではなく<code>pandoc/latex</code>であることに留意<ul>
 <li>500MB超とsizeも結構ある</li>
-<li><code>tlmgr install collection-langjapanese</code>は22分かかった</li>
+</ul>
+</li>
+<li><code>tlmgr install collection-langjapanese</code>は22分かかった<ul>
 <li>総計30分弱はかかる</li>
+</ul>
+</li>
 <li>基本的には<code>pandoc md_file -o pdf_file</code>だが、<code>--pdf-engine</code>に<code>lualatex</code>を指定したり<code>documentclass</code>に<code>ltjsarticle</code>を指定したり、日本語特有の指定が必要</li>
 <li><code>###</code>が本文と同じ大きさの文字になるので、思っているよりlevelを1段階上げとかないと、思ったような出力にならない</li>
 </ul>
