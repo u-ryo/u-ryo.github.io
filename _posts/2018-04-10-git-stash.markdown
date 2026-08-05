@@ -1,0 +1,24 @@
+---
+layout: post
+title: "git stash"
+date: "2018-04-10 11:44"
+author: 'u-ryo'
+categories: [git]
+comments: true
+published: true
+---
+調べりゃすぐ出て来ますが。
+
+### Situation
+
+localに取っておきたい一時的な変更があって、
+でもそのせいで`git pull`してupdate出来ない、
+`git checkout ...`してbranchを変えられない時。
+
+### Operation
+
+* `git stash list -p`で確認
+* `git stash`で退避
+* localの変更が無くなるので、この状態で`git checkou ...`なり`git pull ...`なり
+* `git stash apply stash@{0}`で直前のstashをapply
+* `git stash dtrop stash@{0}`で直前のstashをdrop←すぐ消さないと、後々残って何の変更なのかわからなくなる

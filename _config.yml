@@ -1,0 +1,26 @@
+title: "u-ryo's blog"
+author: "u-ryo"
+description: "u-ryo's blog"
+url: "https://u-ryo.github.io"
+lang: "ja"
+permalink: /blog/:year/:month/:day/:title/
+excerpt_separator: "<!-- more -->"
+date_format: "%Y-%m-%d"
+timezone: Asia/Tokyo
+markdown: kramdown
+kramdown:
+  input: GFM
+highlighter: rouge
+
+# Layout (contrast theme)
+show_excerpts: false            # home is the archive list (198 posts)
+show_frame: true
+show_sidebar: false
+show_minimal: false
+
+navigation:
+  - {title: Home, url: "/", icon: home}
+
+external:
+  - {title: Github, icon: github, url: "https://github.com/u-ryo"}
+  - {title: Subscribe, icon: rss, url: "/feed.xml"}

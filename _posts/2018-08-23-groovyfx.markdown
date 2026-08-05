@@ -1,0 +1,105 @@
+---
+layout: post
+title: "GroovyFX"
+date: "2018-08-23 20:26"
+author: 'u-ryo'
+categories: [groovy, javafx, mysql, imagemagic]
+comments: true
+published: true
+---
+SwingからJavaのGUIの座を引き継いだとはいえ、
+[Java11](http://jdk.java.net/11/)ではJava本体から削除され、
+[OpenJFX](http://jdk.java.net/openjfx/)となるJavaFX、
+でもGUI作るならJavaFXだろうなぁ、
+簡単に描けるようにGroovyでないかなー、
+と思ったら、ありました[GroovyFX](http://groovyfx.org/)。
+早速試してみると、
+本家に書いてある「Hello, World」すら以下のように失敗しました。
+
+```
+Caught: java.lang.ExceptionInInitializerError
+java.lang.ExceptionInInitializerError
+        at java_lang_Class$isAssignableFrom$1.call(Unknown Source)
+        at com.sun.proxy.$Proxy8.onClassInfo(Unknown Source)
+Caused by: java.lang.IllegalStateException: Toolkit not initialized
+        at com.sun.javafx.application.PlatformImpl.runLater(PlatformImpl.java:273)
+        at com.sun.javafx.application.PlatformImpl.runLater(PlatformImpl.java:268)
+        at com.sun.javafx.application.PlatformImpl.setPlatformUserAgentStylesheet(PlatformImpl.java:550)
+        at com.sun.javafx.application.PlatformImpl.setDefaultPlatformUserAgentStylesheet(PlatformImpl.java:512)
+        at javafx.scene.control.Control.<clinit>(Control.java:87)
+        ... 2 more
+```
+
+色々試すと、以下のような最低限のscriptでもaaaを出力もせず
+全く同じerror messageを出すので、
+もうGrapeでgroovyfxを読み込んでいる時点でダメなんでしょう。
+
+```
+@Grab('org.groovyfx:groovyfx:8.0.0')
+import java.lang.*
+println('aaa')
+```
+
+scriptに何を書いても無視される(そこまで到達しない)わけなので、
+事前に`new javafx.embed.swing.JFXPanel()`して
+JavaFX environmentを初期化する、ということも当然効きません。
+Grapeに拘っていたので、
+古いversion(`@Grab('org.codehaus.groovyfx:groovyfx:0.4.0')`)に
+して`new javafx.embed.swing.JFXPanel()`しておけば、
+`start{...}`が動くことがわかりversion落としてやってましたが、
+今改めて試してみると、
+Grapeじゃなくて`groovy -cp groovyfx-8.0.0.jar test.groovy`と
+Class Pathを指定すれば、
+`new javafx.embed.swing.JFXPanel()`もなしに
+「Hello World」もその通り動くことが確認できました。
+そっかー、Grape諦めればよかったのかー。
+`-cp`を指定しても足りないところはGrapeも効くので、
+そぃでよかったでもんそ。
+
+あと、MySQLからdata読む必要があったので、
+
+```
+@GrabConfig(systemClassLoader=true)
+@Grab('mysql:mysql-connector-java')
+import groovy.sql.*
+
+def sql = Sql.newInstance('jdbc:mysql://localhost:3306/database?useSSL=false', 'user', 'password', 'com.mysql.cj.jdbc.Driver')
+sql.eachRow('SELECT * FROM table WHERE filename LIKE ?', ['%' + filename]) { r ->
+  ...
+}
+```
+
+とすればよいと。
+
+今回の目的は、画像を読み込んで、それにDBから読み込んだ値で四角形を描き、
+そぃを画像fileとして出力する、ちゅうもんじゃった。
+`scene.snapshot()`してから`SwingFXUtils.fromFXImage(scene, null)`で
+描画画像をbitmap化出来ます。
+それを`ImageIO.write()`で一発でfileに書けるがじゃっどん、
+そぃだと何か出来た画像が赤みがかっちゃっちょるんですよね。
+どげんしたもんか、試行錯誤の挙句、ImageMagickのfrontend、
+[im4java](http://im4java.sourceforge.net/)を通すとうまく行きました。
+
+```
+import org.im4java.core.*
+
+color = new Color(0.753, 0.302, 0.314, 0.4)
+op = new IMOperation().addImage().quality(100.0).strip().addImage()
+convert = new ConvertCmd()
+
+start {
+  st = stage(title: 'any words OK', visible: true) {
+    s = scene(fill: BLACK, width: w, height: h) {
+      imageView(new Image(Paths.get(imageFileName).toUri().toString()))
+      rectangles.values().forEach { v ->
+        rectangle(x:v[0], y:v[1], width:v[2], height:v[3], fill:color)
+      }
+    }.snapshot(new WritableImage(w, h))
+    convert.run(op, SwingFXUtils.fromFXImage(s, null), imageFileName.replace('.jpg', '_.jpg'))
+    // ImageIO.write(SwingFXUtils.fromFXImage(s, null), 'jpg', new File(imageFileName.replace('.jpg', '_.jpg')))
+  }
+  st.close()
+}
+```
+
+最後、`stage.close()`すればwindowは開かずに済みます。

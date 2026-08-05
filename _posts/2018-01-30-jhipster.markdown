@@ -1,0 +1,57 @@
+---
+layout: post
+title: "JHipster"
+date: "2018-01-30 12:01"
+author: 'u-ryo'
+categories: [jhipster, java, angular, spring]
+comments: true
+published: true
+---
+ここんとこPWA(Progressive Web Application)作ろうとしていて、
+ずっとJEEかなぁって思ってたんですけどSpringの勢いが凄くて、
+それと今ならSPAでぼくはAngular派なので、
+それに今時認証は自分でやりたくないよねとOAuth2で、
+連動させるの大変だなぁとかって思ってたら、
+そういうの全部ひっくるめた[JHipster](http://www.jhipster.tech/)というのがあるんだ!
+というのが衝撃でした。
+かなり前からあったんですね。
+
+ただこれ難しいですね。
+scaffoldingまでは簡単ですけど、
+そこからどうしていいのか。
+自動生成filesはなるべく弄りたくないですが、
+そうもいかないですよねこれ。
+samplesも、「そこから先」についてはなかなか。
+[JHipster Mini-Book 4.0](https://www.infoq.com/minibooks/jhipster-4-mini-book)も見てみましたものの、それをなぞって行けるわけでは無かったので。
+scaffoldingと、JDLでentities作って、
+`jhipster spring-controller Foo`や`ng g component Bar`とかのcommandで取っ掛かりを作って、
+そこから作り込んでいく、感じでしょうか。
+
+Angular CLIがうまく動かなかった等あったのでメモ。
+jhipsterのversionが変われば、こんな知識も不要になると思われますが。
+
+* JDLでfield名はsnakeやhyphenationではなくcamelで。
+DBだからhyphenかなと思ったんですが、
+生成されたclassのfield名がcamelにならなかったので。
+* JDLでUserは特別なentity。
+[Manual](http://www.jhipster.tech/managing-relationships/)に書いてありました。
+scaffoldingの次は取り敢えず
+[JDL Studio](https://start.jhipster.tech/jdl-studio/)でentity作成、import、
+になるのに、解説すっ飛ばしてJDL見たので、なんだろう?って思うんですよね。
+* jhipster 4.13.3で入るAngular CLI(`./node_modules/@angular/cli/`)のversionは
+1.6.0(`package.json`)でbug持ち(`@angular-devkit/core`が入らない)なので、
+`ng g ...`が失敗します。`package.json`中の`@angular/cli`の
+version numberを最新のもの(本執筆時点では1.6.6)に書き換え、
+`yarn install`するとうまく行きました
+(Angular CLIをglobalでinstallしてもlocalのversionのモノを使うのでダメ、
+`@angular-devkit/core`を個別に`npm install ...`しても、
+次から次へと足りないものが出て来て、
+全部入れた挙句の果てに`yarn start`がコケるようになるのでダメ)。
+* `ng g component Foo`としてそれを表示させるにはどうしたらいいんだろう? と悩みました。route作ってそこで表示させるべく、他のentityとか見よう見真似で`foo.route.ts`作ってpath直打ちして試したものの、表示されず。errorも何も出ないので、何が悪いのか分かりません。多分登録が届いてないんだろうとは思ってたんですけど、具体的にどこをどう直せばいいのかわけわかめです。[StackOverflow](https://stackoverflow.com/questions/46587247/adding-new-route-to-jhipster-using-angular-4)に回答があったので出来ました。結局、0.`ng g component Foo`でcomponentを作る 1.`foo.route.ts`を作る(その際`Routes`で配列にするのではなく`Route`で単数に?) 2.`index.ts`を真似して作る(`foo.module`のimportは記載不要) 3.`foo.module.ts`を作る 4.`app.module.ts`に登録(その際Angular CLIが自動登録したcomponentは削除しないとtop pageが表示されず) →そもそもcomponentではなくmoduleをgenerateするべきだったのでしょうか。よくわかりませんが、scaffoldingの後のことはなかなか書いてないので、「こんなのわかんないよー」という感じです。
+
+JHipsterは「Java/Angular版Rails」か! とも思ったんですが、
+もう出てだいぶ経つみたいですし、
+でもまだそこまで洗練されてはいないのかなと。
+Angularの難しさ、面倒臭さ、
+とnode modules周りの変化が激しいのもあるためか、
+使いこなすのはなかなか大変だと思います。

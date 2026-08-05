@@ -1,0 +1,15 @@
+---
+layout: post
+title: "EmbodyMe"
+date: "2017-10-08 15:45"
+author: 'u-ryo'
+categories: [EmbodyMe, Issei YOSHIDA, VR]
+comments: true
+published: true
+---
+Paizaのcasual面接ということで、[吉田一星さん](https://www.facebook.com/issaymk2)とお会いしました。流石はYahooのsuper engineerだっただけはあり、凄かったです。麻布出身なんだー。頭いいわけですね。[EmbodyMe](https://embodyme.com/)、早速体験させてもらえました。こんなのぼくには作れません。ぼくが本格的なVR初めてだった、というのもあるかもしれませんが、それを差っ引いても凄い、これだけでも十分面白いと思います。1000万くらい投資しようか、真剣に悩んでます。過去の[怪人百面相](http://www.appbank.net/2013/02/13/iphone-application/546662.php)や[なりきりろいど](http://nlab.itmedia.co.jp/nl/articles/1504/08/news077.html)は、競合が出ているしYahooのなので今はやめてしまっているそう。勿体無いです。っていうか、こういうのや吉田さんをちゃんと育てられなかったYahoo Japan、かなり幻滅しています。
+VRとかVisual系には疎い経歴なのに、なんでPaizaで声掛けてきたのかな、というのが最大の疑問でした。聞いてみますと、求人者側からは「研究開発」とかしか見えず、何をしていたのかはよくわからないinterfaceのようでした。要するにPaizaのUIがしょぼくてmismatchを誘発していたんですね。
+中国とかの方がVR、もっと溶け込んでいるらしいです。街のSC(Shopping Center)とかにVRがあったりとか。へー。日本って遅れてるんですね。日本ではsmart glassesが流行らないっていうのも、その辺にあるんですかね。
+日本の半導体工場で、closed intranetじゃないと云々、とか言ってる時点で日本捨てたら? というのは、なるほどそうですね。そもそも日本の半導体なんて、もうピーク終わってますもんねぇ。
+吉田さんに比べれば、ぼくの経歴やら技術力なんてつまんないもんです。
+Hadoopもやってたというので、GridとかMPIとかcloud前のこと聞かれました。

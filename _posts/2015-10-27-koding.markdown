@@ -1,0 +1,25 @@
+---
+layout: post
+title: "Koding"
+date: "2015-10-27 08:57"
+author: 'u-ryo'
+categories: [web, development]
+comments: true
+published: true
+---
+今はコード書くのもブラウザでやるんですね。
+[Koding](https://koding.com/)で開発環境が、shellまで含めて、ブラウザで完結するなんて。
+[Cloud9](https://c9.io/)も試してみましたが、
+無料で使える範囲では、Kodingの方が良かったですぼくにとっては。
+
+* メモリが1GB(Cloud9では512MB)
+* ディスク容量も若干多い(Cloud9は1GB)
+* Grainを動かしてみたんですが、どちらでもOutOfMemoryErrorになったものの、Kodingではswapon出来た(Cloud9ではnot permittedと言われる)
+
+なるほど、これでChromebookでもバリバリ開発が出来るわけですか。
+今や、ブラウザ上で画像編集や動画編集まで出来るとは。
+([Chromebook購入後に、究極のPCへ変貌させるWebサービスたちが完璧過ぎ！](http://yukan-news.ameba.jp/20141113-17/))
+かなり置いてけぼりを食らっている感じです。
+
+尚、この投稿は、Koding上で開いたworkspaceにgit cloneして環境を作り、付属のエディタで書いて、
+grainwして生成しています。

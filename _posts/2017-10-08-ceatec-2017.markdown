@@ -1,0 +1,22 @@
+---
+layout: post
+title: "CEATEC 2017"
+date: "2017-10-08 14:16"
+author: 'u-ryo'
+categories: [CEATEC]
+comments: true
+published: true
+---
+過日、[CEATEC Japan 2017](http://www.ceatec.com/ja/)に行って来ました。
+見所は色々[報じられている通り](http://www.watch.impress.co.jp/headline/extra/2017/ceatec/)ですが、お前はどうだったの? という観点で勝手な印象を。
+
+* [卓球ロボット(フォルフェウス)](http://kaden.watch.impress.co.jp/docs/news/1084050.html)はニュースでも取り上げられてましたね。OMRONなんですねこれ。なんでOMRONこんなことやってるんでしょう。smashは無理なんじゃね? と思ってたら、今回から対応したとのこと。最初にuser登録して、そのuserがsmashしそうになったらそれを検知して対応するんだとか。それは凄いですね。でも、打ち返すのがやっとのようでした。
+* [OW(Origin Wireless)](http://www.originwireless.net/125071254012512.html)は人が凄かったです。そりゃそうでしょう。コミュニティ・イノベーション部門でGrand-Prix取ってましたし。でも見せ方うまくないなーと。早くmonetizeすればいいのに。変なとこと組んでるから、イケないんじゃないでしょうか。
+* 豆蔵ブースは、[ねこもに](https://nekomoni.com/)はまだ許せます、[LINkDrive](https://linkdrive.jp/)は百歩譲るとしても、LINkPitはダメでしょうこんなの売っちゃ。あーぁ。でも何か、GMOとオプストになってますね。SenseThingsJapanなんて出て来てません。LINKDriveだとて、こんなの[Torque](https://play.google.com/store/apps/details?id=org.prowl.torque)や[Torque Lite](https://play.google.com/store/apps/details?id=org.prowl.torquefree&rdid=org.prowl.torquefree)、[OBD Info-san!](http://www.geocities.jp/ganchi_jp/AppObdInfoSan/)がありますし、connectorもあんまり安いの買うと危なそうですが[2000円くらいで売ってます](https://www.amazon.co.jp/gp/search?keywords=iOBD2&__mk_ja_JP=%83J%83%5E%83J%83i&tag=lady-navi.seesaa.net-22)よね。それを6000円で売ろうっていうんですから大したもんです。
+* リニアモーターの実演をしてました。コイルを液体窒素で冷却すると、浮上して走り回ってました。[Fujikura](http://www.fujikura.co.jp/rd/odyssey/vol_05/05.html)って、中央リニアにも参加してる超電導ケーブルの会社なんですね。って藤倉電線ですよね。
+* [3D LiDAR](http://hlds.co.jp/product/)、ぼくが見たのは「手の位置探知(棚)」ということで、コンビニの棚なんかを監視して、買った商品はPOSでわかるけど手に取っただけの商品もこれでわかります、というconceptでした。説明員の人に聞いてみますと、まだ実例はないそうですが、工場で手の動きを監視して作業漏れを云々というのも話としてはあるそう。実際、手の骨格検出画像も[パンフ](http://hlds.co.jp/download/Document/HLDS_TOF_Leaflet_JP.pdf)に載ってました。けど後でよく見るとこれ、手じゃなくて腕ですね。
+* あと[Forum8](http://www.forum8.co.jp/)の[エア書道](http://sharefl.jp/projects/airshodou/)、エアドライブ、そしてトレインシュミレータまで! 誰もいなかったのでやってみましたが、やっぱり止まるの難しいですね。エア書道は、腰より前に腕を持って行って、とか慣れるのが難しいです。Kinect使ってるんだって。へー。[Forum8](https://www.facebook.com/forum8JP/)って何かVR凄いんですけど、土木のシミュレータから発展したみたいですね。
+* 低照度でも発電する太陽電池と蓄電モジュールがありました。IoTに良さそうです。が、製品化はされてないそう。出してるのどこだったっけ。材料の方で見た大手だったと思うんですけど。
+* 材料の方で、[岡山大学五百旗頭健吾助教](http://soran.cc.okayama-u.ac.jp/view?l=ja&u=d2433282ec3fd8d074506e4da22f6611)の講演で暗号化deviceから漏れる電波を計測してdecode出来る可能性について(=[暗号機器のサイドチャネル攻撃](http://www.soumu.go.jp/main_content/000323204.pdf))のお話は衝撃的でした。そっか、ちゃんと考えないとchipから漏れるんですね。Arduinoでは漏れそう、Rasberry Pieでは(基板上色んな雑音があるので)拾えなかった、と言ってました。
+* SHARPの8K、よ〜く見ると細かいところが滲んでたのは、多分撮影側が追いついてないせいでしょう。それより応用事例として心臓外科手術の映像流してましたがそちらの方が面白かったです。
+* [NTTのVRバッティングマシーン](http://internet.watch.impress.co.jp/docs/event/1084817.html)は並ぶのでパス、[KDDIの5G](http://k-tai.watch.impress.co.jp/docs/event/ceatec2017/1083982.html)は、遠隔の人の動きと同じ動きをロボットがするというものですけど、動いていなかったし慶応が同じことやってました。[VR不動産案内](http://av.watch.impress.co.jp/docs/news/1084017.html)はあんまり魅力を感じず。富士通では量子コンピュータの話はあんまり見ず、コーヒーとクッキーだけ御馳走になりました。
