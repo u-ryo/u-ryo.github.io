@@ -157,19 +157,13 @@
 <p>今度は4秒で完了。出てきたPDFは GitHub 風スタイルで、日本語の本文・表・コードブロックとも問題なしでした。「一発では動かない」は3年経っても変わらないですが、エラーメッセージが親切になったので自己解決できる。時代は少しずつ良くなっています。</p>
 <h2>古い Linux でも動くのか</h2>
 <p>Typst は Rust 製で musl の static build が配られていて、pandoc の公式バイナリも static link なので、原理的には glibc の古い年代物の Linux でも「置くだけ」で動くはずです。docker が使えない・使いたくない環境でこそ試す価値があります。手元の古めの環境で試してみました。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p ~/md2pdf/bin <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/md2pdf
-</span><span class='line'>curl -sLO https://github.com/typst/typst/releases/latest/download/typst-x86_64-unknown-linux-musl.tar.xz
-</span><span class='line'>tar xf typst-x86_64-unknown-linux-musl.tar.xz <span class="o">&amp;&amp;</span> cp typst-*/typst bin/
-</span><span class='line'><span class="c"># pandoc ã¯ GitHub releases ã® linux-amd64 tarball (static link) ãåæ§ã« bin/ ã¸</span>
-</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/md2pdf/bin:<span class="nv">$PATH</span>
-</span><span class='line'><span class="nb">time </span>pandoc sample.md -o out.pdf --pdf-engine<span class="o">=</span>typst -V <span class="nv">mainfont</span><span class="o">=</span>IPAMincho
-</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/md2pdf/bin<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/md2pdf
+curl<span class="w"> </span>-sLO<span class="w"> </span>https://github.com/typst/typst/releases/latest/download/typst-x86<em>64-unknown-linux-musl.tar.xz
+tar<span class="w"> </span>xf<span class="w"> </span>typst-x86</em>64-unknown-linux-musl.tar.xz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>cp<span class="w"> </span>typst-*/typst<span class="w"> </span>bin/
+<span class="c1"># pandoc は GitHub releases の linux-amd64 tarball (static link) を同様に bin/ へ</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>~/md2pdf/bin:<span class="nv">$PATH</span>
+<span class="nb">time</span><span class="w"> </span>pandoc<span class="w"> </span>sample.md<span class="w"> </span>-o<span class="w"> </span>out.pdf<span class="w"> </span>--pdf-engine<span class="o">=</span>typst<span class="w"> </span>-V<span class="w"> </span><span class="nv">mainfont</span><span class="o">=</span>IPAMincho
+</pre></div></figure>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>real    0m5.210s
 </span></code></pre></td></tr></table></div></figure>
@@ -194,7 +188,7 @@
 
 
 
-     <time datetime="2026-08-05T14:45:31+09:00" class="updated">
+     <time datetime="2026-08-05T16:34:01+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
        <span class="day">05</span>,
