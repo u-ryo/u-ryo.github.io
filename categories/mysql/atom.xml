@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Unicode正規化とMySQLの照合順序は別物]]></title><link href="http://u-ryo.github.io//blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/"/><updated>2026-08-05T15:24:43+09:00</updated><id>/blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/</id><content type="html"><![CDATA[<p>データベースの検索仕様を考えていると、「正規化」という言葉が2つの意味で会議を飛び交うことがあります。RDB 設計の正規形 (第1〜第3正規形のあれ) と、Unicode の正規化 (NFC/NFD) です。名前が同じだけで完全に別物なんですけれど、話が混線したまま「DB がよしなにやってくれるのでは」という期待だけが残ることがあります。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Unicode正規化とMySQLの照合順序は別物]]></title><link href="http://u-ryo.github.io//blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/"/><updated>2026-08-05T15:58:30+09:00</updated><id>/blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/</id><content type="html"><![CDATA[<p>データベースの検索仕様を考えていると、「正規化」という言葉が2つの意味で会議を飛び交うことがあります。RDB 設計の正規形 (第1〜第3正規形のあれ) と、Unicode の正規化 (NFC/NFD) です。名前が同じだけで完全に別物なんですけれど、話が混線したまま「DB がよしなにやってくれるのでは」という期待だけが残ることがあります。</p>
 <p>結論から書きますと、MySQL は Unicode 正規化を「やってくれない」です。代わりに照合順序 (collation) が「何と何を同じとみなすか」を決めているんですけど、これは正規化の代替ではないですし、時々予想外のものまで同じにしてしまいます。手を動かして確かめたので、その記録、です。</p>
 <h2>用語の整理</h2>
 <ul>
@@ -40,21 +40,14 @@
 </span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span> <span class="k">AS</span> <span class="n">ai_ci_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
 </span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_as_cs</span> <span class="k">AS</span> <span class="n">as_cs_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
 </span></code></pre></td></tr></table></div></figure>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="o">|</span> <span class="err">ç§åé åº</span>              <span class="o">|</span> <span class="n">NFC</span><span class="err">ããã</span><span class="o">=</span> <span class="n">NFD</span><span class="err">ããã</span><span class="o">|</span>
-</span><span class='line'><span class="o">|</span><span class="c1">----------------------|-------------------|</span>
-</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_bin</span><span class="o">`</span>        <span class="o">|</span> <span class="err">ä¸è´ããªã</span>          <span class="o">|</span>
-</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_general_ci</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ããªã</span>          <span class="o">|</span>
-</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_unicode_ci</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ãã</span>            <span class="o">|</span>
-</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_0900_ai_ci</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ãã</span>            <span class="o">|</span>
-</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_0900_as_cs</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ãã</span>            <span class="o">|</span>
-</span></code></pre></td></tr></table></div></figure>
+<table>
+  <tr><th>照合順序</th><th>NFC「ポ」= NFD「ポ」</th></tr>
+  <tr><td><code>utf8mb4_bin</code></td><td>一致しない</td></tr>
+  <tr><td><code>utf8mb4_general_ci</code></td><td>一致しない</td></tr>
+  <tr><td><code>utf8mb4_unicode_ci</code></td><td>一致する</td></tr>
+  <tr><td><code>utf8mb4_0900_ai_ci</code></td><td>一致する</td></tr>
+  <tr><td><code>utf8mb4_0900_as_cs</code></td><td>一致する</td></tr>
+</table>
 <p>Unicode Collation Algorithm (UCA) に基づく照合順序 (<code>unicode_ci</code>、0900系) は、正規化の違いを比較時に吸収します。アクセントも大文字小文字も区別する <code>utf8mb4_0900_as_cs</code> ですら一致させるのは少し意外でした —-- これは「正規化して等しいもの (正準等価) は等しい」という UCA の原則によるもので、accent-insensitivity とは別の話です。一方、旧世代の <code>utf8mb4_general_ci</code> は符号位置ごとの単純な重み比較なので吸収しません。</p>
 <h2>では照合順序に任せてよいか</h2>
 <p>よくない、です。照合順序は「一致の定義」を丸ごと入れ替えるダイヤルであって、正規化の違いだけを吸収する装置ではありません。MySQL 8.0 のデフォルトである <code>utf8mb4_0900_ai_ci</code> は accent-insensitive、つまり「アクセント記号を無視する」のですが、日本語では濁点・半濁点がアクセント扱いになります:</p>
