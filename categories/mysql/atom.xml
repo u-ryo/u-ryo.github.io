@@ -1,4 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Using where and join in mysqldump]]></title><link href="http://u-ryo.github.io//blog/2018/11/28/using-where-and-join-in-mysqldump/"/><updated>2018-11-28T00:37:50+09:00</updated><id>/blog/2018/11/28/using-where-and-join-in-mysqldump/</id><content type="html"><![CDATA[<p>基本的には<a href="https://qiita.com/asigochan/items/fec45efff78045b33b90">mysqldumpでwhereにjoinを使う</a>にある通り、</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/mysql/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Unicode正規化とMySQLの照合順序は別物]]></title><link href="http://u-ryo.github.io//blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/"/><updated>2026-08-05T12:28:00+09:00</updated><id>/blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/</id><content type="html"><![CDATA[<p>データベースの検索仕様を考えていると、「正規化」という言葉が2つの意味で会議を飛び交うことがあります。RDB 設計の正規形 (第1〜第3正規形のあれ) と、Unicode の正規化 (NFC/NFD) です。名前が同じだけで完全に別物なんですけれど、話が混線したまま「DB がよしなにやってくれるのでは」という期待だけが残ることがあります。</p>
+<p>結論から書きますと、MySQL は Unicode 正規化を「やってくれない」です。代わりに照合順序 (collation) が「何と何を同じとみなすか」を決めているんですけど、これは正規化の代替ではないですし、時々予想外のものまで同じにしてしまいます。手を動かして確かめたので、その記録、です。</p>
+<h2>用語の整理</h2>
+<ul>
+<li><strong>RDB の正規化 (normalization)</strong>: テーブル設計から冗長性を取り除く設計論。今日の話には出てきません。</li>
+<li><strong>Unicode の正規化 (normalization)</strong>: 同じ見た目の文字を同じバイト列に揃える変換。「ポ」は1文字 (U+30DD) でも「ホ + 結合半濁点」(U+30DB U+309A) でも表現でき、前者に揃えるのが NFC、後者に分解するのが NFD。macOS のファイル名経由で NFD の文字列が混入してくる、というのが実務での典型的な出会い方だと思います。</li>
+<li><strong>照合順序 (collation)</strong>: DB が文字列を比較・整列するときの「一致と順序の定義」。</li>
+</ul>
+<h2>実験</h2>
+<p>MySQL 8.0.46 (Docker公式image) で、NFC の「ポ」と NFD の「ポ」を各照合順序で比較してみます。文字列リテラルだとエディタやシェルが勝手に正規化しかねないので、バイト列を明示します。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="c1">-- NFC ã®ããã(U+30DD) ã¨ NFD ã®ãã+çµååæ¿ç¹ã(U+30DB U+309A)</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="k">CHAR_LENGTH</span><span class="p">(</span><span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839D&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">))</span> <span class="k">AS</span> <span class="n">nfc_char_len</span><span class="p">,</span>
+</span><span class='line'>       <span class="k">CHAR_LENGTH</span><span class="p">(</span><span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839BE3829A&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">))</span> <span class="k">AS</span> <span class="n">nfd_char_len</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="o">+</span><span class="c1">--------------+--------------+</span>
+</span><span class='line'><span class="o">|</span> <span class="n">nfc_char_len</span> <span class="o">|</span> <span class="n">nfd_char_len</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+</span><span class="c1">--------------+--------------+</span>
+</span><span class='line'><span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span>            <span class="mi">2</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+</span><span class="c1">--------------+--------------+</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>文字数からして違う、正真正銘の別文字列です。これを4つの照合順序で比較しますと:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839D&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">)</span> <span class="o">=</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839BE3829A&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">)</span>
+</span><span class='line'>       <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span>        <span class="k">AS</span> <span class="n">bin_eq</span><span class="p">;</span>        <span class="c1">-- 0</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_general_ci</span> <span class="k">AS</span> <span class="n">general_ci_eq</span><span class="p">;</span> <span class="c1">-- 0</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_unicode_ci</span> <span class="k">AS</span> <span class="n">unicode_ci_eq</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span> <span class="k">AS</span> <span class="n">ai_ci_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_as_cs</span> <span class="k">AS</span> <span class="n">as_cs_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>| 照合順序 | NFC「ポ」= NFD「ポ」 |
+|---|---|
+| <code>utf8mb4_bin</code> | 一致しない |
+| <code>utf8mb4_general_ci</code> | 一致しない |
+| <code>utf8mb4_unicode_ci</code> | 一致する |
+| <code>utf8mb4_0900_ai_ci</code> | 一致する |
+| <code>utf8mb4_0900_as_cs</code> | 一致する |</p>
+<p>Unicode Collation Algorithm (UCA) に基づく照合順序 (<code>unicode_ci</code>、0900系) は、正規化の違いを比較時に吸収します。アクセントも大文字小文字も区別する <code>utf8mb4_0900_as_cs</code> ですら一致させるのは少し意外でした —-- これは「正規化して等しいもの (正準等価) は等しい」という UCA の原則によるもので、accent-insensitivity とは別の話です。一方、旧世代の <code>utf8mb4_general_ci</code> は符号位置ごとの単純な重み比較なので吸収しません。</p>
+<h2>では照合順序に任せてよいか</h2>
+<p>よくない、です。照合順序は「一致の定義」を丸ごと入れ替えるダイヤルであって、正規化の違いだけを吸収する装置ではありません。MySQL 8.0 のデフォルトである <code>utf8mb4_0900_ai_ci</code> は accent-insensitive、つまり「アクセント記号を無視する」のですが、日本語では濁点・半濁点がアクセント扱いになります:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã¯ã¯&#39;</span> <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã±ã±&#39;</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã¯ã¯&#39;</span> <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã°ã°&#39;</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã&#39;</span>   <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã&#39;</span>   <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã¯ã¯&#39;</span> <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã°ã°&#39;</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_as_ci</span><span class="p">;</span> <span class="c1">-- 0</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>母 (はは) と父 (ぱぱ)、婆 (ばば) が一致します。デフォルトのまま日本語データに UNIQUE 制約や検索を載せると、この定義で「同じ」が判定されます。逆に <code>general_ci</code> はこれらを区別しますが、<code>'ABC' = 'abc'</code> は一致させます (case-insensitive)。つまり:</p>
+<ul>
+<li><code>general_ci</code>: NFC/NFD は別物扱い、大小文字は同一視</li>
+<li><code>0900_ai_ci</code>: NFC/NFD は同一視、濁点も大小文字も同一視</li>
+<li><code>0900_as_cs</code>: NFC/NFD は同一視、濁点も大小文字も区別</li>
+</ul>
+<p>「どの差を無視してどの差を区別するか」のセットを選んでいるのであって、単体で仕様の要求と一致することはまず期待できません。</p>
+<h2>MySQLに正規化関数は無い</h2>
+<p>ならば比較の前に正規化すればよいのですが、MySQLにはその関数がありません:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">NORMALIZE</span><span class="p">(</span><span class="n">_utf8mb4</span><span class="s1">&#39;ã&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="n">ERROR</span> <span class="mi">1305</span> <span class="p">(</span><span class="mi">42000</span><span class="p">):</span> <span class="k">FUNCTION</span> <span class="n">mysql</span><span class="p">.</span><span class="n">NORMALIZE</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>PostgreSQL には 13 から <code>normalize()</code> があるので、これは MySQL 側の欠落です。つまり MySQL では、<strong>正規化はデータベースに入る前 (アプリケーション層) で行うしかありません</strong>。</p>
+<h2>まとめ</h2>
+<ul>
+<li>Unicode 正規化と照合順序は別のレイヤーの仕組み。照合順序は正規化の代替にならない</li>
+<li>保存前に NFC へ正規化する層をアプリケーション側に置く。DB には正規化済みの文字列だけを入れる</li>
+<li>検索や UNIQUE 制約の「一致」が、使っている照合順序のどの定義に当たるのかを仕様として明文化する。デフォルト (<code>0900_ai_ci</code>) は日本語では「はは = ぱぱ」であることを知った上で選ぶ</li>
+<li>検証環境: MySQL 8.0.46 (Docker)。この記事の SQL と出力は全て実行結果そのまま</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[Using where and join in mysqldump]]></title><link href="http://u-ryo.github.io//blog/2018/11/28/using-where-and-join-in-mysqldump/"/><updated>2018-11-28T00:37:50+09:00</updated><id>/blog/2018/11/28/using-where-and-join-in-mysqldump/</id><content type="html"><![CDATA[<p>基本的には<a href="https://qiita.com/asigochan/items/fec45efff78045b33b90">mysqldumpでwhereにjoinを使う</a>にある通り、</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>mysqldump -uusername -p DatabaseName tableA --single-transaction --were &#39;id IN (SELECT a.id FROM tableA a JOIN tableB b ON a.b_id=b.id WHERE b.name LIKE &quot;%someone%&quot;)&#39;
 </span></code></pre></td></tr></table></div></figure>

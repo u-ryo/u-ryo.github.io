@@ -1,4 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/pdf/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[markdown to pdf on CLI]]></title><link href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/"/><updated>2023-12-12T00:21:33+09:00</updated><id>/blog/2023/12/11/markdown-to-pdf-on-cli/</id><content type="html"><![CDATA[<p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//categories/pdf/atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2018-07-18T07:36:11+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Markdown to PDF、3年後]]></title><link href="http://u-ryo.github.io//blog/2026/08/05/markdown-to-pdf、3年後/"/><updated>2026-08-05T14:45:31+09:00</updated><id>/blog/2026/08/05/markdown-to-pdf、3年後/</id><content type="html"><![CDATA[<p>前回 (といってももうはるか3年も前ですが)、<a href="/blog/2023/12/11/markdown-to-pdf-on-cli/">markdown to pdf on CLI</a> という記事で、pandoc/latex の docker image に <code>tlmgr install collection-langjapanese</code> で30分ほどかけて日本語PDF環境を作った話を書きました。</p>
+<p>実はあの記事を書いてから割とすぐ、<a href="https://qiita.com/frozenbonito/items/10a38c5fd4ba97a9bef0">楽にMarkdownをそれっぽいPDFに変換する</a> の <code>frozenbonito/pandoc-eisvogel-ja</code> を見つけました。pandoc + Eisvogel テンプレート + 日本語フォント焼き込み済みの docker image なので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run --rm -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/data frozenbonito/pandoc-eisvogel-ja -o doc.pdf doc.md
+</span></code></pre></td></tr></table></div></figure>
+<p>これ一発。表紙も目次も出ます。爾来、今に至るもずっとこちらを愛用しています。以上。</p>
+<p>...で終わってしまうのもなんですんで、そういえばきょうび、この界隈はどうなってるんだろう? と思って軽く見渡してみました。</p>
+<h2>2026年の様子</h2>
+<p>一番の変化は <strong>Typst</strong> の台頭のようです。LaTeX 代替の組版システムで、pandoc が <code>--pdf-engine=typst</code> を直接サポートしたので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install pandoc typst
+</span><span class='line'>pandoc doc.md -o doc.pdf --pdf-engine<span class="o">=</span>typst
+</span></code></pre></td></tr></table></div></figure>
+<p>で TeX 環境なしの日本語PDFが出る時代になっていました。tlmgr に22分かけた身からすると隔世の感があります。日本語の組版にこだわるなら CSS 組版の <a href="https://vivliostyle.org/ja/">Vivliostyle</a> が健在で、技術同人誌方面は大体これみたいですね。</p>
+<p>あと身も蓋もない変化として、AI に「これPDFにして」と言うと agent が勝手に pandoc なり headless Chrome なりを使って出してくる、というのがあります。ツール選定という行為自体が消えつつある、のが AI 時代の今、ということでしょうか。</p>
+<h2>3年前に動かなかった md-to-pdf、今なら動くのか</h2>
+<p>前回の記事で「どうしようもないエラーが出る」と切り捨てた <code>md-to-pdf</code>、2026年の今ならどうなのか。試してみました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>npx --yes md-to-pdf sample.md
+</span><span class='line'>Error: Could not find Chrome <span class="o">(</span>ver. 151.0.7922.71<span class="o">)</span>. This can occur <span class="k">if </span>either
+</span><span class='line'> 1. you did not perform an installation before running the script
+</span><span class='line'>    <span class="o">(</span>e.g. <span class="sb">`</span>npx puppeteer browsers install chrome<span class="sb">`</span><span class="o">)</span> or
+</span><span class='line'> 2. your cache path is incorrectly configured
+</span></code></pre></td></tr></table></div></figure>
+<p>一発では動かない。そこは3年前と同じなんですが、理由が進化していて、puppeteer が Chrome を自動ダウンロードしなくなったため、なんですね。エラーメッセージの指示どおりに</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>npx puppeteer browsers install chrome
+</span><span class='line'><span class="nv">$ </span>npx md-to-pdf sample.md
+</span><span class='line'><span class="o">[</span>12:51:55<span class="o">]</span> generating PDF from sample.md <span class="o">[</span>started<span class="o">]</span>
+</span><span class='line'><span class="o">[</span>12:51:59<span class="o">]</span> generating PDF from sample.md <span class="o">[</span>completed<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>今度は4秒で完了。出てきたPDFは GitHub 風スタイルで、日本語の本文・表・コードブロックとも問題なしでした。「一発では動かない」は3年経っても変わらないですが、エラーメッセージが親切になったので自己解決できる。時代は少しずつ良くなっています。</p>
+<h2>古い Linux でも動くのか</h2>
+<p>Typst は Rust 製で musl の static build が配られていて、pandoc の公式バイナリも static link なので、原理的には glibc の古い年代物の Linux でも「置くだけ」で動くはずです。docker が使えない・使いたくない環境でこそ試す価値があります。手元の古めの環境で試してみました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p ~/md2pdf/bin <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/md2pdf
+</span><span class='line'>curl -sLO https://github.com/typst/typst/releases/latest/download/typst-x86_64-unknown-linux-musl.tar.xz
+</span><span class='line'>tar xf typst-x86_64-unknown-linux-musl.tar.xz <span class="o">&amp;&amp;</span> cp typst-*/typst bin/
+</span><span class='line'><span class="c"># pandoc ã¯ GitHub releases ã® linux-amd64 tarball (static link) ãåæ§ã« bin/ ã¸</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/md2pdf/bin:<span class="nv">$PATH</span>
+</span><span class='line'><span class="nb">time </span>pandoc sample.md -o out.pdf --pdf-engine<span class="o">=</span>typst -V <span class="nv">mainfont</span><span class="o">=</span>IPAMincho
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>real    0m5.210s
+</span></code></pre></td></tr></table></div></figure>
+<p>glibc 2.23 という年代物の環境で動きました。初回はフォントキャッシュ構築込みで5秒、以後は1秒級。日本語フォントはシステムに入っているものを typst がそのまま拾ってくれるので (<code>typst fonts</code> で一覧できます)、うちは IPAMincho を指定しただけ。無いマシンでも otf を1個置いて <code>TYPST_FONT_PATHS</code> で指せば済みます。disk 占有は typst + pandoc 合わせて210MB (ほぼ pandoc の static binary です。配布は tar.gz で30MBほどなのに、展開すると5倍に膨らむのは Haskell の static binary らしいところ)。eisvogel-ja の docker image が1.29GBなので、6分の1で済みます。出来上がりの PDF も、表紙情報・見出し・表・コードブロックとも文句なしでした。</p>
+<h2>結論</h2>
+<p>今日から <code>pandoc</code> + <code>typst</code> で生きていこうと思います。</p>
+<p>凄いですね、ベルリン工科大 Martin Haug さんと Laurenz Mädje さん。「LaTeX のコンパイル遅すぎ・エラー不親切すぎ」に切れて作った、と?! あの Knuth 先生に挑むというその心意気に拍手喝采です。</p>
+<p>そういえば、知人が何を使って md to pdf しているのか、気になっています。今度聞いてみます。</p>
+]]></content></entry><entry><title type="html"><![CDATA[markdown to pdf on CLI]]></title><link href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/"/><updated>2023-12-12T00:21:33+09:00</updated><id>/blog/2023/12/11/markdown-to-pdf-on-cli/</id><content type="html"><![CDATA[<p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
 <p>調べると、意外とないんですよね日本語markdown to pdf。popularなのはMS Visual Studio Codeの拡張機能Markdown PDF使うものですけど、たったそれだけのためにVisual Studio Code入れたかぁないですし。
 nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出来そうだったんですけど、古いのか、どうしようもないエラーが出ます。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

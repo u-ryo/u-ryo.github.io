@@ -1,4 +1,151 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2023-12-12T00:21:33+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[markdown to pdf on CLI]]></title><link href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/"/><updated>2023-12-12T00:21:33+09:00</updated><id>/blog/2023/12/11/markdown-to-pdf-on-cli/</id><content type="html"><![CDATA[<p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[u-ryo's blog]]></title><link href="http://u-ryo.github.io//atom.xml" rel="self"/><link href="http://u-ryo.github.io//"/><updated>2026-08-05T14:45:31+09:00</updated><id>http://u-ryo.github.io//</id><author><name><![CDATA[u-ryo]]></name></author><generator uri="http://sysgears.com/grain/">Grain</generator><entry><title type="html"><![CDATA[Markdown to PDF、3年後]]></title><link href="http://u-ryo.github.io//blog/2026/08/05/markdown-to-pdf、3年後/"/><updated>2026-08-05T14:45:31+09:00</updated><id>/blog/2026/08/05/markdown-to-pdf、3年後/</id><content type="html"><![CDATA[<p>前回 (といってももうはるか3年も前ですが)、<a href="/blog/2023/12/11/markdown-to-pdf-on-cli/">markdown to pdf on CLI</a> という記事で、pandoc/latex の docker image に <code>tlmgr install collection-langjapanese</code> で30分ほどかけて日本語PDF環境を作った話を書きました。</p>
+<p>実はあの記事を書いてから割とすぐ、<a href="https://qiita.com/frozenbonito/items/10a38c5fd4ba97a9bef0">楽にMarkdownをそれっぽいPDFに変換する</a> の <code>frozenbonito/pandoc-eisvogel-ja</code> を見つけました。pandoc + Eisvogel テンプレート + 日本語フォント焼き込み済みの docker image なので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run --rm -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/data frozenbonito/pandoc-eisvogel-ja -o doc.pdf doc.md
+</span></code></pre></td></tr></table></div></figure>
+<p>これ一発。表紙も目次も出ます。爾来、今に至るもずっとこちらを愛用しています。以上。</p>
+<p>...で終わってしまうのもなんですんで、そういえばきょうび、この界隈はどうなってるんだろう? と思って軽く見渡してみました。</p>
+<h2>2026年の様子</h2>
+<p>一番の変化は <strong>Typst</strong> の台頭のようです。LaTeX 代替の組版システムで、pandoc が <code>--pdf-engine=typst</code> を直接サポートしたので、</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install pandoc typst
+</span><span class='line'>pandoc doc.md -o doc.pdf --pdf-engine<span class="o">=</span>typst
+</span></code></pre></td></tr></table></div></figure>
+<p>で TeX 環境なしの日本語PDFが出る時代になっていました。tlmgr に22分かけた身からすると隔世の感があります。日本語の組版にこだわるなら CSS 組版の <a href="https://vivliostyle.org/ja/">Vivliostyle</a> が健在で、技術同人誌方面は大体これみたいですね。</p>
+<p>あと身も蓋もない変化として、AI に「これPDFにして」と言うと agent が勝手に pandoc なり headless Chrome なりを使って出してくる、というのがあります。ツール選定という行為自体が消えつつある、のが AI 時代の今、ということでしょうか。</p>
+<h2>3年前に動かなかった md-to-pdf、今なら動くのか</h2>
+<p>前回の記事で「どうしようもないエラーが出る」と切り捨てた <code>md-to-pdf</code>、2026年の今ならどうなのか。試してみました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>npx --yes md-to-pdf sample.md
+</span><span class='line'>Error: Could not find Chrome <span class="o">(</span>ver. 151.0.7922.71<span class="o">)</span>. This can occur <span class="k">if </span>either
+</span><span class='line'> 1. you did not perform an installation before running the script
+</span><span class='line'>    <span class="o">(</span>e.g. <span class="sb">`</span>npx puppeteer browsers install chrome<span class="sb">`</span><span class="o">)</span> or
+</span><span class='line'> 2. your cache path is incorrectly configured
+</span></code></pre></td></tr></table></div></figure>
+<p>一発では動かない。そこは3年前と同じなんですが、理由が進化していて、puppeteer が Chrome を自動ダウンロードしなくなったため、なんですね。エラーメッセージの指示どおりに</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>npx puppeteer browsers install chrome
+</span><span class='line'><span class="nv">$ </span>npx md-to-pdf sample.md
+</span><span class='line'><span class="o">[</span>12:51:55<span class="o">]</span> generating PDF from sample.md <span class="o">[</span>started<span class="o">]</span>
+</span><span class='line'><span class="o">[</span>12:51:59<span class="o">]</span> generating PDF from sample.md <span class="o">[</span>completed<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>今度は4秒で完了。出てきたPDFは GitHub 風スタイルで、日本語の本文・表・コードブロックとも問題なしでした。「一発では動かない」は3年経っても変わらないですが、エラーメッセージが親切になったので自己解決できる。時代は少しずつ良くなっています。</p>
+<h2>古い Linux でも動くのか</h2>
+<p>Typst は Rust 製で musl の static build が配られていて、pandoc の公式バイナリも static link なので、原理的には glibc の古い年代物の Linux でも「置くだけ」で動くはずです。docker が使えない・使いたくない環境でこそ試す価値があります。手元の古めの環境で試してみました。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p ~/md2pdf/bin <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/md2pdf
+</span><span class='line'>curl -sLO https://github.com/typst/typst/releases/latest/download/typst-x86_64-unknown-linux-musl.tar.xz
+</span><span class='line'>tar xf typst-x86_64-unknown-linux-musl.tar.xz <span class="o">&amp;&amp;</span> cp typst-*/typst bin/
+</span><span class='line'><span class="c"># pandoc ã¯ GitHub releases ã® linux-amd64 tarball (static link) ãåæ§ã« bin/ ã¸</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/md2pdf/bin:<span class="nv">$PATH</span>
+</span><span class='line'><span class="nb">time </span>pandoc sample.md -o out.pdf --pdf-engine<span class="o">=</span>typst -V <span class="nv">mainfont</span><span class="o">=</span>IPAMincho
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>real    0m5.210s
+</span></code></pre></td></tr></table></div></figure>
+<p>glibc 2.23 という年代物の環境で動きました。初回はフォントキャッシュ構築込みで5秒、以後は1秒級。日本語フォントはシステムに入っているものを typst がそのまま拾ってくれるので (<code>typst fonts</code> で一覧できます)、うちは IPAMincho を指定しただけ。無いマシンでも otf を1個置いて <code>TYPST_FONT_PATHS</code> で指せば済みます。disk 占有は typst + pandoc 合わせて210MB (ほぼ pandoc の static binary です。配布は tar.gz で30MBほどなのに、展開すると5倍に膨らむのは Haskell の static binary らしいところ)。eisvogel-ja の docker image が1.29GBなので、6分の1で済みます。出来上がりの PDF も、表紙情報・見出し・表・コードブロックとも文句なしでした。</p>
+<h2>結論</h2>
+<p>今日から <code>pandoc</code> + <code>typst</code> で生きていこうと思います。</p>
+<p>凄いですね、ベルリン工科大 Martin Haug さんと Laurenz Mädje さん。「LaTeX のコンパイル遅すぎ・エラー不親切すぎ」に切れて作った、と?! あの Knuth 先生に挑むというその心意気に拍手喝采です。</p>
+<p>そういえば、知人が何を使って md to pdf しているのか、気になっています。今度聞いてみます。</p>
+]]></content></entry><entry><title type="html"><![CDATA[Unicode正規化とMySQLの照合順序は別物]]></title><link href="http://u-ryo.github.io//blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/"/><updated>2026-08-05T12:28:00+09:00</updated><id>/blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/</id><content type="html"><![CDATA[<p>データベースの検索仕様を考えていると、「正規化」という言葉が2つの意味で会議を飛び交うことがあります。RDB 設計の正規形 (第1〜第3正規形のあれ) と、Unicode の正規化 (NFC/NFD) です。名前が同じだけで完全に別物なんですけれど、話が混線したまま「DB がよしなにやってくれるのでは」という期待だけが残ることがあります。</p>
+<p>結論から書きますと、MySQL は Unicode 正規化を「やってくれない」です。代わりに照合順序 (collation) が「何と何を同じとみなすか」を決めているんですけど、これは正規化の代替ではないですし、時々予想外のものまで同じにしてしまいます。手を動かして確かめたので、その記録、です。</p>
+<h2>用語の整理</h2>
+<ul>
+<li><strong>RDB の正規化 (normalization)</strong>: テーブル設計から冗長性を取り除く設計論。今日の話には出てきません。</li>
+<li><strong>Unicode の正規化 (normalization)</strong>: 同じ見た目の文字を同じバイト列に揃える変換。「ポ」は1文字 (U+30DD) でも「ホ + 結合半濁点」(U+30DB U+309A) でも表現でき、前者に揃えるのが NFC、後者に分解するのが NFD。macOS のファイル名経由で NFD の文字列が混入してくる、というのが実務での典型的な出会い方だと思います。</li>
+<li><strong>照合順序 (collation)</strong>: DB が文字列を比較・整列するときの「一致と順序の定義」。</li>
+</ul>
+<h2>実験</h2>
+<p>MySQL 8.0.46 (Docker公式image) で、NFC の「ポ」と NFD の「ポ」を各照合順序で比較してみます。文字列リテラルだとエディタやシェルが勝手に正規化しかねないので、バイト列を明示します。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="c1">-- NFC ã®ããã(U+30DD) ã¨ NFD ã®ãã+çµååæ¿ç¹ã(U+30DB U+309A)</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="k">CHAR_LENGTH</span><span class="p">(</span><span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839D&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">))</span> <span class="k">AS</span> <span class="n">nfc_char_len</span><span class="p">,</span>
+</span><span class='line'>       <span class="k">CHAR_LENGTH</span><span class="p">(</span><span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839BE3829A&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">))</span> <span class="k">AS</span> <span class="n">nfd_char_len</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="o">+</span><span class="c1">--------------+--------------+</span>
+</span><span class='line'><span class="o">|</span> <span class="n">nfc_char_len</span> <span class="o">|</span> <span class="n">nfd_char_len</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+</span><span class="c1">--------------+--------------+</span>
+</span><span class='line'><span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span>            <span class="mi">2</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+</span><span class="c1">--------------+--------------+</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>文字数からして違う、正真正銘の別文字列です。これを4つの照合順序で比較しますと:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839D&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">)</span> <span class="o">=</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">X</span><span class="s1">&#39;E3839BE3829A&#39;</span> <span class="k">USING</span> <span class="n">utf8mb4</span><span class="p">)</span>
+</span><span class='line'>       <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span>        <span class="k">AS</span> <span class="n">bin_eq</span><span class="p">;</span>        <span class="c1">-- 0</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_general_ci</span> <span class="k">AS</span> <span class="n">general_ci_eq</span><span class="p">;</span> <span class="c1">-- 0</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_unicode_ci</span> <span class="k">AS</span> <span class="n">unicode_ci_eq</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span> <span class="k">AS</span> <span class="n">ai_ci_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_as_cs</span> <span class="k">AS</span> <span class="n">as_cs_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>| 照合順序 | NFC「ポ」= NFD「ポ」 |
+|---|---|
+| <code>utf8mb4_bin</code> | 一致しない |
+| <code>utf8mb4_general_ci</code> | 一致しない |
+| <code>utf8mb4_unicode_ci</code> | 一致する |
+| <code>utf8mb4_0900_ai_ci</code> | 一致する |
+| <code>utf8mb4_0900_as_cs</code> | 一致する |</p>
+<p>Unicode Collation Algorithm (UCA) に基づく照合順序 (<code>unicode_ci</code>、0900系) は、正規化の違いを比較時に吸収します。アクセントも大文字小文字も区別する <code>utf8mb4_0900_as_cs</code> ですら一致させるのは少し意外でした —-- これは「正規化して等しいもの (正準等価) は等しい」という UCA の原則によるもので、accent-insensitivity とは別の話です。一方、旧世代の <code>utf8mb4_general_ci</code> は符号位置ごとの単純な重み比較なので吸収しません。</p>
+<h2>では照合順序に任せてよいか</h2>
+<p>よくない、です。照合順序は「一致の定義」を丸ごと入れ替えるダイヤルであって、正規化の違いだけを吸収する装置ではありません。MySQL 8.0 のデフォルトである <code>utf8mb4_0900_ai_ci</code> は accent-insensitive、つまり「アクセント記号を無視する」のですが、日本語では濁点・半濁点がアクセント扱いになります:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã¯ã¯&#39;</span> <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã±ã±&#39;</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã¯ã¯&#39;</span> <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã°ã°&#39;</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã&#39;</span>   <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã&#39;</span>   <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span><span class="p">;</span> <span class="c1">-- 1</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã¯ã¯&#39;</span> <span class="o">=</span> <span class="n">_utf8mb4</span><span class="s1">&#39;ã°ã°&#39;</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_as_ci</span><span class="p">;</span> <span class="c1">-- 0</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>母 (はは) と父 (ぱぱ)、婆 (ばば) が一致します。デフォルトのまま日本語データに UNIQUE 制約や検索を載せると、この定義で「同じ」が判定されます。逆に <code>general_ci</code> はこれらを区別しますが、<code>'ABC' = 'abc'</code> は一致させます (case-insensitive)。つまり:</p>
+<ul>
+<li><code>general_ci</code>: NFC/NFD は別物扱い、大小文字は同一視</li>
+<li><code>0900_ai_ci</code>: NFC/NFD は同一視、濁点も大小文字も同一視</li>
+<li><code>0900_as_cs</code>: NFC/NFD は同一視、濁点も大小文字も区別</li>
+</ul>
+<p>「どの差を無視してどの差を区別するか」のセットを選んでいるのであって、単体で仕様の要求と一致することはまず期待できません。</p>
+<h2>MySQLに正規化関数は無い</h2>
+<p>ならば比較の前に正規化すればよいのですが、MySQLにはその関数がありません:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">NORMALIZE</span><span class="p">(</span><span class="n">_utf8mb4</span><span class="s1">&#39;ã&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="n">ERROR</span> <span class="mi">1305</span> <span class="p">(</span><span class="mi">42000</span><span class="p">):</span> <span class="k">FUNCTION</span> <span class="n">mysql</span><span class="p">.</span><span class="n">NORMALIZE</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>PostgreSQL には 13 から <code>normalize()</code> があるので、これは MySQL 側の欠落です。つまり MySQL では、<strong>正規化はデータベースに入る前 (アプリケーション層) で行うしかありません</strong>。</p>
+<h2>まとめ</h2>
+<ul>
+<li>Unicode 正規化と照合順序は別のレイヤーの仕組み。照合順序は正規化の代替にならない</li>
+<li>保存前に NFC へ正規化する層をアプリケーション側に置く。DB には正規化済みの文字列だけを入れる</li>
+<li>検索や UNIQUE 制約の「一致」が、使っている照合順序のどの定義に当たるのかを仕様として明文化する。デフォルト (<code>0900_ai_ci</code>) は日本語では「はは = ぱぱ」であることを知った上で選ぶ</li>
+<li>検証環境: MySQL 8.0.46 (Docker)。この記事の SQL と出力は全て実行結果そのまま</li>
+</ul>
+]]></content></entry><entry><title type="html"><![CDATA[markdown to pdf on CLI]]></title><link href="http://u-ryo.github.io//blog/2023/12/11/markdown-to-pdf-on-cli/"/><updated>2023-12-12T00:21:33+09:00</updated><id>/blog/2023/12/11/markdown-to-pdf-on-cli/</id><content type="html"><![CDATA[<p>markdownで快調に書いたものを、「印刷して提出せよ」ということになっていたので、「へ?」とか思って。今時ねぇ、印刷なんてねぇ、何の意味があるのか。一応evidenceってことなんだろうけど。</p>
 <p>調べると、意外とないんですよね日本語markdown to pdf。popularなのはMS Visual Studio Codeの拡張機能Markdown PDF使うものですけど、たったそれだけのためにVisual Studio Code入れたかぁないですし。
 nodeの<code>markdown-pdf</code>や<code>md-to-pdf</code>とかサクッと出来そうだったんですけど、古いのか、どうしようもないエラーが出ます。</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1000,18 +1147,4 @@ geometryを導入してはがきサイズでpdfを出力するようにしたら
 </span></code></pre></td></tr></table></div></figure>
 <p>これですね。良かったです。</p>
 <p><a href="http://www.easydrawingtutorials.com/index.php/disney/414-mickey-mouse-body">Easy Drawing Tutorials</a>、<a href="http://www.easydrawingtutorials.com/index.php/88-disney/81-draw-mickey-mouse">顔の描き方</a>なんてあるんですね凄いなぁ。</p>
-]]></content></entry><entry><title type="html"><![CDATA[creating executable war on JHipster]]></title><link href="http://u-ryo.github.io//blog/2018/12/03/creating-executable-war-on-jhipster/"/><updated>2018-12-03T02:19:42+09:00</updated><id>/blog/2018/12/03/creating-executable-war-on-jhipster/</id><content type="html"><![CDATA[<p>いつも忘れちゃうんで。</p>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>$ gradle bootRepackage -Pprod
-</span></code></pre></td></tr></table></div></figure>
-<p><code>build.gradle</code>に中に定義があります。</p>
-]]></content></entry><entry><title type="html"><![CDATA[mat-spinner in Angular Material]]></title><link href="http://u-ryo.github.io//blog/2018/12/02/mat-spinner-in-angular-material/"/><updated>2018-12-02T09:56:25+09:00</updated><id>/blog/2018/12/02/mat-spinner-in-angular-material/</id><content type="html"><![CDATA[<p>Angularで「ロード中」を簡単に実現する方法を探していて、
-<a href="https://material.angular.io/components/progress-spinner/overview">Angular Material</a>にあるんですね。<code>&lt;mat-spinner&gt;&lt;/mat-spinner&gt;</code>だけ。凄く簡単。
-でも、実際にやってみても出て来なかったので不思議でした。
-いや、<a href="https://stackblitz.com/angular/qyqovrjarbx?file=app%2Fprogress-spinner-overview-example.html">sample</a>とかいくら見ても、特に何も<code>import</code>しなくてもいきなりtag書くだけで使えるよ、っていうんですけど、自分のには出て来ません。なぜ??
-<a href="https://www.youtube.com/watch?v=Z6JdFWXh1Nc">動画</a>見てやっとわかりました。
-確かに当該component fileではimportの必要ありませんけど、
-<code>app.module.ts</code>なりで<code>MatProgressSpinnerModule</code>のimport/importsが必要なんですね。
-もし入ってなければ<code>BrowserAnimationsModule</code>も。
-sampleはdefaultでMat系Module全部入りだからよくわかんなかったんですよ。</p>
 ]]></content></entry></feed>

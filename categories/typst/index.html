@@ -1,0 +1,82 @@
+<!DOCTYPE html> <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--> <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--> <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]--> <head> <meta charset="utf-8"> <title>Category: Typst - u-ryo's blog</title> <meta name="author" content="u-ryo"> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="canonical" href="http://u-ryo.github.io//categories/typst/"> <link href="/images/favicon-eec3051d5c356d1798bea1d8a3617c51.png" rel="icon"> <link href="/stylesheets/screen-212a3205d97b53ef71581e910c98f79c.css" media="screen, projection" rel="stylesheet" type="text/css"> <link href="atom.xml" rel="alternate" title="u-ryo's blog" type="application/atom+xml"> <script src="/javascripts/libs/jquery.min-663628f795cb62444143fde1ebdf2b5b.js" type="text/javascript"></script> <script src="/javascripts/modernizr-2.0-f86b862d5ee138da61daf47f24116ed7.js" type="text/javascript"></script> <script src="/javascripts/octopress-52bd0860c81b8af484852d75380d38f3.js" type="text/javascript"></script> <script src="/javascripts/github-2c23ec60bbc7e962f6324b25d8b2ae44.js" type="text/javascript"></script> <script src="/javascripts/jquery.tweet-408e79928ca077df30b72fe36df5754e.js" type="text/javascript"></script> <script src="/javascripts/twitter-options-084da5e02b1a45f2ea5ec905be775075.js" type="text/javascript"></script> <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-70134374-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script> <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"> </head> <body> <header role="banner"><hgroup> <h1><a href="/">u-ryo's blog</a></h1> <h2>various information for coding...</h2> </hgroup> </header> <nav role="navigation"><ul class="subscription" data-subscription="rss "> <li><a href="http://u-ryo.github.io//atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li> </ul> <form action="http://google.com/search" method="get"> <fieldset role="search"> <input type="hidden" name="sitesearch" value="http://u-ryo.github.io/"/> <input class="search" type="text" name="q" results="0" placeholder="Search"/> </fieldset> </form> <ul class="main-navigation"> <li><a href="/">Blog</a></li> <li><a href="/archives/">Archives</a></li> </ul> </nav> <div id="main"> <div id="content"> <div class="blog-index"> <article> <h1 id="entry-title">Category: Typst</h1> <div class="subscribe"> <a rel="subscribe-rss" title="Stay tuned to Typst category via RSS" href="/categories/typst/atom.xml">RSS</a> </div> <article> <header> <h1 class="entry-title"><a href="/blog/2026/08/05/markdown-to-pdf、3年後/">Markdown to PDF、3年後</a></h1> <p class="meta"> <time datetime="2026-08-05T13:00:00+09:00" pubdate data-updated=true> <span class="month">Aug</span> <span class="day">05</span>, <span class="year">2026</span> </time> | <a href="http://u-ryo.github.io//blog/2026/08/05/markdown-to-pdf、3年後/#disqus_thread">Comments</a> </p> </header> <div class="entry-content"><p>前回 (といってももうはるか3年も前ですが)、<a href="/blog/2023/12/11/markdown-to-pdf-on-cli/">markdown to pdf on CLI</a> という記事で、pandoc/latex の docker image に <code>tlmgr install collection-langjapanese</code> で30分ほどかけて日本語PDF環境を作った話を書きました。</p> <p>実はあの記事を書いてから割とすぐ、<a href="https://qiita.com/frozenbonito/items/10a38c5fd4ba97a9bef0">楽にMarkdownをそれっぽいPDFに変換する</a> の <code>frozenbonito/pandoc-eisvogel-ja</code> を見つけました。pandoc + Eisvogel テンプレート + 日本語フォント焼き込み済みの docker image なので、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run --rm -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/data frozenbonito/pandoc-eisvogel-ja -o doc.pdf doc.md
+</span></code></pre></td></tr></table></div></figure> <p>これ一発。表紙も目次も出ます。爾来、今に至るもずっとこちらを愛用しています。以上。</p> <p>...で終わってしまうのもなんですんで、そういえばきょうび、この界隈はどうなってるんだろう? と思って軽く見渡してみました。</p> <h2>2026年の様子</h2> <p>一番の変化は <strong>Typst</strong> の台頭のようです。LaTeX 代替の組版システムで、pandoc が <code>--pdf-engine=typst</code> を直接サポートしたので、</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install pandoc typst
+</span><span class='line'>pandoc doc.md -o doc.pdf --pdf-engine<span class="o">=</span>typst
+</span></code></pre></td></tr></table></div></figure> <p>で TeX 環境なしの日本語PDFが出る時代になっていました。tlmgr に22分かけた身からすると隔世の感があります。日本語の組版にこだわるなら CSS 組版の <a href="https://vivliostyle.org/ja/">Vivliostyle</a> が健在で、技術同人誌方面は大体これみたいですね。</p> <p>あと身も蓋もない変化として、AI に「これPDFにして」と言うと agent が勝手に pandoc なり headless Chrome なりを使って出してくる、というのがあります。ツール選定という行為自体が消えつつある、のが AI 時代の今、ということでしょうか。</p> <h2>3年前に動かなかった md-to-pdf、今なら動くのか</h2> <p>前回の記事で「どうしようもないエラーが出る」と切り捨てた <code>md-to-pdf</code>、2026年の今ならどうなのか。試してみました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>npx --yes md-to-pdf sample.md
+</span><span class='line'>Error: Could not find Chrome <span class="o">(</span>ver. 151.0.7922.71<span class="o">)</span>. This can occur <span class="k">if </span>either
+</span><span class='line'> 1. you did not perform an installation before running the script
+</span><span class='line'>    <span class="o">(</span>e.g. <span class="sb">`</span>npx puppeteer browsers install chrome<span class="sb">`</span><span class="o">)</span> or
+</span><span class='line'> 2. your cache path is incorrectly configured
+</span></code></pre></td></tr></table></div></figure> <p>一発では動かない。そこは3年前と同じなんですが、理由が進化していて、puppeteer が Chrome を自動ダウンロードしなくなったため、なんですね。エラーメッセージの指示どおりに</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>npx puppeteer browsers install chrome
+</span><span class='line'><span class="nv">$ </span>npx md-to-pdf sample.md
+</span><span class='line'><span class="o">[</span>12:51:55<span class="o">]</span> generating PDF from sample.md <span class="o">[</span>started<span class="o">]</span>
+</span><span class='line'><span class="o">[</span>12:51:59<span class="o">]</span> generating PDF from sample.md <span class="o">[</span>completed<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure> <p>今度は4秒で完了。出てきたPDFは GitHub 風スタイルで、日本語の本文・表・コードブロックとも問題なしでした。「一発では動かない」は3年経っても変わらないですが、エラーメッセージが親切になったので自己解決できる。時代は少しずつ良くなっています。</p> <h2>古い Linux でも動くのか</h2> <p>Typst は Rust 製で musl の static build が配られていて、pandoc の公式バイナリも static link なので、原理的には glibc の古い年代物の Linux でも「置くだけ」で動くはずです。docker が使えない・使いたくない環境でこそ試す価値があります。手元の古めの環境で試してみました。</p> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir -p ~/md2pdf/bin <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/md2pdf
+</span><span class='line'>curl -sLO https://github.com/typst/typst/releases/latest/download/typst-x86_64-unknown-linux-musl.tar.xz
+</span><span class='line'>tar xf typst-x86_64-unknown-linux-musl.tar.xz <span class="o">&amp;&amp;</span> cp typst-*/typst bin/
+</span><span class='line'><span class="c"># pandoc ã¯ GitHub releases ã® linux-amd64 tarball (static link) ãåæ§ã« bin/ ã¸</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/md2pdf/bin:<span class="nv">$PATH</span>
+</span><span class='line'><span class="nb">time </span>pandoc sample.md -o out.pdf --pdf-engine<span class="o">=</span>typst -V <span class="nv">mainfont</span><span class="o">=</span>IPAMincho
+</span></code></pre></td></tr></table></div></figure> <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>real    0m5.210s
+</span></code></pre></td></tr></table></div></figure> <p>glibc 2.23 という年代物の環境で動きました。初回はフォントキャッシュ構築込みで5秒、以後は1秒級。日本語フォントはシステムに入っているものを typst がそのまま拾ってくれるので (<code>typst fonts</code> で一覧できます)、うちは IPAMincho を指定しただけ。無いマシンでも otf を1個置いて <code>TYPST_FONT_PATHS</code> で指せば済みます。disk 占有は typst + pandoc 合わせて210MB (ほぼ pandoc の static binary です。配布は tar.gz で30MBほどなのに、展開すると5倍に膨らむのは Haskell の static binary らしいところ)。eisvogel-ja の docker image が1.29GBなので、6分の1で済みます。出来上がりの PDF も、表紙情報・見出し・表・コードブロックとも文句なしでした。</p> <h2>結論</h2> <p>今日から <code>pandoc</code> + <code>typst</code> で生きていこうと思います。</p> <p>凄いですね、ベルリン工科大 Martin Haug さんと Laurenz Mädje さん。「LaTeX のコンパイル遅すぎ・エラー不親切すぎ」に切れて作った、と?! あの Knuth 先生に挑むというその心意気に拍手喝采です。</p> <p>そういえば、知人が何を使って md to pdf しているのか、気になっています。今度聞いてみます。</p> </div> </article> </article> <div class="pagination"> <div class="links"> </div> </div> </div> <aside class="sidebar"> <section> <h1>Recent Posts</h1> <ul id="recent_posts"> <li class="post"> <a href="/blog/2026/08/05/markdown-to-pdf、3年後/">Markdown to PDF、3年後</a> </li> <li class="post"> <a href="/blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/">Unicode正規化とMySQLの照合順序は別物</a> </li> <li class="post"> <a href="/blog/2023/12/11/markdown-to-pdf-on-cli/">Markdown to Pdf on CLI</a> </li> <li class="post"> <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a> </li> <li class="post"> <a href="/blog/2022/03/20/nhk-taiga-staff-reflection/">NHK Taiga Staff Reflection</a> </li> </ul> </section> <section> <h1>GitHub Repos</h1> <a href="https://github.com/u-ryo">u-ryo</a> on GitHub </section> <section> <h1>About Me</h1> <p>A ~~Java~~ Ruby programmer in Tokyo.</p> </section> <section> <h1><a href="privacy.html">Privacy Policy</a></h1> </section> </aside> </div> </div> <footer role="contentinfo"><p> Copyright &copy; 2026 - u-ryo - <span class="credit">Powered by <a href="http://sysgears.com/grain/">Grain</a></span> </p> </footer> <script type="text/javascript">
+  var disqus_shortname = "uryooo";
+  
+    // As `page.comments` is empty, we must be on the index page.
+    var disqus_script = 'count.js';
+  
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+</script> <div id="fb-root"></div> <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script> <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script> <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script> </body> </html>
