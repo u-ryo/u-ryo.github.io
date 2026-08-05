@@ -157,13 +157,21 @@
 </span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_ai_ci</span> <span class="k">AS</span> <span class="n">ai_ci_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
 </span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_0900_as_cs</span> <span class="k">AS</span> <span class="n">as_cs_eq</span><span class="p">;</span>      <span class="c1">-- 1</span>
 </span></code></pre></td></tr></table></div></figure>
-<p>| 照合順序 | NFC「ポ」= NFD「ポ」 |
-|---|---|
-| <code>utf8mb4_bin</code> | 一致しない |
-| <code>utf8mb4_general_ci</code> | 一致しない |
-| <code>utf8mb4_unicode_ci</code> | 一致する |
-| <code>utf8mb4_0900_ai_ci</code> | 一致する |
-| <code>utf8mb4_0900_as_cs</code> | 一致する |</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="o">|</span> <span class="err">ç§åé åº</span>              <span class="o">|</span> <span class="n">NFC</span><span class="err">ããã</span><span class="o">=</span> <span class="n">NFD</span><span class="err">ããã</span><span class="o">|</span>
+</span><span class='line'><span class="o">|</span><span class="c1">----------------------|-------------------|</span>
+</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_bin</span><span class="o">`</span>        <span class="o">|</span> <span class="err">ä¸è´ããªã</span>          <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_general_ci</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ããªã</span>          <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_unicode_ci</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ãã</span>            <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_0900_ai_ci</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ãã</span>            <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="o">`</span><span class="n">utf8mb4_0900_as_cs</span><span class="o">`</span> <span class="o">|</span> <span class="err">ä¸è´ãã</span>            <span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
 <p>Unicode Collation Algorithm (UCA) に基づく照合順序 (<code>unicode_ci</code>、0900系) は、正規化の違いを比較時に吸収します。アクセントも大文字小文字も区別する <code>utf8mb4_0900_as_cs</code> ですら一致させるのは少し意外でした —-- これは「正規化して等しいもの (正準等価) は等しい」という UCA の原則によるもので、accent-insensitivity とは別の話です。一方、旧世代の <code>utf8mb4_general_ci</code> は符号位置ごとの単純な重み比較なので吸収しません。</p>
 <h2>では照合順序に任せてよいか</h2>
 <p>よくない、です。照合順序は「一致の定義」を丸ごと入れ替えるダイヤルであって、正規化の違いだけを吸収する装置ではありません。MySQL 8.0 のデフォルトである <code>utf8mb4_0900_ai_ci</code> は accent-insensitive、つまり「アクセント記号を無視する」のですが、日本語では濁点・半濁点がアクセント扱いになります:</p>
@@ -215,7 +223,7 @@
 
 
 
-     <time datetime="2026-08-05T12:28:00+09:00" class="updated">
+     <time datetime="2026-08-05T15:24:43+09:00" class="updated">
        Updated
        <span class="month">Aug</span>
        <span class="day">05</span>,
@@ -255,7 +263,7 @@
         <a class="basic-alignment left" href="/blog/2026/08/05/markdown-to-pdf、3年後/" title="Previous Post: Markdown to PDF、3年後">&laquo; Markdown to PDF、3年後</a>
       
       
-        <a class="basic-alignment right" href="/blog/2023/12/11/markdown-to-pdf-on-cli/" title="Next Post: markdown to pdf on CLI">Markdown to Pdf on CLI &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/" title="Next Post: Unicode正規化とMySQLの照合順序は別物">Unicode正規化とMySQLの照合順序は別物 &raquo;</a>
       
     </p>
   </footer>
@@ -284,15 +292,15 @@
       </li>
     
       <li class="post">
+        <a href="/blog/2026/08/05/unicode正規化とmysqlの照合順序は別物/">Unicode正規化とMySQLの照合順序は別物</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/12/11/markdown-to-pdf-on-cli/">Markdown to Pdf on CLI</a>
       </li>
     
       <li class="post">
         <a href="/blog/2023/09/10/get-refresh-token-for-google-api/">Get Refresh Token for Google API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2022/03/20/nhk-taiga-staff-reflection/">NHK Taiga Staff Reflection</a>
       </li>
     
   </ul>
