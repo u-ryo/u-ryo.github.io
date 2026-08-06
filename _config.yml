@@ -24,3 +24,6 @@ navigation:
 external:
   - {title: Github, icon: github, url: "https://github.com/u-ryo"}
   - {title: Subscribe, icon: rss, url: "/feed.xml"}
+
+plugins:
+  - jekyll-feed
