@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AIエージェントの調査報告は一次証拠ではない"
-date: "2026-08-06 21:00"
+date: "2026-08-06 15:00"
 author: 'u-ryo'
 categories: [ai, llm, sql]
 comments: true
